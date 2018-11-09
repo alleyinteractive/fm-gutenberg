@@ -30,7 +30,12 @@ function register_meta_helper(
 
 	// Object type must be either post or term.
 	if ( ! in_array( $object_type, [ 'post', 'term' ], true ) ) {
-		throw new \InvalidArgumentException( __( 'Object type must be one of "post", "term".', 'wp-starter-plugin' ) );
+		throw new \InvalidArgumentException(
+			__(
+				'Object type must be one of "post", "term".',
+				'wp-starter-plugin'
+			)
+		);
 	}
 
 	// Merge provided arguments with defaults.
@@ -43,36 +48,6 @@ function register_meta_helper(
 			'type'              => 'string',
 		]
 	);
-
-	// Perform additional checks and set default values based on type.
-	switch ( $args['type'] ) {
-		case 'boolean':
-			if ( isset( $args['show_in_rest']['schema']['default'] )
-				&& ! is_bool( $args['show_in_rest']['schema']['default'] )
-			) {
-				throw new \InvalidArgumentException( __( 'Default value of boolean meta must be boolean.', 'wp-starter-plugin' ) );
-			} elseif ( ! isset( $args['show_in_rest']['schema']['default'] ) ) {
-				$args['show_in_rest']['schema']['default'] = false;
-			}
-			break;
-		case 'integer':
-			if ( ! isset( $args['show_in_rest']['schema']['default'] ) ) {
-				$args['show_in_rest']['schema']['default'] = 0;
-			}
-			break;
-		case 'string':
-			if ( ! isset( $args['show_in_rest']['schema']['default'] ) ) {
-				$args['show_in_rest']['schema']['default'] = '';
-			}
-			if ( isset( $args['show_in_rest']['schema']['format'] ) ) {
-				switch ( $args['show_in_rest']['schema']['format'] ) {
-					case 'uri':
-						$args['sanitize_callback'] = 'esc_url_raw';
-						break;
-				}
-			}
-			break;
-	}
 
 	// Fork for object type.
 	switch ( $object_type ) {
@@ -100,15 +75,21 @@ function register_meta_helper(
 /**
  * A 'sanitize_callback' for a registered meta key that sanitizes based on type.
  *
- * @param mixed  $meta_value Meta value to sanitize.
- * @param string $meta_key   Meta key.
- * @param string $meta_type  Object type.
+ * @param mixed  $meta_value     Meta value to sanitize.
+ * @param string $meta_key       Meta key.
+ * @param string $object_type    Object type.
+ * @param string $object_subtype Optional. Object subtype. Defaults to empty.
  * @return mixed Sanitized meta value.
  */
-function sanitize_meta_by_type( $meta_value, $meta_key, $meta_type ) {
-	$registered = get_registered_meta_keys( $meta_type );
+function sanitize_meta_by_type(
+	$meta_value,
+	string $meta_key,
+	string $object_type,
+	string $object_subtype = ''
+) {
 
 	// Ensure the meta key is registered.
+	$registered = get_registered_meta_keys( $object_type, $object_subtype );
 	if ( empty( $registered[ $meta_key ] ) ) {
 		return $meta_value;
 	}
@@ -128,7 +109,7 @@ function sanitize_meta_by_type( $meta_value, $meta_key, $meta_type ) {
 		case 'number':
 			return (float) $meta_value;
 		case 'string':
-			return sanitize_text_field( trim( $meta_value ) );
+			return sanitize_text_field( $meta_value );
 	}
 
 	return $meta_value;
