@@ -15,6 +15,10 @@ WP Starter Plugin (Commented text)
 
 Run `npm run build` to build all production assets. Run `npm run dev` for a development build of assets, which also watches files for changes and automatically recompiles.
 
+## Scaffolder
+
+Run `npm run scaffold` to run the Alley scaffolder against the plugin. All normally-supported options are supported here.
+
 ## Plugin Sidebar
 
 This plugin is built to use a single PluginSidebar for all site-specific features. The sidebar configuration can be found in `plugins/sidebar`. The main sidebar component is in `plugins/sidebar/components/sidebar/index.js`.
@@ -43,7 +47,7 @@ Still to come. There will eventually be a Webpack configuration and paths for cu
 
 ## Travis Integration
 
-Still to come. phpcs, jest, and eslint are already set up, but need to be wired into Travis.
+Travis will automatically run phpcs, jest, and `npm run build` (which includes eslint). If any of these checks fail, the build will fail.
 
 ## Hot Reloading
 

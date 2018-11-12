@@ -73,7 +73,7 @@ before_script:
     if [[ "$WP_JS" == "1" ]] ; then
       nvm install "$(jq -r '.engines.node' package.json)"
       npm i -g npm@$(jq -r '.engines.npm' package.json)
-      npm install
+      npm install --quiet
     fi
 
 # Run test script commands.
