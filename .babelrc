@@ -5,6 +5,7 @@
       "module-resolver",
       {
         "alias": {
+          "components": "./components",
           "services": "./services"
         },
         "root": ["./"]

@@ -5,11 +5,11 @@ A companion plugin to wp-starter-theme, which is used to create custom blocks, s
 
 Do a case sensitive global search and replace for the following strings:
 
-wp-starter-plugin (Localization domain)
-wp_starter_plugin (Prefix for functions)
-WP_STARTER_PLUGIN (Prefix for constants)
-WP_Starter_Plugin (Prefix for class names)
-WP Starter Plugin (Commented text)
+* wp-starter-plugin (Localization domain)
+* wp_starter_plugin (Prefix for functions)
+* WP_STARTER_PLUGIN (Prefix for constants)
+* WP_Starter_Plugin (Prefix for class names)
+* WP Starter Plugin (Commented text)
 
 ## Running builds
 
@@ -29,6 +29,10 @@ There is data available in `plugins/sidebar/components/sidebar/index.js` to allo
 
 In order to save data back to post or term meta, you need to register the meta first. See the examples in `index.php` using the meta registration helper on how to do this.
 
+## Reusable Components
+
+A collection of reusable components is located in `./components`. These components can be included in a variety of contexts, such as the `PluginSidebar` or in blocks. There is a Babel alias for these set up at `components`.
+
 ## Services
 
 Complex JavaScript logic should be broken out into separate functions, one function per file, in the `services` directory, grouped into subfolders by type. See `services/media/getImageThumbnail.js` for an example of this. All services functions should have associated tests. Services functions can be imported using the alias `services/` to prevent the need for relative pathing.
@@ -43,11 +47,11 @@ Run `phpcs` to run PHP CodeSniffer tests against PHP files.
 
 ## Custom Blocks
 
-Still to come. There will eventually be a Webpack configuration and paths for custom blocks.
+See the sample block for how to create and configure custom blocks. Each custom block needs its own webpack entry point and needs to be enqueued in `inc/assets.php`. Custom blocks can be conditionally enqueued depending on post type, post type supports, etc.
 
 ## Travis Integration
 
-Travis will automatically run phpcs, jest, and `npm run build` (which includes eslint). If any of these checks fail, the build will fail.
+Travis will automatically run `phpcs`, `npm run test`, and `npm run build` (which includes eslint). If any of these checks fail, the build will fail.
 
 ## Hot Reloading
 

@@ -12,6 +12,10 @@ add_action(
 	'admin_enqueue_scripts',
 	__NAMESPACE__ . '\action_admin_enqueue_scripts'
 );
+add_action(
+	'enqueue_block_editor_assets',
+	__NAMESPACE__ . '\action_enqueue_block_editor_assets'
+);
 
 /**
  * Enqueue general-purpose scripts in the admin.
@@ -25,6 +29,25 @@ function action_admin_enqueue_scripts() {
 		true
 	);
 	inline_locale_data( 'wp-starter-plugin-plugin-sidebar' );
+}
+
+/**
+ * A callback for the enqueue_block_editor_assets action hook.
+ */
+function action_enqueue_block_editor_assets() {
+	global $post_type;
+
+	// Only enqueue the script to register the Sample Block if supported.
+	if ( 'post' === $post_type ) {
+		wp_enqueue_script(
+			'wp-starter-plugin-block-sample-block',
+			plugins_url( 'build/blockSampleBlock.js', __DIR__ ),
+			[ 'wp-blocks', 'wp-i18n' ],
+			'1.0.0',
+			true
+		);
+		inline_locale_data( 'wp-starter-plugin-block-sample-block' );
+	}
 }
 
 /**

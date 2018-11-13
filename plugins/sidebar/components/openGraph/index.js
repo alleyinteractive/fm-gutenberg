@@ -2,7 +2,7 @@
 
 import PropTypes from 'prop-types';
 
-import ImagePicker from '../imagePicker';
+import ImagePicker from 'components/imagePicker';
 
 const {
   components: {

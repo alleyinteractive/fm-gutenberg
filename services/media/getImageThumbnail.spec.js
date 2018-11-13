@@ -1,3 +1,5 @@
+/* global describe, expect, it */
+
 import getImageThumbnail from './getImageThumbnail';
 
 describe('getImageThumbnail', () => {
@@ -14,7 +16,7 @@ describe('getImageThumbnail', () => {
     })).toEqual('/source/url/1');
   });
 
-  it('Should properly fall back to a full size image from a media object if the thumbnail is not present.', () => {
+  it('Should fall back to full size image if no thumbnail is present.', () => {
     expect(getImageThumbnail({
       source_url: '/source/url/2',
     })).toEqual('/source/url/2');

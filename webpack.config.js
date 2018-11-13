@@ -2,6 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: {
+    blockSampleBlock: './blocks/sampleBlock/index.js',
     pluginSidebar: './plugins/sidebar/index.js',
   },
   module: {
