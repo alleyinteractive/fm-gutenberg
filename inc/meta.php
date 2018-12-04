@@ -7,6 +7,48 @@
 
 namespace WP_Starter_Plugin;
 
+// Register action hooks and filters.
+add_filter(
+	'update_post_metadata',
+	__NAMESPACE__ . '\filter_update_post_metadata',
+	10,
+	5
+);
+
+/**
+ * A filter callback for update_post_metadata to fix a bug with WordPress
+ * whereby meta values passed via the REST API that require slashing but are
+ * otherwise the same as the existing value in the database will cause a failure
+ * during post save.
+ *
+ * @see \update_metadata
+ *
+ * @param null|bool $check      Whether to allow updating metadata for the given type.
+ * @param int       $object_id  Object ID.
+ * @param string    $meta_key   Meta key.
+ * @param mixed     $meta_value Meta value. Must be serializable if non-scalar.
+ * @param mixed     $prev_value Optional. If specified, only update existing.
+ * @return null|bool True if the conditions are ripe for the fix, otherwise the existing value of $check.
+ */
+function filter_update_post_metadata(
+	$check,
+	$object_id,
+	$meta_key,
+	$meta_value,
+	$prev_value
+) {
+	if ( empty( $prev_value ) ) {
+		$old_value = get_metadata( 'post', $object_id, $meta_key );
+		if ( 1 === count( $old_value ) ) {
+			if ( $old_value[0] === $meta_value ) {
+				return true;
+			}
+		}
+	}
+
+	return $check;
+}
+
 /**
  * Register meta for posts or terms with sensible defaults and sanitization.
  *
