@@ -28,7 +28,7 @@ registerBlockType(
       __('sample', 'wp-starter-plugin'),
       __('block', 'wp-starter-plugin'),
     ],
-    save: ({ attributes: blockAttributes }) => (
+    save: ({ attributes: blockAttributes }) => ( // eslint-disable-line react/prop-types
       <SampleBlock {...blockAttributes} />
     ),
     supports: {
