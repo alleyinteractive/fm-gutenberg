@@ -21,12 +21,10 @@ const {
 export default class OpenGraph extends React.PureComponent {
   // Define PropTypes for this component.
   static propTypes = {
-    meta: PropTypes.shape({
-      open_graph_description: PropTypes.string,
-      open_graph_image: PropTypes.number,
-      open_graph_title: PropTypes.string,
-    }).isRequired,
+    description: PropTypes.string.isRequired,
+    image: PropTypes.number.isRequired,
     onUpdate: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
   };
 
   /**
@@ -35,12 +33,10 @@ export default class OpenGraph extends React.PureComponent {
    */
   render() {
     const {
-      meta: {
-        open_graph_description: openGraphDescription = '',
-        open_graph_image: openGraphImage = 0,
-        open_graph_title: openGraphTitle = '',
-      },
+      description,
+      image,
       onUpdate,
+      title,
     } = this.props;
 
     return (
@@ -49,19 +45,25 @@ export default class OpenGraph extends React.PureComponent {
         title={__('Open Graph', 'wp-starter-plugin')}
       >
         <ImagePicker
-          metaKey="open_graph_image"
+          metaKey="wp_starter_plugin_open_graph_image"
           onUpdate={onUpdate}
-          value={openGraphImage}
+          value={image}
         />
         <TextControl
           label={__('Title', 'wp-starter-plugin')}
-          onChange={(value) => onUpdate('open_graph_title', value)}
-          value={openGraphTitle}
+          onChange={(value) => onUpdate(
+            'wp_starter_plugin_open_graph_title',
+            value
+          )}
+          value={title}
         />
         <TextareaControl
           label={__('Description', 'wp-starter-plugin')}
-          onChange={(value) => onUpdate('open_graph_description', value)}
-          value={openGraphDescription}
+          onChange={(value) => onUpdate(
+            'wp_starter_plugin_open_graph_description',
+            value
+          )}
+          value={description}
         />
       </PanelBody>
     );

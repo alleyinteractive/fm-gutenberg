@@ -26,7 +26,11 @@ const {
 class Sidebar extends React.PureComponent {
   // Define PropTypes for this component.
   static propTypes = {
-    meta: PropTypes.shape({}).isRequired,
+    meta: PropTypes.shape({
+      openGraphDescription: PropTypes.string,
+      openGraphImage: PropTypes.number,
+      openGraphTitle: PropTypes.string,
+    }).isRequired,
     onUpdate: PropTypes.func.isRequired,
     post: PropTypes.shape({}).isRequired,
   };
@@ -37,7 +41,11 @@ class Sidebar extends React.PureComponent {
    */
   render() {
     const {
-      meta,
+      meta: {
+        openGraphDescription = '',
+        openGraphImage = 0,
+        openGraphTitle = '',
+      },
       onUpdate,
       post: {
         /**
@@ -55,26 +63,39 @@ class Sidebar extends React.PureComponent {
         name="wp-starter-plugin"
         title={__('WP Starter Plugin Options', 'wp-starter-plugin')}
       >
-        <OpenGraph meta={meta} onUpdate={onUpdate} />
+        <OpenGraph
+          description={openGraphDescription}
+          image={openGraphImage}
+          onUpdate={onUpdate}
+          title={openGraphTitle}
+        />
       </PluginSidebar>
     );
   }
 }
 
 export default compose([
-  withSelect((select) => ({
-    meta: {
-      ...select('core/editor').getCurrentPostAttribute('meta'),
-      ...select('core/editor').getEditedPostAttribute('meta'),
-    },
-    post: select('core/editor').getCurrentPost(),
-  })),
+  withSelect((select) => {
+    const editor = select('core/editor');
+    const {
+      wp_starter_plugin_open_graph_description: openGraphDescription = '',
+      wp_starter_plugin_open_graph_image: openGraphImage = 0,
+      wp_starter_plugin_open_graph_title: openGraphTitle = '',
+    } = editor.getEditedPostAttribute('meta');
+
+    return {
+      meta: {
+        openGraphDescription,
+        openGraphImage,
+        openGraphTitle,
+      },
+      post: editor.getCurrentPost(),
+    };
+  }),
   withDispatch((dispatch) => ({
     onUpdate: (metaKey, metaValue) => {
       dispatch('core/editor').editPost({
         meta: {
-          ...wp.data.select('core/editor').getCurrentPostAttribute('meta'),
-          ...wp.data.select('core/editor').getEditedPostAttribute('meta'),
           [metaKey]: metaValue,
         },
       });

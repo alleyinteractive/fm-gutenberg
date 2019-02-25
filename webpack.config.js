@@ -1,24 +1,31 @@
 const path = require('path');
 
-module.exports = {
-  entry: {
-    blockSampleBlock: './blocks/sampleBlock/index.js',
-    pluginSidebar: './plugins/sidebar/index.js',
-  },
-  module: {
-    rules: [
-      {
-        exclude: /node_modules/,
-        test: /.js$/,
-        use: [
-          'babel-loader',
-          'eslint-loader',
-        ],
-      },
-    ],
-  },
-  output: {
-    filename: '[name].js',
-    path: path.join(__dirname, 'build'),
-  },
+module.exports = (env, argv) => {
+  const { mode } = argv;
+
+  return {
+    devtool: 'development' === mode
+      ? 'cheap-module-eval-source-map'
+      : 'source-map',
+    entry: {
+      blockSampleBlock: './blocks/sampleBlock/index.js',
+      pluginSidebar: './plugins/sidebar/index.js',
+    },
+    module: {
+      rules: [
+        {
+          exclude: /node_modules/,
+          test: /.js$/,
+          use: [
+            'babel-loader',
+            'eslint-loader',
+          ],
+        },
+      ],
+    },
+    output: {
+      filename: '[name].js',
+      path: path.join(__dirname, 'build'),
+    },
+  };
 };

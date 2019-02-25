@@ -23,6 +23,6 @@ require_once __DIR__ . '/inc/meta.php';
 require_once __DIR__ . '/functions.php';
 
 // Register custom meta fields.
-register_meta_helper( 'post', [ 'page', 'post' ], 'open_graph_description' );
-register_meta_helper( 'post', [ 'page', 'post' ], 'open_graph_image', [ 'type' => 'integer' ] );
-register_meta_helper( 'post', [ 'page', 'post' ], 'open_graph_title' );
+register_meta_helper( 'post', [ 'page', 'post' ], 'wp_starter_plugin_open_graph_description' );
+register_meta_helper( 'post', [ 'page', 'post' ], 'wp_starter_plugin_open_graph_image', [ 'type' => 'integer' ] );
+register_meta_helper( 'post', [ 'page', 'post' ], 'wp_starter_plugin_open_graph_title' );
