@@ -78,6 +78,12 @@ export default class PostSelector extends React.PureComponent {
 
     // Call the passed onChange function from props with the post object.
     onChange(foundPost);
+
+    // Reset the internal state.
+    this.setState({
+      foundPosts: [],
+      searchText: '',
+    });
   }
 
   /**
