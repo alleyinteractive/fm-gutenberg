@@ -14,12 +14,19 @@ const {
  */
 export default class CSVUploader extends React.PureComponent {
   /**
+   * Default props.
+   */
+  static defaultProps = {
+    callback: null,
+  };
+
+  /**
    * Set PropTypes for this component.
    * @type {object}
    */
   static propTypes = {
     attributeName: PropTypes.string.isRequired,
-    callback: PropTypes.func.isRequired,
+    callback: PropTypes.func,
     setAttributes: PropTypes.func.isRequired,
   };
 
@@ -66,7 +73,7 @@ export default class CSVUploader extends React.PureComponent {
 
     // Parse the file and send the contents to the callback for transformation.
     parseCSVFile(e.target.files[0])
-      .then((data) => callback(data))
+      .then((data) => (callback ? callback(data) : data))
       .then((data) => {
         if (Array.isArray(data) && 0 < data.length) {
           this.setState({
