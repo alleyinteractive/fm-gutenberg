@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
  * This component takes three props:
  *
  * onChange: Required. A function that accepts a post object when selected.
- * postTypes: Required. An array of post type slugs available for search.
+ * postTypes: Optional. An array of post type slugs available for search. Default is to search all post types.
  * threshold: Optional. Minimum number of characters entered to initialize search. Defaults to 3.
  *
  * This component *does not* keep track of the selected post. It is up to the
@@ -22,6 +22,7 @@ export default class PostSelector extends React.PureComponent {
    * @type {object}
    */
   static defaultProps = {
+    postTypes: [],
     threshold: 3,
   };
 
@@ -31,7 +32,7 @@ export default class PostSelector extends React.PureComponent {
    */
   static propTypes = {
     onChange: PropTypes.func.isRequired,
-    postTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    postTypes: PropTypes.arrayOf(PropTypes.string),
     threshold: PropTypes.number,
   };
 
@@ -42,7 +43,6 @@ export default class PostSelector extends React.PureComponent {
   constructor(props) {
     super(props);
     this.handlePostSelect = this.handlePostSelect.bind(this);
-    this.handlePostTypeChange = this.handlePostTypeChange.bind(this);
     this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
   }
 
@@ -52,7 +52,6 @@ export default class PostSelector extends React.PureComponent {
   state = {
     foundPosts: [],
     loading: false,
-    postType: '',
     searchText: '',
   };
 
@@ -82,50 +81,35 @@ export default class PostSelector extends React.PureComponent {
   }
 
   /**
-   * Handles a change to the post type dropdown.
-   * @param {string} postType - The new post type to apply.
-   */
-  handlePostTypeChange(postType) {
-    this.setState((state) => {
-      this.loadFoundPosts(postType, state.searchText);
-      return { postType };
-    });
-  }
-
-  /**
    * Handles a change to the search text string.
    * @param {string} searchText - The new search text to apply.
    */
   handleSearchTextChange(searchText) {
-    this.setState((state) => {
-      this.loadFoundPosts(state.postType, searchText);
-      return { searchText };
-    });
+    this.setState(
+      {
+        searchText,
+      },
+      () => {
+        this.loadFoundPosts(searchText);
+      }
+    );
   }
 
   /**
    * Loads found posts for the given post type and search text from the API.
-   * @param {string} postType - The post type to search in.
    * @param {string} searchText - The text string to use when searching.
    */
-  loadFoundPosts(postType, searchText) {
+  loadFoundPosts(searchText) {
     const {
+      postTypes,
       threshold,
     } = this.props;
     const {
       apiFetch,
-      data: {
-        select,
-      },
       url: {
         addQueryArgs,
       },
     } = wp;
-
-    // If there is no post type specified, bail.
-    if (! postType) {
-      return;
-    }
 
     // If the search text is not at the threshold, bail.
     if (threshold > searchText.length) {
@@ -136,10 +120,14 @@ export default class PostSelector extends React.PureComponent {
     this.setState({ loading: true });
 
     // Get search results from the API and store them.
-    const postTypeDetails = select('core').getEntity('postType', postType);
-    const path = addQueryArgs(postTypeDetails.baseURL, {
-      search: searchText,
-    });
+    const path = addQueryArgs(
+      '/wp/v2/search',
+      {
+        search: searchText,
+        subtype: postTypes ? postTypes.join() : 'any',
+        type: 'post',
+      }
+    );
     apiFetch({ path })
       .then((foundPosts) => this.setState({
         foundPosts,
@@ -162,29 +150,13 @@ export default class PostSelector extends React.PureComponent {
       },
     } = wp;
     const {
-      postTypes,
-    } = this.props;
-    const {
       foundPosts = [],
       loading = false,
-      postType = '',
       searchText = '',
     } = this.state;
 
     return (
       <form>
-        <SelectControl
-          label={__('Post Type', 'wp-starter-plugin')}
-          onChange={this.handlePostTypeChange}
-          options={[
-            {
-              label: __('Select post type', 'wp-starter-plugin'),
-              value: '',
-            },
-            ...postTypes.map((type) => ({ label: type, value: type })),
-          ]}
-          value={postType}
-        />
         <TextControl
           label={__('Search Text', 'wp-starter-plugin')}
           onChange={this.handleSearchTextChange}
@@ -193,7 +165,7 @@ export default class PostSelector extends React.PureComponent {
         {true === loading && (
           <div>{__('Loading...', 'wp-starter-plugin')}</div>
         )}
-        {false === loading && '' !== postType && 0 === foundPosts.length && (
+        {false === loading && '' !== searchText && 0 === foundPosts.length && (
           <div>{__('No matching posts found.', 'wp-starter-plugin')}</div>
         )}
         {false === loading && 0 < foundPosts.length && (
@@ -206,7 +178,7 @@ export default class PostSelector extends React.PureComponent {
                 value: '',
               },
               ...foundPosts.map((post) => ({
-                label: `${post.title.rendered} (ID: ${post.id})`,
+                label: `${post.subtype.toUpperCase()}: ${post.title} (ID: ${post.id})`, // eslint-disable-line max-len
                 value: post.id,
               })),
             ]}
