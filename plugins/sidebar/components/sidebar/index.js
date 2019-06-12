@@ -16,6 +16,9 @@ const {
     PluginSidebar,
     PluginSidebarMoreMenuItem,
   },
+  element: {
+    Fragment,
+  },
   i18n: {
     __,
   },
