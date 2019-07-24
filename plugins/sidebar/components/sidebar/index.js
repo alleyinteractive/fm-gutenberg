@@ -14,6 +14,10 @@ const {
   },
   editPost: {
     PluginSidebar,
+    PluginSidebarMoreMenuItem,
+  },
+  element: {
+    Fragment,
   },
   i18n: {
     __,
@@ -58,18 +62,27 @@ class Sidebar extends React.PureComponent {
       },
     } = this.props;
 
+    const target = 'wp-starter-plugin';
+    const label = __('WP Starter Plugin Options', 'wp-starter-plugin');
+
     return (
-      <PluginSidebar
-        name="wp-starter-plugin"
-        title={__('WP Starter Plugin Options', 'wp-starter-plugin')}
-      >
-        <OpenGraph
-          description={openGraphDescription}
-          image={openGraphImage}
-          onUpdate={onUpdate}
-          title={openGraphTitle}
-        />
-      </PluginSidebar>
+      <Fragment>
+        <PluginSidebarMoreMenuItem target={target}>
+          {label}
+        </PluginSidebarMoreMenuItem>
+
+        <PluginSidebar
+          name={target}
+          title={label}
+        >
+          <OpenGraph
+            description={openGraphDescription}
+            image={openGraphImage}
+            onUpdate={onUpdate}
+            title={openGraphTitle}
+          />
+        </PluginSidebar>
+      </Fragment>
     );
   }
 }
