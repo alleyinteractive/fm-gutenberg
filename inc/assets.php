@@ -14,31 +14,45 @@ add_action(
 );
 
 /**
+ * Set allowed post types.
+ *
+ * @return array array of post types allowed for Gutenberg.
+ */
+function allowed_post_types() {
+	return [
+		'post',
+	];
+}
+
+
+/**
  * A callback for the enqueue_block_editor_assets action hook.
  */
 function action_enqueue_block_editor_assets() {
 	global $post_type;
 
-	// Only enqueue the script to register the Sample Block if supported.
-	if ( 'post' === $post_type ) {
-		wp_enqueue_script(
-			'wp-starter-plugin-plugin-sidebar',
-			plugins_url( 'build/pluginSidebar.js', __DIR__ ),
-			[ 'wp-i18n', 'wp-edit-post' ],
-			'1.0.0',
-			true
-		);
-		inline_locale_data( 'wp-starter-plugin-plugin-sidebar' );
-
-		wp_enqueue_script(
-			'wp-starter-plugin-block-sample-block',
-			plugins_url( 'build/blockSampleBlock.js', __DIR__ ),
-			[ 'wp-blocks', 'wp-i18n' ],
-			'1.0.0',
-			true
-		);
-		inline_locale_data( 'wp-starter-plugin-block-sample-block' );
+	// Only enqueue the script to register the scripts if supported.
+	if ( ! in_array( $post_type, allowed_post_types(), true ) ) {
+		return;
 	}
+
+	wp_enqueue_script(
+		'wp-starter-plugin-plugin-sidebar',
+		plugins_url( 'build/pluginSidebar.js', __DIR__ ),
+		[ 'wp-i18n', 'wp-edit-post' ],
+		'1.0.0',
+		true
+	);
+	inline_locale_data( 'wp-starter-plugin-plugin-sidebar' );
+
+	wp_enqueue_script(
+		'wp-starter-plugin-block-sample-block',
+		plugins_url( 'build/blockSampleBlock.js', __DIR__ ),
+		[ 'wp-blocks', 'wp-i18n' ],
+		'1.0.0',
+		true
+	);
+	inline_locale_data( 'wp-starter-plugin-block-sample-block' );
 }
 
 /**
