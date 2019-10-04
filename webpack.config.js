@@ -1,12 +1,15 @@
 const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const StatsPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
+const createWriteWpAssetManifest = require('./webpack/wpAssets');
 
 module.exports = (env, argv) => {
   const { mode } = argv;
 
   return {
-    devtool: 'development' === mode
-      ? 'cheap-module-eval-source-map'
-      : 'source-map',
+    devtool: 'production' === mode
+      ? 'source-map'
+      : 'cheap-module-eval-source-map',
     entry: {
       blockSampleBlock: './blocks/sampleBlock/index.js',
       pluginSidebar: './plugins/sidebar/index.js',
@@ -24,8 +27,22 @@ module.exports = (env, argv) => {
       ],
     },
     output: {
-      filename: '[name].js',
+      filename: 'production' === mode
+        ? '[name].[chunkhash].bundle.min.js'
+        : '[name].js',
       path: path.join(__dirname, 'build'),
     },
+    plugins: [
+      new StatsPlugin({
+        transform: createWriteWpAssetManifest(mode),
+        fields: ['assetsByChunkName', 'hash'],
+        filename: 'assetMap.json',
+      }),
+      ...('production' === mode
+        ? [
+          new CleanWebpackPlugin(),
+        ] : []
+      ),
+    ],
   };
 };
