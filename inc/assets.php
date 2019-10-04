@@ -24,7 +24,6 @@ function allowed_post_types() {
 	];
 }
 
-
 /**
  * A callback for the enqueue_block_editor_assets action hook.
  */
@@ -38,7 +37,7 @@ function action_enqueue_block_editor_assets() {
 
 	wp_enqueue_script(
 		'wp-starter-plugin-plugin-sidebar',
-		plugins_url( 'build/pluginSidebar.js', __DIR__ ),
+		get_versioned_asset_path( 'pluginSidebar.js' ),
 		[ 'wp-i18n', 'wp-edit-post' ],
 		'1.0.0',
 		true
@@ -47,12 +46,49 @@ function action_enqueue_block_editor_assets() {
 
 	wp_enqueue_script(
 		'wp-starter-plugin-block-sample-block',
-		plugins_url( 'build/blockSampleBlock.js', __DIR__ ),
+		get_versioned_asset_path( 'blockSampleBlock.js' ),
 		[ 'wp-blocks', 'wp-i18n' ],
 		'1.0.0',
 		true
 	);
 	inline_locale_data( 'wp-starter-plugin-block-sample-block' );
+}
+
+/**
+ * Get the version for a given asset.
+ *
+ * @param string $asset_path Entry point and asset type separated by a '.'.
+ * @return string The asset version.
+ */
+function get_versioned_asset_path( $asset_path ) {
+	static $asset_map;
+
+	// Create public path.
+	$base_path = plugins_url( 'build/', __DIR__ );
+
+	if ( ! isset( $asset_map ) ) {
+		$asset_map_file = dirname( __DIR__ ) . '/build/assetMap.json';
+		if ( file_exists( $asset_map_file ) && 0 === validate_file( $asset_map_file ) ) {
+			ob_start();
+			include $asset_map_file; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.IncludingFile, WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+			$asset_map = json_decode( ob_get_clean(), true );
+		} else {
+			$asset_map = [];
+		}
+	}
+
+	/*
+	 * Appending a '.' ensures the explode() doesn't generate a notice while
+	 * allowing the variable names to be more readable via list().
+	 */
+	list( $entrypoint, $type ) = explode( '.', "$asset_path." );
+	$versioned_path            = isset( $asset_map[ $entrypoint ][ $type ] ) ? $asset_map[ $entrypoint ][ $type ] : false;
+
+	if ( $versioned_path ) {
+		return $base_path . $versioned_path;
+	}
+
+	return '';
 }
 
 /**
