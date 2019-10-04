@@ -25,7 +25,9 @@ const {
 class ImagePicker extends React.PureComponent {
   // Define PropTypes for this component.
   static propTypes = {
-    media: PropTypes.shape({}).isRequired,
+    media: PropTypes.shape({
+      id: PropTypes.number,
+    }).isRequired,
     metaKey: PropTypes.string.isRequired,
     onUpdate: PropTypes.func.isRequired,
     value: PropTypes.number.isRequired,
