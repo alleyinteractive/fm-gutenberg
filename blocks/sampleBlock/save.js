@@ -7,19 +7,19 @@ import PropTypes from 'prop-types';
  */
 export default class SampleBlock extends React.PureComponent {
   /**
-   * Set initial props.
-   * @type {object}
-   */
-  static defaultProps = {
-    sampleAttribute: [],
-  };
-
-  /**
    * Set PropTypes for this component.
    * @type {object}
    */
   static propTypes = {
     sampleAttribute: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  };
+
+  /**
+   * Set initial props.
+   * @type {object}
+   */
+  static defaultProps = {
+    sampleAttribute: [],
   };
 
   /**

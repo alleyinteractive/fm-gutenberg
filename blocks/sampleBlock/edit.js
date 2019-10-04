@@ -7,16 +7,6 @@ import PropTypes from 'prop-types';
  */
 export default class SampleBlockEdit extends React.PureComponent {
   /**
-   * Set initial props.
-   * @type {object}
-   */
-  static defaultProps = {
-    attributes: {
-      sampleAttribute: [],
-    },
-  };
-
-  /**
    * Set PropTypes for this component.
    * @type {object}
    */
@@ -25,6 +15,16 @@ export default class SampleBlockEdit extends React.PureComponent {
       sampleAttribute: PropTypes.array,
     }),
     setAttributes: PropTypes.func.isRequired,
+  };
+
+  /**
+   * Set initial props.
+   * @type {object}
+   */
+  static defaultProps = {
+    attributes: {
+      sampleAttribute: [],
+    },
   };
 
   render() {

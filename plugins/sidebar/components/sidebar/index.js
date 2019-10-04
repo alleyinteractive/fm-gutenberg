@@ -57,8 +57,10 @@ class Sidebar extends React.PureComponent {
          * about which components to load in the sidebar based on URL of the
          * post (e.g., the home or front page is '/') or the post type.
          */
-        link = '', // eslint-disable-line no-unused-vars
-        type = '', // eslint-disable-line no-unused-vars
+        // eslint-disable-next-line no-unused-vars,react/prop-types
+        link = '',
+        // eslint-disable-next-line no-unused-vars,react/prop-types
+        type = '',
       },
     } = this.props;
 

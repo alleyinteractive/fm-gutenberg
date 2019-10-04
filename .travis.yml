@@ -1,9 +1,6 @@
 # Travis CI (MIT License) configuration file for WP Starter Theme
 # @link https://travis-ci.org/
 
-# Tell Travis to use new container-based infrastructure.
-sudo: false
-
 # Xenial image has PHP versions 5.6,7.1,7.2 pre-installed
 dist: xenial
 
@@ -15,6 +12,10 @@ services:
 # Declare project language.
 # @link http://about.travis-ci.org/docs/user/languages/php/
 language: php
+
+# PHP version.
+php:
+  - '7.3'
 
 # Specify when Travis should build.
 branches:
@@ -34,17 +35,9 @@ matrix:
   fast_finish: true
 
   include:
-    - php: '7.2'
-      env: WP_VERSION=latest PHP_LINT=1 WP_JS=1
-    - php: '7.2'
-      env: WP_VERSION=trunk
-    - php: '7.2'
-      env: WP_VERSION=latest WP_PHPCS=1 WP_TRAVIS_OBJECT_CACHE=1
-    - php: 'nightly'
-      env: WP_VERSION=latest PHP_LINT=1
-
-  allow_failures:
-    - php: 'nightly'
+    - env: WP_VERSION=latest PHP_LINT=1 WP_JS=1
+    - env: WP_VERSION=trunk
+    - env: WP_VERSION=latest WP_PHPCS=1 WP_TRAVIS_OBJECT_CACHE=1
 
 # Prepare your build for testing.
 # Failures in this section will result in build status 'errored'.
@@ -108,16 +101,16 @@ script:
     fi
 
   # Run the plugin's unit tests, both in single and multisite.
-  - |
-    if [[ ! -z "$WP_VERSION" ]] ; then
-      phpunit
-      WP_MULTISITE=1 phpunit
-    fi
+  - phpunit
+  - WP_MULTISITE=1 phpunit
 
   # Run the plugin's JavaScript tests.
   - |
     if [[ "$WP_JS" == "1" ]] ; then
       npm run build
+    fi
+  - |
+    if [[ "$WP_JS" == "1" ]] ; then
       npm run test
     fi
 
