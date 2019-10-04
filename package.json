@@ -8,6 +8,7 @@
     "npm": "6"
   },
   "scripts": {
+    "preinstall": "npx check-node-version --package",
     "build": "webpack --mode=production",
     "dev": "webpack --mode=development --watch",
     "lint": "eslint .",
@@ -30,6 +31,7 @@
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "chalk": "^2.4.2",
+    "check-node-version": "^4.0.1",
     "clean-webpack-plugin": "^3.0.0",
     "eslint": "^5.6.1",
     "eslint-config-airbnb": "^17.1.0",
