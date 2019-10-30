@@ -162,7 +162,10 @@ export default class PostSelector extends React.PureComponent {
     } = this.state;
 
     return (
-      <form>
+      <form
+        // Prevent accidental page reload/redirects.
+        onSubmit={(event) => event.preventDefault()}
+      >
         <TextControl
           label={__('Search Text', 'wp-starter-plugin')}
           onChange={this.handleSearchTextChange}
