@@ -4,7 +4,7 @@
 # Bionic image has PHP versions 7.1,7.2,7.3 pre-installed
 dist: bionic
 
-# Xenial does not start mysql by default
+# Bionic does not start mysql or memcached by default
 services:
   - mysql
   - memcached
