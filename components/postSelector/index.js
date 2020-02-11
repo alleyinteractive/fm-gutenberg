@@ -2,6 +2,20 @@
 
 import PropTypes from 'prop-types';
 
+const {
+  apiFetch,
+  components: {
+    SelectControl,
+    TextControl,
+  },
+  i18n: {
+    __,
+  },
+  url: {
+    addQueryArgs,
+  },
+} = wp;
+
 /**
  * A React component that allows users to select posts by fuzzy search.
  *
@@ -24,6 +38,7 @@ export default class PostSelector extends React.PureComponent {
   static defaultProps = {
     postTypes: [],
     threshold: 3,
+    label: __('Search Text', 'wp-starter-plugin'),
   };
 
   /**
@@ -34,6 +49,7 @@ export default class PostSelector extends React.PureComponent {
     onChange: PropTypes.func.isRequired,
     postTypes: PropTypes.arrayOf(PropTypes.string),
     threshold: PropTypes.number,
+    label: PropTypes.string,
   };
 
   /**
@@ -110,12 +126,6 @@ export default class PostSelector extends React.PureComponent {
       postTypes,
       threshold,
     } = this.props;
-    const {
-      apiFetch,
-      url: {
-        addQueryArgs,
-      },
-    } = wp;
 
     // If the search text is not at the threshold, bail.
     if (threshold > searchText.length) {
@@ -147,14 +157,9 @@ export default class PostSelector extends React.PureComponent {
    */
   render() {
     const {
-      components: {
-        SelectControl,
-        TextControl,
-      },
-      i18n: {
-        __,
-      },
-    } = wp;
+      label,
+    } = this.props;
+
     const {
       foundPosts = [],
       loading = false,
@@ -167,7 +172,7 @@ export default class PostSelector extends React.PureComponent {
         onSubmit={(event) => event.preventDefault()}
       >
         <TextControl
-          label={__('Search Text', 'wp-starter-plugin')}
+          label={label}
           onChange={this.handleSearchTextChange}
           value={searchText}
         />
