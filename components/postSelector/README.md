@@ -14,10 +14,13 @@ Render a post selector with a limited list of post types.
       onChange={onChange}
       postTypes={['post', 'page']}
       threshold={2}
-    /> 
+      label="Select Post"
+    />
 
 The `onChange` callback will receive the selected post object, as it is returned from the `search` REST endpoint.
 
 The `postTypes` prop is optional. If not specified, all queryable post types will be included (behind the scenes, this results in `subtype=any` in the REST request). If specified, it must be an array of post type slugs.
 
 The `threshold` prop is optional. If specified, it overrides the default minimum number of characters that must be entered in order for the search to fire (default is 3).
+
+The `label` prop is optional. If specified, it overwrites the default label text for the post selection search input.
