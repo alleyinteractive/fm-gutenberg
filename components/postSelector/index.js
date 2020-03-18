@@ -1,6 +1,7 @@
 /* global React, wp */
 
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 
 const {
   apiFetch,
@@ -60,6 +61,9 @@ export default class PostSelector extends React.PureComponent {
     super(props);
     this.handlePostSelect = this.handlePostSelect.bind(this);
     this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
+    this.handleSearchTextSubmit = debounce(
+      this.handleSearchTextSubmit.bind(this), 1500
+    );
   }
 
   /**
@@ -107,14 +111,22 @@ export default class PostSelector extends React.PureComponent {
    * @param {string} searchText - The new search text to apply.
    */
   handleSearchTextChange(searchText) {
-    this.setState(
-      {
-        searchText,
-      },
-      () => {
-        this.loadFoundPosts(searchText);
-      }
-    );
+    this.setState({
+      searchText,
+    });
+
+    this.handleSearchTextSubmit();
+  }
+
+  /**
+   * Handles submitting the input value.
+   */
+  handleSearchTextSubmit() {
+    const {
+      searchText,
+    } = this.state;
+
+    this.loadFoundPosts(searchText);
   }
 
   /**
