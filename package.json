@@ -17,6 +17,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "lodash.debounce": "^4.0.8",
     "papaparse": "^4.6.1",
     "prop-types": "^15.6.2"
   },
