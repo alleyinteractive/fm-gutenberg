@@ -7,14 +7,6 @@ import PropTypes from 'prop-types';
  */
 export default class SampleBlock extends React.PureComponent {
   /**
-   * Set initial props.
-   * @type {object}
-   */
-  static defaultProps = {
-    sampleAttribute: [],
-  };
-
-  /**
    * Renders this component.
    * @returns {object} - JSX for the component.
    */
@@ -41,6 +33,11 @@ export default class SampleBlock extends React.PureComponent {
     );
   }
 }
+
+// Set up initial props.
+SampleBlock.defaultProps = {
+  sampleAttribute: [],
+};
 
 // Set PropTypes for this component.
 SampleBlock.propTypes = {
