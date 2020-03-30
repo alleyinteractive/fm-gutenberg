@@ -47,7 +47,7 @@ export default class CSVUploader extends React.PureComponent {
     } = this.props;
 
     // Ensure there is a file selected.
-    if (! e.target.files || ! e.target.files[0]) {
+    if (!e.target.files || !e.target.files[0]) {
       return;
     }
 
@@ -55,12 +55,12 @@ export default class CSVUploader extends React.PureComponent {
     parseCSVFile(e.target.files[0])
       .then((data) => (callback ? callback(data) : data))
       .then((data) => {
-        if (Array.isArray(data) && 0 < data.length) {
+        if (Array.isArray(data) && data.length > 0) {
           this.setState({
             error: '',
             success: __(
               'Successfully read CSV data.',
-              'wp-starter-plugin'
+              'wp-starter-plugin',
             ),
           });
           setAttributes({
@@ -70,7 +70,7 @@ export default class CSVUploader extends React.PureComponent {
           this.setState({
             error: __(
               'Could not map CSV data. Please check the source file to ensure that it has the correct structure.', // eslint-disable-line max-len
-              'wp-starter-plugin'
+              'wp-starter-plugin',
             ),
             success: '',
           });
@@ -97,24 +97,24 @@ export default class CSVUploader extends React.PureComponent {
       <div className="wp-starter-plugin-block-csv-uploader">
         <h2>{__('Upload CSV', 'wp-starter-plugin')}</h2>
         <form onSubmit={this.handleSubmit}>
-          {'' !== error && (
+          {error !== '' && (
             <div style={{ color: '#c00' }}>
               <strong>
                 {__(
                   'Error:',
-                  'wp-starter-plugin'
+                  'wp-starter-plugin',
                 )}
               </strong>
               &nbsp;
               {error}
             </div>
           )}
-          {'' !== success && (
+          {success !== '' && (
             <div style={{ color: '#0c0' }}>
               <strong>
                 {__(
                   'Success:',
-                  'wp-starter-plugin'
+                  'wp-starter-plugin',
                 )}
               </strong>
               &nbsp;
@@ -128,7 +128,7 @@ export default class CSVUploader extends React.PureComponent {
               <p>
                 {__(
                   'Select a file to load data.',
-                  'wp-starter-plugin'
+                  'wp-starter-plugin',
                 )}
               </p>
               <input

@@ -1,8 +1,8 @@
 /* global React */
 
 import attributes from './attributes';
-import SampleBlock from './save';
-import SampleBlockEdit from './edit';
+import SampleBlock from './save.jsx';
+import SampleBlockEdit from './edit.jsx';
 
 const {
   blocks: {
@@ -20,7 +20,7 @@ registerBlockType(
     category: 'widgets',
     description: __(
       'A sample block to demonstrate block structure and inclusion patterns.',
-      'wp-starter-plugin'
+      'wp-starter-plugin',
     ),
     edit: SampleBlockEdit,
     icon: 'editor-insertmore',
@@ -35,5 +35,5 @@ registerBlockType(
       html: false,
     },
     title: __('Sample Block', 'wp-starter-plugin'),
-  }
+  },
 );
