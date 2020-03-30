@@ -1,4 +1,4 @@
-/* global React, wp */
+/* global React */
 
 import PropTypes from 'prop-types';
 import parseCSVFile from 'services/data/parseCSVFile';
@@ -14,23 +14,6 @@ const {
  */
 export default class CSVUploader extends React.PureComponent {
   /**
-   * Default props.
-   */
-  static defaultProps = {
-    callback: null,
-  };
-
-  /**
-   * Set PropTypes for this component.
-   * @type {object}
-   */
-  static propTypes = {
-    attributeName: PropTypes.string.isRequired,
-    callback: PropTypes.func,
-    setAttributes: PropTypes.func.isRequired,
-  };
-
-  /**
    * A callback for the upload form submit action.
    * @param {Event} e - The form submit event.
    */
@@ -44,16 +27,13 @@ export default class CSVUploader extends React.PureComponent {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-  }
 
-  /**
-   * Set initial state for this component.
-   * @type {object}
-   */
-  state = {
-    error: '',
-    success: '',
-  };
+    // Set initial state for this component.
+    this.state = {
+      error: '',
+      success: '',
+    };
+  }
 
   /**
    * A callback for the change event on the file input.
@@ -163,3 +143,21 @@ export default class CSVUploader extends React.PureComponent {
     );
   }
 }
+
+/**
+ * Default props.
+ * @type {object}
+ */
+CSVUploader.defaultProps = {
+  callback: null,
+};
+
+/**
+ * Set PropTypes for this component.
+ * @type {object}
+ */
+CSVUploader.propTypes = {
+  attributeName: PropTypes.string.isRequired,
+  callback: PropTypes.func,
+  setAttributes: PropTypes.func.isRequired,
+};
