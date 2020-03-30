@@ -19,7 +19,6 @@ const {
  * A component representing the Open Graph sidebar configuration panel.
  */
 export default class OpenGraph extends React.PureComponent {
-
   /**
    * Renders the sidebar section.
    * @returns {object} JSX component markup.

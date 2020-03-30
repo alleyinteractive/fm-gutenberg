@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
  * A React component to render a sample block.
  */
 export default class SampleBlock extends React.PureComponent {
-
   /**
    * Set initial props.
    * @type {object}

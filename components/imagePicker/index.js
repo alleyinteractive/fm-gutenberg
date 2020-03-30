@@ -23,7 +23,6 @@ const {
  * A component representing the Image Picker sidebar control.
  */
 class ImagePicker extends React.PureComponent {
-
   /**
    * Renders the image picker.
    * @returns {object} JSX component markup.

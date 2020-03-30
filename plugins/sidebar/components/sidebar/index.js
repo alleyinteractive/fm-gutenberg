@@ -28,7 +28,6 @@ const {
  * A component to render a PluginSidebar for the WP Starter Plugin site.
  */
 class Sidebar extends React.PureComponent {
-
   /**
    * Renders the PluginSidebar.
    * @returns {object} JSX component markup.
