@@ -1,4 +1,4 @@
-/* global wp, React */
+/* global React */
 
 import attributes from './attributes';
 import SampleBlock from './save';

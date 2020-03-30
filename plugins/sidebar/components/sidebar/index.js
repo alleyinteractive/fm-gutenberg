@@ -1,4 +1,4 @@
-/* global React, wp */
+/* global React */
 
 import PropTypes from 'prop-types';
 
