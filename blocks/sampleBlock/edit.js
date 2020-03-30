@@ -6,16 +6,6 @@ import PropTypes from 'prop-types';
  * A React component to render the edit view of a sample block.
  */
 export default class SampleBlockEdit extends React.PureComponent {
-  /**
-   * Set PropTypes for this component.
-   * @type {object}
-   */
-  static propTypes = {
-    attributes: PropTypes.shape({
-      sampleAttribute: PropTypes.array,
-    }),
-    setAttributes: PropTypes.func.isRequired,
-  };
 
   /**
    * Set initial props.
@@ -63,3 +53,11 @@ export default class SampleBlockEdit extends React.PureComponent {
     );
   }
 }
+
+// Set PropTypes for this component.
+SampleBlockEdit.propTypes = {
+  attributes: PropTypes.shape({
+    sampleAttribute: PropTypes.array,
+  }),
+  setAttributes: PropTypes.func.isRequired,
+};

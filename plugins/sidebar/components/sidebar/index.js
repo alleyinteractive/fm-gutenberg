@@ -28,16 +28,6 @@ const {
  * A component to render a PluginSidebar for the WP Starter Plugin site.
  */
 class Sidebar extends React.PureComponent {
-  // Define PropTypes for this component.
-  static propTypes = {
-    meta: PropTypes.shape({
-      openGraphDescription: PropTypes.string,
-      openGraphImage: PropTypes.number,
-      openGraphTitle: PropTypes.string,
-    }).isRequired,
-    onUpdate: PropTypes.func.isRequired,
-    post: PropTypes.shape({}).isRequired,
-  };
 
   /**
    * Renders the PluginSidebar.
@@ -88,6 +78,17 @@ class Sidebar extends React.PureComponent {
     );
   }
 }
+
+// Define PropTypes for this component.
+Sidebar.propTypes = {
+  meta: PropTypes.shape({
+    openGraphDescription: PropTypes.string,
+    openGraphImage: PropTypes.number,
+    openGraphTitle: PropTypes.string,
+  }).isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  post: PropTypes.shape({}).isRequired,
+};
 
 export default compose([
   withSelect((select) => {

@@ -23,15 +23,6 @@ const {
  * A component representing the Image Picker sidebar control.
  */
 class ImagePicker extends React.PureComponent {
-  // Define PropTypes for this component.
-  static propTypes = {
-    media: PropTypes.shape({
-      id: PropTypes.number,
-    }).isRequired,
-    metaKey: PropTypes.string.isRequired,
-    onUpdate: PropTypes.func.isRequired,
-    value: PropTypes.number.isRequired,
-  };
 
   /**
    * Renders the image picker.
@@ -85,6 +76,16 @@ class ImagePicker extends React.PureComponent {
     );
   }
 }
+
+// Define PropTypes for this component.
+ImagePicker.propTypes = {
+  media: PropTypes.shape({
+    id: PropTypes.number,
+  }).isRequired,
+  metaKey: PropTypes.string.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  value: PropTypes.number.isRequired,
+};
 
 export default withSelect((select, ownProps) => {
   const {
