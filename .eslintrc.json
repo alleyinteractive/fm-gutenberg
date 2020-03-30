@@ -23,7 +23,6 @@
   "rules": {
     "import/no-extraneous-dependencies": [0], // Disabled since it doesn't work with webpack alias
     "import/no-unresolved": [0], // Disabled since it doesn't work with webpack alias
-    "import/extensions": [0], // Disabled since it doesn't work with webpack alias
-    "react/prefer-stateless-function": [0] // Disabled because it doesn't properly recognize PureComponents
+    "import/extensions": [0] // Disabled since it doesn't work with webpack alias
   }
 }
