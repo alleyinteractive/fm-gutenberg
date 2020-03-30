@@ -37,7 +37,7 @@ const getAssets = (assetList) => assetList.reduce((assetAcc, outputPath) => {
   }
 
   if ('map' !== ext) {
-    return Object.assign({}, assetAcc, { [ext]: outputPath });
+    return { ...assetAcc, [ext]: outputPath };
   }
 
   return assetAcc;
@@ -64,11 +64,10 @@ module.exports = (mode) => (stats) => {
     const assetList = [].concat(assets[entryName]);
 
     // Loop through assets
-    return Object.assign(
-      {},
-      entryAcc,
-      { [entryName]: getAssets(assetList) }
-    );
+    return {
+      ...entryAcc,
+      [entryName]: getAssets(assetList),
+    };
   }, {});
 
   const manifestJSON = JSON.stringify(entryMap);
