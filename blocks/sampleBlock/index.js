@@ -29,7 +29,7 @@ registerBlockType(
       __('block', 'wp-starter-plugin'),
     ],
     save: ({ attributes: blockAttributes }) => ( // eslint-disable-line react/prop-types
-      <SampleBlock {...blockAttributes} />
+      <SampleBlock {...blockAttributes} /> // eslint-disable-line react/jsx-props-no-spreading
     ),
     supports: {
       html: false,
