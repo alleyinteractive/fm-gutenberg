@@ -1,4 +1,4 @@
-/* global wp, React */
+/* global React */
 
 import PropTypes from 'prop-types';
 
@@ -6,22 +6,6 @@ import PropTypes from 'prop-types';
  * A React component to render a sample block.
  */
 export default class SampleBlock extends React.PureComponent {
-  /**
-   * Set PropTypes for this component.
-   * @type {object}
-   */
-  static propTypes = {
-    sampleAttribute: PropTypes.array, // eslint-disable-line react/forbid-prop-types
-  };
-
-  /**
-   * Set initial props.
-   * @type {object}
-   */
-  static defaultProps = {
-    sampleAttribute: [],
-  };
-
   /**
    * Renders this component.
    * @returns {object} - JSX for the component.
@@ -49,3 +33,13 @@ export default class SampleBlock extends React.PureComponent {
     );
   }
 }
+
+// Set up initial props.
+SampleBlock.defaultProps = {
+  sampleAttribute: [],
+};
+
+// Set PropTypes for this component.
+SampleBlock.propTypes = {
+  sampleAttribute: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+};

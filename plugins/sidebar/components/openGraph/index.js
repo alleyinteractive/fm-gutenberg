@@ -1,4 +1,4 @@
-/* global React, wp */
+/* global React */
 
 import PropTypes from 'prop-types';
 
@@ -19,14 +19,6 @@ const {
  * A component representing the Open Graph sidebar configuration panel.
  */
 export default class OpenGraph extends React.PureComponent {
-  // Define PropTypes for this component.
-  static propTypes = {
-    description: PropTypes.string.isRequired,
-    image: PropTypes.number.isRequired,
-    onUpdate: PropTypes.func.isRequired,
-    title: PropTypes.string.isRequired,
-  };
-
   /**
    * Renders the sidebar section.
    * @returns {object} JSX component markup.
@@ -69,3 +61,11 @@ export default class OpenGraph extends React.PureComponent {
     );
   }
 }
+
+// Define PropTypes for this component.
+OpenGraph.propTypes = {
+  description: PropTypes.string.isRequired,
+  image: PropTypes.number.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+};

@@ -1,4 +1,4 @@
-/* global React, wp */
+/* global React */
 
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
@@ -33,47 +33,23 @@ const {
  */
 export default class PostSelector extends React.PureComponent {
   /**
-   * Default props for this component.
-   * @type {object}
-   */
-  static defaultProps = {
-    postTypes: [],
-    threshold: 3,
-    label: __('Search Text', 'wp-starter-plugin'),
-  };
-
-  /**
-   * PropTypes for this component.
-   * @type {object}
-   */
-  static propTypes = {
-    onChange: PropTypes.func.isRequired,
-    postTypes: PropTypes.arrayOf(PropTypes.string),
-    threshold: PropTypes.number,
-    label: PropTypes.string,
-  };
-
-  /**
    * Constructor. Binds function scope.
    * @param {object} props - Props for this component.
    */
   constructor(props) {
     super(props);
+    // Define initial state for this component.
+    this.state = {
+      foundPosts: [],
+      loading: false,
+      searchText: '',
+    };
     this.handlePostSelect = this.handlePostSelect.bind(this);
     this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
     this.handleSearchTextSubmit = debounce(
       this.handleSearchTextSubmit.bind(this), 1500
     );
   }
-
-  /**
-   * Define initial state for this component.
-   */
-  state = {
-    foundPosts: [],
-    loading: false,
-    searchText: '',
-  };
 
   /**
    * Handles a post selection. Matches the post ID to the list of found posts,
@@ -214,3 +190,24 @@ export default class PostSelector extends React.PureComponent {
     );
   }
 }
+
+/**
+ * Default props for this component.
+ * @type {object}
+ */
+PostSelector.defaultProps = {
+  postTypes: [],
+  threshold: 3,
+  label: __('Search Text', 'wp-starter-plugin'),
+};
+
+/**
+ * PropTypes for this component.
+ * @type {object}
+ */
+PostSelector.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  postTypes: PropTypes.arrayOf(PropTypes.string),
+  threshold: PropTypes.number,
+  label: PropTypes.string,
+};

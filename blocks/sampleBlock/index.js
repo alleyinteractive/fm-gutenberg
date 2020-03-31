@@ -1,4 +1,4 @@
-/* global wp, React */
+/* global React */
 
 import attributes from './attributes';
 import SampleBlock from './save';
@@ -29,7 +29,7 @@ registerBlockType(
       __('block', 'wp-starter-plugin'),
     ],
     save: ({ attributes: blockAttributes }) => ( // eslint-disable-line react/prop-types
-      <SampleBlock {...blockAttributes} />
+      <SampleBlock {...blockAttributes} /> // eslint-disable-line react/jsx-props-no-spreading
     ),
     supports: {
       html: false,

@@ -1,4 +1,3 @@
-/* global wp */
 
 import Sidebar from './components/sidebar';
 
