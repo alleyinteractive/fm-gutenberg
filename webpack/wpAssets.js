@@ -67,7 +67,6 @@ module.exports = (mode) => (stats) => {
 
     // Loop through assets
     return {
-
       ...entryAcc,
       [entryName]: getAssets(assetList),
     };
