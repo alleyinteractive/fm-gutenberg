@@ -18,7 +18,7 @@ export default function parseCSVFile(file) {
         error: (error) => reject(error),
         header: true,
         skipEmptyLines: true,
-      }
+      },
     );
   });
 }

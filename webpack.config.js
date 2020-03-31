@@ -7,18 +7,18 @@ module.exports = (env, argv) => {
   const { mode } = argv;
 
   return {
-    devtool: 'production' === mode
+    devtool: mode === 'production'
       ? 'source-map'
       : 'cheap-module-eval-source-map',
     entry: {
-      blockSampleBlock: './blocks/sampleBlock/index.js',
+      blockSampleBlock: './blocks/sampleBlock/index.jsx',
       pluginSidebar: './plugins/sidebar/index.js',
     },
     module: {
       rules: [
         {
           exclude: /node_modules/,
-          test: /.js$/,
+          test: /.jsx?$/,
           use: [
             'babel-loader',
             'eslint-loader',
@@ -27,7 +27,7 @@ module.exports = (env, argv) => {
       ],
     },
     output: {
-      filename: 'production' === mode
+      filename: mode === 'production'
         ? '[name].[chunkhash].bundle.min.js'
         : '[name].js',
       path: path.join(__dirname, 'build'),
@@ -38,11 +38,14 @@ module.exports = (env, argv) => {
         fields: ['assetsByChunkName', 'hash'],
         filename: 'assetMap.json',
       }),
-      ...('production' === mode
+      ...(mode === 'production'
         ? [
           new CleanWebpackPlugin(),
         ] : []
       ),
     ],
+    resolve: {
+      extensions: ['.js', '.jsx'],
+    },
   };
 };

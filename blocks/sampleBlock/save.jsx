@@ -22,7 +22,7 @@ export default class SampleBlock extends React.PureComponent {
 
     return (
       <div className="sample__wrapper">
-        {Array.isArray(sampleAttribute) && 0 < sampleAttribute.length && (
+        {Array.isArray(sampleAttribute) && sampleAttribute.length > 0 && (
           <RichText.Content
             className="sample__container"
             tagName="h3"

@@ -45,7 +45,7 @@ export default class OpenGraph extends React.PureComponent {
           label={__('Title', 'wp-starter-plugin')}
           onChange={(value) => onUpdate(
             'wp_starter_plugin_open_graph_title',
-            value
+            value,
           )}
           value={title}
         />
@@ -53,7 +53,7 @@ export default class OpenGraph extends React.PureComponent {
           label={__('Description', 'wp-starter-plugin')}
           onChange={(value) => onUpdate(
             'wp_starter_plugin_open_graph_description',
-            value
+            value,
           )}
           value={description}
         />

@@ -20,7 +20,7 @@ registerBlockType(
     category: 'widgets',
     description: __(
       'A sample block to demonstrate block structure and inclusion patterns.',
-      'wp-starter-plugin'
+      'wp-starter-plugin',
     ),
     edit: SampleBlockEdit,
     icon: 'editor-insertmore',
@@ -35,5 +35,5 @@ registerBlockType(
       html: false,
     },
     title: __('Sample Block', 'wp-starter-plugin'),
-  }
+  },
 );

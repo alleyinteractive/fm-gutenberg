@@ -36,7 +36,7 @@ const getAssets = (assetList) => assetList.reduce((assetAcc, outputPath) => {
     return assetAcc;
   }
 
-  if ('map' !== ext) {
+  if (ext !== 'map') {
     return { ...assetAcc, [ext]: outputPath };
   }
 
@@ -44,7 +44,9 @@ const getAssets = (assetList) => assetList.reduce((assetAcc, outputPath) => {
 }, {});
 
 /**
- * Build JSON object containing a map of asset names to the output filename of that asset (including hash).
+ * Build JSON object containing a map of asset names
+ * to the output filename of that asset (including hash).
+ *
  * Assets are organized by entry point.
  *
  * @param {string} filename - optional filename override for this build.
@@ -72,11 +74,12 @@ module.exports = (mode) => (stats) => {
 
   const manifestJSON = JSON.stringify(entryMap);
 
-  // Write out asset manifest explicitly or else it'll be served from localhost, where wp can't access it
-  if ('development' === mode) {
+  // Write out asset manifest explicitly or else it'll be served from localhost,
+  // where wp can't access it
+  if (mode === 'development') {
     fs.writeFileSync(
       path.join(__dirname, '../build/assetMap.json'),
-      manifestJSON
+      manifestJSON,
     );
   }
 

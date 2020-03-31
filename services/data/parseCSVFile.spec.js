@@ -16,7 +16,7 @@ const sampleFile = new File(
   'sample-data.csv',
   {
     type: 'text/csv',
-  }
+  },
 );
 
 describe('parseCSVFile', () => {

@@ -23,7 +23,8 @@ const {
  * This component takes three props:
  *
  * onChange: Required. A function that accepts a post object when selected.
- * postTypes: Optional. An array of post type slugs available for search. Default is to search all post types.
+ * postTypes: Optional. An array of post type slugs available for search.
+ *   Default is to search all post types.
  * threshold: Optional. Minimum number of characters entered to initialize search. Defaults to 3.
  *
  * This component *does not* keep track of the selected post. It is up to the
@@ -47,7 +48,7 @@ export default class PostSelector extends React.PureComponent {
     this.handlePostSelect = this.handlePostSelect.bind(this);
     this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
     this.handleSearchTextSubmit = debounce(
-      this.handleSearchTextSubmit.bind(this), 1500
+      this.handleSearchTextSubmit.bind(this), 1500,
     );
   }
 
@@ -68,7 +69,7 @@ export default class PostSelector extends React.PureComponent {
     // Attempt to find post by ID.
     const postIdNumber = parseInt(postId, 10);
     const foundPost = foundPosts.find((post) => postIdNumber === post.id);
-    if (! foundPost) {
+    if (!foundPost) {
       return;
     }
 
@@ -130,7 +131,7 @@ export default class PostSelector extends React.PureComponent {
         search: searchText,
         subtype: postTypes ? postTypes.join() : 'any',
         type: 'post',
-      }
+      },
     );
     apiFetch({ path })
       .then((foundPosts) => this.setState({
@@ -164,13 +165,13 @@ export default class PostSelector extends React.PureComponent {
           onChange={this.handleSearchTextChange}
           value={searchText}
         />
-        {true === loading && (
+        {loading === true && (
           <div>{__('Loading...', 'wp-starter-plugin')}</div>
         )}
-        {false === loading && '' !== searchText && 0 === foundPosts.length && (
+        {loading === false && searchText !== '' && foundPosts.length === 0 && (
           <div>{__('No matching posts found.', 'wp-starter-plugin')}</div>
         )}
-        {false === loading && 0 < foundPosts.length && (
+        {loading === false && foundPosts.length > 0 && (
           <SelectControl
             label={__('Selected Post', 'wp-starter-plugin')}
             onChange={this.handlePostSelect}
