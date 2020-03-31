@@ -19,10 +19,10 @@
   "globals": {
     "wp": true
   },
-  // Do NOT change these rules
-  "rules": {
-    "import/no-extraneous-dependencies": [0], // Disabled since it doesn't work with webpack alias
-    "import/no-unresolved": [0], // Disabled since it doesn't work with webpack alias
-    "import/extensions": [0] // Disabled since it doesn't work with webpack alias
-  }
+  "settings": {
+    "import/resolver": {
+      "babel-module": {}
+    }
+  },
+  "rules": {}
 }

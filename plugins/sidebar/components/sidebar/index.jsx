@@ -2,7 +2,7 @@
 
 import PropTypes from 'prop-types';
 
-import OpenGraph from '../openGraph/index.jsx';
+import OpenGraph from '../openGraph';
 
 const {
   compose: {

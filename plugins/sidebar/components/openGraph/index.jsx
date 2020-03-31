@@ -2,7 +2,7 @@
 
 import PropTypes from 'prop-types';
 
-import ImagePicker from 'components/imagePicker/index.jsx';
+import ImagePicker from 'components/imagePicker';
 
 const {
   components: {

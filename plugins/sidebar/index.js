@@ -1,5 +1,5 @@
 
-import Sidebar from './components/sidebar/index.jsx';
+import Sidebar from './components/sidebar';
 
 const {
   plugins: {

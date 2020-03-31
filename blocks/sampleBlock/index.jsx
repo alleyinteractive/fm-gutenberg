@@ -1,8 +1,8 @@
 /* global React */
 
 import attributes from './attributes';
-import SampleBlock from './save.jsx';
-import SampleBlockEdit from './edit.jsx';
+import SampleBlock from './save';
+import SampleBlockEdit from './edit';
 
 const {
   blocks: {
