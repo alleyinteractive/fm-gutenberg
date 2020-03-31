@@ -1,0 +1,34 @@
+import attributes from './attributes';
+import dynamicBlockEdit from './edit';
+
+const {
+  blocks: {
+    registerBlockType,
+  },
+  i18n: {
+    __,
+  },
+} = wp;
+
+registerBlockType(
+  'wp-starter-plugin/dynamic-block',
+  {
+    attributes,
+    category: 'widgets',
+    description: __(
+      'A dynamic block to demonstrate a dynamic block structure and inclusion patterns.',
+      'wp-starter-plugin',
+    ),
+    edit: dynamicBlockEdit,
+    icon: 'layout',
+    keywords: [
+      __('dynamic', 'wp-starter-plugin'),
+      __('block', 'wp-starter-plugin'),
+    ],
+    save: () => null,
+    supports: {
+      html: false,
+    },
+    title: __('Dynamic Block', 'wp-starter-plugin'),
+  },
+);
