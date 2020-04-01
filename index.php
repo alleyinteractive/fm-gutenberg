@@ -22,10 +22,12 @@ require_once __DIR__ . '/inc/meta.php';
 // Include functions.php for registering custom post types, etc.
 require_once __DIR__ . '/functions.php';
 
-require_once __DIR__ . '/inc/blocks/class-block-base.php';
+// Include the base block class used to scaffold block registration.
+require_once __DIR__ . '/blocks/class-block.php';
 
-require_once __DIR__ . '/inc/blocks/class-block-dynamic.php';
-require_once __DIR__ . '/inc/blocks/class-block-sample.php';
+// Include each gutenberg block.
+require_once __DIR__ . '/blocks/sample-block/class-block-sample-block.php';
+require_once __DIR__ . '/blocks/dynamic-block/class-block-dynamic-block.php';
 
 // Register custom meta fields.
 register_meta_helper( 'post', [ 'page', 'post' ], 'wp_starter_plugin_open_graph_description' );

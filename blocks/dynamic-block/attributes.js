@@ -1,6 +1,6 @@
 export default {
   dynamicAttribute: {
-    default: [],
-    type: 'array',
+    default: '',
+    type: 'string',
   },
 };

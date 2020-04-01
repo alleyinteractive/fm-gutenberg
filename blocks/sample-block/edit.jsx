@@ -35,7 +35,7 @@ export default class SampleBlockEdit extends React.PureComponent {
             });
           }}
           placeholder={__('Lorem Ipsum', 'wp-starter-plugin')}
-          tagName="h3"
+          tagName="p"
           value={sampleAttribute}
         />
       </div>

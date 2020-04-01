@@ -11,8 +11,8 @@ module.exports = (env, argv) => {
       ? 'source-map'
       : 'cheap-module-eval-source-map',
     entry: {
-      blockSampleBlock: './blocks/sampleBlock/index.jsx',
-      blockDynamicBlock: './blocks/dynamicBlock/index.js',
+      'sample-block': './blocks/sample-block/index.jsx',
+      'dynamic-block': './blocks/dynamic-block/index.js',
       pluginSidebar: './plugins/sidebar/index.js',
     },
     module: {
