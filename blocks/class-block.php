@@ -1,14 +1,11 @@
 <?php
 /**
- * Block base class file
+ * Block base class file.
  *
  * @package WP_Starter_Plugin
  */
 
 namespace WP_Starter_Plugin;
-
-use function WP_Starter_Plugin\inline_locale_data;
-use function WP_Starter_Plugin\get_versioned_asset_path;
 
 /**
  * Abstract class for blocks.
@@ -92,9 +89,19 @@ abstract class WP_Starter_Plugin_Block {
 	}
 
 	/**
+	 * Dynamically set the editor script handle based off of the block namespace and name.
+	 *
+	 * @return string
+	 */
+	private function set_editor_script_handle() {
+		$name      = $this->name;
+		$namespace = $this->get_namespace();
+		return "{$namespace}-{$name}";
+	}
+
+	/**
 	 * Get a namespace based off of the plugin namespace or provide a custom namespace.
 	 *
-	 * @param string $namespace custom namespace
 	 * @return string
 	 */
 	protected function get_namespace() {
@@ -114,26 +121,6 @@ abstract class WP_Starter_Plugin_Block {
 
 		return in_array( 'all', $this->post_types, true )
 			|| in_array( $post_type, $this->post_types, true );
-	}
-
-	/**
-	 * Registers the block scripts.
-	 *
-	 * @param array $deps the scripts that this block depends on.
-	 * @return void
-	 */
-	protected function register_block_scripts( array $deps = [] ) {
-		$deps = $deps ?? [ 'wp-blocks', 'wp-i18n' ];
-		// Register the script that powers the block.
-		wp_register_script(
-			$this->editor_script_handle,
-			get_versioned_asset_path( "{$this->name}.js" ),
-			$deps,
-			'1.0.0',
-			true
-		);
-		// Hook up the i18n functionality.
-		inline_locale_data( $this->editor_script_handle );
 	}
 
 	/**
@@ -160,17 +147,6 @@ abstract class WP_Starter_Plugin_Block {
 			$this->block_name,
 			$args
 		);
-	}
-
-	/**
-	 * Dynamically set the editor script handle based off of the block namespace and name.
-	 *
-	 * @return string
-	 */
-	protected function set_editor_script_handle() {
-		$name      = $this->name;
-		$namespace = $this->get_namespace();
-		return "{$namespace}-{$name}";
 	}
 
 	/**

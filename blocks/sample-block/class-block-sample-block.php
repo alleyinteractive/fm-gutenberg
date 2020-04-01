@@ -41,10 +41,18 @@ class WP_Starter_Plugin_Sample_Block extends WP_Starter_Plugin_Block {
 		}
 
 		// Register the script that powers the block.
-		$this->register_block_scripts();
+		wp_register_script(
+			$this->editor_script_handle,
+			get_versioned_asset_path( "{$this->name}.js" ),
+			[ 'wp-blocks', 'wp-i18n' ],
+			'1.0.0',
+			true
+		);
+		// Hook up the i18n functionality.
+		inline_locale_data( $this->editor_script_handle );
 
 		// Register the block.
 		$this->register_block_type();
 	}
 }
-$wp_starter_plugin_Sample_Block = new WP_Starter_Plugin_Sample_Block();
+$wp_starter_plugin_sample_block = new WP_Starter_Plugin_Sample_Block();
