@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:disable WordPress.Files.FileName.InvalidClassFileName
 /**
  * Block base class file.
  *
@@ -85,6 +85,7 @@ abstract class WP_Starter_Plugin_Block {
 	 */
 	private function set_block_name() {
 		$namespace = $this->get_namespace();
+
 		return "{$namespace}/{$this->name}";
 	}
 
@@ -96,6 +97,7 @@ abstract class WP_Starter_Plugin_Block {
 	private function set_editor_script_handle() {
 		$name      = $this->name;
 		$namespace = $this->get_namespace();
+
 		return "{$namespace}-{$name}";
 	}
 
@@ -105,10 +107,20 @@ abstract class WP_Starter_Plugin_Block {
 	 * @return string
 	 */
 	protected function get_namespace() {
+		// set default namespace.
+		$namespace = 'wp-starter-plugin';
+
 		if ( ! empty( $this->namespace ) ) {
-			return $this->namespace;
+			$namespace = $this->namespace;
 		}
-		return strtolower( str_replace( '_', '-', __NAMESPACE__ ) );
+		// use the WP_Starter_Plugin namespace converted to lowercase and hyphens.
+		$plugin_namespace = strtolower( str_replace( '_', '-', __NAMESPACE__ ) );
+
+		if ( ! empty( $plugin_namespace ) ) {
+			$namespace = $plugin_namespace;
+		}
+
+		return $namespace;
 	}
 
 	/**
@@ -155,13 +167,13 @@ abstract class WP_Starter_Plugin_Block {
 	 * @param array $attributes The attributes for this block.
 	 * @return string The content for the block.
 	 */
-	public function render_callback( $attributes ) {
+	public function render_callback( array $attributes ) {
 		/**
 		 * Filter the block attributes before passing them to the template part.
 		 *
 		 * @param array $attributes the block attributes.
 		 */
-		$attributes = apply_filters( "{$this->block_name}_attributes", $attributes );
+		$attributes = apply_filters( "{$this->block_name}_attributes", $attributes ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		ob_start();
 		include dirname( __DIR__ ) . "/blocks/{$this->name}/block-render.php";

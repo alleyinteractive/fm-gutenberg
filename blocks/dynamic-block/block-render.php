@@ -9,6 +9,7 @@
  *
  * @package WP_Starter_Plugin
  */
+
 ?>
 
 <p><?php echo wp_kses_post( $attributes['dynamicAttribute'] ); ?></p>
