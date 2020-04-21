@@ -175,8 +175,20 @@ abstract class WP_Starter_Plugin_Block {
 		 */
 		$attributes = apply_filters( "{$this->block_name}_attributes", $attributes ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
-		ob_start();
-		include dirname( __DIR__ ) . "/blocks/{$this->name}/block-render.php";
-		return ob_get_clean();
+		// Set the render path to the template parts directory.
+		$render_path = dirname( __DIR__, 2 ) . "/template-parts/blocks/{$this->name}.php";
+
+		/**
+		 * Filter the block render template part path.
+		 *
+		 * @param string $render_path The path to the template part which renders the dynamic block.
+		 */
+		$render_path = apply_filters( "{$this->block_name}_render_path", $render_path );
+
+		if ( 0 === validate_file( $render_path ) ) {
+			ob_start();
+			include $render_path;
+			return ob_get_clean();
+		}
 	}
 }

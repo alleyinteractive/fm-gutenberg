@@ -23,11 +23,11 @@ require_once __DIR__ . '/inc/meta.php';
 require_once __DIR__ . '/functions.php';
 
 // Include the base block class used to scaffold block registration.
-require_once __DIR__ . '/blocks/class-block.php';
+require_once __DIR__ . '/inc/blocks/class-block.php';
 
 // Include each gutenberg block.
-require_once __DIR__ . '/blocks/sample-block/class-block-sample-block.php';
-require_once __DIR__ . '/blocks/dynamic-block/class-block-dynamic-block.php';
+require_once __DIR__ . '/inc/blocks/class-block-sample-block.php';
+require_once __DIR__ . '/inc/blocks/class-block-dynamic-block.php';
 
 // Register custom meta fields.
 register_meta_helper( 'post', [ 'page', 'post' ], 'wp_starter_plugin_open_graph_description' );

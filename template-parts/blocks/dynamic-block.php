@@ -12,4 +12,4 @@
 
 ?>
 
-<p><?php echo wp_kses_post( $attributes['dynamicAttribute'] ); ?></p>
+<p><?php echo wp_kses_post( $attributes[ 'dynamicAttribute' ] ); ?></p>
