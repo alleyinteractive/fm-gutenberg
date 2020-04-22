@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 export default class SampleBlockEdit extends React.PureComponent {
   render() {
     const {
-      editor: {
+      blockEditor: {
         RichText,
       },
       i18n: {
@@ -26,7 +26,7 @@ export default class SampleBlockEdit extends React.PureComponent {
       <div className="sample__wrapper">
         <RichText
           className="sample__container"
-          formattingControls={[]}
+          allowedFormats={[]}
           keepPlaceholderOnFocus
           multiline={false}
           onChange={(newValue) => {

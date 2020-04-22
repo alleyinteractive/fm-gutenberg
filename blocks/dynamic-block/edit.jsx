@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 export default class dynamicBlockEdit extends React.PureComponent {
   render() {
     const {
-      editor: {
+      blockEditor: {
         RichText,
       },
       i18n: {
@@ -26,7 +26,7 @@ export default class dynamicBlockEdit extends React.PureComponent {
       <div className="dynamic__wrapper">
         <RichText
           className="dynamic__container"
-          formattingControls={[]}
+          allowedFormats={[]}
           keepPlaceholderOnFocus
           multiline={false}
           onChange={(newValue) => {

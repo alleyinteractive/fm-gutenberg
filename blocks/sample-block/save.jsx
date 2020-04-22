@@ -12,7 +12,7 @@ export default class SampleBlock extends React.PureComponent {
    */
   render() {
     const {
-      editor: {
+      blockEditor: {
         RichText,
       },
     } = wp;

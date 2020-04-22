@@ -113,7 +113,7 @@ abstract class WP_Starter_Plugin_Block {
 		if ( ! empty( $this->namespace ) ) {
 			$namespace = $this->namespace;
 		}
-		// use the WP_Starter_Plugin namespace converted to lowercase and hyphens.
+		// As a fallback, use the WP_Starter_Plugin namespace converted to lowercase and hyphens.
 		$plugin_namespace = strtolower( str_replace( '_', '-', __NAMESPACE__ ) );
 
 		if ( ! empty( $plugin_namespace ) ) {
@@ -146,11 +146,23 @@ abstract class WP_Starter_Plugin_Block {
 	 * @return void
 	 */
 	protected function register_block_type( array $args = [] ) {
+
+		/**
+		 * Filter the block editor styles handle.
+		 * 
+		 * A theme may wish to apply a different presentation for the editor styles.
+		 * This is empty by default, no editor styles.
+		 * 
+		 * @param string The handle of the script to enqueue for block editor styles.
+		 */
+		$editor_style_handle = apply_filters( "{$this->block_name}_editor_style_handle", '' );
+
 		$args = wp_parse_args(
 			$args,
 			[
 				'editor_script'   => $this->editor_script_handle,
 				'render_callback' => $this->is_dynamic ? [ $this, 'render_callback' ] : null,
+				'editor_style'    => $editor_style_handle,
 			]
 		);
 

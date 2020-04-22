@@ -11,7 +11,7 @@ const {
   data: {
     withSelect,
   },
-  editor: {
+  blockEditor: {
     MediaPlaceholder,
   },
   i18n: {
