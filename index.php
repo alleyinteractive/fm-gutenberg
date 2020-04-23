@@ -26,8 +26,8 @@ require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/inc/blocks/class-block.php';
 
 // Include each gutenberg block.
-require_once __DIR__ . '/inc/blocks/class-block-sample-block.php';
-require_once __DIR__ . '/inc/blocks/class-block-dynamic-block.php';
+require_once __DIR__ . '/inc/blocks/class-block-sample.php';
+require_once __DIR__ . '/inc/blocks/class-block-dynamic.php';
 
 // Register custom meta fields.
 register_meta_helper( 'post', [ 'page', 'post' ], 'wp_starter_plugin_open_graph_description' );

@@ -1,4 +1,4 @@
-<?php // phpcs:disable WordPress.Files.FileName.InvalidClassFileName
+<?php
 /**
  * Block base class file.
  *
@@ -10,7 +10,7 @@ namespace WP_Starter_Plugin;
 /**
  * Abstract class for blocks.
  */
-abstract class WP_Starter_Plugin_Block {
+abstract class Block {
 
 	/**
 	 * Namespace of the block.
@@ -155,7 +155,7 @@ abstract class WP_Starter_Plugin_Block {
 		 * 
 		 * @param string The handle of the script to enqueue for block editor styles.
 		 */
-		$editor_style_handle = apply_filters( "{$this->block_name}_editor_style_handle", '' );
+		$editor_style_handle = apply_filters( "{$this->block_name}_editor_style_handle", '' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		$args = wp_parse_args(
 			$args,

@@ -1,4 +1,4 @@
-<?php // phpcs:disable WordPress.Files.FileName.InvalidClassFileName
+<?php
 /**
  * Custom Sample block.
  *
@@ -7,13 +7,10 @@
 
 namespace WP_Starter_Plugin;
 
-use function WP_Starter_Plugin\inline_locale_data;
-use function WP_Starter_Plugin\get_versioned_asset_path;
-
 /**
  * Class for the Sample block.
  */
-class WP_Starter_Plugin_Sample_Block extends WP_Starter_Plugin_Block {
+class Block_Sample extends Block {
 
 	/**
 	 * Name of the custom block.
@@ -55,4 +52,4 @@ class WP_Starter_Plugin_Sample_Block extends WP_Starter_Plugin_Block {
 		$this->register_block_type();
 	}
 }
-$wp_starter_plugin_sample_block = new WP_Starter_Plugin_Sample_Block();
+$wp_starter_plugin_block_sample = new Block_Sample();

@@ -1,4 +1,4 @@
-<?php // phpcs:disable WordPress.Files.FileName.InvalidClassFileName
+<?php
 /**
  * Custom dynamic block.
  *
@@ -7,13 +7,10 @@
 
 namespace WP_Starter_Plugin;
 
-use function WP_Starter_Plugin\inline_locale_data;
-use function WP_Starter_Plugin\get_versioned_asset_path;
-
 /**
  * Class for the dynamic block.
  */
-class Dynamic_Block extends Block {
+class Block_Dynamic extends Block {
 
 	/**
 	 * Name of the custom block.
@@ -47,4 +44,4 @@ class Dynamic_Block extends Block {
 		$this->register_block_type();
 	}
 }
-$wp_starter_plugin_dynamic_block = new WP_Starter_Plugin_Dynamic_Block();
+$wp_starter_plugin_block_dynamic = new Block_Dynamic();
