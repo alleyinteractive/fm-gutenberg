@@ -19,7 +19,7 @@ registerBlockType(
       'A dynamic block to demonstrate a dynamic block structure and inclusion patterns.',
       'wp-starter-plugin',
     ),
-    edit: dynamicBlockEdit,
+    edit,
     icon: 'layout',
     keywords: [
       __('dynamic', 'wp-starter-plugin'),
