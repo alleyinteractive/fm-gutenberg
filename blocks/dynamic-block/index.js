@@ -1,5 +1,5 @@
 import attributes from './attributes';
-import dynamicBlockEdit from './edit';
+import edit from './edit';
 
 const {
   blocks: {
