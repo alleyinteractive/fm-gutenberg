@@ -13,7 +13,7 @@ use function WP_Starter_Plugin\get_versioned_asset_path;
 /**
  * Class for the dynamic block.
  */
-class WP_Starter_Plugin_Dynamic_Block extends WP_Starter_Plugin_Block {
+class Dynamic_Block extends Block {
 
 	/**
 	 * Name of the custom block.
