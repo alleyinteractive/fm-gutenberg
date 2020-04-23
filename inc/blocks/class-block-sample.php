@@ -27,21 +27,5 @@ class Block_Sample extends Block {
 	 */
 	public $is_dynamic = false;
 
-	/**
-	 * Creates the block.
-	 */
-	public function register_block() {
-
-		// Determine if we should register this block for this post type.
-		if ( ! $this->should_register() ) {
-			return;
-		}
-
-		// Register the block scripts.
-		$this->register_scripts();
-
-		// Register the block.
-		$this->register_block_type();
-	}
 }
 $wp_starter_plugin_block_sample = new Block_Sample();

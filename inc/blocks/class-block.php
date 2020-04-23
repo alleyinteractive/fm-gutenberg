@@ -74,7 +74,19 @@ abstract class Block {
 	/**
 	 * Create the block.
 	 */
-	abstract public function register_block();
+	public function register_block() {
+
+		// Determine if we should register this block for this post type.
+		if ( ! $this->should_register() ) {
+			return;
+		}
+
+		// Register the block scripts.
+		$this->register_scripts();
+
+		// Register the block.
+		$this->register_block_type();
+	}
 
 	/**
 	 * Set the block name.
