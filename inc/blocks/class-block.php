@@ -63,11 +63,11 @@ abstract class Block {
 		add_action( 'init', [ $this, 'register_block' ] );
 
 		if ( empty( $this->block_name ) ) {
-			$this->block_name = $this->set_block_name();
+			$this->set_block_name();
 		}
 
 		if ( empty( $this->editor_script_handle ) ) {
-			$this->editor_script_handle = $this->set_editor_script_handle();
+			$this->set_editor_script_handle();
 		}
 	}
 
@@ -84,9 +84,7 @@ abstract class Block {
 	 * @return string
 	 */
 	private function set_block_name() {
-		$namespace = $this->get_namespace();
-
-		return "{$namespace}/{$this->name}";
+		$this->block_name = sprintf( '%1$s/%2$s', $this->get_namespace(), $this->name );
 	}
 
 	/**
@@ -95,10 +93,7 @@ abstract class Block {
 	 * @return string
 	 */
 	private function set_editor_script_handle() {
-		$name      = $this->name;
-		$namespace = $this->get_namespace();
-
-		return "{$namespace}-{$name}";
+		$this->editor_script_handle = sprintf( '%1$s-%2$s', $this->get_namespace(), $this->name );
 	}
 
 	/**
@@ -171,6 +166,24 @@ abstract class Block {
 			$this->block_name,
 			$args
 		);
+	}
+
+	/**
+	 * Register the script that powers the block and hook up the i18n functionality.
+	 *
+	 * @return void
+	 */
+	public function register_scripts() {
+
+		wp_register_script(
+			$this->editor_script_handle,
+			get_versioned_asset_path( "{$this->name}.js" ),
+			[ 'wp-blocks', 'wp-i18n' ],
+			'1.0.0', // Do not change this value. Asset versions are handled via get_versioned_asset_path above.
+			true
+		);
+
+		inline_locale_data( $this->editor_script_handle );
 	}
 
 	/**

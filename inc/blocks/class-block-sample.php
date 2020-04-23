@@ -37,16 +37,8 @@ class Block_Sample extends Block {
 			return;
 		}
 
-		// Register the script that powers the block.
-		wp_register_script(
-			$this->editor_script_handle,
-			get_versioned_asset_path( "{$this->name}.js" ),
-			[ 'wp-blocks', 'wp-i18n' ],
-			'1.0.0',
-			true
-		);
-		// Hook up the i18n functionality.
-		inline_locale_data( $this->editor_script_handle );
+		// Register the block scripts.
+		$this->register_scripts();
 
 		// Register the block.
 		$this->register_block_type();
