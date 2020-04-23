@@ -3,12 +3,12 @@
 import PropTypes from 'prop-types';
 
 /**
- * A React component to render the edit view of a sample block.
+ * A React component to render the edit view of a dynamic block.
  */
-export default class SampleBlockEdit extends React.PureComponent {
+export default class dynamicBlockEdit extends React.PureComponent {
   render() {
     const {
-      editor: {
+      blockEditor: {
         RichText,
       },
       i18n: {
@@ -17,26 +17,26 @@ export default class SampleBlockEdit extends React.PureComponent {
     } = wp;
     const {
       attributes: {
-        sampleAttribute = [],
+        dynamicAttribute = '',
       } = {},
       setAttributes,
     } = this.props;
 
     return (
-      <div className="sample__wrapper">
+      <div className="dynamic__wrapper">
         <RichText
-          className="sample__container"
-          formattingControls={[]}
+          className="dynamic__container"
+          allowedFormats={[]}
           keepPlaceholderOnFocus
           multiline={false}
           onChange={(newValue) => {
             setAttributes({
-              sampleAttribute: newValue,
+              dynamicAttribute: newValue,
             });
           }}
           placeholder={__('Lorem Ipsum', 'wp-starter-plugin')}
-          tagName="h3"
-          value={sampleAttribute}
+          tagName="p"
+          value={dynamicAttribute}
         />
       </div>
     );
@@ -44,16 +44,16 @@ export default class SampleBlockEdit extends React.PureComponent {
 }
 
 // Set up initial props.
-SampleBlockEdit.defaultProps = {
+dynamicBlockEdit.defaultProps = {
   attributes: {
-    sampleAttribute: [],
+    dynamicAttribute: [],
   },
 };
 
 // Set PropTypes for this component.
-SampleBlockEdit.propTypes = {
+dynamicBlockEdit.propTypes = {
   attributes: PropTypes.shape({
-    sampleAttribute: PropTypes.array,
+    dynamicAttribute: PropTypes.array,
   }),
   setAttributes: PropTypes.func.isRequired,
 };

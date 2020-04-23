@@ -43,15 +43,6 @@ function action_enqueue_block_editor_assets() {
 		true
 	);
 	inline_locale_data( 'wp-starter-plugin-plugin-sidebar' );
-
-	wp_enqueue_script(
-		'wp-starter-plugin-block-sample-block',
-		get_versioned_asset_path( 'blockSampleBlock.js' ),
-		[ 'wp-blocks', 'wp-i18n' ],
-		'1.0.0',
-		true
-	);
-	inline_locale_data( 'wp-starter-plugin-block-sample-block' );
 }
 
 /**

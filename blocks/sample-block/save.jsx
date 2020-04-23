@@ -12,7 +12,7 @@ export default class SampleBlock extends React.PureComponent {
    */
   render() {
     const {
-      editor: {
+      blockEditor: {
         RichText,
       },
     } = wp;
@@ -25,7 +25,7 @@ export default class SampleBlock extends React.PureComponent {
         {Array.isArray(sampleAttribute) && sampleAttribute.length > 0 && (
           <RichText.Content
             className="sample__container"
-            tagName="h3"
+            tagName="p"
             value={sampleAttribute}
           />
         )}
