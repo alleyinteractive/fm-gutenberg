@@ -17,7 +17,7 @@ export default class dynamicBlockEdit extends React.PureComponent {
     } = wp;
     const {
       attributes: {
-        dynamicAttribute = [],
+        dynamicAttribute = '',
       } = {},
       setAttributes,
     } = this.props;
