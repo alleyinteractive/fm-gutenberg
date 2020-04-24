@@ -1,7 +1,9 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const StatsPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
+const DependencyExtractionWebpackPlugin = require('@wordpress/dependency-extraction-webpack-plugin');
 const createWriteWpAssetManifest = require('./webpack/wpAssets');
+
 
 module.exports = (env, argv) => {
   const { mode } = argv;
@@ -34,6 +36,7 @@ module.exports = (env, argv) => {
       path: path.join(__dirname, 'build'),
     },
     plugins: [
+      new DependencyExtractionWebpackPlugin(),
       new StatsPlugin({
         transform: createWriteWpAssetManifest(mode),
         fields: ['assetsByChunkName', 'hash'],
