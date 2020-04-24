@@ -1,17 +1,10 @@
 /* global React */
+import { registerBlockType } from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
 
 import attributes from './attributes';
 import SampleBlock from './save';
 import SampleBlockEdit from './edit';
-
-const {
-  blocks: {
-    registerBlockType,
-  },
-  i18n: {
-    __,
-  },
-} = wp;
 
 registerBlockType(
   'wp-starter-plugin/sample-block',

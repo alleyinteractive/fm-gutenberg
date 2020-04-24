@@ -1,19 +1,10 @@
 /* global React */
 
 import PropTypes from 'prop-types';
+import { __ } from '@wordpress/i18n';
+import { PanelBody, TextareaControl, TextControl } from '@wordpress/components';
 
 import ImagePicker from 'components/imagePicker';
-
-const {
-  components: {
-    PanelBody,
-    TextareaControl,
-    TextControl,
-  },
-  i18n: {
-    __,
-  },
-} = wp;
 
 /**
  * A component representing the Open Graph sidebar configuration panel.
