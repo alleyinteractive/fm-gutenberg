@@ -3,11 +3,7 @@
 import PropTypes from 'prop-types';
 import parseCSVFile from 'services/data/parseCSVFile';
 
-const {
-  i18n: {
-    __,
-  },
-} = wp;
+import { __ } from '@wordpress/i18n';
 
 /**
  * A component used to upload a CSV file with hooks for data processing.
