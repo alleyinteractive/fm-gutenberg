@@ -1,23 +1,12 @@
 /* global React */
 
 import PropTypes from 'prop-types';
+import { Button } from '@wordpress/components';
+import { withSelect } from '@wordpress/data';
+import { MediaPlaceholder } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
 
 import getImageThumbnail from 'services/media/getImageThumbnail';
-
-const {
-  components: {
-    Button,
-  },
-  data: {
-    withSelect,
-  },
-  blockEditor: {
-    MediaPlaceholder,
-  },
-  i18n: {
-    __,
-  },
-} = wp;
 
 /**
  * A component representing the Image Picker sidebar control.

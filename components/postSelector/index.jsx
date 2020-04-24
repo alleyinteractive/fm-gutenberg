@@ -1,21 +1,12 @@
 /* global React */
 
+import apiFetch from '@wordpress/api-fetch';
+import { SelectControl, TextControl } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import { addQueryArgs } from '@wordpress/url';
+
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-
-const {
-  apiFetch,
-  components: {
-    SelectControl,
-    TextControl,
-  },
-  i18n: {
-    __,
-  },
-  url: {
-    addQueryArgs,
-  },
-} = wp;
 
 /**
  * A React component that allows users to select posts by fuzzy search.
