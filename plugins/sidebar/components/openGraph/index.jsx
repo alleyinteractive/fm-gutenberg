@@ -1,5 +1,4 @@
-/* global React */
-
+import React from 'react';
 import PropTypes from 'prop-types';
 import { __ } from '@wordpress/i18n';
 import { PanelBody, TextareaControl, TextControl } from '@wordpress/components';

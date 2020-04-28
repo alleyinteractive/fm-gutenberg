@@ -51,5 +51,9 @@ module.exports = (env, argv) => {
     resolve: {
       extensions: ['.js', '.jsx'],
     },
+    externals: {
+      // React is mapped to the WP version of react in wp.element.
+      react: 'wp.element',
+    },
   };
 };

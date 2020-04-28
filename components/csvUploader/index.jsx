@@ -1,5 +1,4 @@
-/* global React */
-
+import React from 'react';
 import PropTypes from 'prop-types';
 import parseCSVFile from 'services/data/parseCSVFile';
 

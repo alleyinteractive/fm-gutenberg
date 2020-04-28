@@ -1,5 +1,4 @@
-/* global React */
-
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@wordpress/components';
 import { withSelect } from '@wordpress/data';

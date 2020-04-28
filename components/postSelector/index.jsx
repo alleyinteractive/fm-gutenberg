@@ -1,5 +1,4 @@
-/* global React */
-
+import React from 'react';
 import apiFetch from '@wordpress/api-fetch';
 import { SelectControl, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';

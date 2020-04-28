@@ -1,4 +1,4 @@
-/* global React */
+import React from 'react';
 import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 

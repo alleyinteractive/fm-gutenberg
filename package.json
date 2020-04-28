@@ -32,7 +32,8 @@
     "lodash": "^4.17.15",
     "lodash.debounce": "^4.0.8",
     "papaparse": "^4.6.1",
-    "prop-types": "^15.6.2"
+    "prop-types": "^15.6.2",
+    "react": "^16.13.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
