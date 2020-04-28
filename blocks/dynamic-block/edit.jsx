@@ -41,7 +41,7 @@ export default class dynamicBlockEdit extends React.PureComponent {
 // Set up initial props.
 dynamicBlockEdit.defaultProps = {
   attributes: {
-    dynamicAttribute: [],
+    dynamicAttribute: '',
   },
 };
 
