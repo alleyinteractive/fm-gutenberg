@@ -183,7 +183,7 @@ abstract class Block {
 		// Get the versioned asset directory path to require the file.
 		$script_asset_path = get_versioned_asset_path( "{$this->name}.php", true );
 
-		// Provide a fallback for dependencies array.
+		// Get the script asset array and provide a fallback for the dependencies array.
 		$script_asset = ( file_exists( $script_asset_path ) && 0 === validate_file( $script_asset_path ) )
 			? require $script_asset_path // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.IncludingFile
 			: [ 'dependencies' => [] ];
