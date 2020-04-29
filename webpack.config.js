@@ -4,7 +4,6 @@ const StatsPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 const DependencyExtractionWebpackPlugin = require('@wordpress/dependency-extraction-webpack-plugin');
 const createWriteWpAssetManifest = require('./webpack/wpAssets');
 
-
 module.exports = (env, argv) => {
   const { mode } = argv;
 
@@ -50,10 +49,6 @@ module.exports = (env, argv) => {
     ],
     resolve: {
       extensions: ['.js', '.jsx'],
-    },
-    externals: {
-      // React is mapped to the WP version of react in wp.element.
-      react: 'wp.element',
     },
   };
 };
