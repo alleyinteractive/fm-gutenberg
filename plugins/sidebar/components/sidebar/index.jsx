@@ -1,28 +1,13 @@
-/* global React */
-
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import OpenGraph from '../openGraph';
+import { compose } from '@wordpress/compose';
+import { withDispatch, withSelect } from '@wordpress/data';
+import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
+import { Fragment } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
-const {
-  compose: {
-    compose,
-  },
-  data: {
-    withDispatch,
-    withSelect,
-  },
-  editPost: {
-    PluginSidebar,
-    PluginSidebarMoreMenuItem,
-  },
-  element: {
-    Fragment,
-  },
-  i18n: {
-    __,
-  },
-} = wp;
+import OpenGraph from '../openGraph';
 
 /**
  * A component to render a PluginSidebar for the WP Starter Plugin site.

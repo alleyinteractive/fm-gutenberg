@@ -1,6 +1,6 @@
-/* global React */
-
+import React from 'react';
 import PropTypes from 'prop-types';
+import { RichText } from '@wordpress/block-editor';
 
 /**
  * A React component to render a sample block.
@@ -11,11 +11,6 @@ export default class SampleBlock extends React.PureComponent {
    * @returns {object} - JSX for the component.
    */
   render() {
-    const {
-      blockEditor: {
-        RichText,
-      },
-    } = wp;
     const {
       sampleAttribute,
     } = this.props;

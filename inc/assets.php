@@ -48,14 +48,18 @@ function action_enqueue_block_editor_assets() {
 /**
  * Get the version for a given asset.
  *
- * @param string $asset_path Entry point and asset type separated by a '.'.
+ * @param string  $asset_path Entry point and asset type separated by a '.'.
+ * @param boolean $dir_path   Whether to return the directory path or the plugin URL path.
+ *
  * @return string The asset version.
  */
-function get_versioned_asset_path( $asset_path ) {
+function get_versioned_asset_path( $asset_path, $dir_path = false ) {
 	static $asset_map;
 
 	// Create public path.
-	$base_path = plugins_url( 'build/', __DIR__ );
+	$base_path = $dir_path ?
+		trailingslashit( dirname( __DIR__ ) . '/build' ) // the build directory path.
+		: plugins_url( 'build/', __DIR__ ); // the public plugins url path to the build directory.
 
 	if ( ! isset( $asset_map ) ) {
 		$asset_map_file = dirname( __DIR__ ) . '/build/assetMap.json';

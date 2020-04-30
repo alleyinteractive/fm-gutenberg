@@ -1,20 +1,14 @@
-/* global React */
-
+import React from 'react';
 import PropTypes from 'prop-types';
+// Import WordPress block dependencies.
+import { RichText } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
 
 /**
  * A React component to render the edit view of a sample block.
  */
 export default class SampleBlockEdit extends React.PureComponent {
   render() {
-    const {
-      blockEditor: {
-        RichText,
-      },
-      i18n: {
-        __,
-      },
-    } = wp;
     const {
       attributes: {
         sampleAttribute = [],

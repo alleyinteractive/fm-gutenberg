@@ -89,11 +89,7 @@ abstract class Block {
 	}
 
 	/**
-	 * Set the block name.
-	 * 
 	 * Sets the block name with the proper namespace and block name. e.g. namespace/block-name
-	 *
-	 * @return string
 	 */
 	private function set_block_name() {
 		$this->block_name = sprintf( '%1$s/%2$s', $this->get_namespace(), $this->name );
@@ -101,8 +97,6 @@ abstract class Block {
 
 	/**
 	 * Dynamically set the editor script handle based off of the block namespace and name.
-	 *
-	 * @return string
 	 */
 	private function set_editor_script_handle() {
 		$this->editor_script_handle = sprintf( '%1$s-%2$s', $this->get_namespace(), $this->name );
@@ -186,11 +180,18 @@ abstract class Block {
 	 * @return void
 	 */
 	public function register_scripts() {
+		// Get the versioned asset directory path to require the file.
+		$script_asset_path = get_versioned_asset_path( "{$this->name}.php", true );
+
+		// Get the script asset array and provide a fallback for the dependencies array.
+		$script_asset = ( file_exists( $script_asset_path ) && 0 === validate_file( $script_asset_path ) )
+			? require $script_asset_path // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.IncludingFile
+			: [ 'dependencies' => [] ];
 
 		wp_register_script(
 			$this->editor_script_handle,
 			get_versioned_asset_path( "{$this->name}.js" ),
-			[ 'wp-blocks', 'wp-i18n' ],
+			$script_asset['dependencies'],
 			'1.0.0', // Do not change this value. Asset versions are handled via get_versioned_asset_path above.
 			true
 		);

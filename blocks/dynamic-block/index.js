@@ -1,14 +1,9 @@
+// Import WordPress block dependencies.
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
+
 import attributes from './attributes';
 import edit from './edit';
-
-const {
-  blocks: {
-    registerBlockType,
-  },
-  i18n: {
-    __,
-  },
-} = wp;
 
 registerBlockType(
   'wp-starter-plugin/dynamic-block',
