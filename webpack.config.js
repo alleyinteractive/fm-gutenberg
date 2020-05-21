@@ -1,3 +1,4 @@
+const glob = require('glob');
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const StatsPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
@@ -11,11 +12,17 @@ module.exports = (env, argv) => {
     devtool: mode === 'production'
       ? 'source-map'
       : 'cheap-module-eval-source-map',
-    entry: {
-      'sample-block': './blocks/sample-block/index.jsx',
-      'dynamic-block': './blocks/dynamic-block/index.js',
-      pluginSidebar: './plugins/sidebar/index.js',
-    },
+    entry: glob
+      .sync('./blocks/**/index.js')
+      .reduce((acc, item) => {
+        const entry = item
+          .replace('./blocks/', '')
+          .replace('/index.js', '');
+        acc[entry] = item;
+        return acc;
+      }, {
+        pluginSidebar: './plugins/sidebar/index.js',
+      }),
     module: {
       rules: [
         {
