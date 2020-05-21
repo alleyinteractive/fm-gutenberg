@@ -2,7 +2,7 @@
 /**
  * Block base class file.
  *
- * @package WP_Starter_Plugin
+ * @package Wp_Starter_Plugin
  */
 
 namespace WP_Starter_Plugin;
@@ -10,7 +10,7 @@ namespace WP_Starter_Plugin;
 /**
  * Abstract class for blocks.
  */
-abstract class Block {
+abstract class Wp_Starter_Plugin_Block {
 
 	/**
 	 * Namespace of the block.
@@ -141,7 +141,7 @@ abstract class Block {
 	 *
 	 * @param array $args (array) (Optional) Array of block type arguments.
 	 * Any arguments may be defined, however the ones described below are supported by default.
-	 * 
+	 *
 	 * @see https://developer.wordpress.org/reference/functions/register_block_type/
 	 *
 	 * @return void
@@ -150,13 +150,13 @@ abstract class Block {
 
 		/**
 		 * Filter the block editor styles handle.
-		 * 
+		 *
 		 * A theme may wish to apply a different presentation for the editor styles.
 		 * This is empty by default, no editor styles.
-		 * 
+		 *
 		 * @param string The handle of the script to enqueue for block editor styles.
 		 */
-		$editor_style_handle = apply_filters( "{$this->block_name}_editor_style_handle", '' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+		$editor_style_handle = apply_filters( "{$this->block_name}_editor_style_handle", '' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
 
 		$args = wp_parse_args(
 			$args,
@@ -185,7 +185,7 @@ abstract class Block {
 
 		// Get the script asset array and provide a fallback for the dependencies array.
 		$script_asset = ( file_exists( $script_asset_path ) && 0 === validate_file( $script_asset_path ) )
-			? require $script_asset_path // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.IncludingFile
+			? require $script_asset_path // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
 			: [ 'dependencies' => [] ];
 
 		wp_register_script(
@@ -211,7 +211,7 @@ abstract class Block {
 		 *
 		 * @param array $attributes the block attributes.
 		 */
-		$attributes = apply_filters( "{$this->block_name}_attributes", $attributes ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+		$attributes = apply_filters( "{$this->block_name}_attributes", $attributes ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
 
 		ob_start();
 		include dirname( __DIR__, 2 ) . "/template-parts/blocks/{$this->name}.php";

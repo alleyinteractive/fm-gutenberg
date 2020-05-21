@@ -1,53 +1,35 @@
+import {
+  RichText,
+} from '@wordpress/editor';
+import {
+  __,
+} from '@wordpress/i18n';
 import React from 'react';
 import PropTypes from 'prop-types';
-// Import WordPress block dependencies.
-import { RichText } from '@wordpress/block-editor';
-import { __ } from '@wordpress/i18n';
 
-/**
- * A React component to render the edit view of a sample block.
- */
-export default class SampleBlockEdit extends React.PureComponent {
-  render() {
-    const {
-      attributes: {
-        sampleAttribute = [],
-      } = {},
-      setAttributes,
-    } = this.props;
-
-    return (
-      <div className="sample__wrapper">
-        <RichText
-          className="sample__container"
-          allowedFormats={[]}
-          keepPlaceholderOnFocus
-          multiline={false}
-          onChange={(newValue) => {
-            setAttributes({
-              sampleAttribute: newValue,
-            });
-          }}
-          placeholder={__('Lorem Ipsum', 'wp-starter-plugin')}
-          tagName="p"
-          value={sampleAttribute}
-        />
-      </div>
-    );
-  }
-}
-
-// Set up initial props.
-SampleBlockEdit.defaultProps = {
+const Edit = ({
   attributes: {
-    sampleAttribute: [],
+    sampleAttribute = '',
   },
-};
+  setAttributes,
+}) => (
+  <div>
+    <RichText
+      onChange={(newValue) => setAttributes({
+        sampleAttribute: newValue,
+      })}
+      placeholder={__('Headline', 'wp-starter-plugin')}
+      tagName="h2"
+      value={sampleAttribute}
+    />
+  </div>
+);
 
-// Set PropTypes for this component.
-SampleBlockEdit.propTypes = {
+Edit.propTypes = {
   attributes: PropTypes.shape({
-    sampleAttribute: PropTypes.array,
-  }),
+    sampleAttribute: PropTypes.string,
+  }).isRequired,
   setAttributes: PropTypes.func.isRequired,
 };
+
+export default Edit;

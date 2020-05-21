@@ -1,0 +1,21 @@
+{
+  "attributes": {
+    "sampleAttribute": {
+      "default": "",
+      "type": "string"
+    }
+  },
+  "category": "widgets",
+  "description": "A dynamic block to demonstrate block structure and inclusion patterns.",
+  "icon": "layout",
+  "keywords": [
+    "dynamic",
+    "block"
+  ],
+  "name": "sample-block",
+  "namespace": "wp-starter-plugin",
+  "post_types": [
+    "all"
+  ],
+  "title": "Sample Block"
+}
