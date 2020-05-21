@@ -10,6 +10,8 @@
  * @package WP_Starter_Plugin
  */
 
+/* phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound */
+
 /**
  * A helper function to bridge the gap between the non-namespaced scaffolded
  * block files and the namespaced block loader in the plugin.
