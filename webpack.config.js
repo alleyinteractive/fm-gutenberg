@@ -13,10 +13,11 @@ module.exports = (env, argv) => {
       ? 'source-map'
       : 'cheap-module-eval-source-map',
     entry: glob
-      .sync('./blocks/**/index.js')
+      .sync('./blocks/**/index.js*')
       .reduce((acc, item) => {
         const entry = item
           .replace('./blocks/', '')
+          .replace('/index.jsx', '')
           .replace('/index.js', '');
         acc[entry] = item;
         return acc;
