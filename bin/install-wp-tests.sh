@@ -59,10 +59,9 @@ install_wp() {
 	mkdir -p $WP_CORE_DIR
 
 	if [[ $WP_VERSION == 'nightly' || $WP_VERSION == 'trunk' ]]; then
-		mkdir -p $TMPDIR/wordpress-nightly
-		download https://wordpress.org/nightly-builds/wordpress-latest.zip  $TMPDIR/wordpress-nightly/wordpress-nightly.zip
-		unzip -q $TMPDIR/wordpress-nightly/wordpress-nightly.zip -d $TMPDIR/wordpress-nightly/
-		mv $TMPDIR/wordpress-nightly/wordpress/* $WP_CORE_DIR
+		mkdir -p $TMPDIR/wordpress-trunk
+		svn export https://core.svn.wordpress.org/trunk $TMPDIR/wordpress-trunk/
+		mv $TMPDIR/wordpress-trunk/* $WP_CORE_DIR
 	else
 		if [ $WP_VERSION == 'latest' ]; then
 			local ARCHIVE_NAME='latest'
