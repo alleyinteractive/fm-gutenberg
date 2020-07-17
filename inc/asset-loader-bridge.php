@@ -15,6 +15,19 @@
 /**
  * A helper function to bridge the gap between the non-namespaced scaffolded
  * block files and the namespaced block loader in the plugin. Calls
+ * get_asset_dependencies.
+ *
+ * @param string $asset Entry point and asset type separated by a '.'.
+ *
+ * @return array The asset dependencies.
+ */
+function get_asset_dependencies( $asset ) {
+	return WP_Starter_Plugin\get_asset_dependencies( $asset );
+}
+
+/**
+ * A helper function to bridge the gap between the non-namespaced scaffolded
+ * block files and the namespaced block loader in the plugin. Calls
  * get_asset_hash.
  *
  * @param string $asset Entry point and asset type separated by a '.'.
