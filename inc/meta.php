@@ -7,6 +7,11 @@
 
 namespace WP_Starter_Plugin;
 
+// Register custom meta fields.
+register_meta_helper( 'post', [ 'page', 'post' ], 'wp_starter_plugin_open_graph_description' );
+register_meta_helper( 'post', [ 'page', 'post' ], 'wp_starter_plugin_open_graph_image', [ 'type' => 'integer' ] );
+register_meta_helper( 'post', [ 'page', 'post' ], 'wp_starter_plugin_open_graph_title' );
+
 // Register action hooks and filters.
 add_filter(
 	'update_post_metadata',

@@ -7,6 +7,9 @@
 
 namespace WP_Starter_Plugin;
 
+define( 'WP_STARTER_PLUGIN_ASSET_MAP', read_asset_map( dirname( __DIR__ ) . '/build/assetMap.json' ) );
+define( 'WP_STARTER_PLUGIN_ASSET_MODE', WP_STARTER_PLUGIN_ASSET_MAP['mode'] ?? 'production' );
+
 // Register action and filter hooks.
 add_action(
 	'enqueue_block_editor_assets',
@@ -81,34 +84,9 @@ function get_asset_dependencies( string $asset ) : array {
  * @return string The asset's hash.
  */
 function get_asset_hash( string $asset ) : string {
-	return get_asset_property( $asset, 'hash' ) ?? '1.0.0';
-}
-
-/**
- * Get the asset map.
- *
- * @return array The asset map.
- */
-function get_asset_map() : array {
-	static $asset_map;
-
-	if ( ! isset( $asset_map ) ) {
-		$asset_map      = [];
-		$asset_map_file = dirname( __DIR__ ) . '/build/assetMap.json';
-		if ( file_exists( $asset_map_file ) && 0 === validate_file( $asset_map_file ) ) {
-			// Ignore the warning on file_get_contents since we are fetching a local file that we know exists.
-			// phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
-			$asset_map_data = file_get_contents( $asset_map_file );
-			if ( ! empty( $asset_map_data ) ) {
-				$asset_map_decoded = json_decode( $asset_map_data, true );
-				if ( ! empty( $asset_map_decoded ) ) {
-					$asset_map = $asset_map_decoded;
-				}
-			}
-		}
-	}
-
-	return $asset_map;
+	return get_asset_property( $asset, 'hash' )
+		?? WP_STARTER_PLUGIN_ASSET_MAP['hash']
+		?? '1.0.0';
 }
 
 /**
@@ -140,18 +118,18 @@ function get_asset_path( string $asset, bool $dir = false ) : string {
  * @param string $asset Entry point and asset type separated by a '.'.
  * @param string $prop The property to get from the entry object.
  *
- * @return string The asset property based on entry and type.
+ * @return string|null The asset property based on entry and type.
  */
-function get_asset_property( string $asset, string $prop ) : string {
-	$asset_map = get_asset_map();
-
+function get_asset_property( string $asset, string $prop ) : ?string {
 	/*
 	 * Appending a '.' ensures the explode() doesn't generate a notice while
 	 * allowing the variable names to be more readable via list().
 	 */
 	list( $entrypoint, $type ) = explode( '.', "$asset." );
 
-	return $asset_map[ $entrypoint ][ $type ][ $prop ] ?? '';
+	$asset_property = WP_STARTER_PLUGIN_ASSET_MAP[ $entrypoint ][ $type ][ $prop ] ?? null;
+
+	return $asset_property ? $asset_property : null;
 }
 
 /**
@@ -173,4 +151,21 @@ function inline_locale_data( string $to_handle ) {
 		$to_handle,
 		'wp.i18n.setLocaleData( ' . wp_json_encode( $locale_data ) . ", 'wp-starter-plugin' );"
 	);
+}
+
+/**
+ * Decode the asset map at the given file path.
+ *
+ * @param string $path File path.
+ *
+ * @return array The asset map.
+ */
+function read_asset_map( string $path ) : array {
+	if ( file_exists( $path ) && 0 === validate_file( $path ) ) {
+		ob_start();
+		include $path; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.IncludingFile, WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+		return json_decode( ob_get_clean(), true );
+	}
+
+	return [];
 }
