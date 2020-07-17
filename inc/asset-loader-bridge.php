@@ -30,12 +30,13 @@ function get_asset_hash( $asset ) {
  * block files and the namespaced block loader in the plugin. Calls
  * get_asset_hash.
  *
- * @param string $asset Entry point and asset type separated by a '.'.
+ * @param string  $asset Entry point and asset type separated by a '.'.
+ * @param boolean $dir   Optional. Whether to return the directory path or the plugin URL path. Defaults to false (returns URL).
  *
  * @return string The asset URL.
  */
-function get_asset_path( $asset ) {
-	return WP_Starter_Plugin\get_asset_path( $asset );
+function get_asset_path( $asset, $dir = false ) {
+	return WP_Starter_Plugin\get_asset_path( $asset, $dir );
 }
 
 /**

@@ -30,9 +30,10 @@
     "@wordpress/plugins": "^2.15.0",
     "@wordpress/url": "^2.14.0",
     "eslint-plugin-react-hooks": "^2.5.1",
-    "lodash": "^4.17.15",
+    "glob": "^7.1.6",
+    "lodash": "^4.17.19",
     "lodash.debounce": "^4.0.8",
-    "papaparse": "^4.6.1",
+    "papaparse": "^5.2.0",
     "prop-types": "^15.6.2",
     "react": "^16.13.1"
   },

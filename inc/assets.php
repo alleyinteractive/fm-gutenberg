@@ -37,12 +37,40 @@ function action_enqueue_block_editor_assets() {
 
 	wp_enqueue_script(
 		'wp-starter-plugin-plugin-sidebar',
-		get_versioned_asset_path( 'pluginSidebar.js' ),
-		[ 'wp-i18n', 'wp-edit-post' ],
-		'1.0.0',
+		get_asset_path( 'pluginSidebar.js' ),
+		get_asset_dependencies( 'pluginSidebar.php' ),
+		get_asset_hash( 'pluginSidebar.js' ),
 		true
 	);
 	inline_locale_data( 'wp-starter-plugin-plugin-sidebar' );
+}
+
+/**
+ * Gets asset dependencies from the generated asset manifest.
+ *
+ * @param string $asset Entry point and asset type separated by a '.'.
+ *
+ * @return array An array of dependencies for this asset.
+ */
+function get_asset_dependencies( string $asset ) : array {
+	// Get the path to the PHP file containing the dependencies.
+	$dependency_file = get_asset_path( $asset, true );
+	if ( empty( $dependency_file ) ) {
+		return [];
+	}
+
+	// Ensure the filepath is valid.
+	if ( ! file_exists( $dependency_file ) || 0 !== validate_file( $dependency_file ) ) {
+		return [];
+	}
+
+	// Try to load the dependencies.
+	$dependencies = require $dependency_file;
+	if ( empty( $dependencies['dependencies'] ) || ! is_array( $dependencies['dependencies'] ) ) {
+		return [];
+	}
+
+	return $dependencies['dependencies'];
 }
 
 /**
@@ -52,7 +80,7 @@ function action_enqueue_block_editor_assets() {
  *
  * @return string The asset's hash.
  */
-function get_asset_hash( $asset ) {
+function get_asset_hash( string $asset ) : string {
 	return get_asset_property( $asset, 'hash' ) ?? '1.0.0';
 }
 
@@ -61,7 +89,7 @@ function get_asset_hash( $asset ) {
  *
  * @return array The asset map.
  */
-function get_asset_map() {
+function get_asset_map() : array {
 	static $asset_map;
 
 	if ( ! isset( $asset_map ) ) {
@@ -86,15 +114,24 @@ function get_asset_map() {
 /**
  * Get the URL for a given asset.
  *
- * @param string $asset Entry point and asset type separated by a '.'.
+ * @param string  $asset Entry point and asset type separated by a '.'.
+ * @param boolean $dir   Optional. Whether to return the directory path or the plugin URL path. Defaults to false (returns URL).
  *
  * @return string The asset URL.
  */
-function get_asset_path( $asset ) {
+function get_asset_path( string $asset, bool $dir = false ) : string {
+	// Try to get the relative path.
 	$relative_path = get_asset_property( $asset, 'path' );
-	return ! empty( $relative_path )
-		? plugins_url( 'build/' . $relative_path, __DIR__ )
-		: '';
+	if ( empty( $relative_path ) ) {
+		return '';
+	}
+
+	// Negotiate the base path.
+	$base_path = true === $dir
+		? dirname( __DIR__ ) . '/build'
+		: plugins_url( 'build', __DIR__ );
+
+	return trailingslashit( $base_path ) . $relative_path;
 }
 
 /**
@@ -105,7 +142,7 @@ function get_asset_path( $asset ) {
  *
  * @return string The asset property based on entry and type.
  */
-function get_asset_property( $asset, $prop ) {
+function get_asset_property( string $asset, string $prop ) : string {
 	$asset_map = get_asset_map();
 
 	/*
@@ -114,7 +151,7 @@ function get_asset_property( $asset, $prop ) {
 	 */
 	list( $entrypoint, $type ) = explode( '.', "$asset." );
 
-	return $asset_map[ $entrypoint ][ $type ][ $prop ] ?? null;
+	return $asset_map[ $entrypoint ][ $type ][ $prop ] ?? '';
 }
 
 /**
