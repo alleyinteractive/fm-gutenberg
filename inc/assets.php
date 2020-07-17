@@ -46,44 +46,75 @@ function action_enqueue_block_editor_assets() {
 }
 
 /**
- * Get the version for a given asset.
+ * Get the contentHash for a given asset.
  *
- * @param string  $asset_path Entry point and asset type separated by a '.'.
- * @param boolean $dir_path   Whether to return the directory path or the plugin URL path.
+ * @param string $asset Entry point and asset type separated by a '.'.
  *
- * @return string The asset version.
+ * @return string The asset's hash.
  */
-function get_versioned_asset_path( $asset_path, $dir_path = false ) {
+function get_asset_hash( $asset ) {
+	return get_asset_property( $asset, 'hash' ) ?? '1.0.0';
+}
+
+/**
+ * Get the asset map.
+ *
+ * @return array The asset map.
+ */
+function get_asset_map() {
 	static $asset_map;
 
-	// Create public path.
-	$base_path = $dir_path ?
-		trailingslashit( dirname( __DIR__ ) . '/build' ) // the build directory path.
-		: plugins_url( 'build/', __DIR__ ); // the public plugins url path to the build directory.
-
 	if ( ! isset( $asset_map ) ) {
+		$asset_map      = [];
 		$asset_map_file = dirname( __DIR__ ) . '/build/assetMap.json';
 		if ( file_exists( $asset_map_file ) && 0 === validate_file( $asset_map_file ) ) {
-			ob_start();
-			include $asset_map_file; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.IncludingFile, WordPressVIPMinimum.Files.IncludingFile.UsingVariable
-			$asset_map = json_decode( ob_get_clean(), true );
-		} else {
-			$asset_map = [];
+			// Ignore the warning on file_get_contents since we are fetching a local file that we know exists.
+			// phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
+			$asset_map_data = file_get_contents( $asset_map_file );
+			if ( ! empty( $asset_map_data ) ) {
+				$asset_map_decoded = json_decode( $asset_map_data, true );
+				if ( ! empty( $asset_map_decoded ) ) {
+					$asset_map = $asset_map_decoded;
+				}
+			}
 		}
 	}
+
+	return $asset_map;
+}
+
+/**
+ * Get the URL for a given asset.
+ *
+ * @param string $asset Entry point and asset type separated by a '.'.
+ *
+ * @return string The asset URL.
+ */
+function get_asset_path( $asset ) {
+	$relative_path = get_asset_property( $asset, 'path' );
+	return ! empty( $relative_path )
+		? plugins_url( 'build/' . $relative_path, __DIR__ )
+		: '';
+}
+
+/**
+ * Get a property for a given asset.
+ *
+ * @param string $asset Entry point and asset type separated by a '.'.
+ * @param string $prop The property to get from the entry object.
+ *
+ * @return string The asset property based on entry and type.
+ */
+function get_asset_property( $asset, $prop ) {
+	$asset_map = get_asset_map();
 
 	/*
 	 * Appending a '.' ensures the explode() doesn't generate a notice while
 	 * allowing the variable names to be more readable via list().
 	 */
-	list( $entrypoint, $type ) = explode( '.', "$asset_path." );
-	$versioned_path            = isset( $asset_map[ $entrypoint ][ $type ] ) ? $asset_map[ $entrypoint ][ $type ] : false;
+	list( $entrypoint, $type ) = explode( '.', "$asset." );
 
-	if ( $versioned_path ) {
-		return $base_path . $versioned_path;
-	}
-
-	return '';
+	return $asset_map[ $entrypoint ][ $type ][ $prop ] ?? null;
 }
 
 /**

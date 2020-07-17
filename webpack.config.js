@@ -38,14 +38,14 @@ module.exports = (env, argv) => {
     },
     output: {
       filename: mode === 'production'
-        ? '[name].[chunkhash].bundle.min.js'
+        ? '[name].bundle.min.js'
         : '[name].js',
       path: path.join(__dirname, 'build'),
     },
     plugins: [
       new DependencyExtractionWebpackPlugin(),
       new StatsPlugin({
-        transform: createWriteWpAssetManifest(mode),
+        transform: createWriteWpAssetManifest,
         fields: ['assetsByChunkName', 'hash'],
         filename: 'assetMap.json',
       }),

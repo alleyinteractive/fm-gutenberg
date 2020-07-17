@@ -14,15 +14,28 @@
 
 /**
  * A helper function to bridge the gap between the non-namespaced scaffolded
- * block files and the namespaced block loader in the plugin.
+ * block files and the namespaced block loader in the plugin. Calls
+ * get_asset_hash.
  *
- * @param string  $asset_path Entry point and asset type separated by a '.'.
- * @param boolean $dir_path   Whether to return the directory path or the plugin URL path.
+ * @param string $asset Entry point and asset type separated by a '.'.
  *
- * @return string The asset version.
+ * @return string The asset version hash.
  */
-function get_versioned_asset_path( $asset_path, $dir_path = false ) {
-	return WP_Starter_Plugin\get_versioned_asset_path( $asset_path, $dir_path );
+function get_asset_hash( $asset ) {
+	return WP_Starter_Plugin\get_asset_hash( $asset );
+}
+
+/**
+ * A helper function to bridge the gap between the non-namespaced scaffolded
+ * block files and the namespaced block loader in the plugin. Calls
+ * get_asset_hash.
+ *
+ * @param string $asset Entry point and asset type separated by a '.'.
+ *
+ * @return string The asset URL.
+ */
+function get_asset_path( $asset ) {
+	return WP_Starter_Plugin\get_asset_path( $asset );
 }
 
 /**
