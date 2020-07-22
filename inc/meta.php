@@ -8,50 +8,49 @@
 namespace WP_Starter_Plugin;
 
 // Register custom meta fields.
-register_meta_helper( 'post', [ 'page', 'post' ], 'wp_starter_plugin_open_graph_description' );
-register_meta_helper( 'post', [ 'page', 'post' ], 'wp_starter_plugin_open_graph_image', [ 'type' => 'integer' ] );
-register_meta_helper( 'post', [ 'page', 'post' ], 'wp_starter_plugin_open_graph_title' );
-
-// Register action hooks and filters.
-add_filter(
-	'update_post_metadata',
-	__NAMESPACE__ . '\filter_update_post_metadata',
-	10,
-	5
-);
+register_post_meta_from_defs();
 
 /**
- * A filter callback for update_post_metadata to fix a bug with WordPress
- * whereby meta values passed via the REST API that require slashing but are
- * otherwise the same as the existing value in the database will cause a failure
- * during post save.
- *
- * @see \update_metadata
- *
- * @param null|bool $check      Whether to allow updating metadata for the given type.
- * @param int       $object_id  Object ID.
- * @param string    $meta_key   Meta key.
- * @param mixed     $meta_value Meta value. Must be serializable if non-scalar.
- * @param mixed     $prev_value Optional. If specified, only update existing.
- * @return null|bool True if the conditions are ripe for the fix, otherwise the existing value of $check.
+ * Reads the post meta definitions from config and registers them.
  */
-function filter_update_post_metadata(
-	$check,
-	$object_id,
-	$meta_key,
-	$meta_value,
-	$prev_value
-) {
-	if ( empty( $prev_value ) ) {
-		$old_value = get_metadata( 'post', $object_id, $meta_key );
-		if ( 1 === count( $old_value ) ) {
-			if ( $old_value[0] === $meta_value ) {
-				return true;
-			}
-		}
+function register_post_meta_from_defs() {
+	// Ensure the config file exists.
+	$filepath = dirname( __DIR__ ) . '/config/post-meta.json';
+	if ( ! file_exists( $filepath )
+		|| 0 !== validate_file( $filepath )
+	) {
+		return;
 	}
 
-	return $check;
+	// Try to read the file's contents. We can dismiss the "uncached" warning here because it is a local file.
+	// phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
+	$definitions = json_decode( file_get_contents( $filepath ), true );
+	if ( empty( $definitions ) ) {
+		return;
+	}
+
+	// Loop through definitions and register each.
+	foreach ( $definitions as $meta_key => $definition ) {
+		$args = [];
+
+		// Add type, if specified.
+		if ( ! empty( $definition['type'] ) ) {
+			$args['type'] = $definition['type'];
+		}
+
+		// Add schema, if specified.
+		if ( ! empty( $definition['schema'] ) ) {
+			$args['show_in_rest']['schema'] = $definition['schema'];
+		}
+
+		// Register the meta.
+		register_meta_helper(
+			'post',
+			$definition['post_types'] ?? [],
+			$meta_key,
+			$args
+		);
+	}
 }
 
 /**
@@ -89,10 +88,9 @@ function register_meta_helper(
 	$args = wp_parse_args(
 		$args,
 		[
-			'sanitize_callback' => __NAMESPACE__ . '\sanitize_meta_by_type',
-			'show_in_rest'      => true,
-			'single'            => true,
-			'type'              => 'string',
+			'show_in_rest' => true,
+			'single'       => true,
+			'type'         => 'string',
 		]
 	);
 
@@ -117,47 +115,4 @@ function register_meta_helper(
 	}
 
 	return true;
-}
-
-/**
- * A 'sanitize_callback' for a registered meta key that sanitizes based on type.
- *
- * @param mixed  $meta_value     Meta value to sanitize.
- * @param string $meta_key       Meta key.
- * @param string $object_type    Object type.
- * @param string $object_subtype Optional. Object subtype. Defaults to empty.
- * @return mixed Sanitized meta value.
- */
-function sanitize_meta_by_type(
-	$meta_value,
-	string $meta_key,
-	string $object_type,
-	string $object_subtype = ''
-) {
-
-	// Ensure the meta key is registered.
-	$registered = get_registered_meta_keys( $object_type, $object_subtype );
-	if ( empty( $registered[ $meta_key ] ) ) {
-		return $meta_value;
-	}
-
-	// Ensure a type is set.
-	$args = $registered[ $meta_key ];
-	if ( empty( $args['type'] ) ) {
-		return $meta_value;
-	}
-
-	// Sanitize by type.
-	switch ( $args['type'] ) {
-		case 'boolean':
-			return rest_sanitize_boolean( $meta_value );
-		case 'integer':
-			return (int) $meta_value;
-		case 'number':
-			return (float) $meta_value;
-		case 'string':
-			return sanitize_text_field( $meta_value );
-	}
-
-	return $meta_value;
 }

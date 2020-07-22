@@ -68,6 +68,7 @@ function get_asset_dependencies( string $asset ) : array {
 	}
 
 	// Try to load the dependencies.
+	// phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
 	$dependencies = require $dependency_file;
 	if ( empty( $dependencies['dependencies'] ) || ! is_array( $dependencies['dependencies'] ) ) {
 		return [];

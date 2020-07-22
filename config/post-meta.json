@@ -1,0 +1,21 @@
+{
+  "wp_starter_plugin_open_graph_description": {
+    "post_types": [
+      "page",
+      "post"
+    ]
+  },
+  "wp_starter_plugin_open_graph_image": {
+    "post_types": [
+      "page",
+      "post"
+    ],
+    "type": "integer"
+  },
+  "wp_starter_plugin_open_graph_title": {
+    "post_types": [
+      "page",
+      "post"
+    ]
+  }
+}
