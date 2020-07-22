@@ -6,11 +6,11 @@ import PropTypes from 'prop-types';
  * Render search results list.
  */
 const SearchResults = ({
-  selected,
+  options,
   loading,
 }) => {
   // Only display if the input is selected.
-  if (!selected) {
+  if (options.length === 0) {
     return null;
   }
 
@@ -21,14 +21,17 @@ const SearchResults = ({
           Loading...
         </li>
       ) : (
-        <li>
-          <button
-            tabIndex="0"
-            type="button"
-          >
-            Result Item
-          </button>
-        </li>
+        options.map((item) => (
+          <li>
+            <button
+              onClick={() => console.log(item.value)}
+              tabIndex="0"
+              type="button"
+            >
+              {item.label}
+            </button>
+          </li>
+        ))
       )}
     </ul>
   );
@@ -39,7 +42,12 @@ const SearchResults = ({
  * @type {object}
  */
 SearchResults.propTypes = {
-  selected: PropTypes.bool.isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    }),
+  ).isRequired,
   loading: PropTypes.bool.isRequired,
 };
 

@@ -41,6 +41,17 @@ class AutoComplete extends React.PureComponent {
       placeholder,
     } = this.props;
 
+    const tempOptions = [
+      {
+        label: __('Result Test 1', 'wp-starter-plugin'),
+        value: 'label-test-1',
+      },
+      {
+        label: __('Result Test 2', 'wp-starter-plugin'),
+        value: 'label-test-2',
+      },
+    ];
+
     return (
       <div>
         <TextControl
@@ -53,7 +64,7 @@ class AutoComplete extends React.PureComponent {
         />
         <SearchResults
           loading={loading}
-          selected={selected}
+          options={tempOptions}
         />
       </div>
     );
