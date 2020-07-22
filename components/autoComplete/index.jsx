@@ -1,6 +1,7 @@
 // Dependencies.
 import React from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 
 // Components.
 import { TextControl } from '@wordpress/components';
@@ -25,15 +26,41 @@ class AutoComplete extends React.PureComponent {
     this.state = {
       // foundPosts: [],
       loading: false,
-      // searhText: '',
-      selected: true,
+      searchString: '',
     };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSearchSubmit = debounce(
+      this.handleSearchSubmit.bind(this), 750,
+    );
+  }
+
+  /**
+   * Handles a change to the search text string.
+   * @param {string} searchString - The new search text to apply.
+   */
+  handleInputChange(searchString) {
+    this.setState({
+      searchString,
+    }, this.handleSearchSubmit);
+  }
+
+  /**
+   * Handles submitting the input value.
+   */
+  // eslint-disable-next-line
+  handleSearchSubmit() {
+    const {
+      searchString,
+    } = this.state;
+
+    console.log(`submitted: ${searchString}`);
   }
 
   render() {
     const {
       loading,
-      selected,
+      searchString,
     } = this.state;
 
     const {
@@ -58,9 +85,9 @@ class AutoComplete extends React.PureComponent {
           aria-autoComplete="list"
           autoComplete="off"
           label={label}
-          onChange={(value) => console.log(value)}
+          onChange={this.handleInputChange}
           placeholder={placeholder}
-          value=""
+          value={searchString}
         />
         <SearchResults
           loading={loading}
