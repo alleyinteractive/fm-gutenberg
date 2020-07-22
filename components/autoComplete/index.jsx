@@ -96,14 +96,33 @@ class AutoComplete extends React.PureComponent {
    */
   handlePostSelection(post) {
     const { selectedPosts } = this.state;
-    const { onSelect } = this.props;
+    const { multiple, onSelect } = this.props;
 
-    console.log(`post selected: ${post}`);
+    let newSelectedPosts = [];
 
-    const newSelectedPosts = [
-      ...selectedPosts,
-      post,
-    ];
+    // If multiple post selection is available.
+    if (multiple) {
+      // Add selection to foundPosts array.
+      if (selectedPosts.some((item) => item.id === post.id)) {
+        const index = selectedPosts.findIndex((item) => item.id === post.id);
+        newSelectedPosts = [
+          ...selectedPosts.slice(0, index),
+          ...selectedPosts.slice(index + 1, selectedPosts.length),
+        ];
+      } else {
+        newSelectedPosts = [
+          ...selectedPosts,
+          post,
+        ];
+      }
+    } else {
+      // Set single post as object to state.
+      newSelectedPosts = post;
+      // Reset state and close dropdown.
+      this.setState({
+        foundPosts: [],
+      });
+    }
 
     this.setState({
       selectedPosts: newSelectedPosts,
@@ -162,7 +181,7 @@ class AutoComplete extends React.PureComponent {
 AutoComplete.defaultProps = {
   emptyLabel: __('No posts found', 'wp-starter-plugin'),
   label: __('Search for posts', 'wp-starter-plugin'),
-  // multiple: false,
+  multiple: false,
   placeholder: __('Search for posts', 'wp-starter-pluing'),
   postTypes: [],
   threshold: 2,
@@ -175,7 +194,7 @@ AutoComplete.defaultProps = {
 AutoComplete.propTypes = {
   emptyLabel: PropTypes.string,
   label: PropTypes.string,
-  // multiple: PropTypes.bool,
+  multiple: PropTypes.bool,
   // On selection made.
   onSelect: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
