@@ -19,7 +19,7 @@ const SearchResults = ({
 
   // else business as usual.
   return (
-    <div>
+    <div className="autocomplete-base-control__dropdown">
       {// Show loader if loading
         loading && (
           <p>Loading...</p>

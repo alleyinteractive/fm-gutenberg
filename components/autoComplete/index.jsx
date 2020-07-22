@@ -3,10 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
-// Components.
+// autocomplete.
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
-import { TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import SearchResults from './components/searchResults';
 
@@ -154,33 +153,45 @@ class AutoComplete extends React.PureComponent {
     } = this.props;
 
     return (
-      <div>
-        {selectedPosts.length > 0 && (
-          selectedPosts.map((item) => (
-            <button
-              type="button"
-              onClick={() => this.handlePostSelection(item)}
+      <form onSubmit={(event) => event.preventDefault()}>
+        <div className="autocomplete-base-control">
+          <div className="autocomplete-base-control__field">
+            <label
+              className="autocomplete-base-control__label"
+              htmlFor="autocomplete"
             >
-              {item.title}
-            </button>
-          ))
-        )}
-        <TextControl
-          aria-autoComplete="list"
-          autoComplete="off"
-          label={label}
-          onChange={this.handleInputChange}
-          placeholder={placeholder}
-          value={searchString}
-        />
-        <SearchResults
-          emptyLabel={emptyLabel}
-          loading={loading && searchString}
-          options={foundPosts}
-          onSelect={this.handlePostSelection}
-          value={searchString}
-        />
-      </div>
+              <span>{label}</span>
+              {selectedPosts.length > 0 && (
+                selectedPosts.map((item) => (
+                  <button
+                    type="button"
+                    onClick={() => this.handlePostSelection(item)}
+                  >
+                    {item.title}
+                  </button>
+                ))
+              )}
+              <input
+                aria-autoComplete="list"
+                autoComplete="off"
+                className="autocomplete-text-control__input"
+                id="autocomplete"
+                onChange={(e) => this.handleInputChange(e.target.value)}
+                placeholder={placeholder}
+                type="text"
+                value={searchString}
+              />
+            </label>
+          </div>
+          <SearchResults
+            emptyLabel={emptyLabel}
+            loading={loading && searchString}
+            options={foundPosts}
+            onSelect={this.handlePostSelection}
+            value={searchString}
+          />
+        </div>
+      </form>
     );
   }
 }
