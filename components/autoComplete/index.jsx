@@ -144,6 +144,7 @@ class AutoComplete extends React.PureComponent {
       foundPosts,
       loading,
       searchString,
+      selectedPosts,
     } = this.state;
 
     const {
@@ -154,6 +155,16 @@ class AutoComplete extends React.PureComponent {
 
     return (
       <div>
+        {selectedPosts.length > 0 && (
+          selectedPosts.map((item) => (
+            <button
+              type="button"
+              onClick={() => this.handlePostSelection(item)}
+            >
+              {item.title}
+            </button>
+          ))
+        )}
         <TextControl
           aria-autoComplete="list"
           autoComplete="off"
