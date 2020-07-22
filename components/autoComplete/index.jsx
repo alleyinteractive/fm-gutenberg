@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
 // Components.
+import apiFetch from '@wordpress/api-fetch';
+import { addQueryArgs } from '@wordpress/url';
 import { TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import SearchResults from './components/searchResults';
@@ -24,19 +26,60 @@ class AutoComplete extends React.PureComponent {
      * @type {object}
      */
     this.state = {
-      // foundPosts: [],
+      foundPosts: [],
       loading: false,
       searchString: '',
+      selectedPosts: [],
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSearchSubmit = debounce(
       this.handleSearchSubmit.bind(this), 750,
     );
+    this.handlePostSelection = this.handlePostSelection.bind(this);
+  }
+
+  /**
+   * Make api requeset for posts by search string.
+   */
+  async fetchPosts(searchString) {
+    const { postTypes, threshold } = this.props;
+
+    // Prevent fetch if we haven't met our threshold.
+    if (searchString.length < threshold) {
+      this.setState({
+        foundPosts: [],
+      });
+      return;
+    }
+
+    // Set the loading flag.
+    this.setState({ loading: true });
+
+    // Get search results from the API and store them.
+    const path = addQueryArgs(
+      '/wp/v2/search',
+      {
+        search: searchString,
+        subtype: postTypes ? postTypes.join() : 'any',
+        type: 'post',
+      },
+    );
+
+    await apiFetch({ path })
+      .then((foundPosts) => this.setState({
+        foundPosts,
+        loading: false,
+      }))
+      // TODO: Display error message or add handle for this.
+      .catch((error) => console.log(error)); // eslint-disable-line no-console
+
+    console.log(searchString, postTypes);
   }
 
   /**
    * Handles a change to the search text string.
+   *
    * @param {string} searchString - The new search text to apply.
    */
   handleInputChange(searchString) {
@@ -46,38 +89,49 @@ class AutoComplete extends React.PureComponent {
   }
 
   /**
-   * Handles submitting the input value.
+   * Handle post selection from search results
+   * and return value to parent.
+   *
+   * @param {object} post selected post object.
+   */
+  handlePostSelection(post) {
+    const { selectedPosts } = this.state;
+    const { onSelect } = this.props;
+
+    console.log(`post selected: ${post}`);
+
+    const newSelectedPosts = [
+      ...selectedPosts,
+      post,
+    ];
+
+    this.setState({
+      selectedPosts: newSelectedPosts,
+    }, () => onSelect(newSelectedPosts));
+  }
+
+  /**
+   * Handles submitting the input value on debounce.
    */
   // eslint-disable-next-line
   handleSearchSubmit() {
-    const {
-      searchString,
-    } = this.state;
+    const { searchString } = this.state;
 
-    console.log(`submitted: ${searchString}`);
+    this.fetchPosts(searchString);
   }
 
   render() {
     const {
+      foundPosts,
       loading,
       searchString,
     } = this.state;
 
     const {
+      emptyLabel,
       label,
       placeholder,
     } = this.props;
-
-    const tempOptions = [
-      {
-        label: __('Result Test 1', 'wp-starter-plugin'),
-        value: 'label-test-1',
-      },
-      {
-        label: __('Result Test 2', 'wp-starter-plugin'),
-        value: 'label-test-2',
-      },
-    ];
 
     return (
       <div>
@@ -90,8 +144,11 @@ class AutoComplete extends React.PureComponent {
           value={searchString}
         />
         <SearchResults
-          loading={loading}
-          options={tempOptions}
+          emptyLabel={emptyLabel}
+          loading={loading && searchString}
+          options={foundPosts}
+          onSelect={this.handlePostSelection}
+          value={searchString}
         />
       </div>
     );
@@ -103,12 +160,12 @@ class AutoComplete extends React.PureComponent {
  * @type {object}
  */
 AutoComplete.defaultProps = {
-  // emptyLabel: __('No posts found', 'wp-starter-plugin'),
+  emptyLabel: __('No posts found', 'wp-starter-plugin'),
   label: __('Search for posts', 'wp-starter-plugin'),
   // multiple: false,
   placeholder: __('Search for posts', 'wp-starter-pluing'),
-  // postTypes: [],
-  // threshold: 3,
+  postTypes: [],
+  threshold: 2,
 };
 
 /**
@@ -116,16 +173,14 @@ AutoComplete.defaultProps = {
  * @type {object}
  */
 AutoComplete.propTypes = {
-  // emptyLabel: PropTypes.string,
+  emptyLabel: PropTypes.string,
   label: PropTypes.string,
   // multiple: PropTypes.bool,
-  // On input change.
-  // onChange: PropTypes.func.isRequired,
   // On selection made.
-  // onSelect: PropTypes.func.isRequired,
+  onSelect: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
-  // postTypes: PropTypes.arrayOf(PropTypes.string),
-  // threshold: PropTypes.number,
+  postTypes: PropTypes.arrayOf(PropTypes.string),
+  threshold: PropTypes.number,
 };
 
 export default AutoComplete;

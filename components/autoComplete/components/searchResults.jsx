@@ -6,34 +6,48 @@ import PropTypes from 'prop-types';
  * Render search results list.
  */
 const SearchResults = ({
-  options,
+  emptyLabel,
   loading,
+  onSelect,
+  options,
+  value,
 }) => {
-  // Only display if the input is selected.
-  if (options.length === 0) {
+  // Don't show anything if we aren't loading and don't have a value.
+  if (!loading && !value) {
     return null;
   }
 
+  // else business as usual.
   return (
-    <ul>
-      {loading ? (
-        <li>
-          Loading...
-        </li>
-      ) : (
-        options.map((item) => (
-          <li>
-            <button
-              onClick={() => console.log(item.value)}
-              tabIndex="0"
-              type="button"
-            >
-              {item.label}
-            </button>
-          </li>
-        ))
-      )}
-    </ul>
+    <div>
+      {// Show loader if loading
+        loading && (
+          <p>Loading...</p>
+        )
+      }
+      {// If we don't have results, but have searched.
+        !loading && value && options.length === 0 && (
+          <p>{emptyLabel}</p>
+        )
+      }
+      {// If we have no value, always disable.
+        !loading && options.length > 0 && (
+          <ul>
+            {options.map((item) => (
+              <li>
+                <button
+                  onClick={() => onSelect(item)}
+                  tabIndex="0"
+                  type="button"
+                >
+                  {item.title}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
   );
 };
 
@@ -42,6 +56,8 @@ const SearchResults = ({
  * @type {object}
  */
 SearchResults.propTypes = {
+  emptyLabel: PropTypes.string.isRequired,
+  onSelect: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
@@ -49,6 +65,7 @@ SearchResults.propTypes = {
     }),
   ).isRequired,
   loading: PropTypes.bool.isRequired,
+  value: PropTypes.string.isRequired,
 };
 
 export default SearchResults;
