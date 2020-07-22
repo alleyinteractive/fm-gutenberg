@@ -11,49 +11,6 @@ namespace WP_Starter_Plugin;
 register_post_meta_from_defs();
 
 /**
- * Reads the post meta definitions from config and registers them.
- */
-function register_post_meta_from_defs() {
-	// Ensure the config file exists.
-	$filepath = dirname( __DIR__ ) . '/config/post-meta.json';
-	if ( ! file_exists( $filepath )
-		|| 0 !== validate_file( $filepath )
-	) {
-		return;
-	}
-
-	// Try to read the file's contents. We can dismiss the "uncached" warning here because it is a local file.
-	// phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
-	$definitions = json_decode( file_get_contents( $filepath ), true );
-	if ( empty( $definitions ) ) {
-		return;
-	}
-
-	// Loop through definitions and register each.
-	foreach ( $definitions as $meta_key => $definition ) {
-		$args = [];
-
-		// Add type, if specified.
-		if ( ! empty( $definition['type'] ) ) {
-			$args['type'] = $definition['type'];
-		}
-
-		// Add schema, if specified.
-		if ( ! empty( $definition['schema'] ) ) {
-			$args['show_in_rest']['schema'] = $definition['schema'];
-		}
-
-		// Register the meta.
-		register_meta_helper(
-			'post',
-			$definition['post_types'] ?? [],
-			$meta_key,
-			$args
-		);
-	}
-}
-
-/**
  * Register meta for posts or terms with sensible defaults and sanitization.
  *
  * @throws \InvalidArgumentException For unmet requirements.
@@ -115,4 +72,47 @@ function register_meta_helper(
 	}
 
 	return true;
+}
+
+/**
+ * Reads the post meta definitions from config and registers them.
+ */
+function register_post_meta_from_defs() {
+	// Ensure the config file exists.
+	$filepath = dirname( __DIR__ ) . '/config/post-meta.json';
+	if ( ! file_exists( $filepath )
+		|| 0 !== validate_file( $filepath )
+	) {
+		return;
+	}
+
+	// Try to read the file's contents. We can dismiss the "uncached" warning here because it is a local file.
+	// phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
+	$definitions = json_decode( file_get_contents( $filepath ), true );
+	if ( empty( $definitions ) ) {
+		return;
+	}
+
+	// Loop through definitions and register each.
+	foreach ( $definitions as $meta_key => $definition ) {
+		$args = [];
+
+		// Add type, if specified.
+		if ( ! empty( $definition['type'] ) ) {
+			$args['type'] = $definition['type'];
+		}
+
+		// Add schema, if specified.
+		if ( ! empty( $definition['schema'] ) ) {
+			$args['show_in_rest']['schema'] = $definition['schema'];
+		}
+
+		// Register the meta.
+		register_meta_helper(
+			'post',
+			$definition['post_types'] ?? [],
+			$meta_key,
+			$args
+		);
+	}
 }
