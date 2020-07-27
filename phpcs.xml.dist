@@ -35,6 +35,11 @@
 		<!-- Ignore JS files in the main WordPress standard, since we use ESLint instead. -->
 		<exclude-pattern>*.js</exclude-pattern>
 
+		<!-- template-parts are always included via a function, never in global scope, so the non-prefixed variable sniff doesn't apply. -->
+		<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound">
+			<exclude-pattern>template-parts</exclude-pattern>
+		</rule>
+
 		<!-- Turn off some rules that we don't like. -->
 		<exclude name="Generic.Arrays.DisallowShortArraySyntax.Found" />
 	</rule>
