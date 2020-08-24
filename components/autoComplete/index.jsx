@@ -1,20 +1,26 @@
 // Dependencies.
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-
-// autocomplete.
 import apiFetch from '@wordpress/api-fetch';
-import { addQueryArgs } from '@wordpress/url';
+import classNames from 'classnames';
+import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { addQueryArgs } from '@wordpress/url';
+
+// Components.
 import SearchResults from './components/searchResults';
 
 // Custom hooks.
 import useDebounce from './hooks/useDebounce';
 
+// Styles.
+import './styles.scss';
+
 /**
  * Render autocomplete component.
  */
 const AutoComplete = ({
+  className,
   emptyLabel,
   label,
   multiple,
@@ -24,6 +30,7 @@ const AutoComplete = ({
   postTypes,
   threshold,
 }) => {
+  // Setup state.
   const [error, setError] = useState('');
   const [foundPosts, setFoundPosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -31,9 +38,11 @@ const AutoComplete = ({
   const [searchString, setSearchString] = useState('');
   const [selectedPosts, setSelectedPosts] = useState([]);
 
+  // Create ref.
   const ref = useRef();
 
-  const debouncedSearchString = useDebounce(searchString, 1250);
+  // Debounce search string from input.
+  const debouncedSearchString = useDebounce(searchString, 750);
 
   /**
    * Make api requeset for posts by search string.
@@ -41,7 +50,8 @@ const AutoComplete = ({
    * @param {int} page current page number.
    */
   const fetchPosts = async (page = 1) => {
-    // Prevent fetch if we haven't met our threshold.
+    // Prevent fetch if we haven't
+    // met our search string threshold.
     if (debouncedSearchString.length < threshold) {
       setFoundPosts([]);
       return;
@@ -52,6 +62,8 @@ const AutoComplete = ({
 
     // Set the loading flag.
     setLoadState(true);
+    // Reset state before we start the fetch.
+    if (page === 1) { setFoundPosts([]); }
 
     // Get search results from the API and store them.
     const path = addQueryArgs(
@@ -64,19 +76,21 @@ const AutoComplete = ({
       },
     );
 
+    // Fetch posts by page.
     await apiFetch({ path, parse: false })
       .then((response) => {
-        totalPages = parseInt(response.headers.get('X-WP-TotalPages'), 10)
-          || 1;
+        totalPages = parseInt(
+          response.headers.get('X-WP-TotalPages'),
+          10,
+        ) || 1;
         return response.json();
       })
       .then((posts) => {
         setFoundPosts((prevState) => [...prevState, ...posts]);
-        if (totalPages && totalPages > page) {
-          fetchPosts(page + 1);
-        } else {
-          setLoadState(false);
-        }
+        setLoadState(false);
+
+        // Continue to fetch additional page results.
+        if (totalPages && totalPages > page) { fetchPosts(page + 1); }
       })
       .catch((err) => setError(err.message));
   };
@@ -87,31 +101,40 @@ const AutoComplete = ({
   useEffect(() => {
     if (debouncedSearchString && threshold <= debouncedSearchString.length) {
       fetchPosts();
-    } else {
-      setFoundPosts([]);
-    }
+    } else { setFoundPosts([]); }
   }, [debouncedSearchString, threshold]);
 
+  /**
+   * Moustdown event callback.
+   *
+   * @param {MouseEvent} event mouse event.
+   */
   const handleClick = (event) => {
     setIsOpen(ref && ref.current.contains(event.target));
   };
 
+  /**
+   * Keydown event callback.
+   *
+   * @param {KeyboardEvent} event keyboard event.
+   */
   const handleKeyboard = (event) => {
-    if (event.keyCode === 27) {
-      setIsOpen(false);
-    }
+    if (event.keyCode === 27) { setIsOpen(false); }
   };
 
-
+  /**
+   * Handle keydown.
+   */
   useEffect(() => {
     document.addEventListener('keydown', handleKeyboard);
-
     return () => document.removeEventListener('keydown', handleKeyboard);
   });
 
+  /**
+   * Handles mouse down.
+   */
   useEffect(() => {
     document.addEventListener('mousedown', handleClick);
-
     return () => document.removeEventListener('mousedown', handleClick);
   });
 
@@ -150,28 +173,60 @@ const AutoComplete = ({
 
   return (
     <form onSubmit={(event) => event.preventDefault()}>
-      <div className="autocomplete-base-control" ref={ref}>
-        <div className="autocomplete-base-control__field">
+      <div
+        className={
+          classNames(
+            'components-base-control',
+            'autocomplete-base-control',
+            className,
+          )
+        }
+        ref={ref}
+      >
+        <div
+          className={
+            classNames(
+              'components-base-control__field',
+              'autocomplete-base-control__field',
+            )
+          }
+        >
           <label
-            className="autocomplete-base-control__label"
+            className={
+              classNames(
+                'components-base-control__label',
+                'autocomplete-base-control__label',
+              )
+            }
             htmlFor="autocomplete"
           >
             <div>{label}</div>
             {selectedPosts.length > 0 && (
               selectedPosts.map((item) => (
-                <button
-                  type="button"
+                <Button
+                  className="autocomplete__selection"
+                  isSecondary
+                  isSmall
                   onClick={() => handlePostSelection(item)}
+                  type="button"
                 >
                   {item.title}
-                </button>
+                </Button>
               ))
             )}
           </label>
           <input
             aria-autoComplete="list"
             autoComplete="off"
-            className="autocomplete-text-control__input"
+            className={
+              classNames(
+                'components-text-control__input',
+                'autocomplete-text-control__input',
+                {
+                  'autocomplete-text-control__input--working': isOpen,
+                },
+              )
+            }
             id="autocomplete"
             onChange={(e) => setSearchString(e.target.value)}
             onFocus={() => setIsOpen(true)}
@@ -187,8 +242,8 @@ const AutoComplete = ({
           loading={loading && debouncedSearchString}
           onSelect={handlePostSelection}
           options={foundPosts}
-          threshold={threshold}
           selectedPosts={selectedPosts}
+          threshold={threshold}
           value={debouncedSearchString}
         />
       </div>
@@ -201,6 +256,7 @@ const AutoComplete = ({
  * @type {object}
  */
 AutoComplete.defaultProps = {
+  className: '',
   emptyLabel: __('No posts found', 'wp-starter-plugin'),
   label: __('Search for posts', 'wp-starter-plugin'),
   multiple: false,
@@ -214,10 +270,10 @@ AutoComplete.defaultProps = {
  * @type {object}
  */
 AutoComplete.propTypes = {
+  className: PropTypes.string,
   emptyLabel: PropTypes.string,
   label: PropTypes.string,
   multiple: PropTypes.bool,
-  // On selection made.
   onSelect: PropTypes.func.isRequired,
   placeHolder: PropTypes.string,
   postTypes: PropTypes.arrayOf(PropTypes.string),
