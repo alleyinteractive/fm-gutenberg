@@ -1,6 +1,8 @@
 // Depenencies.
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
@@ -22,68 +24,80 @@ const SearchResults = ({
     return null;
   }
 
-  const style = {
-    backgroundColor: 'white',
-    left: 0,
-    maxHeight: isOpen ? 275 : 0,
-    overflowY: isOpen ? 'scroll' : 'hidden',
-    position: 'absolute',
-    top: 'calc(100% + 1px)',
-    visibility: isOpen ? 'visible' : 'hidden',
-    width: '100%',
-    zIndex: 10,
-  };
+  let className = '';
+  let content = '';
+
+  if (loading) {
+    className = 'loading';
+    content = __('Loading...', 'wp-starter-plugin');
+  } else if (error) {
+    className = 'error';
+    content = error;
+  } else if (!loading && options.length === 0) {
+    className = 'no-posts';
+    content = emptyLabel;
+  }
+
+  if (loading || (!loading && ((value && options.length === 0) || error))) {
+    return (
+      <div
+        className={
+          classNames(
+            'autocomplete__dropdown',
+            {
+              'autocomplete__dropdown--is-open': isOpen,
+            },
+          )
+        }
+      >
+        <div
+          className={
+            classNames(
+              'autocomplete__dropdown--notice',
+              `autocomplete__${className}`,
+            )
+          }
+        >
+          {content}
+        </div>
+      </div>
+    );
+  }
 
   // else business as usual.
   return (
     <div
-      className="autocomplete-base-control__dropdown"
-      style={style}
+      className={
+        classNames(
+          'autocomplete__dropdown',
+          {
+            'autocomplete__dropdown--is-open': isOpen,
+          },
+        )
+      }
     >
-      {loading && (
-        <div className="autocomplete__loading">
-          {__('Loading...', 'wp-starter-plugin')}
-        </div>
-      )}
-      {!loading && (
-        <>
-          {value && options.length === 0 && !error && (
-            <div className="autocomplete__no-posts">
-              <p>{emptyLabel}</p>
-            </div>
-          )}
-          {error && (
-            <div className="autocomplete__error">
-              <p>{error}</p>
-            </div>
-          )}
-        </>
-      )}
-      {// Show error if there is an error.
-        !loading && error && (
-          <div className="autocomplete__no-posts">
-            <p>{emptyLabel}</p>
-          </div>
-        )
-      }
-      {// If we have no value, always disable.
-        !loading && options.length > 0 && (
-          <ul>
-            {options.map((item) => (
-              <li>
-                <button
-                  onClick={() => onSelect(item)}
-                  tabIndex="0"
-                  type="button"
-                  disabled={selectedPosts.some((post) => post.id === item.id)}
-                >
-                  {item.title}
-                </button>
-              </li>
-            ))}
-          </ul>
-        )
-      }
+      <ul
+        className={
+          classNames(
+            'autocomplete__dropdown--results',
+            'autocomplete__list',
+          )
+        }
+      >
+        {options.map((item) => (
+          <li className="autocomplete__list--item">
+            <Button
+              onClick={() => onSelect(item)}
+              tabIndex="0"
+              type="button"
+              disabled={selectedPosts.some((post) => post.id === item.id)}
+              isTertiary
+            >
+              {item.title}
+            </Button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
