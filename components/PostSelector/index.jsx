@@ -24,7 +24,6 @@ const PostSelector = ({
   emptyLabel,
   label,
   multiple,
-  // On selection made.
   onSelect,
   placeHolder,
   postTypes,
