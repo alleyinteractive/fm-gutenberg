@@ -10,10 +10,11 @@ const SearchResults = ({
   loading,
   onSelect,
   options,
+  threshold,
   value,
 }) => {
   // Don't show anything if we aren't loading and don't have a value.
-  if (!loading && !value) {
+  if (!loading && (value === '' || threshold > value.length)) {
     return null;
   }
 
@@ -57,14 +58,15 @@ const SearchResults = ({
  */
 SearchResults.propTypes = {
   emptyLabel: PropTypes.string.isRequired,
-  onSelect: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
     }),
   ).isRequired,
-  loading: PropTypes.bool.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  threshold: PropTypes.number.isRequired,
   value: PropTypes.string.isRequired,
 };
 
