@@ -56,3 +56,8 @@ Travis will automatically run `phpcs`, `npm run test`, and `npm run build` (whic
 ## Hot Reloading
 
 Still to come. The closest you can get now is running `npm run dev`, which watches for changes, and reloading the page.
+
+## Built-in Components
+- `AutoComplete`: A component used for searching for and selecting posts via the REST API.
+- `csvUploader`: Allows a user to upload a CSV file, which is parsed in the browser, converted to a JSON structure, passed through a user specified callback function for further transformation, and saved to block attributes.
+- `imagePicker`: Allows a user to select or remove an image using the media modal. This component is (currently) intended to save to postmeta.
