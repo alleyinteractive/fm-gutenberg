@@ -38,6 +38,9 @@ const SearchResults = ({
     content = emptyLabel;
   }
 
+  // If we're loading
+  // Or if we're not loading and have a search string with no posts.
+  // Or if we're not loading and have an error.
   if (loading || (!loading && ((value && options.length === 0) || error))) {
     return (
       <div
@@ -64,7 +67,6 @@ const SearchResults = ({
     );
   }
 
-  // else business as usual.
   return (
     <div
       className={
