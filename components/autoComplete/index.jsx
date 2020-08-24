@@ -172,7 +172,10 @@ const AutoComplete = ({
   };
 
   return (
-    <form onSubmit={(event) => event.preventDefault()}>
+    <form
+      className="autocomplete__component"
+      onSubmit={(event) => event.preventDefault()}
+    >
       <div
         className={
           classNames(
