@@ -1,15 +1,19 @@
 // Depenencies.
 import React from 'react';
 import PropTypes from 'prop-types';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Render search results list.
  */
 const SearchResults = ({
   emptyLabel,
+  error,
+  isOpen,
   loading,
   onSelect,
   options,
+  selectedPosts,
   threshold,
   value,
 }) => {
@@ -18,17 +22,48 @@ const SearchResults = ({
     return null;
   }
 
+  const style = {
+    backgroundColor: 'white',
+    left: 0,
+    maxHeight: isOpen ? 275 : 0,
+    overflowY: isOpen ? 'scroll' : 'hidden',
+    position: 'absolute',
+    top: 'calc(100% + 1px)',
+    visibility: isOpen ? 'visible' : 'hidden',
+    width: '100%',
+    zIndex: 10,
+  };
+
   // else business as usual.
   return (
-    <div className="autocomplete-base-control__dropdown">
-      {// Show loader if loading
-        loading && (
-          <p>Loading...</p>
-        )
-      }
-      {// If we don't have results, but have searched.
-        !loading && value && options.length === 0 && (
-          <p>{emptyLabel}</p>
+    <div
+      className="autocomplete-base-control__dropdown"
+      style={style}
+    >
+      {loading && (
+        <div className="autocomplete__loading">
+          {__('Loading...', 'wp-starter-plugin')}
+        </div>
+      )}
+      {!loading && (
+        <>
+          {value && options.length === 0 && !error && (
+            <div className="autocomplete__no-posts">
+              <p>{emptyLabel}</p>
+            </div>
+          )}
+          {error && (
+            <div className="autocomplete__error">
+              <p>{error}</p>
+            </div>
+          )}
+        </>
+      )}
+      {// Show error if there is an error.
+        !loading && error && (
+          <div className="autocomplete__no-posts">
+            <p>{emptyLabel}</p>
+          </div>
         )
       }
       {// If we have no value, always disable.
@@ -40,6 +75,7 @@ const SearchResults = ({
                   onClick={() => onSelect(item)}
                   tabIndex="0"
                   type="button"
+                  disabled={selectedPosts.some((post) => post.id === item.id)}
                 >
                   {item.title}
                 </button>
@@ -58,6 +94,8 @@ const SearchResults = ({
  */
 SearchResults.propTypes = {
   emptyLabel: PropTypes.string.isRequired,
+  error: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -66,6 +104,7 @@ SearchResults.propTypes = {
     }),
   ).isRequired,
   onSelect: PropTypes.func.isRequired,
+  selectedPosts: PropTypes.shape([]).isRequired,
   threshold: PropTypes.number.isRequired,
   value: PropTypes.string.isRequired,
 };
