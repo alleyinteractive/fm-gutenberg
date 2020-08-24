@@ -19,7 +19,7 @@ import './styles.scss';
 /**
  * Render autocomplete component.
  */
-const AutoComplete = ({
+const PostSelector = ({
   className,
   emptyLabel,
   label,
@@ -258,7 +258,7 @@ const AutoComplete = ({
  * Set initial props.
  * @type {object}
  */
-AutoComplete.defaultProps = {
+PostSelector.defaultProps = {
   className: '',
   emptyLabel: __('No posts found', 'wp-starter-plugin'),
   label: __('Search for posts', 'wp-starter-plugin'),
@@ -272,7 +272,7 @@ AutoComplete.defaultProps = {
  * Set PropTypes for this component.
  * @type {object}
  */
-AutoComplete.propTypes = {
+PostSelector.propTypes = {
   className: PropTypes.string,
   emptyLabel: PropTypes.string,
   label: PropTypes.string,
@@ -283,4 +283,4 @@ AutoComplete.propTypes = {
   threshold: PropTypes.number,
 };
 
-export default AutoComplete;
+export default PostSelector;

@@ -1,4 +1,4 @@
-# AutoComplete
+# PostSelector
 
 Allows users to select a post or multiple posts using a search query agains the REST API. Optionally, accepts a list of post types to restrict the search to. Utilizes the search endpoint, so posts must have the appropriate visibility within the REST API to appear in the result list.
 
