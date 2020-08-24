@@ -1,0 +1,90 @@
+//--------------------------------------------------------------
+// AutoComplete Styles
+//--------------------------------------------------------------
+
+/* stylelint-disable selector-max-specificity */
+
+.editor-styles-wrapper {
+
+  .autocomplete {
+
+    //-----------------------------------------
+    // Selected button.
+    //-----------------------------------------
+    &__selection {
+      margin-bottom: 4px;
+      margin-right: 3px;
+
+      &::after {
+        content: '×';
+        font-size: 16px;
+        line-height: 20px;
+        margin-left: 5px;
+      }
+    }
+
+    //-----------------------------------------
+    // Input
+    //-----------------------------------------
+    &-text-control__input {
+      margin: 0;
+    }
+
+    //-----------------------------------------
+    // Results
+    //-----------------------------------------
+    &__dropdown {
+      background-color: #fff;
+      border-color: transparent #7e8993 #7e8993 #7e8993;
+      border-radius: 0 0 4px 4px;
+      border-style: solid;
+      border-width: 0 1px 1px 1px;
+      left: 0;
+      max-height: 0;
+      overflow-y: hidden;
+      position: absolute;
+      top: calc(100% + 1px); // Offset focus border.
+      visibility: hidden;
+      width: 100%;
+      z-index: 10;
+
+      // Container is open.
+      &--is-open {
+        max-height: 275px;
+        overflow-y: scroll;
+        visibility: visible;
+      }
+
+      // Notice handler.
+      &--notice {
+        padding: 15px;
+      }
+
+      // Results container.
+      &--results {
+        list-style: none;
+        margin: 0;
+      }
+    }
+
+    //-----------------------------------------
+    // List/Results
+    //-----------------------------------------
+    &__list--item {
+      list-style: none;
+
+      > button {
+        background: transparent;
+        border-color: #e2e4e7;
+        border-style: solid;
+        border-width: 0 0 1px 0;
+        text-align: left;
+        width: 100%;
+      }
+
+      &:last-child > button {
+        border-bottom: 0;
+      }
+    }
+  }
+}
