@@ -1,7 +1,6 @@
 // Dependencies.
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
 
 // autocomplete.
 import apiFetch from '@wordpress/api-fetch';
@@ -9,51 +8,41 @@ import { addQueryArgs } from '@wordpress/url';
 import { __ } from '@wordpress/i18n';
 import SearchResults from './components/searchResults';
 
+// Custom hooks.
+import useDebounce from './hooks/useDebounce';
+
 /**
  * Render autocomplete component.
  */
-class AutoComplete extends React.PureComponent {
-  /**
-   * Constructor. Binds function scope.
-   * @param {object} props - Props for this component.
-   */
-  constructor(props) {
-    super(props);
+const AutoComplete = ({
+  emptyLabel,
+  label,
+  multiple,
+  // On selection made.
+  onSelect,
+  placeHolder,
+  postTypes,
+  threshold,
+}) => {
+  const [foundPosts, setFoundPosts] = useState([]);
+  const [loading, setLoadState] = useState(false);
+  const [searchString, setSearchString] = useState('');
+  const [selectedPosts, setSelectedPosts] = useState([]);
 
-    /**
-     * Set Initial State
-     * @type {object}
-     */
-    this.state = {
-      foundPosts: [],
-      loading: false,
-      searchString: '',
-      selectedPosts: [],
-    };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSearchSubmit = debounce(
-      this.handleSearchSubmit.bind(this), 750,
-    );
-    this.handlePostSelection = this.handlePostSelection.bind(this);
-  }
+  const debouncedSearchString = useDebounce(searchString, 1250);
 
   /**
    * Make api requeset for posts by search string.
    */
-  async fetchPosts(searchString) {
-    const { postTypes, threshold } = this.props;
-
+  const fetchPosts = async (string) => {
     // Prevent fetch if we haven't met our threshold.
-    if (searchString.length < threshold) {
-      this.setState({
-        foundPosts: [],
-      });
+    if (string.length < threshold) {
+      setFoundPosts([]);
       return;
     }
 
     // Set the loading flag.
-    this.setState({ loading: true });
+    setLoadState(true);
 
     // Get search results from the API and store them.
     const path = addQueryArgs(
@@ -66,26 +55,24 @@ class AutoComplete extends React.PureComponent {
     );
 
     await apiFetch({ path })
-      .then((foundPosts) => this.setState({
-        foundPosts,
-        loading: false,
-      }))
+      .then((posts) => {
+        setFoundPosts(posts);
+        setLoadState(false);
+      })
       // TODO: Display error message or add handle for this.
       .catch((error) => console.log(error)); // eslint-disable-line no-console
-
-    console.log(searchString, postTypes);
-  }
+  };
 
   /**
-   * Handles a change to the search text string.
-   *
-   * @param {string} searchString - The new search text to apply.
+   * Handles submitting the input value on debounce.
    */
-  handleInputChange(searchString) {
-    this.setState({
-      searchString,
-    }, this.handleSearchSubmit);
-  }
+  useEffect(() => {
+    if (debouncedSearchString && threshold <= debouncedSearchString.length) {
+      fetchPosts(debouncedSearchString);
+    } else {
+      setFoundPosts([]);
+    }
+  }, [debouncedSearchString, threshold]);
 
   /**
    * Handle post selection from search results
@@ -93,10 +80,7 @@ class AutoComplete extends React.PureComponent {
    *
    * @param {object} post selected post object.
    */
-  handlePostSelection(post) {
-    const { selectedPosts } = this.state;
-    const { multiple, onSelect } = this.props;
-
+  const handlePostSelection = (post) => {
     let newSelectedPosts = [];
 
     // If multiple post selection is available.
@@ -118,83 +102,56 @@ class AutoComplete extends React.PureComponent {
       // Set single post as object to state.
       newSelectedPosts = post;
       // Reset state and close dropdown.
-      this.setState({
-        foundPosts: [],
-      });
+      setFoundPosts([]);
     }
 
-    this.setState({
-      selectedPosts: newSelectedPosts,
-    }, () => onSelect(newSelectedPosts));
-  }
+    setSelectedPosts(newSelectedPosts);
+    onSelect(newSelectedPosts);
+  };
 
-  /**
-   * Handles submitting the input value on debounce.
-   */
-  // eslint-disable-next-line
-  handleSearchSubmit() {
-    const { searchString } = this.state;
-
-    this.fetchPosts(searchString);
-  }
-
-  render() {
-    const {
-      foundPosts,
-      loading,
-      searchString,
-      selectedPosts,
-    } = this.state;
-
-    const {
-      emptyLabel,
-      label,
-      placeholder,
-    } = this.props;
-
-    return (
-      <form onSubmit={(event) => event.preventDefault()}>
-        <div className="autocomplete-base-control">
-          <div className="autocomplete-base-control__field">
-            <label
-              className="autocomplete-base-control__label"
-              htmlFor="autocomplete"
-            >
-              <span>{label}</span>
-              {selectedPosts.length > 0 && (
-                selectedPosts.map((item) => (
-                  <button
-                    type="button"
-                    onClick={() => this.handlePostSelection(item)}
-                  >
-                    {item.title}
-                  </button>
-                ))
-              )}
-              <input
-                aria-autoComplete="list"
-                autoComplete="off"
-                className="autocomplete-text-control__input"
-                id="autocomplete"
-                onChange={(e) => this.handleInputChange(e.target.value)}
-                placeholder={placeholder}
-                type="text"
-                value={searchString}
-              />
-            </label>
-          </div>
-          <SearchResults
-            emptyLabel={emptyLabel}
-            loading={loading && searchString}
-            options={foundPosts}
-            onSelect={this.handlePostSelection}
-            value={searchString}
-          />
+  return (
+    <form onSubmit={(event) => event.preventDefault()}>
+      <div className="autocomplete-base-control">
+        <div className="autocomplete-base-control__field">
+          <label
+            className="autocomplete-base-control__label"
+            htmlFor="autocomplete"
+          >
+            <span>{label}</span>
+            {selectedPosts.length > 0 && (
+              selectedPosts.map((item) => (
+                <button
+                  type="button"
+                  onClick={() => handlePostSelection(item)}
+                >
+                  {item.title}
+                </button>
+              ))
+            )}
+            <input
+              aria-autoComplete="list"
+              autoComplete="off"
+              className="autocomplete-text-control__input"
+              id="autocomplete"
+              onChange={(e) => setSearchString(e.target.value)}
+              placeholder={placeHolder}
+              type="text"
+              value={searchString}
+            />
+          </label>
         </div>
-      </form>
-    );
-  }
-}
+        <SearchResults
+          emptyLabel={emptyLabel}
+          loading={loading && debouncedSearchString}
+          onSelect={handlePostSelection}
+          options={foundPosts}
+          threshold={threshold}
+          value={debouncedSearchString}
+        />
+      </div>
+    </form>
+  );
+};
 
 /**
  * Set initial props.
@@ -204,9 +161,9 @@ AutoComplete.defaultProps = {
   emptyLabel: __('No posts found', 'wp-starter-plugin'),
   label: __('Search for posts', 'wp-starter-plugin'),
   multiple: false,
-  placeholder: __('Search for posts', 'wp-starter-pluing'),
+  placeHolder: __('Search for posts', 'wp-starter-pluing'),
   postTypes: [],
-  threshold: 2,
+  threshold: 3,
 };
 
 /**
@@ -219,7 +176,7 @@ AutoComplete.propTypes = {
   multiple: PropTypes.bool,
   // On selection made.
   onSelect: PropTypes.func.isRequired,
-  placeholder: PropTypes.string,
+  placeHolder: PropTypes.string,
   postTypes: PropTypes.arrayOf(PropTypes.string),
   threshold: PropTypes.number,
 };
