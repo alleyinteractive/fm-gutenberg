@@ -44,6 +44,7 @@ const SearchResults = ({
   if (loading || (!loading && ((value && options.length === 0) || error))) {
     return (
       <div
+        aria-busy
         className={
           classNames(
             'autocomplete__dropdown',
@@ -79,6 +80,9 @@ const SearchResults = ({
       }
     >
       <ul
+        role="listbox"
+        aria-labelledby={/* unique ID passed to this component from parent referencing the label */}
+        id={/* unique ID passed to this component from parent, see my comments on PostSelector/index */}
         className={
           classNames(
             'autocomplete__dropdown--results',
