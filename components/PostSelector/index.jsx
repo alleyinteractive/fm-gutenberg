@@ -190,7 +190,6 @@ const PostSelector = ({
         ref={ref}
       >
         <div
-          aria-controls={`selected-posts-${uniqueKey}`}
           aria-expanded={isOpen}
           aria-haspopup="listbox"
           aria-owns={`listbox-${uniqueKey}`}
@@ -200,7 +199,7 @@ const PostSelector = ({
               'autocomplete-base-control__field',
             )
           }
-          role="combobox"
+          role="combobox" // eslint-disable-line jsx-a11y/role-has-required-aria-props
         >
           <label
             className={
@@ -216,7 +215,7 @@ const PostSelector = ({
           {selectedPosts.length > 0 && (
             <ul
               role="listbox"
-              aria-labelledby={`selected-posts-${uniqueKey}`}
+              aria-labelledby={`autocomplete-${uniqueKey}`}
               id={`selected-posts-${uniqueKey}`}
               className={
                 classNames(
@@ -266,6 +265,7 @@ const PostSelector = ({
         <SearchResults
           emptyLabel={emptyLabel}
           error={error}
+          labelledById={`autocomplete-${uniqueKey}`}
           id={`listbox-${uniqueKey}`}
           isOpen={isOpen}
           loading={loading && debouncedSearchString}

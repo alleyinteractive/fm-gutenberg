@@ -13,6 +13,7 @@ const SearchResults = ({
   error,
   id,
   isOpen,
+  labelledbyId,
   loading,
   onSelect,
   options,
@@ -82,7 +83,7 @@ const SearchResults = ({
     >
       <ul
         role="listbox"
-        aria-labelledby={id}
+        aria-labelledby={labelledbyId}
         id={id}
         className={
           classNames(
@@ -120,6 +121,7 @@ SearchResults.propTypes = {
   error: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  labelledbyId: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
