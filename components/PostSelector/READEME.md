@@ -1,6 +1,6 @@
 # PostSelector
 
-Allows users to select a post or multiple posts using a search query agains the REST API. Optionally, accepts a list of post types to restrict the search to. Utilizes the search endpoint, so posts must have the appropriate visibility within the REST API to appear in the result list.
+Allows users to select a post or multiple posts using a search query agains the REST API. Optionally, accepts a list of post types to which to restrict the search. Utilizes the search endpoint, so posts must have the appropriate visibility within the REST API to appear in the result list.
 
 Importantly, this component does not save the selected post, it just returns it in the `onSelect` method. The enclosing block or component is responsible for managing the selected posts in some way, and using this component as a method for picking a new one.
 
