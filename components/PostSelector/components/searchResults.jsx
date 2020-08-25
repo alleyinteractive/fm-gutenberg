@@ -11,6 +11,7 @@ import { __ } from '@wordpress/i18n';
 const SearchResults = ({
   emptyLabel,
   error,
+  id,
   isOpen,
   loading,
   onSelect,
@@ -81,8 +82,8 @@ const SearchResults = ({
     >
       <ul
         role="listbox"
-        aria-labelledby={/* unique ID passed to this component from parent referencing the label */}
-        id={/* unique ID passed to this component from parent, see my comments on PostSelector/index */}
+        aria-labelledby={id}
+        id={id}
         className={
           classNames(
             'autocomplete__dropdown--results',
@@ -117,6 +118,7 @@ const SearchResults = ({
 SearchResults.propTypes = {
   emptyLabel: PropTypes.string.isRequired,
   error: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   options: PropTypes.arrayOf(
