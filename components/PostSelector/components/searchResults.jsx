@@ -44,6 +44,7 @@ const SearchResults = ({
   if (loading || (!loading && ((value && options.length === 0) || error))) {
     return (
       <div
+        aria-busy
         className={
           classNames(
             'autocomplete__dropdown',
