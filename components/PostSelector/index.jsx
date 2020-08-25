@@ -190,16 +190,17 @@ const PostSelector = ({
         ref={ref}
       >
         <div
-          role="combobox"
-          aria-owns={/* unique ID that you will pass to SearchResults and will be the ID for the ul*/}
-          aria-haspopup="listbox"
+          aria-controls={`selected-posts-${uniqueKey}`}
           aria-expanded={isOpen}
+          aria-haspopup="listbox"
+          aria-owns={`listbox-${uniqueKey}`}
           className={
             classNames(
               'components-base-control__field',
               'autocomplete-base-control__field',
             )
           }
+          role="combobox"
         >
           <label
             className={
@@ -211,20 +212,37 @@ const PostSelector = ({
             htmlFor={`autocomplete-${uniqueKey}`}
           >
             <div>{label}</div>
-            {selectedPosts.length > 0 && (
-              selectedPosts.map((item) => (
-                <Button
-                  className="autocomplete__selection"
-                  isSecondary
-                  isSmall
-                  onClick={() => handlePostSelection(item)}
-                  type="button"
-                >
-                  {item.title}
-                </Button>
-              ))
-            )}
           </label>
+          {selectedPosts.length > 0 && (
+            <ul
+              role="listbox"
+              aria-labelledby={`selected-posts-${uniqueKey}`}
+              id={`selected-posts-${uniqueKey}`}
+              className={
+                classNames(
+                  'autocomplete__selection--results',
+                  'autocomplete__selection-list',
+                )
+              }
+            >
+              {selectedPosts.map((item) => (
+                <li
+                  className="autocomplete__selection-list--item"
+                  key={item.title}
+                >
+                  <Button
+                    className="autocomplete__selection-list--item--button"
+                    isSecondary
+                    isSmall
+                    onClick={() => handlePostSelection(item)}
+                    type="button"
+                  >
+                    {item.title}
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          )}
           <input
             aria-autoComplete="list"
             autoComplete="off"
@@ -248,7 +266,7 @@ const PostSelector = ({
         <SearchResults
           emptyLabel={emptyLabel}
           error={error}
-          id={`autocomplete-${uniqueKey}`}
+          id={`listbox-${uniqueKey}`}
           isOpen={isOpen}
           loading={loading && debouncedSearchString}
           onSelect={handlePostSelection}

@@ -27,25 +27,36 @@
     }
 
     //-----------------------------------------
-    // Selected button.
-    //-----------------------------------------
-    &__selection {
-      margin-bottom: 4px;
-      margin-right: 3px;
-
-      &::after {
-        content: '×';
-        font-size: 16px;
-        line-height: 20px;
-        margin-left: 5px;
-      }
-    }
-
-    //-----------------------------------------
     // Input
     //-----------------------------------------
     &-text-control__input {
       margin: 0;
+    }
+
+    //-----------------------------------------
+    // Selected buttons.
+    //-----------------------------------------
+    &__selection-list {
+      list-style-type: none;
+      margin: 0 0 6px;
+      padding: 0;
+
+      &--item {
+        display: inline-block;
+        list-style: none;
+
+        &--button {
+          margin-bottom: 4px;
+          margin-right: 3px;
+
+          &::after {
+            content: '×';
+            font-size: 16px;
+            line-height: 20px;
+            margin-left: 5px;
+          }
+        }
+      }
     }
 
     //-----------------------------------------
