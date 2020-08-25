@@ -44,7 +44,7 @@ const PostSelector = ({
   const debouncedSearchString = useDebounce(searchString, 750);
 
   /**
-   * Make api requeset for posts by search string.
+   * Make API request for posts by search string.
    *
    * @param {int} page current page number.
    */
