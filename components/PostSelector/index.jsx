@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { addQueryArgs } from '@wordpress/url';
+import { v4 as uuidv4 } from 'uuid';
 
 // Components.
 import SearchResults from './components/searchResults';
@@ -29,6 +30,9 @@ const PostSelector = ({
   postTypes,
   threshold,
 }) => {
+  // Unique ID.
+  const uniqueKey = uuidv4();
+
   // Setup state.
   const [error, setError] = useState('');
   const [foundPosts, setFoundPosts] = useState([]);
@@ -200,7 +204,7 @@ const PostSelector = ({
                 'autocomplete-base-control__label',
               )
             }
-            htmlFor="autocomplete"
+            htmlFor={`autocomplete-${uniqueKey}`}
           >
             <div>{label}</div>
             {selectedPosts.length > 0 && (
@@ -229,7 +233,7 @@ const PostSelector = ({
                 },
               )
             }
-            id="autocomplete"
+            id={`autocomplete-${uniqueKey}`}
             onChange={(e) => setSearchString(e.target.value)}
             onFocus={() => setIsOpen(true)}
             placeholder={placeHolder}
@@ -240,6 +244,7 @@ const PostSelector = ({
         <SearchResults
           emptyLabel={emptyLabel}
           error={error}
+          id={`autocomplete-${uniqueKey}`}
           isOpen={isOpen}
           loading={loading && debouncedSearchString}
           onSelect={handlePostSelection}

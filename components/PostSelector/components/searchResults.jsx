@@ -87,10 +87,12 @@ const SearchResults = ({
         }
       >
         {options.map((item) => (
-          <li className="autocomplete__list--item">
+          <li
+            className="autocomplete__list--item"
+            key={item.id}
+          >
             <Button
               onClick={() => onSelect(item)}
-              tabIndex="0"
               type="button"
               disabled={selectedPosts.some((post) => post.id === item.id)}
               isTertiary
