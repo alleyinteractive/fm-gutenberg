@@ -190,6 +190,10 @@ const PostSelector = ({
         ref={ref}
       >
         <div
+          role="combobox"
+          aria-owns={/* unique ID that you will pass to SearchResults and will be the ID for the ul*/}
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
           className={
             classNames(
               'components-base-control__field',
