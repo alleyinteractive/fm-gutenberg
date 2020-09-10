@@ -37,9 +37,10 @@ matrix:
   fast_finish: true
 
   include:
-    - env: WP_VERSION=latest PHP_LINT=1 WP_JS=1
+    - env: WP_VERSION=latest PHP_LINT=1 WP_PHPCS=1
+    - env: WP_VERSION=latest WP_JS=1
+    - env: WP_VERSION=latest WP_TRAVIS_OBJECT_CACHE=1
     - env: WP_VERSION=trunk
-    - env: WP_VERSION=latest WP_PHPCS=1 WP_TRAVIS_OBJECT_CACHE=1
 
 # Prepare your build for testing.
 # Failures in this section will result in build status 'errored'.
