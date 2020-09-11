@@ -24,20 +24,23 @@ branches:
 
 cache:
   directories:
-    - $HOME/.composer/cache
-    - node_modules
+    - $HOME/.config/composer/cache
+    - $HOME/.npm
+    - $HOME/.nvm
 
 # Git clone depth.
 git:
   depth: 1
+  quiet: true
 
 matrix:
   fast_finish: true
 
   include:
-    - env: WP_VERSION=latest PHP_LINT=1 WP_JS=1
+    - env: WP_VERSION=latest PHP_LINT=1 WP_PHPCS=1
+    - env: WP_VERSION=latest WP_JS=1
+    - env: WP_VERSION=latest WP_TRAVIS_OBJECT_CACHE=1
     - env: WP_VERSION=trunk
-    - env: WP_VERSION=latest WP_PHPCS=1 WP_TRAVIS_OBJECT_CACHE=1
 
 # Prepare your build for testing.
 # Failures in this section will result in build status 'errored'.
@@ -45,7 +48,7 @@ before_script:
   # Turn off Xdebug. See https://core.trac.wordpress.org/changeset/40138.
   - phpenv config-rm xdebug.ini || echo "Xdebug not available"
 
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
   # Couple the PHPUnit version to the PHP version.
   - composer global require "phpunit/phpunit=6.1.*"
@@ -54,19 +57,19 @@ before_script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
       # Set up the WordPress installation.
+      export WP_CORE_DIR=/tmp/wordpress/
       bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
       # Maybe install memcached.
       if [[ "$WP_TRAVIS_OBJECT_CACHE" == "1" ]]; then
-        curl https://raw.githubusercontent.com/tollmanz/wordpress-pecl-memcached-object-cache/584392b56dc4adbe52bd2c7b86f875e23a3e5f75/object-cache.php > $WP_CORE_DIR/wp-content/object-cache.php
-        echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+        printf "\n" | pecl install --force memcache 1> /dev/null
+        curl -s https://raw.githubusercontent.com/Automattic/wp-memcached/master/object-cache.php > "${WP_CORE_DIR}/wp-content/object-cache.php"
       fi
     fi
 
   # Set up phpcs.
   - |
     if [[ "$WP_PHPCS" == "1" ]] ; then
-      composer global require automattic/vipwpcs
-      phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs,$HOME/.composer/vendor/automattic/vipwpcs
+      composer g require --dev automattic/vipwpcs dealerdirect/phpcodesniffer-composer-installer
     fi
 
   # Set up node and jest.
@@ -74,7 +77,7 @@ before_script:
     if [[ "$WP_JS" == "1" ]] ; then
       nvm install "$(jq -r '.engines.node' package.json)"
       npm i -g npm@$(jq -r '.engines.npm' package.json)
-      npm install --quiet
+      npm ci
     fi
 
 # Run test script commands.

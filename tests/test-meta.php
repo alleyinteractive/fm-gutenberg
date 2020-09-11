@@ -1,6 +1,9 @@
 <?php
 /**
- * WP Starter Plugin:
+ * WP Starter Plugin Tests: Test_Meta Class
+ *
+ * @package WP_Starter_Plugin
+ * @subpackage Tests
  */
 
 /**
@@ -16,14 +19,14 @@ class Test_Meta extends WP_UnitTestCase {
 		// Register post meta to test.
 		\WP_Starter_Plugin\register_meta_helper(
 			'post',
-			['post'],
+			[ 'post' ],
 			'test_post_meta_key'
 		);
 
 		// Register term meta to test.
 		\WP_Starter_Plugin\register_meta_helper(
 			'term',
-			['category'],
+			[ 'category' ],
 			'test_term_meta_key'
 		);
 
@@ -34,9 +37,9 @@ class Test_Meta extends WP_UnitTestCase {
 		// Ensure defaults were applied properly.
 		$this->assertArraySubset(
 			[
-				'show_in_rest'      => true,
-				'single'            => true,
-				'type'              => 'string',
+				'show_in_rest' => true,
+				'single'       => true,
+				'type'         => 'string',
 			],
 			$registered['test_post_meta_key']
 		);
@@ -52,9 +55,9 @@ class Test_Meta extends WP_UnitTestCase {
 		// Ensure defaults were applied properly.
 		$this->assertArraySubset(
 			[
-				'show_in_rest'      => true,
-				'single'            => true,
-				'type'              => 'string',
+				'show_in_rest' => true,
+				'single'       => true,
+				'type'         => 'string',
 			],
 			$registered['test_term_meta_key']
 		);
@@ -66,7 +69,7 @@ class Test_Meta extends WP_UnitTestCase {
 		// Ensure custom options are supported.
 		\WP_Starter_Plugin\register_meta_helper(
 			'post',
-			['post'],
+			[ 'post' ],
 			'test_custom_meta_key',
 			[
 				'sanitize_callback' => 'absint',
