@@ -289,7 +289,7 @@ PostSelector.defaultProps = {
   emptyLabel: __('No posts found', 'wp-starter-plugin'),
   label: __('Search for posts', 'wp-starter-plugin'),
   multiple: false,
-  placeHolder: __('Search for posts', 'wp-starter-pluing'),
+  placeHolder: __('Search for posts', 'wp-starter-plugin'),
   postTypes: [],
   threshold: 3,
 };
