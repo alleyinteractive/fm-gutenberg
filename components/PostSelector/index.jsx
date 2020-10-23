@@ -108,7 +108,7 @@ const PostSelector = ({
   }, [debouncedSearchString, threshold]);
 
   /**
-   * Moustdown event callback.
+   * Mousedown event callback.
    *
    * @param {MouseEvent} event mouse event.
    */
