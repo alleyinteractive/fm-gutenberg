@@ -65,8 +65,11 @@ const PostSelector = ({
 
     // Set the loading flag.
     setLoadState(true);
+
     // Reset state before we start the fetch.
-    if (page === 1) { setFoundPosts([]); }
+    if (page === 1) {
+      setFoundPosts([]);
+    }
 
     // Get search results from the API and store them.
     const path = addQueryArgs(
