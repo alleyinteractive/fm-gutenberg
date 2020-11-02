@@ -7,7 +7,7 @@ Importantly, this component does not save the selected post, it just returns it 
 ## Usage
 
 ``` js
-  <AutoComplete
+  <PostSelector
     className="custom-autocomplete-classname"
     emptyLabel="No posts."
     label="Label"
