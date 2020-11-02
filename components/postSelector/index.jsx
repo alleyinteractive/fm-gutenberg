@@ -63,12 +63,12 @@ const PostSelector = ({
     // Page count.
     let totalPages = 0;
 
-    // Set the loading flag.
-    setLoadState(true);
-
-    // Reset state before we start the fetch.
     if (page === 1) {
+      // Reset state before we start the fetch.
       setFoundPosts([]);
+
+      // Set the loading flag.
+      setLoadState(true);
     }
 
     // Get search results from the API and store them.
