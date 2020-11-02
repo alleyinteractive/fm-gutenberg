@@ -100,7 +100,12 @@ const PostSelector = ({
         setLoadState(false);
 
         // Continue to fetch additional page results.
-        if (totalPages && totalPages > page) { fetchPosts(page + 1); }
+        if (
+          (totalPages && totalPages > page)
+          || (page >= 1 && multiple && selectedPosts.length > 0)
+        ) {
+          fetchPosts(page + 1);
+        }
       })
       .catch((err) => setError(err.message));
   };
