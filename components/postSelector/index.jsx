@@ -24,6 +24,7 @@ const PostSelector = ({
   className,
   emptyLabel,
   label,
+  maxPages,
   multiple,
   onSelect,
   placeHolder,
@@ -85,10 +86,13 @@ const PostSelector = ({
     // Fetch posts by page.
     await apiFetch({ path, parse: false })
       .then((response) => {
-        totalPages = parseInt(
+        const totalPagesFromResponse = parseInt(
           response.headers.get('X-WP-TotalPages'),
           10,
-        ) || 1;
+        );
+        // Set totalPage count to received page count unless larger than maxPages prop.
+        totalPages = totalPagesFromResponse > maxPages
+          ? maxPages : totalPagesFromResponse;
         return response.json();
       })
       .then((posts) => {
@@ -291,6 +295,7 @@ PostSelector.defaultProps = {
   className: '',
   emptyLabel: __('No posts found', 'wp-starter-plugin'),
   label: __('Search for posts', 'wp-starter-plugin'),
+  maxPages: 5,
   multiple: false,
   placeHolder: __('Search for posts', 'wp-starter-plugin'),
   postTypes: [],
@@ -305,6 +310,7 @@ PostSelector.propTypes = {
   className: PropTypes.string,
   emptyLabel: PropTypes.string,
   label: PropTypes.string,
+  maxPages: PropTypes.number,
   multiple: PropTypes.bool,
   onSelect: PropTypes.func.isRequired,
   placeHolder: PropTypes.string,
