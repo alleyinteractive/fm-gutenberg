@@ -1,26 +1,31 @@
 # PostSelector
 
-Allows a user to select a post using a search query and the REST API. Optionally, accepts a list of post types to restrict the search to. Utilizes the search endpoint, so posts must have the appropriate visibility within the REST API to appear in the result list.
+Allows users to select a post or multiple posts using a search query against the REST API. Optionally, accepts a list of post types to which to restrict the search. Utilizes the search endpoint, so posts must have the appropriate visibility within the REST API to appear in the result list.
 
-Importantly, this component does not save the selected post, it just returns it in the `onChange` method. The enclosing block or component is responsible for managing the selected posts in some way, and using this component as a method for picking a new one.
+Importantly, this component does not save the selected post, it just returns it in the `onSelect` method. The enclosing block or component is responsible for managing the selected posts in some way, and using this component as a method for picking a new one.
 
-## Development Guidelines
+## Usage
 
-### Usage
+``` js
+  <PostSelector
+    className="custom-autocomplete-classname"
+    emptyLabel="No posts."
+    label="Label"
+    multiple
+    onSelect={onSelect}
+    placeholder="Placeholder..."
+    postTypes={['post', 'page']}
+    threshold={3}
+  />
+```
 
-Render a post selector with a limited list of post types.
-
-    <PostSelector
-      onChange={onChange}
-      postTypes={['post', 'page']}
-      threshold={2}
-      label="Select Post"
-    />
-
-The `onChange` callback will receive the selected post object, as it is returned from the `search` REST endpoint.
-
-The `postTypes` prop is optional. If not specified, all queryable post types will be included (behind the scenes, this results in `subtype=any` in the REST request). If specified, it must be an array of post type slugs.
-
-The `threshold` prop is optional. If specified, it overrides the default minimum number of characters that must be entered in order for the search to fire (default is 3).
-
-The `label` prop is optional. If specified, it overwrites the default label text for the post selection search input.
+| Prop        | Default          | Required | Type     | Description                                                                                                                 |
+|-------------|------------------|----------|----------|-----------------------------------------------------------------------------------------------------------------------------|
+| className   |                  | false    | string   | If specified, the className is prepended to the top-level container.                                                        |
+| emptyLabel  | No posts found   | false    | string   | If specified, this overrides the default language when no posts are found.                                                  |
+| label       | Search for posts | false    | string   | If specified, this overrides the default label text for the post selection search input.                                    |
+| multiple    | false            | false    | boolean  | If set to true the component allows for the ability to select multiple posts returned through the `onSelect` callback.      |
+| onSelect    | NA               | true     | function | Callback to receive the selected post array, as it is returned from the `search` REST endpoint. Required.                   |
+| placeHolder | Search for posts | false    | string   | If specified, this overrides the default input placeholder value.                                                           |
+| postTypes   | []               | false    | array    | All queryable post types that will be included in the form comma-separated array. The default query is "any" post type.     |
+| threshold   | 3                | false    | integer  | If specified, this overrides the default minimum number of characters that must be entered in order for the search to fire. |
