@@ -78,7 +78,7 @@ const PostSelector = ({
       {
         page,
         search: debouncedSearchString,
-        subtype: 0 < postTypes.length ? postTypes.join(',') : 'any',
+        subtype: postTypes.length > 0 ? postTypes.join(',') : 'any',
         type: 'post',
       },
     );
