@@ -42,14 +42,15 @@ function register_meta_helper(
 	}
 
 	// Merge provided arguments with defaults.
-	$args = wp_parse_args(
+// Merge provided arguments with defaults.
+	$args = apply_filters( 'ai_register_meta_helper_args', wp_parse_args(
 		$args,
 		[
 			'show_in_rest' => true,
 			'single'       => true,
 			'type'         => 'string',
 		]
-	);
+	), $object_type, $object_slugs, $meta_key );
 
 	// Fork for object type.
 	switch ( $object_type ) {
@@ -95,24 +96,24 @@ function register_post_meta_from_defs() {
 
 	// Loop through definitions and register each.
 	foreach ( $definitions as $meta_key => $definition ) {
-		$args = [];
+		// Extract post types.
+		$post_types = $definition['post_types'] ?? [];
+		// Unset since $definition is passed as register_meta args.
+		unset( $definition['post_types'] );
 
-		// Add type, if specified.
-		if ( ! empty( $definition['type'] ) ) {
-			$args['type'] = $definition['type'];
-		}
-
-		// Add schema, if specified.
+		// Relocate schema, if specified at the top level.
 		if ( ! empty( $definition['schema'] ) ) {
-			$args['show_in_rest']['schema'] = $definition['schema'];
+			$definition['show_in_rest']['schema'] = $definition['schema'];
+			// Unset since $definition is passed as register_meta args.
+			unset( $definition['schema'] );
 		}
 
 		// Register the meta.
 		register_meta_helper(
 			'post',
-			$definition['post_types'] ?? [],
+			$post_types,
 			$meta_key,
-			$args
+			$definition
 		);
 	}
 }
