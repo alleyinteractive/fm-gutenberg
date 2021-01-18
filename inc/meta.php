@@ -46,7 +46,7 @@ function register_meta_helper(
 	 *
 	 * @link https://developer.wordpress.org/reference/functions/register_meta/
 	 *
-	 * @param array $args {
+	 * @param array  $args {
 	 *     Array of args to be passed to register_meta().
 	 *
 	 *     @type string     $object_subtype    A subtype; e.g. if the object type is "post", the post type. If left empty,
