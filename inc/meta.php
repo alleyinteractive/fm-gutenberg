@@ -42,7 +42,6 @@ function register_meta_helper(
 	}
 
 	// Merge provided arguments with defaults.
-// Merge provided arguments with defaults.
 	$args = apply_filters( 'ai_register_meta_helper_args', wp_parse_args(
 		$args,
 		[
