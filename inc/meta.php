@@ -50,16 +50,16 @@ function register_meta_helper(
 	 *     Array of args to be passed to register_meta().
 	 *
 	 *     @type string     $object_subtype    A subtype; e.g. if the object type is "post", the post type. If left empty,
-	 * 										   the meta key will be registered on the entire object type. Default empty.
+	 *                                         the meta key will be registered on the entire object type. Default empty.
 	 *     @type string     $type              The type of data associated with this meta key. Valid values are
-	 * 										   'string', 'boolean', 'integer', 'number', 'array', and 'object'.
+	 *                                         'string', 'boolean', 'integer', 'number', 'array', and 'object'.
 	 *     @type string     $description       A description of the data attached to this meta key.
-	 *     @type bool       $single	           Whether the meta key has one value per object, or an array of values per object.
-	 * 	   @type mixed      $default           The default value returned from get_metadata() if no value has been set yet.
+	 *     @type bool       $single            Whether the meta key has one value per object, or an array of values per object.
+	 *     @type mixed      $default           The default value returned from get_metadata() if no value has been set yet.
 	 *                                         When using a non-single meta key, the default value is for the first entry. In other words,
-	 * 									       when calling get_metadata() with $single set to false, the default value given here will be wrapped in an array.
+	 *                                         when calling get_metadata() with $single set to false, the default value given here will be wrapped in an array.
 	 *     @type callable   $sanitize_callback A function or method to call when sanitizing $meta_key data.
-	 * 	   @type callable   $auth_callback     Optional. A function or method to call when performing edit_post_meta,
+	 *     @type callable   $auth_callback     Optional. A function or method to call when performing edit_post_meta,
 	 *                                         add_post_meta, and delete_post_meta capability checks.
 	 *     @type bool|array $show_in_rest      Whether data associated with this meta key can be considered public and should be
 	 *                                         accessible via the REST API. A custom post type must also declare support
@@ -71,14 +71,20 @@ function register_meta_helper(
 	 * @param array  $object_slugs The post type or taxonomy slugs to register with.
 	 * @param string $meta_key     The meta key to register.
 	 */
-	$args = apply_filters( 'ai_register_meta_helper_args', wp_parse_args(
-		$args,
-		[
-			'show_in_rest' => true,
-			'single'       => true,
-			'type'         => 'string',
-		]
-	), $object_type, $object_slugs, $meta_key );
+	$args = apply_filters(
+		'ai_register_meta_helper_args', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+		wp_parse_args(
+			$args,
+			[
+				'show_in_rest' => true,
+				'single'       => true,
+				'type'         => 'string',
+			]
+		),
+		$object_type,
+		$object_slugs,
+		$meta_key
+	);
 
 	// Fork for object type.
 	switch ( $object_type ) {
