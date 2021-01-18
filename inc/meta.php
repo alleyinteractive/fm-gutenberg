@@ -42,13 +42,12 @@ function register_meta_helper(
 	}
 
 	/**
-	 * Merge provided arguments with defaults.
-	 * Filters register_*_meta() args.
+	 * Merge provided arguments with defaults and filter register_meta() args.
 	 *
 	 * @link https://developer.wordpress.org/reference/functions/register_meta/
 	 *
 	 * @param array $args {
-	 *     Array of args to be passed to register_*_meta() functions.
+	 *     Array of args to be passed to register_meta().
 	 *
 	 *     @type string     $object_subtype    A subtype; e.g. if the object type is "post", the post type. If left empty,
 	 * 										   the meta key will be registered on the entire object type. Default empty.
