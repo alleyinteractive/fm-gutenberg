@@ -68,6 +68,9 @@ function register_meta_helper(
 	 *                                         complex meta values this argument may optionally be an array with 'schema'
 	 *                                         or 'prepare_callback' keys instead of a boolean.
 	 * }
+	 * @param string $object_type  The type of meta to register, which must be one of 'post' or 'term'.
+	 * @param array  $object_slugs The post type or taxonomy slugs to register with.
+	 * @param string $meta_key     The meta key to register.
 	 */
 	$args = apply_filters( 'ai_register_meta_helper_args', wp_parse_args(
 		$args,
