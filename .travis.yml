@@ -15,7 +15,7 @@ language: php
 
 # PHP version.
 php:
-  - '7.3'
+  - '7.4'
 
 # Specify when Travis should build.
 branches:
@@ -59,11 +59,13 @@ before_script:
       # Set up the WordPress installation.
       export WP_CORE_DIR=/tmp/wordpress/
       bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
-      # Maybe install memcached.
-      if [[ "$WP_TRAVIS_OBJECT_CACHE" == "1" ]]; then
-        printf "\n" | pecl install --force memcache 1> /dev/null
-        curl -s https://raw.githubusercontent.com/Automattic/wp-memcached/master/object-cache.php > "${WP_CORE_DIR}/wp-content/object-cache.php"
-      fi
+    fi
+
+  # Maybe install memcached.
+  - |
+    if [[ "$WP_TRAVIS_OBJECT_CACHE" == "1" ]]; then
+      printf "\n" | pecl install --force memcache-4.0.5.2 1> /dev/null
+      curl -s https://raw.githubusercontent.com/Automattic/wp-memcached/master/object-cache.php > "${WP_CORE_DIR}/wp-content/object-cache.php"
     fi
 
   # Set up phpcs.
