@@ -1,7 +1,7 @@
 # Travis CI (MIT License) configuration file for WP Starter Theme
 # @link https://travis-ci.org/
 
-# Bionic image has PHP versions 7.1,7.2,7.3 pre-installed
+# Bionic image has PHP versions 7.1,7.2,7.3,7.4 pre-installed
 dist: bionic
 
 # Bionic does not start mysql or memcached by default
@@ -15,7 +15,7 @@ language: php
 
 # PHP version.
 php:
-  - '7.3'
+  - '7.4'
 
 # Specify when Travis should build.
 branches:
@@ -51,7 +51,7 @@ before_script:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
   # Couple the PHPUnit version to the PHP version.
-  - composer global require "phpunit/phpunit=6.1.*"
+  - composer -q global require "phpunit/phpunit=6.1.*"
 
   # Set up WordPress.
   - |
@@ -59,17 +59,30 @@ before_script:
       # Set up the WordPress installation.
       export WP_CORE_DIR=/tmp/wordpress/
       bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
-      # Maybe install memcached.
-      if [[ "$WP_TRAVIS_OBJECT_CACHE" == "1" ]]; then
-        printf "\n" | pecl install --force memcache 1> /dev/null
-        curl -s https://raw.githubusercontent.com/Automattic/wp-memcached/master/object-cache.php > "${WP_CORE_DIR}/wp-content/object-cache.php"
-      fi
+
+      # Set up the plugin. This assumes that this repo name matches the plugin name.
+      mkdir -p "${WP_CORE_DIR}/wp-content/plugins/wp-starter-plugin"
+      cp -R . "${WP_CORE_DIR}/wp-content/plugins/wp-starter-plugin/"
+
+      # Hop into plugin's directory.
+      cd ${WP_CORE_DIR}/wp-content/themes/wp-starter-plugin/
+
+      # For debugging.
+      which phpunit
+      phpunit --version
+    fi
+
+  # Maybe install memcached.
+  - |
+    if [[ "$WP_TRAVIS_OBJECT_CACHE" == "1" ]]; then
+      printf "\n" | pecl install --force memcache-4.0.5.2 1> /dev/null
+      curl -s https://raw.githubusercontent.com/Automattic/wp-memcached/master/object-cache.php > "${WP_CORE_DIR}/wp-content/object-cache.php"
     fi
 
   # Set up phpcs.
   - |
     if [[ "$WP_PHPCS" == "1" ]] ; then
-      composer g require --dev automattic/vipwpcs dealerdirect/phpcodesniffer-composer-installer
+      composer -q global require alleyinteractive/alley-coding-standards
     fi
 
   # Set up node and jest.
