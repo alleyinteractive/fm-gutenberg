@@ -255,7 +255,7 @@ const PostSelector = ({
             </ul>
           )}
           <input
-            aria-autoComplete="list"
+            aria-autocomplete="list"
             autoComplete="off"
             className={
               classNames(
