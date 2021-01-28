@@ -15,6 +15,10 @@ Importantly, this component does not save the selected post, it just returns it 
     onSelect={onSelect}
     placeholder="Placeholder..."
     postTypes={['post', 'page']}
+    selected={[{
+      id: 123,
+      title: 'Title of Element',
+    }]}
     threshold={3}
   />
 ```
@@ -28,4 +32,5 @@ Importantly, this component does not save the selected post, it just returns it 
 | onSelect    | NA               | true     | function | Callback to receive the selected post array, as it is returned from the `search` REST endpoint. Required.                   |
 | placeHolder | Search for posts | false    | string   | If specified, this overrides the default input placeholder value.                                                           |
 | postTypes   | []               | false    | array    | All queryable post types that will be included in the form comma-separated array. The default query is "any" post type.     |
+| selected    | []               | false    | array    | Optional array of objects with id and title keys to auto-hydrate selections on load.                                        |
 | threshold   | 3                | false    | integer  | If specified, this overrides the default minimum number of characters that must be entered in order for the search to fire. |
