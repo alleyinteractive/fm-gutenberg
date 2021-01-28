@@ -29,6 +29,7 @@ const PostSelector = ({
   onSelect,
   placeHolder,
   postTypes,
+  selected,
   threshold,
 }) => {
   // Unique ID.
@@ -109,6 +110,13 @@ const PostSelector = ({
       })
       .catch((err) => setError(err.message));
   };
+
+  /**
+   * On Mount, pre-fill selected buttons, if they exist.
+   */
+  useEffect(() => {
+    setSelectedPosts(selected);
+  }, []);
 
   /**
    * Handles submitting the input value on debounce.
@@ -255,7 +263,7 @@ const PostSelector = ({
             </ul>
           )}
           <input
-            aria-autoComplete="list"
+            aria-autocomplete="list"
             autoComplete="off"
             className={
               classNames(
@@ -304,6 +312,7 @@ PostSelector.defaultProps = {
   multiple: false,
   placeHolder: __('Search for posts', 'wp-starter-plugin'),
   postTypes: [],
+  selected: [],
   threshold: 3,
 };
 
@@ -320,6 +329,12 @@ PostSelector.propTypes = {
   onSelect: PropTypes.func.isRequired,
   placeHolder: PropTypes.string,
   postTypes: PropTypes.arrayOf(PropTypes.string),
+  selected: PropTypes.arrayOf([
+    PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+    }),
+  ]),
   threshold: PropTypes.number,
 };
 
