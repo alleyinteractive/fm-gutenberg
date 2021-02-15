@@ -1,0 +1,20 @@
+{
+  "name": "alleyinteractive/wp-starter-plugin",
+  "description": "WP Starter Plugin",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Alley Interactive",
+      "email": "noreply@alleyinteractive.com"
+    }
+  ],
+  "require-dev": {
+    "alleyinteractive/alley-coding-standards": "^0.2.0",
+    "phpunit/phpunit": "7.5.*"
+  },
+  "scripts": {
+    "phpcbf": "phpcbf .",
+    "phpcs": "phpcs . --runtime-set text_domain wp-starter-plugin --runtime-set prefixes wp_starter_plugin,_ai,ai_",
+    "phpunit": "phpunit"
+  }
+}

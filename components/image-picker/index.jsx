@@ -5,7 +5,7 @@ import { withSelect } from '@wordpress/data';
 import { MediaPlaceholder } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 
-import getImageThumbnail from 'services/media/getImageThumbnail';
+import getImageThumbnail from '../../services/media/get-image-thumbnail';
 
 /**
  * A component representing the Image Picker sidebar control.

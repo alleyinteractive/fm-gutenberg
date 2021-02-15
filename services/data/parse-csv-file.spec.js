@@ -1,6 +1,6 @@
 /* global describe, expect, it */
 
-import parseCSVFile from './parseCSVFile';
+import parseCSVFile from './parse-csv-file';
 
 const sampleData = `
 region,demographic-type,demographic,1996,1997,1996-n,1997-n
