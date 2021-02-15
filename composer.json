@@ -13,8 +13,8 @@
     "phpunit/phpunit": "7.5.*"
   },
   "scripts": {
-    "phpcbf:plugin": "phpcbf .",
-    "phpcs:plugin": "phpcs . --runtime-set text_domain wp-starter-plugin --runtime-set prefixes wp_starter_plugin,_ai,ai_",
-    "phpunit:plugin": "phpunit"
+    "phpcbf": "phpcbf .",
+    "phpcs": "phpcs . --runtime-set text_domain wp-starter-plugin --runtime-set prefixes wp_starter_plugin,_ai,ai_",
+    "phpunit": "phpunit"
   }
 }
