@@ -31,11 +31,15 @@ In order to save data back to post or term meta, you need to register the meta f
 
 ## Reusable Components
 
-A collection of reusable components is located in `./components`. These components can be included in a variety of contexts, such as the `PluginSidebar` or in blocks. There is a Babel alias for these set up at `components`.
+A collection of reusable components is located in `./components`. These components can be included in a variety of contexts, such as the `PluginSidebar` or in blocks.
 
 ## Services
 
-Complex JavaScript logic should be broken out into separate functions, one function per file, in the `services` directory, grouped into subfolders by type. See `services/media/getImageThumbnail.js` for an example of this. All services functions should have associated tests. Services functions can be imported using the alias `services/` to prevent the need for relative pathing.
+Complex JavaScript logic should be broken out into separate functions, one function per file, in the `services` directory, grouped into subfolders by type. See `services/media/getImageThumbnail.js` for an example of this. All services functions should have associated tests.
+
+## Pathing
+
+This project does not use aliases by default, since aliases can confuse IDEs and make it harder to navigate through the code to find where something is defined. You can add them yourself if you prefer.
 
 ## Running Tests
 
@@ -58,6 +62,6 @@ Travis will automatically run `phpcs`, `npm run test`, and `npm run build` (whic
 Still to come. The closest you can get now is running `npm run dev`, which watches for changes, and reloading the page.
 
 ## Built-in Components
-- `postSelector`: A component used for searching for and selecting posts via the REST API.
-- `csvUploader`: Allows a user to upload a CSV file, which is parsed in the browser, converted to a JSON structure, passed through a user specified callback function for further transformation, and saved to block attributes.
-- `imagePicker`: Allows a user to select or remove an image using the media modal. This component is (currently) intended to save to postmeta.
+- `post-selector`: A component used for searching for and selecting posts via the REST API.
+- `csv-uploader`: Allows a user to upload a CSV file, which is parsed in the browser, converted to a JSON structure, passed through a user specified callback function for further transformation, and saved to block attributes.
+- `image-picker`: Allows a user to select or remove an image using the media modal. This component is (currently) intended to save to postmeta.

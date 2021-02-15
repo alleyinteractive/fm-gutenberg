@@ -1,6 +1,6 @@
 /* global describe, expect, it */
 
-import getImageThumbnail from './getImageThumbnail';
+import getImageThumbnail from './get-image-thumbnail';
 
 describe('getImageThumbnail', () => {
   it('Should properly get an image thumbnail from a media object.', () => {

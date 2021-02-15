@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { __ } from '@wordpress/i18n';
 import { PanelBody, TextareaControl, TextControl } from '@wordpress/components';
 
-import ImagePicker from 'components/imagePicker';
+import ImagePicker from '../../../../components/image-picker';
 
 /**
  * A component representing the Open Graph sidebar configuration panel.

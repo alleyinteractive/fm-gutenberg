@@ -9,10 +9,10 @@ import { addQueryArgs } from '@wordpress/url';
 import { v4 as uuidv4 } from 'uuid';
 
 // Components.
-import SearchResults from './components/searchResults';
+import SearchResults from './components/search-results';
 
 // Custom hooks.
-import useDebounce from './hooks/useDebounce';
+import useDebounce from './hooks/use-debounce';
 
 // Styles.
 import './styles.scss';
