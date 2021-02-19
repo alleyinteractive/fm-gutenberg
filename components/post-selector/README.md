@@ -30,7 +30,7 @@ Importantly, this component does not save the selected post, it just returns it 
 | label       | Search for posts | false    | string   | If specified, this overrides the default label text for the post selection search input.                                    |
 | multiple    | false            | false    | boolean  | If set to true the component allows for the ability to select multiple posts returned through the `onSelect` callback.      |
 | onSelect    | NA               | true     | function | Callback to receive the selected post array, as it is returned from the `search` REST endpoint. Required.                   |
-| placeHolder | Search for posts | false    | string   | If specified, this overrides the default input placeholder value.                                                           |
+| placeholder | Search for posts | false    | string   | If specified, this overrides the default input placeholder value.                                                           |
 | postTypes   | []               | false    | array    | All queryable post types that will be included in the form comma-separated array. The default query is "any" post type.     |
 | selected    | []               | false    | array    | Optional array of objects with id and title keys to auto-hydrate selections on load.                                        |
 | threshold   | 3                | false    | integer  | If specified, this overrides the default minimum number of characters that must be entered in order for the search to fire. |
