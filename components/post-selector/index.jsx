@@ -27,7 +27,7 @@ const PostSelector = ({
   maxPages,
   multiple,
   onSelect,
-  placeHolder,
+  placeholder,
   postTypes,
   selected,
   threshold,
@@ -277,7 +277,7 @@ const PostSelector = ({
             id={`autocomplete-${uniqueKey}`}
             onChange={(e) => setSearchString(e.target.value)}
             onFocus={() => setIsOpen(true)}
-            placeholder={placeHolder}
+            placeholder={placeholder}
             type="text"
             value={searchString}
           />
@@ -310,7 +310,7 @@ PostSelector.defaultProps = {
   label: __('Search for posts', 'wp-starter-plugin'),
   maxPages: 5,
   multiple: false,
-  placeHolder: __('Search for posts', 'wp-starter-plugin'),
+  placeholder: __('Search for posts', 'wp-starter-plugin'),
   postTypes: [],
   selected: [],
   threshold: 3,
@@ -327,7 +327,7 @@ PostSelector.propTypes = {
   maxPages: PropTypes.number,
   multiple: PropTypes.bool,
   onSelect: PropTypes.func.isRequired,
-  placeHolder: PropTypes.string,
+  placeholder: PropTypes.string,
   postTypes: PropTypes.arrayOf(PropTypes.string),
   selected: PropTypes.arrayOf([
     PropTypes.shape({
