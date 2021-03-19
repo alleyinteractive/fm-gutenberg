@@ -8,17 +8,17 @@ import Papa from 'papaparse';
  * @param {File} file - The CSV file object.
  * @returns {Promise} - A Promise that will resolve to an array of row objects.
  */
-export default function parseCSVFile(file) {
-  return new Promise((resolve, reject) => {
-    Papa.parse(
-      file,
-      {
-        complete: (results) => resolve(results.data),
-        dynamicTyping: true,
-        error: (error) => reject(error),
-        header: true,
-        skipEmptyLines: true,
-      },
-    );
-  });
-}
+const parseCSVFile = (file) => new Promise((resolve, reject) => {
+  Papa.parse(
+    file,
+    {
+      complete: (results) => resolve(results.data),
+      dynamicTyping: true,
+      error: (error) => reject(error),
+      header: true,
+      skipEmptyLines: true,
+    },
+  );
+});
+
+export default parseCSVFile;
