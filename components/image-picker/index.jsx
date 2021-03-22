@@ -5,7 +5,7 @@ import { withSelect } from '@wordpress/data';
 import { MediaPlaceholder } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 
-import getImageThumbnail from '../../services/media/get-image-thumbnail';
+import getMediaUrl from '../../services/media/get-media-url';
 
 /**
  * A component representing the Image Picker sidebar control.
@@ -30,7 +30,7 @@ class ImagePicker extends React.PureComponent {
           <p>
             <img
               alt=""
-              src={getImageThumbnail(media)}
+              src={getMediaUrl(media, 'post-thumbnail')}
             />
           </p>
           <p>
