@@ -9,9 +9,11 @@ import { useSelect } from '@wordpress/data';
 import getMediaUrl from 'services/media/get-media-url';
 
 const ImageUpload = ({
+  className,
   id,
   imageSize,
   isSelected,
+  type,
   onReset,
   onSelect,
 }) => {
@@ -21,13 +23,18 @@ const ImageUpload = ({
       media: id !== 0 ? getMedia(id) || {} : {},
     };
   });
+  const style = {
+    height: id !== 0 ? 0 : 150,
+    overflow: 'hidden',
+    paddingTop: id !== 0 ? '56.25%' : 0,
+  };
+  const ratioStyle = type === 'ratio' ? style : { display: 'inline-block' };
   return (
     <div
+      className={className}
       style={{
+        ...ratioStyle,
         backgroundColor: '#007CBA',
-        height: id !== 0 ? 0 : 150,
-        overflow: 'hidden',
-        paddingTop: id !== 0 ? '56.25%' : 0,
         position: 'relative',
       }}
     >
@@ -44,14 +51,14 @@ const ImageUpload = ({
                   <img
                     alt=""
                     src={getMediaUrl(media, imageSize)}
-                    style={{
+                    style={type === 'ratio' ? {
                       height: '100%',
                       left: 0,
                       objectFit: 'cover',
                       position: 'absolute',
                       top: 0,
                       width: '100%',
-                    }}
+                    } : {}}
                   />
                   {isSelected ? (
                     <div
@@ -114,16 +121,20 @@ const ImageUpload = ({
 };
 
 ImageUpload.defaultProps = {
+  className: '',
   imageSize: 'thumbnail',
   isSelected: true,
+  type: 'ratio',
 };
 
 ImageUpload.propTypes = {
+  className: PropTypes.string,
   id: PropTypes.number.isRequired,
   imageSize: PropTypes.string,
   isSelected: PropTypes.bool,
   onReset: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
+  type: PropTypes.string,
 };
 
 export default ImageUpload;
