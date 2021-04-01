@@ -10,6 +10,7 @@ import getMediaUrl from 'services/media/get-media-url';
 
 const ImageUpload = ({
   id,
+  imageSize,
   isSelected,
   onReset,
   onSelect,
@@ -42,7 +43,7 @@ const ImageUpload = ({
                 <div>
                   <img
                     alt=""
-                    src={getMediaUrl(media, 'post-list')}
+                    src={getMediaUrl(media, imageSize)}
                     style={{
                       height: '100%',
                       left: 0,
@@ -113,11 +114,13 @@ const ImageUpload = ({
 };
 
 ImageUpload.defaultProps = {
+  imageSize: 'thumbnail',
   isSelected: true,
 };
 
 ImageUpload.propTypes = {
   id: PropTypes.number.isRequired,
+  imageSize: PropTypes.string,
   isSelected: PropTypes.bool,
   onReset: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
