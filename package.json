@@ -11,7 +11,9 @@
     "last 1 version"
   ],
   "jest": {
-    "modulePathIgnorePatterns": [".buddy-tests"]
+    "modulePathIgnorePatterns": [
+      ".buddy-tests"
+    ]
   },
   "scripts": {
     "preinstall": "npx check-node-version --package",

@@ -6,7 +6,7 @@ import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
 // Services.
-import getMediaUploadThumbnail from 'services/media/get-image-thumbnail';
+import getMediaUrl from 'services/media/get-media-url';
 
 const ImageUpload = ({
   id,
@@ -42,7 +42,7 @@ const ImageUpload = ({
                 <div>
                   <img
                     alt=""
-                    src={getMediaUploadThumbnail(media, 'post-list')}
+                    src={getMediaUrl(media, 'post-list')}
                     style={{
                       height: '100%',
                       left: 0,
