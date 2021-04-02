@@ -65,7 +65,7 @@ const ImageUpload = ({
                       style={{
                         background: 'white',
                         left: '50%',
-                        padding: '5px 0 5px 5px',
+                        padding: type === 'ratio' ? '5px 0 5px 5px' : 5,
                         position: 'absolute',
                         top: '50%',
                         transform: 'translate(-50%, -50%)',
@@ -94,14 +94,17 @@ const ImageUpload = ({
               ) : null}
               {id === 0 ? (
                 <div
-                  style={{
+                  style={type === 'ratio' ? {
                     background: 'white',
                     left: '50%',
-                    padding: '5px',
+                    padding: 5,
                     position: 'absolute',
                     top: '50%',
                     transform: 'translate(-50%, -50%)',
                     zIndex: 10,
+                  } : {
+                    background: 'white',
+                    padding: 5,
                   }}
                 >
                   <Button
