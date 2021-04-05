@@ -1,6 +1,8 @@
 # ImagePicker
 
-Allows a user to select or remove an image using the media modal. This component is (currently) intended to save to postmeta.
+Allows a user to select or remove an image using the media modal. This component
+is a thin wrapper around `MediaPicker` and simply sets the allowed types for the
+`MediaPicker` to `image`.
 
 ## Development Guidelines
 
@@ -9,16 +11,9 @@ Allows a user to select or remove an image using the media modal. This component
 Render an image picker, complete with image preview and remove button:
 
     <ImagePicker
-      metaKey="wp_starter_plugin_open_graph_image"
-      onUpdate={onUpdate}
-      value={image}
-    /> 
+      onUpdate={(image) => setAttributes({ imageId: image.id })}
+      value={imageId}
+    />
 
-The `onUpdate` function takes two parameters, a `key` and a `value`, intended to be used with saving to a meta key/value pair.
-
-The `value` is the ID of the attachment image.
-
-### Future Work
-
-Extend this component to be more easily used with blocks, rather than assuming that it will be used exclusively with postmeta.
- 
+For more information on how to use this component, see
+[MediaPicker](../media-picker/README.md).
