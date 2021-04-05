@@ -1,8 +1,8 @@
-import { __ } from '@wordpress/i18n';
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { Button } from '@wordpress/components';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 
 // Services.
@@ -12,8 +12,6 @@ const ImageUpload = ({
   className,
   id,
   imageSize,
-  isSelected,
-  type,
   onReset,
   onSelect,
 }) => {
@@ -23,24 +21,18 @@ const ImageUpload = ({
       media: id !== 0 ? getMedia(id) || {} : {},
     };
   });
-  const style = {
-    height: id !== 0 ? 0 : 150,
-    overflow: 'hidden',
-    paddingTop: id !== 0 ? '56.25%' : 0,
-  };
-  const ratioStyle = type === 'ratio' ? style : { display: 'inline-block' };
   return (
     <div
       className={className}
       style={{
-        ...ratioStyle,
         backgroundColor: '#007CBA',
+        display: 'inline-block',
         position: 'relative',
       }}
     >
       <MediaUploadCheck>
         <MediaUpload
-          title={__('Select/add image', 'brookings')}
+          title={__('Select/add image', 'wp-starter-plugin')}
           onSelect={onSelect}
           allowedTypes={['image']}
           value={id}
@@ -51,58 +43,40 @@ const ImageUpload = ({
                   <img
                     alt=""
                     src={getMediaUrl(media, imageSize)}
-                    style={type === 'ratio' ? {
-                      height: '100%',
-                      left: 0,
-                      objectFit: 'cover',
-                      position: 'absolute',
-                      top: 0,
-                      width: '100%',
-                    } : {}}
                   />
-                  {isSelected ? (
-                    <div
-                      style={{
-                        background: 'white',
-                        left: '50%',
-                        padding: type === 'ratio' ? '5px 0 5px 5px' : 5,
-                        position: 'absolute',
-                        top: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        zIndex: 10,
-                      }}
+                  <div
+                    style={{
+                      background: 'white',
+                      left: '50%',
+                      padding: type === 'ratio' ? '5px 0 5px 5px' : 5,
+                      position: 'absolute',
+                      top: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      zIndex: 10,
+                    }}
+                  >
+                    <Button
+                      isPrimary
+                      isLarge
+                      onClick={open}
+                      style={{ marginBottom: 0 }}
                     >
-                      <Button
-                        isPrimary
-                        isLarge
-                        onClick={open}
-                        style={{ marginBottom: 0 }}
-                      >
-                        { __('Replace image', 'brookings')}
-                      </Button>
-                      <Button
-                        isLink
-                        isDestructive
-                        onClick={onReset}
-                        style={{ marginBottom: 0 }}
-                      >
-                        { __('Remove Image', 'brookings')}
-                      </Button>
-                    </div>
-                  ) : null}
+                      { __('Replace image', 'wp-starter-plugin')}
+                    </Button>
+                    <Button
+                      isLink
+                      isDestructive
+                      onClick={onReset}
+                      style={{ marginBottom: 0 }}
+                    >
+                      { __('Remove Image', 'wp-starter-plugin')}
+                    </Button>
+                  </div>
                 </div>
               ) : null}
               {id === 0 ? (
                 <div
-                  style={type === 'ratio' ? {
-                    background: 'white',
-                    left: '50%',
-                    padding: 5,
-                    position: 'absolute',
-                    top: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    zIndex: 10,
-                  } : {
+                  style={{
                     background: 'white',
                     padding: 5,
                   }}
@@ -111,7 +85,7 @@ const ImageUpload = ({
                     isPrimary
                     onClick={open}
                   >
-                    { __('Select/add image', 'brookings')}
+                    { __('Select/add image', 'wp-starter-plugin')}
                   </Button>
                 </div>
               ) : null}
@@ -126,18 +100,14 @@ const ImageUpload = ({
 ImageUpload.defaultProps = {
   className: '',
   imageSize: 'thumbnail',
-  isSelected: true,
-  type: 'ratio',
 };
 
 ImageUpload.propTypes = {
   className: PropTypes.string,
   id: PropTypes.number.isRequired,
   imageSize: PropTypes.string,
-  isSelected: PropTypes.bool,
   onReset: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
-  type: PropTypes.string,
 };
 
 export default ImageUpload;
