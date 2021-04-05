@@ -48,7 +48,7 @@ const ImageUpload = ({
                     style={{
                       background: 'white',
                       left: '50%',
-                      padding: type === 'ratio' ? '5px 0 5px 5px' : 5,
+                      padding: 5,
                       position: 'absolute',
                       top: '50%',
                       transform: 'translate(-50%, -50%)',
