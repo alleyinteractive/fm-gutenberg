@@ -14,7 +14,7 @@ const ImageUpload = ({
   value,
   imageSize,
   onReset,
-  onSelect,
+  onUpdate,
 }) => {
   const { media } = useSelect((select) => {
     const { getMedia } = select('core');
@@ -33,8 +33,8 @@ const ImageUpload = ({
     >
       <MediaUploadCheck>
         <MediaUpload
-          title={__('Select/add image', 'wp-starter-plugin')}
-          onSelect={onSelect}
+          title={__('Select/add File', 'wp-starter-plugin')}
+          onSelect={onUpdate}
           allowedTypes={allowedTypes}
           value={value}
           render={({ open }) => (
@@ -62,7 +62,7 @@ const ImageUpload = ({
                       onClick={open}
                       style={{ marginBottom: 0 }}
                     >
-                      { __('Replace image', 'wp-starter-plugin')}
+                      { __('Replace File', 'wp-starter-plugin')}
                     </Button>
                     <Button
                       isLink
@@ -70,7 +70,7 @@ const ImageUpload = ({
                       onClick={onReset}
                       style={{ marginBottom: 0 }}
                     >
-                      { __('Remove Image', 'wp-starter-plugin')}
+                      { __('Remove File', 'wp-starter-plugin')}
                     </Button>
                   </div>
                 </div>
@@ -86,7 +86,7 @@ const ImageUpload = ({
                     isPrimary
                     onClick={open}
                   >
-                    { __('Select/add image', 'wp-starter-plugin')}
+                    { __('Select/add File', 'wp-starter-plugin')}
                   </Button>
                 </div>
               ) : null}
@@ -110,7 +110,7 @@ ImageUpload.propTypes = {
   value: PropTypes.number.isRequired,
   imageSize: PropTypes.string,
   onReset: PropTypes.func.isRequired,
-  onSelect: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default ImageUpload;

@@ -5,7 +5,14 @@ import { __ } from '@wordpress/i18n';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+// Services.
+import getMediaUrl from '../../services/media/get-media-url';
+
 const MediaPicker = ({
+  allowedTypes,
+  className,
+  imageSize,
+  onReset,
   onUpdate,
   value,
 }) => {
@@ -13,25 +20,22 @@ const MediaPicker = ({
   if (!value) {
     return (
       <MediaPlaceholder
-        icon="pdf"
+        allowedTypes={allowedTypes}
+        icon="media-default"
         labels={{
           title: __('Select File', 'wp-starter-plugin'),
         }}
-        onSelect={({ id }) => onUpdate(id)}
+        onSelect={onUpdate}
         value={value}
       />
     );
   }
 
-  // Get the media URL given the media ID.
+  // Get the media object given the media ID.
   const {
     attachment = null,
   } = useSelect((select) => ({
-    attachment: select('core').getEntityRecord(
-      'postType',
-      'attachment',
-      value,
-    ),
+    attachment: select('core').getMedia(value),
   }), [value]);
 
   // getEntityRecord returns `null` if the load is in progress.
@@ -41,20 +45,27 @@ const MediaPicker = ({
     );
   }
 
-  // getEntityRecord will return `undefined` if the load failed.
-  const sourceUrl = attachment && attachment.source_url
-    ? attachment.source_url
-    : '';
+  // Get information about the asset for the preview.
+  const sourceUrl = getMediaUrl(attachment, imageSize);
 
-  // Display the asset URL and remove button.
+  // Display the asset image or URL and remove button.
   return (
-    <>
+    <div className={className}>
       <p>
         {sourceUrl ? (
           <>
-            <strong>{__('Selected File:', 'wp-starter-plugin')}</strong>
-            {' '}
-            {sourceUrl}
+            {attachment.media_type === 'image' ? (
+              <img
+                alt={__('An image preview of the selected file.', 'wp-starter-plugin')}
+                src={sourceUrl}
+              />
+            ) : (
+              <>
+                <strong>{__('Selected File:', 'wp-starter-plugin')}</strong>
+                {' '}
+                {sourceUrl}
+              </>
+            )}
           </>
         ) : (
           <Spinner />
@@ -63,16 +74,26 @@ const MediaPicker = ({
       <p>
         <Button
           isPrimary
-          onClick={() => onUpdate(0)}
+          onClick={onReset}
         >
           {__('Deselect File', 'wp-starter-plugin')}
         </Button>
       </p>
-    </>
+    </div>
   );
 };
 
+MediaPicker.defaultProps = {
+  allowedTypes: [],
+  className: '',
+  imageSize: 'thumbnail',
+};
+
 MediaPicker.propTypes = {
+  allowedTypes: PropTypes.arrayOf(PropTypes.string),
+  className: PropTypes.string,
+  imageSize: PropTypes.string,
+  onReset: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   value: PropTypes.number.isRequired,
 };

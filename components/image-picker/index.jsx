@@ -1,88 +1,40 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@wordpress/components';
-import { withSelect } from '@wordpress/data';
-import { MediaPlaceholder } from '@wordpress/block-editor';
-import { __ } from '@wordpress/i18n';
+import React from 'react';
 
-import getMediaUrl from '../../services/media/get-media-url';
+// Components.
+import MediaPicker from '../media-picker';
 
-/**
- * A component representing the Image Picker sidebar control.
- */
-class ImagePicker extends React.PureComponent {
-  /**
-   * Renders the image picker.
-   * @returns {object} JSX component markup.
-   */
-  render() {
-    const {
-      media,
-      metaKey,
-      onUpdate,
-      value,
-    } = this.props;
+const ImagePicker = ({
+  allowedTypes,
+  className,
+  imageSize,
+  onReset,
+  onUpdate,
+  value,
+}) => (
+  <MediaPicker
+    className={className}
+    allowedTypes={allowedTypes}
+    imageSize={imageSize}
+    onUpdate={onUpdate}
+    onReset={onReset}
+    value={value}
+  />
+);
 
-    // If we found media, show it and give the user an option to remove it.
-    if (value && media && media.id) {
-      return (
-        <div>
-          <p>
-            <img
-              alt=""
-              src={getMediaUrl(media, 'post-thumbnail')}
-            />
-          </p>
-          <p>
-            <Button
-              isPrimary
-              onClick={() => {
-                onUpdate(metaKey, 0);
-              }}
-            >
-              {__('Remove image', 'wp-starter-plugin')}
-            </Button>
-          </p>
-        </div>
-      );
-    }
+ImagePicker.defaultProps = {
+  allowedTypes: [],
+  className: '',
+  imageSize: 'thumbnail',
+};
 
-    // Show the image picker and give the user an option to add it.
-    return (
-      <MediaPlaceholder
-        accept="image/*"
-        allowedTypes={['image']}
-        icon="format-image"
-        labels={{
-          title: __('Select Image', 'wp-starter-plugin'),
-        }}
-        onSelect={({ id }) => {
-          onUpdate(metaKey, id);
-        }}
-      />
-    );
-  }
-}
-
-// Define PropTypes for this component.
 ImagePicker.propTypes = {
-  media: PropTypes.shape({
-    id: PropTypes.number,
-  }).isRequired,
-  metaKey: PropTypes.string.isRequired,
+  allowedTypes: PropTypes.arrayOf([PropTypes.string]),
+  className: PropTypes.string,
+  imageSize: PropTypes.string,
+  onReset: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   value: PropTypes.number.isRequired,
 };
 
-export default withSelect((select, ownProps) => {
-  const {
-    value,
-  } = ownProps;
-  const {
-    getMedia,
-  } = select('core');
-
-  return {
-    media: value ? getMedia(value) || {} : {},
-  };
-})(ImagePicker);
+export default ImagePicker;
