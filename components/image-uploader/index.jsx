@@ -10,7 +10,7 @@ import getMediaUrl from 'services/media/get-media-url';
 
 const ImageUpload = ({
   className,
-  id,
+  value,
   imageSize,
   onReset,
   onSelect,
@@ -18,7 +18,7 @@ const ImageUpload = ({
   const { media } = useSelect((select) => {
     const { getMedia } = select('core');
     return {
-      media: id !== 0 ? getMedia(id) || {} : {},
+      media: value !== 0 ? getMedia(value) || {} : {},
     };
   });
   return (
@@ -35,10 +35,10 @@ const ImageUpload = ({
           title={__('Select/add image', 'wp-starter-plugin')}
           onSelect={onSelect}
           allowedTypes={['image']}
-          value={id}
+          value={value}
           render={({ open }) => (
             <>
-              {id !== 0 && Object.keys(media).length > 0 ? (
+              {value !== 0 && Object.keys(media).length > 0 ? (
                 <div>
                   <img
                     alt=""
@@ -74,7 +74,7 @@ const ImageUpload = ({
                   </div>
                 </div>
               ) : null}
-              {id === 0 ? (
+              {value === 0 ? (
                 <div
                   style={{
                     background: 'white',
@@ -104,7 +104,7 @@ ImageUpload.defaultProps = {
 
 ImageUpload.propTypes = {
   className: PropTypes.string,
-  id: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
   imageSize: PropTypes.string,
   onReset: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,

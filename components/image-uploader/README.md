@@ -5,12 +5,10 @@ Allows for a simple media upload/replace/remove feature for blocks. Does not rep
 ``` js
 <ImageUploader
   className="image-selector"
-  id={1234}
   imageSize="thumbnail"
-  isSelected={true}
   onReset={() => setAttributes({ imageId: 0 })}
   onSelect={({ id: next }) => setAttributes({ imageId: next })}
-  type="native"
+  value={1234}
 />
 ```
 
@@ -18,7 +16,7 @@ Allows for a simple media upload/replace/remove feature for blocks. Does not rep
 | Prop       | Default | Required | Type     | Description                                                            |
 |------------|---------|----------|----------|------------------------------------------------------------------------|
 | className  |         | No       | string   | Class name.                                                            |
-| id         |         | Yes      | integer  | Image id or 0                                                          |
+| value      |         | Yes      | integer  | Image id or 0                                                          |
 | imageSize  | 'full'  | No       | string   | Image size to fetch url for.                                           |
 | onSelect   |         | Yes      | function | Function to set imageId value on image selection/upload.               |
 | onReset    |         | Yes      | function | Function to reset imageId to 0.                                        |
