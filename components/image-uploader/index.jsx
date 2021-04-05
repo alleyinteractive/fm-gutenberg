@@ -9,6 +9,7 @@ import { useSelect } from '@wordpress/data';
 import getMediaUrl from 'services/media/get-media-url';
 
 const ImageUpload = ({
+  allowedTypes,
   className,
   value,
   imageSize,
@@ -34,7 +35,7 @@ const ImageUpload = ({
         <MediaUpload
           title={__('Select/add image', 'wp-starter-plugin')}
           onSelect={onSelect}
-          allowedTypes={['image']}
+          allowedTypes={allowedTypes}
           value={value}
           render={({ open }) => (
             <>
@@ -98,11 +99,13 @@ const ImageUpload = ({
 };
 
 ImageUpload.defaultProps = {
+  allowedTypes: [],
   className: '',
   imageSize: 'thumbnail',
 };
 
 ImageUpload.propTypes = {
+  allowedTypes: PropTypes.arrayOf([PropTypes.string]),
   className: PropTypes.string,
   value: PropTypes.number.isRequired,
   imageSize: PropTypes.string,
