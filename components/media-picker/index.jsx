@@ -1,84 +1,107 @@
-import { MediaPlaceholder } from '@wordpress/block-editor';
-import { Button, Spinner } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
-import { __ } from '@wordpress/i18n';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Button, Spinner } from '@wordpress/components';
+import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
+import { useSelect } from '@wordpress/data';
 
 // Services.
-import getMediaUrl from '../../services/media/get-media-url';
+import getMediaUrl from 'services/media/get-media-url';
 
 const MediaPicker = ({
   allowedTypes,
   className,
+  value,
   imageSize,
   onReset,
   onUpdate,
-  value,
 }) => {
-  // If we don't have a value, display a MediaPlaceholder to get it.
-  if (!value) {
-    return (
-      <MediaPlaceholder
-        allowedTypes={allowedTypes}
-        icon="media-default"
-        labels={{
-          title: __('Select File', 'wp-starter-plugin'),
-        }}
-        onSelect={onUpdate}
-        value={value}
-      />
-    );
-  }
-
   // Get the media object given the media ID.
   const {
-    attachment = null,
+    media = null,
   } = useSelect((select) => ({
-    attachment: select('core').getMedia(value),
+    media: select('core').getMedia(value),
   }), [value]);
 
   // getEntityRecord returns `null` if the load is in progress.
-  if (attachment === null) {
+  if (value !== 0 && media === null) {
     return (
       <Spinner />
     );
   }
 
-  // Get information about the asset for the preview.
-  const sourceUrl = getMediaUrl(attachment, imageSize);
-
-  // Display the asset image or URL and remove button.
   return (
-    <div className={className}>
-      <p>
-        {sourceUrl ? (
-          <>
-            {attachment.media_type === 'image' ? (
-              <img
-                alt={__('An image preview of the selected file.', 'wp-starter-plugin')}
-                src={sourceUrl}
-              />
-            ) : (
-              <>
-                <strong>{__('Selected File:', 'wp-starter-plugin')}</strong>
-                {' '}
-                {sourceUrl}
-              </>
-            )}
-          </>
-        ) : (
-          <Spinner />
-        )}
-      </p>
-      <p>
-        <Button
-          isPrimary
-          onClick={onReset}
-        >
-          {__('Deselect File', 'wp-starter-plugin')}
-        </Button>
-      </p>
+    <div
+      className={className}
+      style={{
+        backgroundColor: '#007CBA',
+        display: 'inline-block',
+        position: 'relative',
+      }}
+    >
+      <MediaUploadCheck>
+        <MediaUpload
+          title={__('Select/add File', 'wp-starter-plugin')}
+          onSelect={onUpdate}
+          allowedTypes={allowedTypes}
+          value={value}
+          render={({ open }) => (
+            <>
+              {value !== 0 && media !== null ? (
+                <div>
+                  <img
+                    alt=""
+                    src={getMediaUrl(media, imageSize)}
+                  />
+                  <div
+                    style={{
+                      background: 'white',
+                      left: '50%',
+                      padding: 5,
+                      position: 'absolute',
+                      top: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      zIndex: 10,
+                    }}
+                  >
+                    <Button
+                      isPrimary
+                      isLarge
+                      onClick={open}
+                      style={{ marginBottom: 0 }}
+                    >
+                      { __('Replace File', 'wp-starter-plugin')}
+                    </Button>
+                    <Button
+                      isLink
+                      isDestructive
+                      onClick={onReset}
+                      style={{ marginBottom: 0 }}
+                    >
+                      { __('Remove File', 'wp-starter-plugin')}
+                    </Button>
+                  </div>
+                </div>
+              ) : null}
+              {value === 0 ? (
+                <div
+                  style={{
+                    background: 'white',
+                    padding: 5,
+                  }}
+                >
+                  <Button
+                    isPrimary
+                    onClick={open}
+                  >
+                    { __('Select/add File', 'wp-starter-plugin')}
+                  </Button>
+                </div>
+              ) : null}
+            </>
+          )}
+        />
+      </MediaUploadCheck>
     </div>
   );
 };
@@ -90,12 +113,12 @@ MediaPicker.defaultProps = {
 };
 
 MediaPicker.propTypes = {
-  allowedTypes: PropTypes.arrayOf(PropTypes.string),
+  allowedTypes: PropTypes.arrayOf([PropTypes.string]),
   className: PropTypes.string,
+  value: PropTypes.number.isRequired,
   imageSize: PropTypes.string,
   onReset: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  value: PropTypes.number.isRequired,
 };
 
 export default MediaPicker;
