@@ -8,25 +8,23 @@ For more information on how to use this component, see
 
 
 ## Usage
-Render an image picker, complete with image preview and remove button:
+Render a simple media upload/replace/remove feature for media for blocks.
 
 ``` js
 <ImagePicker
-  allowedTypes={['image']}
   className="image-picker"
-  imageSize="full"
-  onReset={(image) => setAttributes({ imageId: 0 })},
-  onUpdate={(image) => setAttributes({ imageId: image.id })}
+  imageSize="thumbnail"
+  onReset={() => setAttributes({ imageId: 0 })},
+  onUpdate={({ id }) => setAttributes({ imageId: id })}
   value={imageId}
 />
 ```
 
 ## Props
-| Prop         | Default | Required | Type     | Description                                                                |
-|--------------|---------|----------|----------|----------------------------------------------------------------------------|
-| allowedTypes | []      | No       | array    | Array with the types of the media to upload/select from the media library. |
-| className    |         | No       | string   | Class name.                                                                |
-| imageSize    | 'full'  | No       | string   | Image size to fetch url for.                                               |
-| onReset      |         | Yes      | function | Function to reset imageId to 0.                                            |
-| onUpdate     |         | Yes      | function | Function to set imageId value on image selection/upload.                   |
-| value        |         | Yes      | integer  | Image id or 0                                                              |
+| Prop         | Default     | Required | Type     | Description                                                                |
+|--------------|-------------|----------|----------|----------------------------------------------------------------------------|
+| className    |             | No       | string   | Class name.                                                                |
+| imageSize    | 'thumbnail' | No       | string   | Image size to fetch url for previewing.                                    |
+| onReset      |             | Yes      | function | Function to reset imageId to 0.                                            |
+| onUpdate     |             | Yes      | function | Function to set imageId value on image selection/upload.                   |
+| value        |             | Yes      | integer  | Image id or 0                                                              |

@@ -5,7 +5,6 @@ import React from 'react';
 import MediaPicker from '../media-picker';
 
 const ImagePicker = ({
-  allowedTypes,
   className,
   imageSize,
   onReset,
@@ -14,7 +13,7 @@ const ImagePicker = ({
 }) => (
   <MediaPicker
     className={className}
-    allowedTypes={allowedTypes}
+    allowedTypes={['image']}
     imageSize={imageSize}
     onUpdate={onUpdate}
     onReset={onReset}
@@ -23,13 +22,11 @@ const ImagePicker = ({
 );
 
 ImagePicker.defaultProps = {
-  allowedTypes: [],
   className: '',
   imageSize: 'thumbnail',
 };
 
 ImagePicker.propTypes = {
-  allowedTypes: PropTypes.arrayOf([PropTypes.string]),
   className: PropTypes.string,
   imageSize: PropTypes.string,
   onReset: PropTypes.func.isRequired,
