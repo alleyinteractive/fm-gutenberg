@@ -1,24 +1,30 @@
 # ImagePicker
+Allows a user to select or remove an image using the media modal. This component
+is a thin wrapper around `MediaPicker` and simply sets the allowed types for the
+`MediaPicker` to `image`.
 
-Allows a user to select or remove an image using the media modal. This component is (currently) intended to save to postmeta.
+For more information on how to use this component, see
+[MediaPicker](../media-picker/README.md).
 
-## Development Guidelines
 
-### Usage
+## Usage
+Render a simple media upload/replace/remove feature for media for blocks.
 
-Render an image picker, complete with image preview and remove button:
+``` js
+<ImagePicker
+  className="image-picker"
+  imageSize="thumbnail"
+  onReset={() => setAttributes({ imageId: 0 })},
+  onUpdate={({ id }) => setAttributes({ imageId: id })}
+  value={imageId}
+/>
+```
 
-    <ImagePicker
-      metaKey="wp_starter_plugin_open_graph_image"
-      onUpdate={onUpdate}
-      value={image}
-    /> 
-
-The `onUpdate` function takes two parameters, a `key` and a `value`, intended to be used with saving to a meta key/value pair.
-
-The `value` is the ID of the attachment image.
-
-### Future Work
-
-Extend this component to be more easily used with blocks, rather than assuming that it will be used exclusively with postmeta.
- 
+## Props
+| Prop         | Default     | Required | Type     | Description                                                                |
+|--------------|-------------|----------|----------|----------------------------------------------------------------------------|
+| className    |             | No       | string   | Class name.                                                                |
+| imageSize    | 'thumbnail' | No       | string   | Image size to fetch url for previewing.                                    |
+| onReset      |             | Yes      | function | Function to reset imageId to 0.                                            |
+| onUpdate     |             | Yes      | function | Function to set imageId value on image selection/upload.                   |
+| value        |             | Yes      | integer  | Image id or 0                                                              |
