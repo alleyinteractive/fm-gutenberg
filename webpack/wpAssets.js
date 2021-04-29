@@ -109,12 +109,12 @@ module.exports = (stats, opts) => {
   const manifestJSON = JSON.stringify(entryMap);
 
   // Write out asset manifest explicitly or else it'll be served from localhost, where wp can't access it
-  if ('development' === mode) {
+  if (mode === 'development') {
     const assetMap = path.join(__dirname, '../build/assetMap.json');
     const assetMapPath = path.dirname(assetMap);
 
     // Create build directory if it doesn't exist, as may be the case on first run.
-    if (! fs.existsSync(assetMapPath)) {
+    if (!fs.existsSync(assetMapPath)) {
       try {
         fs.mkdirSync(assetMapPath, { recursive: true });
       } catch (error) {
