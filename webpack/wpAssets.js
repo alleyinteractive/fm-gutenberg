@@ -110,9 +110,28 @@ module.exports = (stats, opts) => {
 
   // Write out asset manifest explicitly or else it'll be served from localhost, where wp can't access it
   if (mode === 'development') {
+    const assetMap = path.join(__dirname, '../build/assetMap.json');
+    const assetMapPath = path.dirname(assetMap);
+
+    // Create build directory if it doesn't exist, as may be the case on first run.
+    if (!fs.existsSync(assetMapPath)) {
+      try {
+        fs.mkdirSync(assetMapPath, { recursive: true });
+      } catch (error) {
+        console.error(`Error creating the build directory: ${error}`); // eslint-disable-line no-console
+        // die.
+        process.exit(1);
+      }
+    }
+
     fs.writeFileSync(
-      path.join(__dirname, '../build/assetMap.json'),
+      assetMap,
       manifestJSON,
+      (error) => {
+        console.error(`Error writing assetMap: ${error}`); // eslint-disable-line no-console
+        // die.
+        process.exit(1);
+      },
     );
   }
 
