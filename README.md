@@ -73,7 +73,7 @@ then the JSON file must be `my-block.json`). After creating or updating the JSON
 file, run the scaffold command (`npm run scaffold`) to generate or regenerate
 assets. Block registration, script creation, etc is handled for you.
 
-## Travis Integration
+## CI/CD Integration
 
 Buddy will automatically run `composer phpcs`, `npm run test`, and
 `npm run build` (which includes eslint). If any of these checks fail, the build
