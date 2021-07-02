@@ -1,5 +1,6 @@
 # wp-starter-plugin
-A companion plugin to wp-starter-theme, which is used to create custom blocks, sidebar plugins, and register custom post types and meta fields.
+A companion plugin to wp-starter-theme, which is used to create custom blocks,
+slotfills, and register custom post types and meta fields.
 
 ## Getting Started
 
@@ -13,55 +14,83 @@ Do a case sensitive global search and replace for the following strings:
 
 ## Running builds
 
-Run `npm run build` to build all production assets. Run `npm run dev` for a development build of assets, which also watches files for changes and automatically recompiles.
+Run `npm run build` to build all production assets. Run `npm run dev` for a
+development build of assets, which also watches files for changes and
+automatically recompiles.
 
 ## Scaffolder
 
-Run `npm run scaffold` to run the Alley scaffolder against the plugin. All normally-supported options are supported here.
+Run `npm run scaffold` to run the Alley scaffolder against the plugin. All
+normally-supported options are supported here.
 
-## Plugin Sidebar
+## Slotfills
 
-This plugin is built to use a single PluginSidebar for all site-specific features. The sidebar configuration can be found in `plugins/sidebar`. The main sidebar component is in `plugins/sidebar/components/sidebar/index.js`.
+This plugin is built to use slotfills for all site-specific features. The
+slotfill configuration can be found in `slotfills/index.js`. Individual slotfill
+sections are located in `slotfills/sections`.
 
-There is data available in `plugins/sidebar/components/sidebar/index.js` to allow for customizing which components are loaded based on post type and URL, and this logic can be extended to query other parts of the post object.
+## Saving to Post Meta
 
-## Saving to Post and Term Meta
-
-In order to save data back to post or term meta, you need to register the meta first. See the examples in `index.php` using the meta registration helper on how to do this.
+In order to save data back to post meta, you need to register the meta first.
+Meta fields are registered by adding them to the `config/post-meta.json` file.
+There are some examples in this file for Open Graph data.
 
 ## Reusable Components
 
-A collection of reusable components is located in `./components`. These components can be included in a variety of contexts, such as the `PluginSidebar` or in blocks.
+A collection of reusable components is located in `./components`. These
+components can be included in a variety of contexts, such as slotfills and
+blocks.
 
 ## Services
 
-Complex JavaScript logic should be broken out into separate functions, one function per file, in the `services` directory, grouped into subfolders by type. See `services/media/getImageThumbnail.js` for an example of this. All services functions should have associated tests.
+Complex JavaScript logic should be broken out into separate functions, one
+function per file, in the `services` directory, grouped into subfolders by type.
+See `services/media/get-media-url.js` for an example of this. All services
+functions should have associated tests.
 
 ## Pathing
 
-This project does not use aliases by default, since aliases can confuse IDEs and make it harder to navigate through the code to find where something is defined. You can add them yourself if you prefer.
+This project does not use aliases by default, since aliases can confuse IDEs and
+make it harder to navigate through the code to find where something is defined.
+You can add them yourself if you prefer.
 
 ## Running Tests
 
-Run `npm run test` to run Jest tests against JavaScript files. Run `npm run test:watch` to keep the test runner open and watching for changes.
+Run `npm run test` to run Jest tests against JavaScript files. Run
+`npm run test:watch` to keep the test runner open and watching for changes.
 
-Run `npm run lint` to run ESLint against all JavaScript files. Linting will also happen when running development or production builds.
+Run `npm run lint` to run ESLint against all JavaScript files. Linting will also
+happen when running development or production builds.
 
-Run `phpcs` to run PHP CodeSniffer tests against PHP files.
+Run `composer phpcs` to run PHP CodeSniffer tests against PHP files.
 
 ## Custom Blocks
 
-See the sample block for how to create and configure custom blocks. Each custom block needs its own webpack entry point and needs to be enqueued in `inc/assets.php`. Custom blocks can be conditionally enqueued depending on post type, post type supports, etc.
+Use the block scaffolder to create custom blocks. Create the block definition in
+`scaffold/blocks`. Ensure the name of the JSON file is the same as the
+non-namespaced block name (e.g., if your block is `wp-starter-plugin/my-block`,
+then the JSON file must be `my-block.json`). After creating or updating the JSON
+file, run the scaffold command (`npm run scaffold`) to generate or regenerate
+assets. Block registration, script creation, etc is handled for you.
 
 ## Travis Integration
 
-Travis will automatically run `phpcs`, `npm run test`, and `npm run build` (which includes eslint). If any of these checks fail, the build will fail.
+Buddy will automatically run `composer phpcs`, `npm run test`, and
+`npm run build` (which includes eslint). If any of these checks fail, the build
+will fail.
 
 ## Hot Reloading
 
-Still to come. The closest you can get now is running `npm run dev`, which watches for changes, and reloading the page.
+Still to come. The closest you can get now is running `npm run dev`, which
+watches for changes, and reloading the page.
 
 ## Built-in Components
-- `post-selector`: A component used for searching for and selecting posts via the REST API.
-- `csv-uploader`: Allows a user to upload a CSV file, which is parsed in the browser, converted to a JSON structure, passed through a user specified callback function for further transformation, and saved to block attributes.
-- `image-picker`: Allows a user to select or remove an image using the media modal. This component is (currently) intended to save to postmeta.
+- `CSVUploader`: Allows a user to upload a CSV file, which is parsed in the
+  browser, converted to a JSON structure, passed through a user specified
+  callback function for further transformation, and saved to block attributes.
+- `ImagePicker`: Allows a user to select or remove an image using the media
+  modal. A wrapper around `MediaPicker` that sets the file type to image.
+- `MediaPicker`: Allows a user to select or remove any attachment from the media
+  library using the media modal.
+- `PostSelector`: A component used for searching for and selecting posts via the
+  REST API.
