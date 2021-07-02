@@ -30,35 +30,17 @@ remove_action( 'init', 'css_concat_init' );
 remove_action( 'init', 'js_concat_init' );
 
 /**
- * Set allowed post types.
- *
- * @return array array of post types allowed for Gutenberg.
- */
-function allowed_post_types() {
-	return [
-		'post',
-	];
-}
-
-/**
  * A callback for the enqueue_block_editor_assets action hook.
  */
 function action_enqueue_block_editor_assets() {
-	global $post_type;
-
-	// Only enqueue the script to register the scripts if supported.
-	if ( ! in_array( $post_type, allowed_post_types(), true ) ) {
-		return;
-	}
-
 	wp_enqueue_script(
-		'wp-starter-plugin-plugin-sidebar',
-		get_asset_path( 'pluginSidebar.js' ),
-		get_asset_dependencies( 'pluginSidebar.php' ),
-		get_asset_hash( 'pluginSidebar.js' ),
+		'wp-starter-plugin-slotfills',
+		get_asset_path( 'slotfills.js' ),
+		get_asset_dependencies( 'slotfills.php' ),
+		get_asset_hash( 'slotfills.js' ),
 		true
 	);
-	inline_locale_data( 'wp-starter-plugin-plugin-sidebar' );
+	inline_locale_data( 'wp-starter-plugin-slotfills' );
 }
 
 /**
