@@ -23,7 +23,7 @@ module.exports = (env, argv) => {
         acc[entry] = item;
         return acc;
       }, {
-        pluginSidebar: './plugins/sidebar/index.js',
+        slotfills: './slotfills/index.js',
       }),
     module: {
       rules: [
