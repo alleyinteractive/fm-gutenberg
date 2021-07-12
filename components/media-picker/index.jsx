@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 
 // Services.
-import getMediaUrl from 'services/media/get-media-url';
+import getMediaUrl from '../../services/media/get-media-url';
 
 const MediaPicker = ({
   allowedTypes,

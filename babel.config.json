@@ -4,8 +4,7 @@
     [
       "module-resolver",
       {
-        "extensions": [".js", ".jsx"],
-        "root": ["./"]
+        "extensions": [".js", ".jsx"]
       }
     ]
   ],
