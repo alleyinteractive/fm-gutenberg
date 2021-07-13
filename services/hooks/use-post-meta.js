@@ -17,8 +17,7 @@ import { useSelect } from '@wordpress/data';
  */
 const usePostMeta = (postType = null, postId = null) => {
   // Ensures that we have a post type, since we need it as an argument to useEntityProp.
-  const type = postType
-    || useSelect((select) => select('core/editor').getCurrentPostType(), []);
+  const type = useSelect((select) => postType || select('core/editor').getCurrentPostType(), []);
 
   // Get the value of meta and a function for updating meta from useEntityProp.
   const [meta, setMeta] = useEntityProp('postType', type, 'meta', postId);

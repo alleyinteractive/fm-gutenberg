@@ -1,5 +1,10 @@
 // Dependencies.
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import apiFetch from '@wordpress/api-fetch';
 import classNames from 'classnames';
@@ -54,7 +59,7 @@ const PostSelector = ({
    *
    * @param {int} page current page number.
    */
-  const fetchPosts = async (page = 1) => {
+  const fetchPosts = useCallback(async (page = 1) => {
     // Prevent fetch if we haven't
     // met our search string threshold.
     if (debouncedSearchString.length < threshold) {
@@ -109,14 +114,14 @@ const PostSelector = ({
         }
       })
       .catch((err) => setError(err.message));
-  };
+  }, [debouncedSearchString, maxPages, multiple, postTypes, selectedPosts.length, threshold]);
 
   /**
    * On Mount, pre-fill selected buttons, if they exist.
    */
   useEffect(() => {
     setSelectedPosts(selected);
-  }, []);
+  }, [selected]);
 
   /**
    * Handles submitting the input value on debounce.
@@ -125,7 +130,7 @@ const PostSelector = ({
     if (debouncedSearchString && threshold <= debouncedSearchString.length) {
       fetchPosts();
     } else { setFoundPosts([]); }
-  }, [debouncedSearchString, threshold]);
+  }, [debouncedSearchString, fetchPosts, threshold]);
 
   /**
    * Mousedown event callback.
