@@ -10,12 +10,11 @@ import ImagePicker from '../../components/image-picker';
 import usePostMeta from '../../services/hooks/use-post-meta';
 
 const OpenGraph = () => {
-  const [meta, setMeta] = usePostMeta();
-  const {
+  const [{
     wp_starter_plugin_open_graph_description: description = '',
     wp_starter_plugin_open_graph_image: image = 0,
     wp_starter_plugin_open_graph_title: title = '',
-  } = meta;
+  }, setMeta] = usePostMeta();
 
   return (
     <PluginDocumentSettingPanel
