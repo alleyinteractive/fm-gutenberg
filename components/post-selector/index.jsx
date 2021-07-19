@@ -147,7 +147,7 @@ const PostSelector = ({
    * @param {KeyboardEvent} event keyboard event.
    */
   const handleKeyboard = (event) => {
-    if (event.keyCode === 27) { setIsOpen(false); }
+    if (event.key === 'Escape') { setIsOpen(false); }
   };
 
   /**
