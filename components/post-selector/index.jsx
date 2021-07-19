@@ -138,7 +138,7 @@ const PostSelector = ({
    * @param {MouseEvent} event mouse event.
    */
   const handleClick = (event) => {
-    setIsOpen(ref && ref.current.contains(event.target));
+    setIsOpen(ref.current.contains(event.target));
   };
 
   /**
@@ -162,7 +162,9 @@ const PostSelector = ({
    * Handles mouse down.
    */
   useEffect(() => {
-    document.addEventListener('mousedown', handleClick);
+    if (ref) {
+      document.addEventListener('mousedown', handleClick);
+    }
     return () => document.removeEventListener('mousedown', handleClick);
   });
 
