@@ -17,7 +17,7 @@ import { v4 as uuidv4 } from 'uuid';
 import SearchResults from './components/search-results';
 
 // Custom hooks.
-import useDebounce from './hooks/use-debounce';
+import useDebounce from '../../services/hooks/use-debounce';
 
 // Styles.
 import './styles.scss';
@@ -138,7 +138,7 @@ const PostSelector = ({
    * @param {MouseEvent} event mouse event.
    */
   const handleClick = (event) => {
-    setIsOpen(ref && ref.current.contains(event.target));
+    setIsOpen(ref.current.contains(event.target));
   };
 
   /**
@@ -147,7 +147,7 @@ const PostSelector = ({
    * @param {KeyboardEvent} event keyboard event.
    */
   const handleKeyboard = (event) => {
-    if (event.keyCode === 27) { setIsOpen(false); }
+    if (event.key === 'Escape') { setIsOpen(false); }
   };
 
   /**
@@ -162,7 +162,9 @@ const PostSelector = ({
    * Handles mouse down.
    */
   useEffect(() => {
-    document.addEventListener('mousedown', handleClick);
+    if (ref) {
+      document.addEventListener('mousedown', handleClick);
+    }
     return () => document.removeEventListener('mousedown', handleClick);
   });
 
