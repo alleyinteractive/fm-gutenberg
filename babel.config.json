@@ -1,22 +1,6 @@
 {
-  "plugins": [
-    "transform-class-properties",
-    [
-      "module-resolver",
-      {
-        "extensions": [".js", ".jsx"]
-      }
-    ]
-  ],
   "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "targets": {
-          "browsers": ["last 2 versions", "ie >= 11"]
-        }
-      }
-    ],
+    "@babel/preset-env",
     "@babel/preset-react"
   ]
 }
