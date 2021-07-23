@@ -146,7 +146,7 @@
       type: "BUILD"
       working_directory: "/buddy/wp-starter-plugin"
       docker_image_name: "library/node"
-      docker_image_tag: "12"
+      docker_image_tag: "14"
       execute_commands:
         - "npm run lint"
       volume_mappings:
@@ -158,7 +158,7 @@
       type: "BUILD"
       working_directory: "/buddy/wp-starter-plugin"
       docker_image_name: "library/node"
-      docker_image_tag: "12"
+      docker_image_tag: "14"
       execute_commands:
         - "npm run test"
       volume_mappings:
@@ -169,7 +169,7 @@
       type: "BUILD"
       working_directory: "/buddy/wp-starter-plugin"
       docker_image_name: "library/node"
-      docker_image_tag: "12"
+      docker_image_tag: "14"
       execute_commands:
         - "npm run build"
       volume_mappings:
