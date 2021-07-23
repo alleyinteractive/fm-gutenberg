@@ -1,26 +1,18 @@
 {
-  // Extend the AirBnb lint config
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true,
+    "node": true
+  },
   "extends": ["airbnb", "airbnb/hooks"],
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
-    "ecmaVersion": 6,
     "ecmaFeatures": {
       "globalReturn": true,
       "impliedStrict": true,
       "jsx": true
     },
     "sourceType": "module"
-  },
-  "env": {
-    "es6": true,
-    "browser": true,
-    "jest": true,
-    "node": true
-  },
-  "settings": {
-    "import/resolver": {
-      "babel-module": {}
-    }
-  },
-  "rules": {}
+  }
 }
