@@ -126,7 +126,7 @@
       docker_image_name: "library/node"
       docker_image_tag: "14"
       execute_commands:
-        - "npm audit --audit-level=high --production --cache /buddy/wp-starter-plugin/.npm"
+        - "npm i -g npm@7 && npm audit --audit-level=high --production --cache /buddy/wp-starter-plugin/.npm"
       volume_mappings:
         - "/:/buddy/wp-starter-plugin"
       trigger_condition: "ALWAYS"
@@ -137,7 +137,7 @@
       docker_image_name: "library/node"
       docker_image_tag: "14"
       execute_commands:
-        - "npm ci --cache /buddy/wp-starter-plugin/.npm"
+        - "npm i -g npm@7 && npm ci --cache /buddy/wp-starter-plugin/.npm"
       volume_mappings:
         - "/:/buddy/wp-starter-plugin"
       trigger_condition: "ALWAYS"
@@ -148,7 +148,7 @@
       docker_image_name: "library/node"
       docker_image_tag: "14"
       execute_commands:
-        - "npm run lint"
+        - "npm i -g npm@7 && npm run lint"
       volume_mappings:
         - "/:/buddy/wp-starter-plugin"
       trigger_condition: "ALWAYS"
@@ -160,7 +160,7 @@
       docker_image_name: "library/node"
       docker_image_tag: "14"
       execute_commands:
-        - "npm run test"
+        - "npm i -g npm@7 && npm run test"
       volume_mappings:
         - "/:/buddy/wp-starter-plugin"
       trigger_condition: "ALWAYS"
@@ -171,7 +171,7 @@
       docker_image_name: "library/node"
       docker_image_tag: "14"
       execute_commands:
-        - "npm run build"
+        - "npm i -g npm@7 && npm run build"
       volume_mappings:
         - "/:/buddy/wp-starter-plugin"
       trigger_condition: "ALWAYS"
