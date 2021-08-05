@@ -92,7 +92,7 @@ export default class CSVUploader extends React.PureComponent {
       <div className="wp-starter-plugin-block-csv-uploader">
         <h2>{__('Upload CSV', 'wp-starter-plugin')}</h2>
         <form onSubmit={this.handleSubmit}>
-          {error !== '' && (
+          {error !== '' ? (
             <div style={{ color: '#c00' }}>
               <strong>
                 {__(
@@ -103,8 +103,8 @@ export default class CSVUploader extends React.PureComponent {
               &nbsp;
               {error}
             </div>
-          )}
-          {success !== '' && (
+          ) : null}
+          {success !== '' ? (
             <div style={{ color: '#0c0' }}>
               <strong>
                 {__(
@@ -115,7 +115,7 @@ export default class CSVUploader extends React.PureComponent {
               &nbsp;
               {success}
             </div>
-          )}
+          ) : null}
           <div>
             <label
               htmlFor="wp-starter-plugin-block-csv-uploader-file"

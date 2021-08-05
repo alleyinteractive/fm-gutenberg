@@ -239,7 +239,7 @@ const PostSelector = ({
           >
             <div>{label}</div>
           </label>
-          {selectedPosts.length > 0 && (
+          {selectedPosts.length > 0 ? (
             <ul
               role="listbox"
               aria-labelledby={`autocomplete-${uniqueKey}`}
@@ -268,7 +268,7 @@ const PostSelector = ({
                 </li>
               ))}
             </ul>
-          )}
+          ) : null}
           <input
             aria-autocomplete="list"
             autoComplete="off"
