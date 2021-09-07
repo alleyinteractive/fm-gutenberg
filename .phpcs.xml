@@ -39,7 +39,4 @@
 
   <!-- Don't fail CI build on warnings. -->
   <config name="ignore_warnings_on_exit" value="1"/>
-
-  <!-- In practice, partials should be loaded outside of the global namespace with get_template_part(). -->
-  <exclude-pattern>template-parts/</exclude-pattern>
 </ruleset>
