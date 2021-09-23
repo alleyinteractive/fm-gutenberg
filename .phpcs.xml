@@ -34,9 +34,6 @@
   <exclude-pattern>inc/taxonomies/</exclude-pattern>
   <exclude-pattern>vendor/</exclude-pattern>
 
-  <!-- The version set here matches the minimum version tested in .travis.yml. -->
-  <config name="minimum_supported_wp_version" value="5.6" />
-
-  <!-- Don't fail CI build on warnings. -->
-  <config name="ignore_warnings_on_exit" value="1"/>
+  <!-- The version set here matches the minimum version tested in buddy.yml. -->
+  <config name="minimum_supported_wp_version" value="5.8" />
 </ruleset>
