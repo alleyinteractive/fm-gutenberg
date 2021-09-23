@@ -10,6 +10,7 @@ const ImagePicker = ({
   onReset,
   onUpdate,
   value,
+  valueUrl,
 }) => (
   <MediaPicker
     className={className}
@@ -18,12 +19,14 @@ const ImagePicker = ({
     onUpdate={onUpdate}
     onReset={onReset}
     value={value}
+    valueUrl={valueUrl}
   />
 );
 
 ImagePicker.defaultProps = {
   className: '',
   imageSize: 'thumbnail',
+  valueUrl: '',
 };
 
 ImagePicker.propTypes = {
@@ -32,6 +35,7 @@ ImagePicker.propTypes = {
   onReset: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   value: PropTypes.number.isRequired,
+  valueUrl: PropTypes.string,
 };
 
 export default ImagePicker;

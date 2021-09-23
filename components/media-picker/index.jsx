@@ -1,9 +1,9 @@
+import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import { Button, Spinner } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import { __ } from '@wordpress/i18n';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Button, Spinner } from '@wordpress/components';
-import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { __ } from '@wordpress/i18n';
-import { useSelect } from '@wordpress/data';
 
 // Services.
 import getMediaUrl from '../../services/media/get-media-url';
@@ -11,16 +11,20 @@ import getMediaUrl from '../../services/media/get-media-url';
 const MediaPicker = ({
   allowedTypes,
   className,
-  value,
   imageSize,
   onReset,
   onUpdate,
+  value,
+  valueUrl,
 }) => {
-  // Get the media object given the media ID.
+  // TODO: Mimic what core is doing here for image selection/URL entry to the extent possible.
+  console.log(valueUrl);
+
+  // Get the media object, if given the media ID.
   const {
     media = null,
   } = useSelect((select) => ({
-    media: select('core').getMedia(value),
+    media: value ? select('core').getMedia(value) : null,
   }), [value]);
 
   // getEntityRecord returns `null` if the load is in progress.
@@ -110,15 +114,17 @@ MediaPicker.defaultProps = {
   allowedTypes: [],
   className: '',
   imageSize: 'thumbnail',
+  valueUrl: '',
 };
 
 MediaPicker.propTypes = {
-  allowedTypes: PropTypes.arrayOf([PropTypes.string]),
+  allowedTypes: PropTypes.arrayOf(PropTypes.string),
   className: PropTypes.string,
-  value: PropTypes.number.isRequired,
   imageSize: PropTypes.string,
   onReset: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  value: PropTypes.number.isRequired,
+  valueUrl: PropTypes.string,
 };
 
 export default MediaPicker;
