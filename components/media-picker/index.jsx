@@ -94,6 +94,7 @@ MediaPicker.defaultProps = {
   onUpdate: null,
   onUpdateURL: null,
   preview: null,
+  value: 0,
   valueURL: '',
 };
 
@@ -106,7 +107,7 @@ MediaPicker.propTypes = {
   onUpdate: PropTypes.func,
   onUpdateURL: PropTypes.func,
   preview: PropTypes.element,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.number,
   valueURL: PropTypes.string,
 };
 
