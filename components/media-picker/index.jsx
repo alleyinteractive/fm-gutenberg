@@ -10,6 +10,12 @@ import styled from 'styled-components';
 import getMediaURL from '../../services/media/get-media-url';
 
 // Styled components.
+const Container = styled.div`
+  backgroundColor: '#007CBA',
+  display: 'inline-block',
+  position: 'relative',
+`;
+
 const DefaultPreview = styled.div`
   background: white;
   border: 1px solid black;
@@ -44,14 +50,17 @@ const MediaPicker = ({
 
   // If we have a valid source URL of any type, display it.
   const src = media ? getMediaURL(media, imageSize) : valueURL;
-  // TODO: Include replacement button.
   if (src) {
-    return Preview ? (
-      <Preview src={src} />
-    ) : (
-      <DefaultPreview>
-        <p>{__('Selected file:', 'wp-starter-plugin')}</p>
-        <p><a href={src}>{src}</a></p>
+    return (
+      <>
+        {Preview ? (
+          <Preview src={src} />
+        ) : (
+          <DefaultPreview className="wp-starter-plugin-media-picker__preview">
+            <p>{__('Selected file:', 'wp-starter-plugin')}</p>
+            <p><a href={src}>{src}</a></p>
+          </DefaultPreview>
+        )}
         <Button
           isLarge
           isPrimary
@@ -59,19 +68,12 @@ const MediaPicker = ({
         >
           { __('Replace', 'wp-starter-plugin')}
         </Button>
-      </DefaultPreview>
+      </>
     );
   }
 
   return (
-    <div
-      className={className}
-      style={{
-        backgroundColor: '#007CBA',
-        display: 'inline-block',
-        position: 'relative',
-      }}
-    >
+    <Container className={className}>
       <MediaPlaceholder
         allowedTypes={allowedTypes}
         disableMediaButtons={!!valueURL}
@@ -80,7 +82,7 @@ const MediaPicker = ({
         onSelectURL={onUpdateURL}
         value={{ id: value, src }}
       />
-    </div>
+    </Container>
   );
 };
 
