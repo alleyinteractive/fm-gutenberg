@@ -1,4 +1,4 @@
-import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import { MediaPlaceholder, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { Button, Spinner } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
@@ -17,9 +17,6 @@ const MediaPicker = ({
   value,
   valueUrl,
 }) => {
-  // TODO: Mimic what core is doing here for image selection/URL entry to the extent possible.
-  console.log(valueUrl);
-
   // Get the media object, if given the media ID.
   const {
     media = null,
@@ -43,69 +40,21 @@ const MediaPicker = ({
         position: 'relative',
       }}
     >
-      <MediaUploadCheck>
-        <MediaUpload
-          title={__('Select/add File', 'wp-starter-plugin')}
-          onSelect={onUpdate}
-          allowedTypes={allowedTypes}
-          value={value}
-          render={({ open }) => (
-            <>
-              {value !== 0 && media !== null ? (
-                <div>
-                  <img
-                    alt=""
-                    src={getMediaUrl(media, imageSize)}
-                  />
-                  <div
-                    style={{
-                      background: 'white',
-                      left: '50%',
-                      padding: 5,
-                      position: 'absolute',
-                      top: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      zIndex: 10,
-                    }}
-                  >
-                    <Button
-                      isPrimary
-                      isLarge
-                      onClick={open}
-                      style={{ marginBottom: 0 }}
-                    >
-                      { __('Replace File', 'wp-starter-plugin')}
-                    </Button>
-                    <Button
-                      isLink
-                      isDestructive
-                      onClick={onReset}
-                      style={{ marginBottom: 0 }}
-                    >
-                      { __('Remove File', 'wp-starter-plugin')}
-                    </Button>
-                  </div>
-                </div>
-              ) : null}
-              {value === 0 ? (
-                <div
-                  style={{
-                    background: 'white',
-                    padding: 5,
-                  }}
-                >
-                  <Button
-                    isPrimary
-                    onClick={open}
-                  >
-                    { __('Select/add File', 'wp-starter-plugin')}
-                  </Button>
-                </div>
-              ) : null}
-            </>
-          )}
-        />
-      </MediaUploadCheck>
+      <MediaPlaceholder
+        allowedTypes={allowedTypes}
+        disableMediaButtons={!!valueUrl}
+        mediaPreview={valueUrl ? (
+          <img
+            alt={__('Edit image', 'wp-starter-plugin')}
+            className="edit-image-preview"
+            src={valueUrl}
+            title={__('Edit image', 'wp-starter-plugin')}
+          />
+        ) : null}
+        onSelect={(data) => console.log(data)}
+        onSelectURL={(data) => console.log(data)}
+        value={{ id: value, src: getMediaUrl(media, imageSize) }}
+      />
     </div>
   );
 };
