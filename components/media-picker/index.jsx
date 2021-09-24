@@ -1,21 +1,32 @@
-import { MediaPlaceholder, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import { BlockIcon, MediaPlaceholder } from '@wordpress/block-editor';
 import { Button, Spinner } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 
 // Services.
-import getMediaUrl from '../../services/media/get-media-url';
+import getMediaURL from '../../services/media/get-media-url';
+
+// Styled components.
+const DefaultPreview = styled.div`
+  background: white;
+  border: 1px solid black;
+  padding: 1em;
+`;
 
 const MediaPicker = ({
   allowedTypes,
   className,
+  icon,
   imageSize,
   onReset,
   onUpdate,
+  onUpdateURL,
+  preview: Preview,
   value,
-  valueUrl,
+  valueURL,
 }) => {
   // Get the media object, if given the media ID.
   const {
@@ -31,6 +42,27 @@ const MediaPicker = ({
     );
   }
 
+  // If we have a valid source URL of any type, display it.
+  const src = media ? getMediaURL(media, imageSize) : valueURL;
+  // TODO: Include replacement button.
+  if (src) {
+    return Preview ? (
+      <Preview src={src} />
+    ) : (
+      <DefaultPreview>
+        <p>{__('Selected file:', 'wp-starter-plugin')}</p>
+        <p><a href={src}>{src}</a></p>
+        <Button
+          isLarge
+          isPrimary
+          onClick={onReset}
+        >
+          { __('Replace', 'wp-starter-plugin')}
+        </Button>
+      </DefaultPreview>
+    );
+  }
+
   return (
     <div
       className={className}
@@ -42,18 +74,11 @@ const MediaPicker = ({
     >
       <MediaPlaceholder
         allowedTypes={allowedTypes}
-        disableMediaButtons={!!valueUrl}
-        mediaPreview={valueUrl ? (
-          <img
-            alt={__('Edit image', 'wp-starter-plugin')}
-            className="edit-image-preview"
-            src={valueUrl}
-            title={__('Edit image', 'wp-starter-plugin')}
-          />
-        ) : null}
-        onSelect={(data) => console.log(data)}
-        onSelectURL={(data) => console.log(data)}
-        value={{ id: value, src: getMediaUrl(media, imageSize) }}
+        disableMediaButtons={!!valueURL}
+        icon={<BlockIcon icon={icon} />}
+        onSelect={onUpdate}
+        onSelectURL={onUpdateURL}
+        value={{ id: value, src }}
       />
     </div>
   );
@@ -62,18 +87,25 @@ const MediaPicker = ({
 MediaPicker.defaultProps = {
   allowedTypes: [],
   className: '',
+  icon: 'format-aside',
   imageSize: 'thumbnail',
-  valueUrl: '',
+  onUpdate: null,
+  onUpdateURL: null,
+  preview: null,
+  valueURL: '',
 };
 
 MediaPicker.propTypes = {
   allowedTypes: PropTypes.arrayOf(PropTypes.string),
   className: PropTypes.string,
+  icon: PropTypes.string,
   imageSize: PropTypes.string,
   onReset: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func,
+  onUpdateURL: PropTypes.func,
+  preview: PropTypes.element,
   value: PropTypes.number.isRequired,
-  valueUrl: PropTypes.string,
+  valueURL: PropTypes.string,
 };
 
 export default MediaPicker;
