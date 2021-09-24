@@ -1,17 +1,16 @@
 # MediaPicker
+
 Allows for a simple media upload/replace/remove feature for media for blocks.
 
 ## Usage
-Render a media picker, complete with URL preview and replace button:
 
 ``` js
 <MediaPicker
-  allowedTypes={['image']}
+  allowedTypes={['application/pdf']}
   className="media-picker"
-  imageSize="thumbnail"
-  onReset={() => setAttributes({ imageId: 0 })}
-  onUpdate={({ id }) => setAttributes({ imageId: id })}
-  value={imageId}
+  onReset={() => setAttributes({ mediaId: 0 })}
+  onUpdate={({ id }) => setAttributes({ mediaId: id })}
+  value={mediaId}
 />
 ```
 
@@ -24,15 +23,16 @@ as custom preview components, which is useful when you want to render an image
 or an embed instead of just a text link to the selected asset.
 
 ## Props
-| Prop         | Default        | Required | Type     | Description                                                                                                                             |
-|--------------|----------------|----------|----------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| allowedTypes | []             | No       | array    | Array with the types of the media to upload/select from the media library. Defaults to empty array (all types).                         |
-| className    | ''             | No       | string   | Class name.                                                                                                                             |
-| icon         | 'format-aside' | No       | string   | The name of the Dashicon to use next to the title when no selection has been made yet.                                                  |
-| imageSize    | 'thumbnail'    | No       | string   | If the selected item is an image, the size to display in the preview.                                                                   |
-| onReset      |                | Yes      | function | Function to reset the attachment ID to 0 and/or the attachment URL to an empty string.                                                  |
-| onUpdate     | null           | No       | function | Function to set the attachment ID on image selection/upload. If not set, the buttons to select from the media library will not display. |
-| onUpdateURL  | null           | No       | function | Function to set the attachment URL on image selection/upload. If not set, the button to enter a URL manually will not display.          |
-| preview      | null           | No       | element  | An optional JSX component that accepts an `src` prop as a string to render the preview upon selection.                                  |
-| value        | 0              | No       | integer  | The ID of the selected attachment. 0 represents no selection.                                                                           |
-| valueURL     | ''             | No       | string   | The URL of the attachment. An empty string represents no selection.                                                                     |
+
+| Prop         | Default        | Required | Type     | Description                                                                                                                                  |
+|--------------|----------------|----------|----------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| allowedTypes | []             | No       | array    | Array with the types of the media to upload/select from the media library. Defaults to empty array (all types).                              |
+| className    | ''             | No       | string   | Class name for the media picker container.                                                                                                   |
+| icon         | 'format-aside' | No       | string   | The name of the Dashicon to use next to the title when no selection has been made yet.                                                       |
+| imageSize    | 'thumbnail'    | No       | string   | If the selected item is an image, the size to display in the preview.                                                                        |
+| onReset      |                | Yes      | function | Function to reset the attachment ID to 0 and/or the attachment URL to an empty string.                                                       |
+| onUpdate     | null           | No       | function | Function to set the attachment ID on attachment selection/upload. If not set, the buttons to select from the media library will not display. |
+| onUpdateURL  | null           | No       | function | Function to set the attachment URL on entry. If not set, the button to enter a URL manually will not display.                                |
+| preview      | null           | No       | element  | An optional JSX component that accepts an `src` prop as a string to render the preview upon selection.                                       |
+| value        | 0              | No       | integer  | The ID of the selected attachment. 0 represents no selection.                                                                                |
+| valueURL     | ''             | No       | string   | The URL of the attachment. An empty string represents no selection.                                                                          |
