@@ -51,6 +51,7 @@ VideoPicker.defaultProps = {
   className: '',
   onUpdate: null,
   onUpdateURL: null,
+  value: 0,
   valueURL: '',
 };
 
@@ -59,7 +60,7 @@ VideoPicker.propTypes = {
   onReset: PropTypes.func.isRequired,
   onUpdate: PropTypes.func,
   onUpdateURL: PropTypes.func,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.number,
   valueURL: PropTypes.string,
 };
 
