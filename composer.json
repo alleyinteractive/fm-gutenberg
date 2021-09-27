@@ -9,8 +9,9 @@
     }
   ],
   "require-dev": {
-    "alleyinteractive/alley-coding-standards": "^0.2.0",
-    "phpunit/phpunit": "7.5.*"
+    "alleyinteractive/alley-coding-standards": "^0.3.0",
+    "phpunit/phpunit": "7.5.*",
+    "yoast/phpunit-polyfills": "^1.0"
   },
   "scripts": {
     "phpcbf": "phpcbf .",

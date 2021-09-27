@@ -6,6 +6,8 @@
  * @subpackage Tests
  */
 
+const WP_TESTS_PHPUNIT_POLYFILLS_PATH = __DIR__ . '/../vendor/yoast/phpunit-polyfills';
+
 // Load Core's test suite.
 $wp_starter_plugin_tests_dir = getenv( 'WP_TESTS_DIR' );
 if ( ! $wp_starter_plugin_tests_dir ) {
@@ -35,6 +37,14 @@ function wp_starter_plugin_manually_load_environment() {
 	require_once dirname( __DIR__ ) . '/index.php';
 }
 tests_add_filter( 'muplugins_loaded', 'wp_starter_plugin_manually_load_environment' );
+
+// Disable the emoji detection script, because it throws unnecessary errors.
+tests_add_filter(
+	'init',
+	function () {
+		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+	}
+);
 
 // Include core's bootstrap.
 require $wp_starter_plugin_tests_dir . '/includes/bootstrap.php'; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
