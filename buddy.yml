@@ -159,6 +159,18 @@
       trigger_condition: "ALWAYS"
       shell: "BASH"
       run_next_parallel: true
+    - action: "npm run stylelint"
+      type: "BUILD"
+      working_directory: "/buddy/wp-starter-plugin"
+      docker_image_name: "library/node"
+      docker_image_tag: "14"
+      execute_commands:
+        - "if [[ `npm --version` != 7.* ]]; then npm i -g npm@7; fi"
+        - "npm run stylelint"
+      volume_mappings:
+        - "/:/buddy/wp-starter-plugin"
+      trigger_condition: "ALWAYS"
+      shell: "BASH"
     - action: "npm run test"
       type: "BUILD"
       working_directory: "/buddy/wp-starter-plugin"

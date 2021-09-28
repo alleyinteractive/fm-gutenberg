@@ -1,7 +1,6 @@
 const glob = require('glob');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const StatsPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 const DependencyExtractionWebpackPlugin = require('@wordpress/dependency-extraction-webpack-plugin');
 const createWriteWpAssetManifest = require('./webpack/wpAssets');
@@ -64,6 +63,7 @@ module.exports = (env, { mode }) => ({
 
   // Use different filenames for production and development builds for clarity.
   output: {
+    clean: mode === 'production',
     filename: mode === 'production'
       ? '[name].bundle.min.js'
       : '[name].js',
@@ -81,13 +81,6 @@ module.exports = (env, { mode }) => ({
       fields: ['assetsByChunkName', 'hash'],
       filename: 'assetMap.json',
     }),
-
-    // For production builds only, delete the contents of the build folder before building.
-    ...(mode === 'production'
-      ? [
-        new CleanWebpackPlugin(),
-      ] : []
-    ),
   ],
 
   // Tell webpack that we are using both .js and .jsx extensions.

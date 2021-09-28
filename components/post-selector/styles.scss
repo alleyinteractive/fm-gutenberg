@@ -2,14 +2,13 @@
 // AutoComplete Styles
 //--------------------------------------------------------------
 
-/* stylelint-disable selector-max-specificity */
+/* stylelint-disable max-nesting-depth */
 
 //-----------------------------------------
-// Accomodate editor well, or the sidebar.
+// Accommodate editor well, or the sidebar.
 //-----------------------------------------
 .edit-post-sidebar,
 .editor-styles-wrapper {
-
   .autocomplete {
 
     //-----------------------------------------
@@ -64,10 +63,10 @@
     //-----------------------------------------
     &__dropdown {
       background-color: #fff;
-      border-color: transparent #e2e4e7 #e2e4e7 #e2e4e7;
+      border-color: transparent #e2e4e7 #e2e4e7;
       border-radius: 0 0 4px 4px;
       border-style: solid;
-      border-width: 0 1px 1px 1px;
+      border-width: 0 1px 1px;
       left: 0;
       max-height: 0;
       overflow-y: hidden;
@@ -108,7 +107,7 @@
         background: transparent;
         border-color: #e2e4e7;
         border-style: solid;
-        border-width: 0 0 1px 0;
+        border-width: 0 0 1px;
         height: 100%;
         line-height: 1.25;
         text-align: left;
