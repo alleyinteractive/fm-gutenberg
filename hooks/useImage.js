@@ -1,13 +1,13 @@
 import { useSelect } from '@wordpress/data';
 
 /**
- * Use a single image data given the ID.
+ * Gets image data for a specific attachment.
  *
  * @param {int} imageId Image Id.
  * @returns {object} Image data.
  */
 export default function useImage(imageId) {
-  // Get image data based on ID.
+  // Get image data.
   const image = useSelect(
     (select) => select('core').getMedia(imageId),
     [imageId],

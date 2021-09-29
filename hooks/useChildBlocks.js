@@ -1,6 +1,12 @@
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
+/**
+ * Get all children blocks of any given block.
+ *
+ * @param {string} clientId The block client ID.
+ * @returns {Array} An array of child blocks.
+ */
 export default function useChildBlocks(clientId) {
   return useSelect(
     (select) => {
@@ -8,7 +14,7 @@ export default function useChildBlocks(clientId) {
         blockEditorStore,
       );
 
-      return getBlocks(clientId)
+      return getBlocks(clientId);
     },
     [clientId],
   );

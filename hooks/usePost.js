@@ -1,8 +1,7 @@
 import { useSelect } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
 
 /**
- * A custom hook for working with linkedEntry data.
+ * Gets post data for a specific post given its ID and post type.
  *
  * @param int    postId   The ID for the post to return.
  * @param string postType Optional. The post type to select. Default 'post'.
@@ -32,4 +31,4 @@ export default function usePost(postId, postType = 'post') {
     },
     [postId, postType],
   );
-};
+}
