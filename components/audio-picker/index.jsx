@@ -1,4 +1,3 @@
-import { __ } from '@wordpress/i18n';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
@@ -8,25 +7,17 @@ import MediaPicker from '../media-picker';
 
 // Styled components.
 const PreviewContainer = styled.div`
-  box-sizing: border-box;
-  flex-shrink: 0;
   height: auto;
-  max-height: 1450px;
-  max-width: 1450px;
-  min-height: 20px;
-  min-width: 20px;
-  position: relative;
-  width: auto;
+  width: 100%;
 `;
 
-// Create a component to represent the image preview.
+// Create a component to represent the audio preview.
 const Preview = ({ src }) => (
   <PreviewContainer>
-    <img
-      alt={__('Edit image', 'wp-starter-plugin')}
-      className="edit-image-preview"
+    <audio // eslint-disable-line jsx-a11y/media-has-caption
+      className="edit-audio-preview"
+      controls
       src={src}
-      title={__('Edit image', 'wp-starter-plugin')}
     />
   </PreviewContainer>
 );
@@ -35,9 +26,8 @@ Preview.propTypes = {
   src: PropTypes.string.isRequired,
 };
 
-const ImagePicker = ({
+const AudioPicker = ({
   className,
-  imageSize,
   onReset,
   onUpdate,
   onUpdateURL,
@@ -45,10 +35,9 @@ const ImagePicker = ({
   valueURL,
 }) => (
   <MediaPicker
-    allowedTypes={['image']}
+    allowedTypes={['audio']}
     className={className}
-    icon="format-image"
-    imageSize={imageSize}
+    icon="format-audio"
     onReset={onReset}
     onUpdate={onUpdate}
     onUpdateURL={onUpdateURL}
@@ -58,18 +47,16 @@ const ImagePicker = ({
   />
 );
 
-ImagePicker.defaultProps = {
+AudioPicker.defaultProps = {
   className: '',
-  imageSize: 'thumbnail',
   onUpdate: null,
   onUpdateURL: null,
   value: 0,
   valueURL: '',
 };
 
-ImagePicker.propTypes = {
+AudioPicker.propTypes = {
   className: PropTypes.string,
-  imageSize: PropTypes.string,
   onReset: PropTypes.func.isRequired,
   onUpdate: PropTypes.func,
   onUpdateURL: PropTypes.func,
@@ -77,4 +64,4 @@ ImagePicker.propTypes = {
   valueURL: PropTypes.string,
 };
 
-export default ImagePicker;
+export default AudioPicker;

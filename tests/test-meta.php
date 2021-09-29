@@ -32,17 +32,11 @@ class Test_Meta extends WP_UnitTestCase {
 
 		// Ensure meta is registered for the post type specified.
 		$registered = get_registered_meta_keys( 'post', 'post' );
-		$this->assertNotEmpty( $registered['test_post_meta_key'] );
 
 		// Ensure defaults were applied properly.
-		$this->assertArraySubset(
-			[
-				'show_in_rest' => true,
-				'single'       => true,
-				'type'         => 'string',
-			],
-			$registered['test_post_meta_key']
-		);
+		$this->assertEquals( true, $registered['test_post_meta_key']['show_in_rest'] );
+		$this->assertEquals( true, $registered['test_post_meta_key']['single'] );
+		$this->assertEquals( 'string', $registered['test_post_meta_key']['type'] );
 
 		// Ensure meta is not registered for a different post type.
 		$registered = get_registered_meta_keys( 'post', 'page' );
@@ -50,17 +44,11 @@ class Test_Meta extends WP_UnitTestCase {
 
 		// Ensure meta is registered for the term type specified.
 		$registered = get_registered_meta_keys( 'term', 'category' );
-		$this->assertNotEmpty( $registered['test_term_meta_key'] );
 
 		// Ensure defaults were applied properly.
-		$this->assertArraySubset(
-			[
-				'show_in_rest' => true,
-				'single'       => true,
-				'type'         => 'string',
-			],
-			$registered['test_term_meta_key']
-		);
+		$this->assertEquals( true, $registered['test_term_meta_key']['show_in_rest'] );
+		$this->assertEquals( true, $registered['test_term_meta_key']['single'] );
+		$this->assertEquals( 'string', $registered['test_term_meta_key']['type'] );
 
 		// Ensure meta is not registered for a different term type.
 		$registered = get_registered_meta_keys( 'term', 'post_tag' );
@@ -79,15 +67,9 @@ class Test_Meta extends WP_UnitTestCase {
 			]
 		);
 		$registered = get_registered_meta_keys( 'post', 'post' );
-		$this->assertNotEmpty( $registered['test_custom_meta_key'] );
-		$this->assertArraySubset(
-			[
-				'sanitize_callback' => 'absint',
-				'show_in_rest'      => false,
-				'single'            => false,
-				'type'              => 'integer',
-			],
-			$registered['test_custom_meta_key']
-		);
+		$this->assertEquals( 'absint', $registered['test_custom_meta_key']['sanitize_callback'] );
+		$this->assertEquals( false, $registered['test_custom_meta_key']['show_in_rest'] );
+		$this->assertEquals( false, $registered['test_custom_meta_key']['single'] );
+		$this->assertEquals( 'integer', $registered['test_custom_meta_key']['type'] );
 	}
 }

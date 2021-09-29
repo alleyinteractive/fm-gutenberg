@@ -4,7 +4,7 @@
   "license": "unlicensed",
   "main": "index.php",
   "engines": {
-    "node": "14",
+    "node": "16",
     "npm": "7"
   },
   "browserslist": [
@@ -17,12 +17,14 @@
     ]
   },
   "scripts": {
-    "preinstall": "npx check-node-version --package",
     "build": "npx check-node-version --package && webpack --mode=production",
     "dev": "npx check-node-version --package && webpack --mode=development --watch",
     "lint": "npx check-node-version --package && eslint --ext .jsx --ext .js .",
     "lint:fix": "npx check-node-version --package && eslint --ext .jsx --ext .js . --fix",
+    "preinstall": "npx check-node-version --package",
     "scaffold": "scaffold dir ./scaffold --theme=./",
+    "stylelint": "npx check-node-version --package && npx stylelint \"**/*.scss\"",
+    "stylelint:fix": "npx check-node-version --package && npx stylelint --fix \"**/*.scss\"",
     "test": "npx check-node-version --package && jest",
     "test:watch": "npx check-node-version --package && jest --watch"
   },
@@ -86,7 +88,8 @@
     "lodash": "^4.17.21",
     "papaparse": "^5.3.1",
     "prop-types": "^15.7.2",
-    "react": "^16.13.1",
+    "react": "^17.0.2",
+    "styled-components": "^5.3.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -98,9 +101,9 @@
     "autoprefixer": "^10.3.1",
     "babel-jest": "^27.0.6",
     "babel-loader": "^8.2.2",
+    "babel-plugin-styled-components": "^1.13.2",
     "chalk": "^4.1.1",
     "check-node-version": "^4.1.0",
-    "clean-webpack-plugin": "^4.0.0-alpha.0",
     "css-loader": "^6.2.0",
     "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -117,8 +120,8 @@
     "sass-loader": "^12.1.0",
     "style-loader": "^1.2.1",
     "stylelint": "^13.13.1",
-    "stylelint-order": "^4.1.0",
-    "stylelint-webpack-plugin": "^3.0.1",
+    "stylelint-a11y": "^1.2.3",
+    "stylelint-config-sass-guidelines": "^8.0.0",
     "webpack": "^5.46.0",
     "webpack-cli": "^4.7.2",
     "webpack-stats-plugin": "^1.0.3"
