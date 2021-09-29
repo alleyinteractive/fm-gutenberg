@@ -1,4 +1,4 @@
-import useChildBlocks from 'hooks/useChildBlocks';
+import useChildBlocks from '../useChildBlocks';
 
 /**
  * Gets all child block attributes for a specific block.

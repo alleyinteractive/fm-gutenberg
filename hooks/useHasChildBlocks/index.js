@@ -1,4 +1,4 @@
-import useChildBlocksCount from 'hooks/useChildBlocksCount';
+import useChildBlocksCount from '../useChildBlocksCount';
 
 /**
  * Determines if a specific block has child blocks.

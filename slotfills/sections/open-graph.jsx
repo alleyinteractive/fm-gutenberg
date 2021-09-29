@@ -7,7 +7,7 @@ import React from 'react';
 import ImagePicker from '../../components/image-picker';
 
 // Services.
-import usePostMeta from '../../services/hooks/use-post-meta';
+import usePostMeta from '../../hooks/usePostMeta';
 
 const OpenGraph = () => {
   const [{

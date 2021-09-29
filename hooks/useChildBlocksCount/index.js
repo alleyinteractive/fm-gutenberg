@@ -1,4 +1,4 @@
-import useChildBlocks from 'hooks/useChildBlocks';
+import useChildBlocks from '../useChildBlocks';
 
 /**
  * Gets the total count of all child blocks for a specific block.
