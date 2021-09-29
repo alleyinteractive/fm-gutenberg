@@ -126,9 +126,8 @@
       type: "BUILD"
       working_directory: "/buddy/wp-starter-plugin"
       docker_image_name: "library/node"
-      docker_image_tag: "14"
+      docker_image_tag: "16"
       execute_commands:
-        - "if [[ `npm --version` != 7.* ]]; then npm i -g npm@7; fi"
         - "npm audit --audit-level=high --production --cache /buddy/wp-starter-plugin/.npm"
       volume_mappings:
         - "/:/buddy/wp-starter-plugin"
@@ -138,9 +137,8 @@
       type: "BUILD"
       working_directory: "/buddy/wp-starter-plugin"
       docker_image_name: "library/node"
-      docker_image_tag: "14"
+      docker_image_tag: "16"
       execute_commands:
-        - "if [[ `npm --version` != 7.* ]]; then npm i -g npm@7; fi"
         - "npm ci --cache /buddy/wp-starter-plugin/.npm"
       volume_mappings:
         - "/:/buddy/wp-starter-plugin"
@@ -150,9 +148,8 @@
       type: "BUILD"
       working_directory: "/buddy/wp-starter-plugin"
       docker_image_name: "library/node"
-      docker_image_tag: "14"
+      docker_image_tag: "16"
       execute_commands:
-        - "if [[ `npm --version` != 7.* ]]; then npm i -g npm@7; fi"
         - "npm run lint"
       volume_mappings:
         - "/:/buddy/wp-starter-plugin"
@@ -163,9 +160,8 @@
       type: "BUILD"
       working_directory: "/buddy/wp-starter-plugin"
       docker_image_name: "library/node"
-      docker_image_tag: "14"
+      docker_image_tag: "16"
       execute_commands:
-        - "if [[ `npm --version` != 7.* ]]; then npm i -g npm@7; fi"
         - "npm run stylelint"
       volume_mappings:
         - "/:/buddy/wp-starter-plugin"
@@ -175,9 +171,8 @@
       type: "BUILD"
       working_directory: "/buddy/wp-starter-plugin"
       docker_image_name: "library/node"
-      docker_image_tag: "14"
+      docker_image_tag: "16"
       execute_commands:
-        - "if [[ `npm --version` != 7.* ]]; then npm i -g npm@7; fi"
         - "npm run test"
       volume_mappings:
         - "/:/buddy/wp-starter-plugin"
@@ -187,9 +182,8 @@
       type: "BUILD"
       working_directory: "/buddy/wp-starter-plugin"
       docker_image_name: "library/node"
-      docker_image_tag: "14"
+      docker_image_tag: "16"
       execute_commands:
-        - "if [[ `npm --version` != 7.* ]]; then npm i -g npm@7; fi"
         - "npm run build"
       volume_mappings:
         - "/:/buddy/wp-starter-plugin"
