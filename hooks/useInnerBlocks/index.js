@@ -7,7 +7,7 @@ import { useSelect } from '@wordpress/data';
  * @param {string} clientId The block client ID.
  * @returns {Array} An array of child blocks.
  */
-export default function useChildBlocks(clientId) {
+export default function useInnerBlocks(clientId) {
   return useSelect(
     (select) => {
       const { getBlocks } = select(

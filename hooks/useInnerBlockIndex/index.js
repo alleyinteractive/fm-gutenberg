@@ -1,4 +1,4 @@
-import useChildBlocks from '../useChildBlocks';
+import useInnerBlocks from '../useInnerBlocks';
 import useParentBlock from '../useParentBlock';
 
 /**
@@ -7,12 +7,12 @@ import useParentBlock from '../useParentBlock';
  * @param {string} clientId The block client ID.
  * @returns {integer} The block index.
  */
-export default function useChildBlockIndex(clientId) {
+export default function useInnerBlockIndex(clientId) {
   // Get the parent block.
   const parentBlockClientId = useParentBlock(clientId);
 
   // Get all children of that parent block.
-  const chlidBlocks = useChildBlocks(parentBlockClientId);
+  const chlidBlocks = useInnerBlocks(parentBlockClientId);
 
   if (!chlidBlocks) {
     return null;

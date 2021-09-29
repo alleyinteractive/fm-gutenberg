@@ -1,4 +1,4 @@
-import useChildBlocks from '../useChildBlocks';
+import useInnerBlocks from '../useInnerBlocks';
 
 /**
  * Gets the total count of all child blocks for a specific block.
@@ -6,6 +6,6 @@ import useChildBlocks from '../useChildBlocks';
  * @param {string} clientId The block client ID.
  * @returns {integer} The count of all child blocks.
  */
-export default function useChildBlocksCount(clientId) {
-  return useChildBlocks(clientId).length;
+export default function useInnerBlocksCount(clientId) {
+  return useInnerBlocks(clientId).length;
 }
