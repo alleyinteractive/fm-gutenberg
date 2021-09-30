@@ -11,9 +11,8 @@ import getMediaURL from '../../services/media/get-media-url';
 
 // Styled components.
 const Container = styled.div`
-  backgroundColor: '#007CBA',
-  display: 'inline-block',
-  position: 'relative',
+  display: block;
+  position: relative;
 `;
 
 const DefaultPreview = styled.div`
@@ -52,7 +51,7 @@ const MediaPicker = ({
   const src = media ? getMediaURL(media, imageSize) : valueURL;
   if (src) {
     return (
-      <>
+      <Container className={className}>
         {Preview ? (
           <Preview src={src} />
         ) : (
@@ -68,7 +67,7 @@ const MediaPicker = ({
         >
           { __('Replace', 'wp-starter-plugin')}
         </Button>
-      </>
+      </Container>
     );
   }
 
