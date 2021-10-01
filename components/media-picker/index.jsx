@@ -90,10 +90,8 @@ MediaPicker.defaultProps = {
   className: '',
   icon: 'format-aside',
   imageSize: 'thumbnail',
-  onUpdate: null,
   onUpdateURL: null,
   preview: null,
-  value: 0,
   valueURL: '',
 };
 
@@ -103,10 +101,10 @@ MediaPicker.propTypes = {
   icon: PropTypes.string,
   imageSize: PropTypes.string,
   onReset: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func,
+  onUpdate: PropTypes.func.isRequired,
   onUpdateURL: PropTypes.func,
   preview: PropTypes.element,
-  value: PropTypes.number,
+  value: PropTypes.number.isRequired,
   valueURL: PropTypes.string,
 };
 

@@ -61,9 +61,7 @@ const ImagePicker = ({
 ImagePicker.defaultProps = {
   className: '',
   imageSize: 'thumbnail',
-  onUpdate: null,
   onUpdateURL: null,
-  value: 0,
   valueURL: '',
 };
 
@@ -71,9 +69,9 @@ ImagePicker.propTypes = {
   className: PropTypes.string,
   imageSize: PropTypes.string,
   onReset: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func,
+  onUpdate: PropTypes.func.isRequired,
   onUpdateURL: PropTypes.func,
-  value: PropTypes.number,
+  value: PropTypes.number.isRequired,
   valueURL: PropTypes.string,
 };
 

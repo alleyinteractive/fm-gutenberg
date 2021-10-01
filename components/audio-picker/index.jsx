@@ -49,18 +49,16 @@ const AudioPicker = ({
 
 AudioPicker.defaultProps = {
   className: '',
-  onUpdate: null,
   onUpdateURL: null,
-  value: 0,
   valueURL: '',
 };
 
 AudioPicker.propTypes = {
   className: PropTypes.string,
   onReset: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func,
+  onUpdate: PropTypes.func.isRequired,
   onUpdateURL: PropTypes.func,
-  value: PropTypes.number,
+  value: PropTypes.number.isRequired,
   valueURL: PropTypes.string,
 };
 
