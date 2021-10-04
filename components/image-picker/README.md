@@ -22,12 +22,12 @@ For more information on how to use this component, see
 
 ## Props
 
-| Prop         | Default     | Required | Type     | Description                                                                                                                        |
-|--------------|-------------|----------|----------|------------------------------------------------------------------------------------------------------------------------------------|
-| className    | ''          | No       | string   | Class name for the media picker container.                                                                                         |
-| imageSize    | 'thumbnail' | No       | string   | The size to display in the preview.                                                                                                |
-| onReset      |             | Yes      | function | Function to reset the image ID to 0 and/or the image URL to an empty string.                                                       |
-| onUpdate     | null        | No       | function | Function to set the image ID on image selection/upload. If not set, the buttons to select from the media library will not display. |
-| onUpdateURL  | null        | No       | function | Function to set the image URL on entry. If not set, the button to enter a URL manually will not display.                           |
-| value        | 0           | No       | integer  | The ID of the selected image. 0 represents no selection.                                                                           |
-| valueURL     | ''          | No       | string   | The URL of the image. An empty string represents no selection.                                                                     |
+| Prop         | Default     | Required | Type     | Description                                                                                              |
+|--------------|-------------|----------|----------|----------------------------------------------------------------------------------------------------------|
+| className    | ''          | No       | string   | Class name for the media picker container.                                                               |
+| imageSize    | 'thumbnail' | No       | string   | The size to display in the preview.                                                                      |
+| onReset      |             | Yes      | function | Function to reset the image ID to 0 and/or the image URL to an empty string.                             |
+| onUpdate     |             | Yes      | function | Function to set the image ID on image selection/upload.                                                  |
+| onUpdateURL  | null        | No       | function | Function to set the image URL on entry. If not set, the button to enter a URL manually will not display. |
+| value        |             | Yes      | integer  | The ID of the selected image. 0 represents no selection.                                                 |
+| valueURL     | ''          | No       | string   | The URL of the image. An empty string represents no selection.                                           |
