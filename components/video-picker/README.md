@@ -21,11 +21,11 @@ For more information on how to use this component, see
 
 ## Props
 
-| Prop        | Default     | Required | Type     | Description                                                                                                                        |
-|-------------|-------------|----------|----------|------------------------------------------------------------------------------------------------------------------------------------|
-| className   | ''          | No       | string   | Class name for the media picker container.                                                                                         |
-| onReset     |             | Yes      | function | Function to reset the video ID to 0 and/or the video URL to an empty string.                                                       |
-| onUpdate    | null        | No       | function | Function to set the video ID on video selection/upload. If not set, the buttons to select from the media library will not display. |
-| onUpdateURL | null        | No       | function | Function to set the video URL on entry. If not set, the button to enter a URL manually will not display.                           |
-| value       | 0           | No       | integer  | The ID of the selected video. 0 represents no selection.                                                                           |
-| valueURL    | ''          | No       | string   | The URL of the video. An empty string represents no selection.                                                                     |
+| Prop        | Default     | Required | Type     | Description                                                                                              |
+|-------------|-------------|----------|----------|----------------------------------------------------------------------------------------------------------|
+| className   | ''          | No       | string   | Class name for the media picker container.                                                               |
+| onReset     |             | Yes      | function | Function to reset the video ID to 0 and/or the video URL to an empty string.                             |
+| onUpdate    |             | Yes      | function | Function to set the video ID on video selection/upload.                                                  |
+| onUpdateURL | null        | No       | function | Function to set the video URL on entry. If not set, the button to enter a URL manually will not display. |
+| value       |             | Yes      | integer  | The ID of the selected video. 0 represents no selection.                                                 |
+| valueURL    | ''          | No       | string   | The URL of the video. An empty string represents no selection.                                           |
