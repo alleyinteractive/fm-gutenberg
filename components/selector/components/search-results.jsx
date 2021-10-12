@@ -17,7 +17,7 @@ const SearchResults = ({
   loading,
   onSelect,
   options,
-  selectedPosts,
+  selectedItems,
   threshold,
   value,
 }) => {
@@ -100,7 +100,7 @@ const SearchResults = ({
             <Button
               onClick={() => onSelect(item)}
               type="button"
-              disabled={selectedPosts.some((post) => post.id === item.id)}
+              disabled={selectedItems.some((post) => post.id === item.id)}
               isTertiary
             >
               {item.title}
@@ -130,7 +130,7 @@ SearchResults.propTypes = {
     }),
   ).isRequired,
   onSelect: PropTypes.func.isRequired,
-  selectedPosts: PropTypes.shape([]).isRequired,
+  selectedItems: PropTypes.shape([]).isRequired,
   threshold: PropTypes.number.isRequired,
   value: PropTypes.string.isRequired,
 };

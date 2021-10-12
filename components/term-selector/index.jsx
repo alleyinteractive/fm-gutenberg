@@ -13,26 +13,28 @@ const TermSelector = ({
   className,
   emptyLabel,
   label,
+  maxPages,
   multiple,
   onSelect,
   placeholder,
   subTypes,
   selected,
   threshold,
-}) => {
+}) => (
   <Selector
-    type="post"
+    type="term"
     className={className}
     emptyLabel={emptyLabel}
     label={label}
+    maxPages={maxPages}
     multiple={multiple}
     onSelect={onSelect}
     placeholder={placeholder}
     subTypes={subTypes}
     selected={selected}
     threshold={threshold}
-  />;
-};
+  />
+);
 
 /**
  * Set initial props.
