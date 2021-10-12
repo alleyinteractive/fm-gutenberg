@@ -7,9 +7,9 @@ import { __ } from '@wordpress/i18n';
 import Selector from '../selector';
 
 /**
- * Render post selector component.
+ * Render term selector component.
  */
-const PostSelector = ({
+const TermSelector = ({
   className,
   emptyLabel,
   label,
@@ -22,7 +22,7 @@ const PostSelector = ({
   threshold,
 }) => (
   <Selector
-    type="post"
+    type="term"
     className={className}
     emptyLabel={emptyLabel}
     label={label}
@@ -40,13 +40,13 @@ const PostSelector = ({
  * Set initial props.
  * @type {object}
  */
-PostSelector.defaultProps = {
+TermSelector.defaultProps = {
   className: '',
-  emptyLabel: __('No posts found', 'wp-starter-plugin'),
-  label: __('Search for posts', 'wp-starter-plugin'),
+  emptyLabel: __('No terms found', 'wp-starter-plugin'),
+  label: __('Search for terms', 'wp-starter-plugin'),
   maxPages: 5,
   multiple: false,
-  placeholder: __('Search for posts', 'wp-starter-plugin'),
+  placeholder: __('Search for terms', 'wp-starter-plugin'),
   subTypes: [],
   selected: [],
   threshold: 3,
@@ -56,7 +56,7 @@ PostSelector.defaultProps = {
  * Set PropTypes for this component.
  * @type {object}
  */
-PostSelector.propTypes = {
+TermSelector.propTypes = {
   className: PropTypes.string,
   emptyLabel: PropTypes.string,
   label: PropTypes.string,
@@ -74,4 +74,4 @@ PostSelector.propTypes = {
   threshold: PropTypes.number,
 };
 
-export default PostSelector;
+export default TermSelector;
