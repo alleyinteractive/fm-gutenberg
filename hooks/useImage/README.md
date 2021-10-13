@@ -1,20 +1,14 @@
-# Custom Hooks: useHasInnerBlocks
+# Custom Hooks: useImage
 
-A custom React hook that determines if a block has inner blocks.
+A custom React hook for attachment data given an ID.
 
 ## Usage
 
 ```jsx
 const MyBlock = ({
-	clientId
+	imageID,
 }) => {
-  const hasInnerBlocks = useHasInnerBlocks(clientId);
-
-  if (hasInnerBlocks) {
-	  ...
-  } else {
-	  ...
-  }
+  const image = useImage(imageID);
 
   ...
 };
