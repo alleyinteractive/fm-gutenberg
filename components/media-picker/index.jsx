@@ -11,9 +11,8 @@ import getMediaURL from '../../services/media/get-media-url';
 
 // Styled components.
 const Container = styled.div`
-  backgroundColor: '#007CBA',
-  display: 'inline-block',
-  position: 'relative',
+  display: block;
+  position: relative;
 `;
 
 const DefaultPreview = styled.div`
@@ -52,7 +51,7 @@ const MediaPicker = ({
   const src = media ? getMediaURL(media, imageSize) : valueURL;
   if (src) {
     return (
-      <>
+      <Container className={className}>
         {Preview ? (
           <Preview src={src} />
         ) : (
@@ -68,7 +67,7 @@ const MediaPicker = ({
         >
           { __('Replace', 'wp-starter-plugin')}
         </Button>
-      </>
+      </Container>
     );
   }
 
@@ -91,10 +90,8 @@ MediaPicker.defaultProps = {
   className: '',
   icon: 'format-aside',
   imageSize: 'thumbnail',
-  onUpdate: null,
   onUpdateURL: null,
   preview: null,
-  value: 0,
   valueURL: '',
 };
 
@@ -104,10 +101,10 @@ MediaPicker.propTypes = {
   icon: PropTypes.string,
   imageSize: PropTypes.string,
   onReset: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func,
+  onUpdate: PropTypes.func.isRequired,
   onUpdateURL: PropTypes.func,
   preview: PropTypes.element,
-  value: PropTypes.number,
+  value: PropTypes.number.isRequired,
   valueURL: PropTypes.string,
 };
 

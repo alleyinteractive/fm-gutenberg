@@ -85,12 +85,19 @@ Still to come. The closest you can get now is running `npm run dev`, which
 watches for changes, and reloading the page.
 
 ## Built-in Components
+- `AudioPicker`: Allows a user to select or remove audio using the media
+  modal or by entering a URL. A wrapper around `MediaPicker` that sets the file
+  type to audio and provides an audio player preview.
 - `CSVUploader`: Allows a user to upload a CSV file, which is parsed in the
   browser, converted to a JSON structure, passed through a user specified
   callback function for further transformation, and saved to block attributes.
 - `ImagePicker`: Allows a user to select or remove an image using the media
-  modal. A wrapper around `MediaPicker` that sets the file type to image.
+  modal or by entering a URL. A wrapper around `MediaPicker` that sets the file
+  type to image and provides an image preview.
 - `MediaPicker`: Allows a user to select or remove any attachment from the media
   library using the media modal.
 - `PostSelector`: A component used for searching for and selecting posts via the
   REST API.
+- `VideoPicker`: Allows a user to select or remove a video using the media
+  modal or by entering a URL. A wrapper around `MediaPicker` that sets the file
+  type to video and provides a video player preview.

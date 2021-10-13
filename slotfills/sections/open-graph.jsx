@@ -7,14 +7,12 @@ import React from 'react';
 import ImagePicker from '../../components/image-picker';
 
 // Services.
-import usePostMeta from '../../hooks/usePostMeta';
+import usePostMetaValue from '../../services/hooks/use-post-meta-value';
 
 const OpenGraph = () => {
-  const [{
-    wp_starter_plugin_open_graph_description: description = '',
-    wp_starter_plugin_open_graph_image: image = 0,
-    wp_starter_plugin_open_graph_title: title = '',
-  }, setMeta] = usePostMeta();
+  const [description, setDescription] = usePostMetaValue('wp_starter_plugin_open_graph_description');
+  const [image, setImage] = usePostMetaValue('wp_starter_plugin_open_graph_image');
+  const [title, setTitle] = usePostMetaValue('wp_starter_plugin_open_graph_title');
 
   return (
     <PluginDocumentSettingPanel
@@ -23,18 +21,18 @@ const OpenGraph = () => {
       title={__('Open Graph', 'wp-starter-plugin')}
     >
       <ImagePicker
-        onReset={() => setMeta('wp_starter_plugin_open_graph_image', 0)}
-        onUpdate={({ id: next }) => setMeta('wp_starter_plugin_open_graph_image', next)}
+        onReset={() => setImage(0)}
+        onUpdate={({ id: next }) => setImage(next)}
         value={image}
       />
       <TextControl
         label={__('Title', 'wp-starter-plugin')}
-        onChange={(next) => setMeta('wp_starter_plugin_open_graph_title', next)}
+        onChange={(next) => setTitle(next)}
         value={title}
       />
       <TextareaControl
         label={__('Description', 'wp-starter-plugin')}
-        onChange={(next) => setMeta('wp_starter_plugin_open_graph_description', next)}
+        onChange={(next) => setDescription(next)}
         value={description}
       />
     </PluginDocumentSettingPanel>
