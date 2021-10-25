@@ -19,7 +19,16 @@ const usePostMeta = (postType = null, postId = null) => {
   const type = useSelect((select) => postType || select('core/editor').getCurrentPostType(), []);
 
   // Get the return value from useEntityProp so we can wrap it for safety.
-  const [meta, setMeta] = useEntityProp('postType', type, 'meta', postId);
+  const [metaRaw, setMetaRaw] = useEntityProp('postType', type, 'meta', postId);
+
+  /*
+   * Ensure meta is an object and set meta is a function. useEntityProp can
+   * return `undefined` if the post type doesn't have support for custom-fields.
+   */
+  const meta = typeof metaRaw === 'object' ? metaRaw : {};
+  const setMeta = typeof setMetaRaw === 'function'
+    ? setMetaRaw
+    : () => console.error(`Error attempting to set post meta for post type ${type}. Does it have support for custom-fields?`); // eslint-disable-line no-console
 
   /**
    * Define a wrapper for the setMeta function that performs a recursive clone
