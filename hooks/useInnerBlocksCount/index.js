@@ -6,6 +6,6 @@ import useInnerBlocks from '../useInnerBlocks';
  * @param {string} clientId The block client ID.
  * @returns {integer} The count of all child blocks.
  */
-export default function useInnerBlocksCount(clientId) {
-  return useInnerBlocks(clientId).length;
-}
+const useInnerBlocksCount = (clientId) => useInnerBlocks(clientId).length;
+
+export default useInnerBlocksCount;

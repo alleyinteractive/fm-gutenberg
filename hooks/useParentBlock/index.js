@@ -1,4 +1,4 @@
-import { store as blockEditorStore } from '@wordpress/block-editor';
+import { store } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
 /**
@@ -7,9 +7,9 @@ import { useSelect } from '@wordpress/data';
  * @param {string} clientId The block client ID.
  * @returns {string} String of the parent block, otherwise null.
  */
-export default function useParentBlock(clientId) {
-  return useSelect(
-    (select) => select(blockEditorStore).getBlockRootClientId(clientId),
-    [clientId],
-  );
-}
+const useParentBlock = (clientId) => useSelect(
+  (select) => select(store).getBlockRootClientId(clientId),
+  [clientId],
+);
+
+export default useParentBlock;

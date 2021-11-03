@@ -6,8 +6,10 @@ import useInnerBlocks from '../useInnerBlocks';
  * @param {string} clientId The block client ID.
  * @returns {Array} An array of child block attributes.
  */
-export default function useInnerBlocksAttributes(clientId) {
+const useInnerBlocksAttributes = (clientId) => {
   const blocks = useInnerBlocks(clientId);
 
   return blocks.map((block) => block.attributes);
-}
+};
+
+export default useInnerBlocksAttributes;

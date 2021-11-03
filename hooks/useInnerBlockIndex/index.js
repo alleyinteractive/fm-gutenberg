@@ -7,17 +7,21 @@ import useParentBlock from '../useParentBlock';
  * @param {string} clientId The block client ID.
  * @returns {integer} The block index.
  */
-export default function useInnerBlockIndex(clientId) {
+const useInnerBlockIndex = (clientId) => {
   // Get the parent block.
   const parentBlockClientId = useParentBlock(clientId);
 
   // Get all children of that parent block.
   const chlidBlocks = useInnerBlocks(parentBlockClientId);
 
+  // No child blocks found.
   if (!chlidBlocks) {
-    return null;
+    // Returns -1 to match the `not found` value from `findIndex`.
+    return -1;
   }
 
   // Get the index.
   return chlidBlocks.findIndex((block) => block.clientId === clientId);
-}
+};
+
+export default useInnerBlockIndex;

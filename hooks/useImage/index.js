@@ -6,7 +6,7 @@ import { useSelect } from '@wordpress/data';
  * @param {int} imageId Image Id.
  * @returns {object} Image data.
  */
-export default function useImage(imageId) {
+const useImage = (imageId) => {
   // Get image data.
   const image = useSelect(
     (select) => select('core').getMedia(imageId),
@@ -22,4 +22,6 @@ export default function useImage(imageId) {
     height: image?.media_details?.sizes?.large?.height || image?.media_details?.height,
     width: image?.media_details?.sizes?.large?.width || image?.media_details?.width,
   };
-}
+};
+
+export default useImage;

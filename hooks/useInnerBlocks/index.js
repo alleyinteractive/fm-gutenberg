@@ -1,4 +1,4 @@
-import { store as blockEditorStore } from '@wordpress/block-editor';
+import { store } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
 /**
@@ -7,15 +7,15 @@ import { useSelect } from '@wordpress/data';
  * @param {string} clientId The block client ID.
  * @returns {Array} An array of child blocks.
  */
-export default function useInnerBlocks(clientId) {
-  return useSelect(
-    (select) => {
-      const { getBlocks } = select(
-        blockEditorStore,
-      );
+const useInnerBlocks = (clientId) => useSelect(
+  (select) => {
+    const { getBlocks } = select(
+      store,
+    );
 
-      return getBlocks(clientId);
-    },
-    [clientId],
-  );
-}
+    return getBlocks(clientId);
+  },
+  [clientId],
+);
+
+export default useInnerBlocks;

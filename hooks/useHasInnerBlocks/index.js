@@ -6,6 +6,6 @@ import useInnerBlocksCount from '../useInnerBlocksCount';
  * @param {string} clientId The block client ID.
  * @returns {boolean} True if the block contains inner blocks, otherwise false.
  */
-export default function useHasInnerBlocks(clientId) {
-  return useInnerBlocksCount(clientId) > 0;
-}
+const useHasInnerBlocks = (clientId) => useInnerBlocksCount(clientId) > 0;
+
+export default useHasInnerBlocks;

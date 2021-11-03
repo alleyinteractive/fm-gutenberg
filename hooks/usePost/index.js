@@ -8,27 +8,27 @@ import { useSelect } from '@wordpress/data';
  * @returns {object} An object containing a hasResolved property
  *                   and the returned post object.
  */
-export default function usePost(postId, postType = 'post') {
-  return useSelect(
-    (select) => {
-      // Bail early if we don't have a post ID.
-      if (!postId) {
-        return {
-          hasResolved: true,
-          post: false,
-        };
-      }
-
-      const getEntityArgs = ['postType', postType, postId];
-
-      const { getEntityRecord, hasFinishedResolution } = select('core');
-      const postData = getEntityRecord(...getEntityArgs);
-
+const usePost = (postId, postType = 'post') => useSelect(
+  (select) => {
+    // Bail early if we don't have a post ID.
+    if (!postId) {
       return {
-        hasResolved: hasFinishedResolution('getEntityRecord', getEntityArgs),
-        post: postData,
+        hasResolved: true,
+        post: false,
       };
-    },
-    [postId, postType],
-  );
-}
+    }
+
+    const getEntityArgs = ['postType', postType, postId];
+
+    const { getEntityRecord, hasFinishedResolution } = select('core');
+    const postData = getEntityRecord(...getEntityArgs);
+
+    return {
+      hasResolved: hasFinishedResolution('getEntityRecord', getEntityArgs),
+      post: postData,
+    };
+  },
+  [postId, postType],
+);
+
+export default usePost;

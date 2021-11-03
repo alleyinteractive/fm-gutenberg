@@ -1,4 +1,4 @@
-import { store as blockEditorStore } from '@wordpress/block-editor';
+import { store } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
 /**
@@ -7,24 +7,24 @@ import { useSelect } from '@wordpress/data';
  * @param {string} clientId The block client ID.
  * @returns {array} The parent block attributes.
  */
-export default function useParentBlockAttributes(clientId) {
-  return useSelect(
-    (select) => {
-      const {
-        getBlockAttributes,
-        getBlockRootClientId,
-      } = select(blockEditorStore);
+const useParentBlockAttributes = (clientId) => useSelect(
+  (select) => {
+    const {
+      getBlockAttributes,
+      getBlockRootClientId,
+    } = select(store);
 
-      // Get parent block client ID.
-      const rootBlockClientId = getBlockRootClientId(clientId);
+    // Get parent block client ID.
+    const rootBlockClientId = getBlockRootClientId(clientId);
 
-      if (!rootBlockClientId) {
-        return null;
-      }
+    if (!rootBlockClientId) {
+      return null;
+    }
 
-      // Get parent block attributes.
-      return getBlockAttributes(rootBlockClientId);
-    },
-    [clientId],
-  );
-}
+    // Get parent block attributes.
+    return getBlockAttributes(rootBlockClientId);
+  },
+  [clientId],
+);
+
+export default useParentBlockAttributes;
