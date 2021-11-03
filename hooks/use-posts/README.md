@@ -8,9 +8,9 @@ A custom React hook to retrieve multiple posts' data given an array of post IDs 
 const MyBlock = ({
 	postIDs,
 }) => {
-  const { hasResolved, posts } = usePosts(postIDs, postType);
+  const posts = usePosts(postIDs, postType);
 
-  if (hasResolved && posts) {
+  if (posts) {
     ...
   }
 };

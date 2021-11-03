@@ -10,23 +10,8 @@ import { useSelect } from '@wordpress/data';
  */
 const usePost = (postId, postType = 'post') => useSelect(
   (select) => {
-    // Bail early if we don't have a post ID.
-    if (!postId) {
-      return {
-        hasResolved: true,
-        post: false,
-      };
-    }
-
-    const getEntityArgs = ['postType', postType, postId];
-
-    const { getEntityRecord, hasFinishedResolution } = select('core');
-    const postData = getEntityRecord(...getEntityArgs);
-
-    return {
-      hasResolved: hasFinishedResolution('getEntityRecord', getEntityArgs),
-      post: postData,
-    };
+    const { getEntityRecord } = select('core');
+    return getEntityRecord(['postType', postType, postId]);
   },
   [postId, postType],
 );

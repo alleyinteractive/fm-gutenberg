@@ -8,9 +8,9 @@ A custom React hook to retrieve post data given a post ID and post type.
 const MyBlock = ({
 	postID,
 }) => {
-  const { hasResolved, post } = usePost(postID, postType);
+  const post = usePost(postID, postType);
 
-  if (hasResolved && post) {
+  if (post) {
     ...
   }
 };
