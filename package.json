@@ -5,7 +5,7 @@
   "main": "index.php",
   "engines": {
     "node": "16",
-    "npm": "7"
+    "npm": "8"
   },
   "browserslist": [
     "defaults",
@@ -85,6 +85,7 @@
     "@wordpress/widgets": "^1.1.1",
     "@wordpress/wordcount": "^3.1.0",
     "classnames": "^2.3.1",
+    "dompurify": "^2.3.3",
     "lodash": "^4.17.21",
     "papaparse": "^5.3.1",
     "prop-types": "^15.7.2",
