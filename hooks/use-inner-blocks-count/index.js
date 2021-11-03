@@ -1,4 +1,4 @@
-import useInnerBlocks from '../useInnerBlocks';
+import useInnerBlocks from '../use-inner-blocks';
 
 /**
  * Gets the total count of all child blocks for a specific block.

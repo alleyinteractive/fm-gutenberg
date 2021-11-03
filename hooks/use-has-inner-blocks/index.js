@@ -1,4 +1,4 @@
-import useInnerBlocksCount from '../useInnerBlocksCount';
+import useInnerBlocksCount from '../use-inner-blocks-count';
 
 /**
  * Determines if a specific block has inner blocks.

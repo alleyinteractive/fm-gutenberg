@@ -1,4 +1,4 @@
-import usePostMeta from '../usePostMeta';
+import usePostMeta from '../use-post-meta';
 
 /**
  * A custom React hook that wraps useEntityProp for working with a specific

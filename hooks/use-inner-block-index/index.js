@@ -1,5 +1,5 @@
-import useInnerBlocks from '../useInnerBlocks';
-import useParentBlock from '../useParentBlock';
+import useInnerBlocks from '../use-inner-blocks';
+import useParentBlock from '../use-parent-block';
 
 /**
  * Gets the current index of a specific block relative to its sibilings.
