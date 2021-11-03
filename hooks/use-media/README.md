@@ -1,4 +1,4 @@
-# Custom Hooks: useImage
+# Custom Hooks: useMedia
 
 A custom React hook for attachment data given an ID.
 
@@ -8,7 +8,7 @@ A custom React hook for attachment data given an ID.
 const MyBlock = ({
 	imageID,
 }) => {
-  const image = useImage(imageID);
+  const image = useMedia(imageID);
 
   ...
 };
