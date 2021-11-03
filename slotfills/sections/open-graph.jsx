@@ -7,7 +7,7 @@ import React from 'react';
 import ImagePicker from '../../components/image-picker';
 
 // Services.
-import usePostMetaValue from '../../hooks/usePostMetaValue';
+import usePostMetaValue from '../../hooks/use-post-meta-value';
 
 const OpenGraph = () => {
   const [description, setDescription] = usePostMetaValue('wp_starter_plugin_open_graph_description');

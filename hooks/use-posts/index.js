@@ -11,11 +11,11 @@ import { useSelect } from '@wordpress/data';
 const usePosts = (postIds, postType = 'post') => useSelect(
   (select) => {
     const { getEntityRecords } = select('core');
-    return getEntityRecords([
+    return getEntityRecords(
       'postType',
       postType,
       { include: postIds },
-    ]);
+    );
   }, [postIds, postType],
 );
 

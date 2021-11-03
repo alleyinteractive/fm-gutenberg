@@ -11,7 +11,7 @@ import { useSelect } from '@wordpress/data';
 const usePost = (postId, postType = 'post') => useSelect(
   (select) => {
     const { getEntityRecord } = select('core');
-    return getEntityRecord(['postType', postType, postId]);
+    return getEntityRecord('postType', postType, postId);
   },
   [postId, postType],
 );
