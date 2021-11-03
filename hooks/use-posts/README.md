@@ -1,6 +1,6 @@
 # Custom Hooks: usePosts
 
-A custom React hook to retrieve multiple post's data given a post ID and post type.
+A custom React hook to retrieve multiple posts' data given an array of post IDs and a single post type.
 
 ## Usage
 
