@@ -17,7 +17,7 @@ import { v4 as uuidv4 } from 'uuid';
 import SearchResults from './components/search-results';
 
 // Custom hooks.
-import useDebounce from '../../services/hooks/use-debounce';
+import useDebounce from '@/services/hooks/use-debounce';
 
 // Styles.
 import './styles.scss';

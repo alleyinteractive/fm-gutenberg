@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { __ } from '@wordpress/i18n';
 
-import Selector from '../selector';
+import Selector from '@/components/selector';
 
 /**
  * Render term selector component.

@@ -4,10 +4,10 @@ import { __ } from '@wordpress/i18n';
 import React from 'react';
 
 // Components.
-import ImagePicker from '../../components/image-picker';
+import ImagePicker from '@/components/image-picker';
 
 // Services.
-import usePostMetaValue from '../../services/hooks/use-post-meta-value';
+import usePostMetaValue from '@/services/hooks/use-post-meta-value';
 
 const OpenGraph = () => {
   const [description, setDescription] = usePostMetaValue('wp_starter_plugin_open_graph_description');

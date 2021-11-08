@@ -50,9 +50,16 @@ functions should have associated tests.
 
 ## Pathing
 
-This project does not use aliases by default, since aliases can confuse IDEs and
-make it harder to navigate through the code to find where something is defined.
-You can add them yourself if you prefer.
+This project utilizes module aliases to make it easier to handle JavaScript
+imports. The project is configured to treat paths starting with `@/` as being
+relative to this plugin's root folder. For example:
+
+```javascript
+import ImagePicker from '@/components/image-picker';
+```
+
+These module aliases are configured to work properly with ESLint, IDEs, Jest,
+and Webpack.
 
 ## Running Tests
 
