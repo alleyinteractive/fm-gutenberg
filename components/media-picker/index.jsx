@@ -7,7 +7,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 // Services.
-import getMediaURL from '../../services/media/get-media-url';
+import getMediaURL from '@/services/media/get-media-url';
 
 // Styled components.
 const Container = styled.div`

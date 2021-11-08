@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 // Components.
-import MediaPicker from '../media-picker';
+import MediaPicker from '@/components/media-picker';
 
 // Styled components.
 const PreviewContainer = styled.div`

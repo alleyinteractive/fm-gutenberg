@@ -83,8 +83,11 @@ module.exports = (env, { mode }) => ({
     }),
   ],
 
-  // Tell webpack that we are using both .js and .jsx extensions.
+  // Tell webpack that we are using both .js and .jsx extensions and hook up aliases.
   resolve: {
+    alias: {
+      '@': path.resolve(__dirname),
+    },
     extensions: ['.js', '.jsx'],
   },
 });
