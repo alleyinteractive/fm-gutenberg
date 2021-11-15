@@ -12,6 +12,10 @@ Do a case sensitive global search and replace for the following strings:
 * WP_Starter_Plugin (Prefix for class names)
 * WP Starter Plugin (Commented text)
 
+Install `nvm` and the version of node specified in `.nvmrc` if you haven't already.
+
+Run `composer setup` to install `composer` and `npm` dependencies and run an initial build.
+
 ## Running builds
 
 Run `npm run build` to build all production assets. Run `npm run dev` for a
