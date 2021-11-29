@@ -27,5 +27,8 @@
         "selector": ":matches(JSXElement, JSXFragment) > JSXExpressionContainer > LogicalExpression[operator='||']"
       }
     ]
+  },
+  "settings": {
+    "import/resolver": "webpack"
   }
 }

@@ -12,6 +12,10 @@ Do a case sensitive global search and replace for the following strings:
 * WP_Starter_Plugin (Prefix for class names)
 * WP Starter Plugin (Commented text)
 
+Install `nvm` and the version of node specified in `.nvmrc` if you haven't already.
+
+Run `composer setup` to install `composer` and `npm` dependencies and run an initial build.
+
 ## Running builds
 
 Run `npm run build` to build all production assets. Run `npm run dev` for a
@@ -50,9 +54,16 @@ functions should have associated tests.
 
 ## Pathing
 
-This project does not use aliases by default, since aliases can confuse IDEs and
-make it harder to navigate through the code to find where something is defined.
-You can add them yourself if you prefer.
+This project utilizes module aliases to make it easier to handle JavaScript
+imports. The project is configured to treat paths starting with `@/` as being
+relative to this plugin's root folder. For example:
+
+```javascript
+import ImagePicker from '@/components/image-picker';
+```
+
+These module aliases are configured to work properly with ESLint, IDEs, Jest,
+and Webpack.
 
 ## Running Tests
 

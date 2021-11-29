@@ -12,21 +12,32 @@
     "not IE 11"
   ],
   "jest": {
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/$1"
+    },
     "modulePathIgnorePatterns": [
       ".buddy-tests"
     ]
   },
   "scripts": {
-    "build": "npx check-node-version --package && webpack --mode=production",
-    "dev": "npx check-node-version --package && webpack --mode=development --watch",
-    "lint": "npx check-node-version --package && eslint --ext .jsx --ext .js .",
-    "lint:fix": "npx check-node-version --package && eslint --ext .jsx --ext .js . --fix",
-    "preinstall": "npx check-node-version --package",
+    "prebuild": "check-node-version --package",
+    "build": "webpack --mode=production",
+    "predev": "check-node-version --package",
+    "dev": "webpack --mode=development --watch",
+    "prelint": "check-node-version --package",
+    "lint": "eslint --ext .jsx --ext .js .",
+    "prelint:fix": "check-node-version --package",
+    "lint:fix": "eslint --ext .jsx --ext .js . --fix",
+    "preinstall": "check-node-version --package",
     "scaffold": "scaffold dir ./scaffold --theme=./",
-    "stylelint": "npx check-node-version --package && npx stylelint \"**/*.scss\"",
-    "stylelint:fix": "npx check-node-version --package && npx stylelint --fix \"**/*.scss\"",
-    "test": "npx check-node-version --package && jest",
-    "test:watch": "npx check-node-version --package && jest --watch"
+    "prestylelint": "check-node-version --package",
+    "stylelint": "stylelint \"**/*.scss\"",
+    "prestylelint:fix": "check-node-version --package",
+    "stylelint:fix": "stylelint --fix \"**/*.scss\"",
+    "pretest": "check-node-version --package",
+    "test": "jest",
+    "pretest:watch": "check-node-version --package",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@wordpress/a11y": "^3.1.0",
@@ -104,10 +115,11 @@
     "babel-loader": "^8.2.2",
     "babel-plugin-styled-components": "^1.13.2",
     "chalk": "^4.1.1",
-    "check-node-version": "^4.1.0",
+    "check-node-version": "^4.2.1",
     "css-loader": "^6.2.0",
     "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.1",
+    "eslint-import-resolver-webpack": "^0.13.2",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.24.0",
