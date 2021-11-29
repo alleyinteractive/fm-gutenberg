@@ -12,16 +12,16 @@ const useInnerBlockIndex = (clientId) => {
   const parentBlockClientId = useParentBlock(clientId);
 
   // Get all children of that parent block.
-  const chlidBlocks = useInnerBlocks(parentBlockClientId);
+  const childBlocks = useInnerBlocks(parentBlockClientId);
 
   // No child blocks found.
-  if (!chlidBlocks) {
+  if (!childBlocks) {
     // Returns -1 to match the `not found` value from `findIndex`.
     return -1;
   }
 
   // Get the index.
-  return chlidBlocks.findIndex((block) => block.clientId === clientId);
+  return childBlocks.findIndex((block) => block.clientId === clientId);
 };
 
 export default useInnerBlockIndex;

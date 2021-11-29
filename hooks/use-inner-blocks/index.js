@@ -8,13 +8,7 @@ import { useSelect } from '@wordpress/data';
  * @returns {Array} An array of child blocks.
  */
 const useInnerBlocks = (clientId) => useSelect(
-  (select) => {
-    const { getBlocks } = select(
-      store,
-    );
-
-    return getBlocks(clientId);
-  },
+  (select) => select(store).getBlocks(clientId),
   [clientId],
 );
 
