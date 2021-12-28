@@ -38,9 +38,12 @@ module.exports = (env, { mode }) => ({
       {
         exclude: /node_modules/,
         test: /.jsx?$/,
-        use: [
-          'babel-loader',
-        ],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+          },
+        },
       },
       {
         exclude: /node_modules/,
@@ -89,5 +92,11 @@ module.exports = (env, { mode }) => ({
       '@': path.resolve(__dirname),
     },
     extensions: ['.js', '.jsx'],
+  },
+
+  // Cache the generated webpack modules and chunks to improve build speed.
+  // @see https://webpack.js.org/configuration/cache/
+  cache: {
+    type: 'filesystem',
   },
 });
