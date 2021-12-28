@@ -27,7 +27,7 @@ module.exports = (stats, opts) => {
    *
    * @return {object} An object of css/js hashes for each entry.
    */
-  const formattedChunkHashes = chunks.reduce((chunkAcc, chunk) => {
+  const formattedChunkHashes = Array.from(chunks).reduce((chunkAcc, chunk) => {
     const { name, contentHash } = chunk;
 
     const { css, js } = Object.keys(contentHash).reduce((hasAcc, type) => {
