@@ -15,7 +15,7 @@
   },
   "scripts": {
     "phpcbf": "phpcbf .",
-    "phpcs": "phpcs . --runtime-set text_domain wp-starter-plugin --runtime-set prefixes wp_starter_plugin,_ai,ai_",
+    "phpcs": "phpcs .",
     "phpunit": "phpunit",
     "setup": [
       "composer install",
