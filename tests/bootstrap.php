@@ -6,6 +6,7 @@
  * @subpackage Tests
  */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 const WP_TESTS_PHPUNIT_POLYFILLS_PATH = __DIR__ . '/../vendor/yoast/phpunit-polyfills';
 
 // Load Core's test suite.

@@ -6,7 +6,6 @@
   target_site_url: "https://github.com/alleyinteractive/wp-starter-plugin"
   fetch_all_refs: true
   fail_on_prepare_env_warning: true
-  clone_depth: 1
   trigger_condition: "ALWAYS"
   actions:
     - action: "Gitignored files check"
