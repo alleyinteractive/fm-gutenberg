@@ -12,3 +12,18 @@ namespace FM_Gutenberg;
 /* Begin Data Structures */
 
 /* End Data Structures */
+
+// Singleton trait.
+require_once __DIR__ . '/inc/singleton.php';
+
+// Fieldmanager Post fields API field.
+require_once __DIR__ . '/inc/rest-api/class-post-fields.php';
+
+add_action( 'after_setup_theme', __NAMESPACE__ . '\setup_features' );
+
+/**
+ * Setup REST API features.
+ */
+function setup_features() {
+	REST_API\Post_Fields::instance();
+}
