@@ -1,10 +1,10 @@
 <?php
 /**
- * Reusable extensions for the FM Gutenberg site.
+ * Gutenberg Support for Fieldmanager.
  *
- * Plugin Name: FM Gutenberg Extensions
+ * Plugin Name: Fieldmanager Gutenberg Suport
  * Plugin URI: https://github.com/alleyinteractive/fm-gutenberg
- * Description: Extensions to the FM Gutenberg site.
+ * Description: Translates Fieldmanager code to React Gutenberg slotfills.
  * Version: 1.0.0
  * Author: Alley
  *
