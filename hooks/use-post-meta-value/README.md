@@ -19,7 +19,7 @@ const MyComponent = () => {
 
   return (
     <TextControl
-      label={__('My Meta Key', 'wp-starter-plugin')}
+      label={__('My Meta Key', 'fm-gutenberg')}
       onChange={setMyMetaKey}
       value={myMetaKey}
     />
@@ -38,7 +38,7 @@ const MyComponent = ({
 
   return (
     <TextControl
-      label={__('My Meta Key', 'wp-starter-plugin')}
+      label={__('My Meta Key', 'fm-gutenberg')}
       onChange={setMyMetaKey}
       value={myMetaKey}
     />

@@ -2,10 +2,10 @@
 /**
  * Contains functions for working with meta.
  *
- * @package WP_Starter_Plugin
+ * @package FM_Gutenberg
  */
 
-namespace WP_Starter_Plugin;
+namespace FM_Gutenberg;
 
 // Register custom meta fields.
 register_post_meta_from_defs();
@@ -36,7 +36,7 @@ function register_meta_helper(
 		throw new \InvalidArgumentException(
 			__(
 				'Object type must be one of "post", "term".',
-				'wp-starter-plugin'
+				'fm-gutenberg'
 			)
 		);
 	}

@@ -7,7 +7,7 @@
  *
  * This file MUST NOT have a namespace defined in order to work!
  *
- * @package WP_Starter_Plugin
+ * @package FM_Gutenberg
  */
 
 /* phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound */
@@ -22,7 +22,7 @@
  * @return array The asset dependencies.
  */
 function get_asset_dependencies( $asset ) {
-	return WP_Starter_Plugin\get_asset_dependencies( $asset );
+	return FM_Gutenberg\get_asset_dependencies( $asset );
 }
 
 /**
@@ -35,7 +35,7 @@ function get_asset_dependencies( $asset ) {
  * @return string The asset version hash.
  */
 function get_asset_hash( $asset ) {
-	return WP_Starter_Plugin\get_asset_hash( $asset );
+	return FM_Gutenberg\get_asset_hash( $asset );
 }
 
 /**
@@ -49,7 +49,7 @@ function get_asset_hash( $asset ) {
  * @return string The asset URL.
  */
 function get_asset_path( $asset, $dir = false ) {
-	return WP_Starter_Plugin\get_asset_path( $asset, $dir );
+	return FM_Gutenberg\get_asset_path( $asset, $dir );
 }
 
 /**
@@ -59,5 +59,5 @@ function get_asset_path( $asset, $dir = false ) {
  * @param string $to_handle The script handle to attach the inline script to.
  */
 function inline_locale_data( $to_handle ) {
-	WP_Starter_Plugin\inline_locale_data( $to_handle );
+	FM_Gutenberg\inline_locale_data( $to_handle );
 }

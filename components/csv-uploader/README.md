@@ -12,7 +12,7 @@ Render a CSV upload component with a callback to further process the JSON data.
       attributeName="data"
       callback={transformData}
       setAttributes={setAttributes}
-    /> 
+    />
 
 ### Callback Function
 
@@ -24,7 +24,7 @@ Given a CSV file in the following format:
 
     title,slug,description
     Sample Title,sample-title,Lorem ipsum dolor sit amet.
-    
+
 The array of objects passed to the callback function will take the following form:
 
     [
@@ -34,7 +34,7 @@ The array of objects passed to the callback function will take the following for
         description: 'Lorem ipsum dolor sit amet.',
       },
     ]
-    
+
 Under the hood, the CSV parser uses PapaParse and attempts to make intelligent choices about data formats based on data in each column. Columns of integers should come through as integers, for example.
 
 It is recommended to put the callback function in the `services/data` directory with a corresponding test.
@@ -50,7 +50,7 @@ For example:
         [
             'my-post-type',
         ],
-        'wp_starter_plugin_csv_data',
+        'fm_gutenberg_csv_data',
         [
             'sanitize_callback' => __NAMESPACE__ . '\sanitize_csv_data',
         ]
@@ -81,6 +81,6 @@ You should put the sanitization function in `inc/meta.php`:
                 'description' => sanitize_text_field( $row['description'] ?? '' ),
             ];
         }
-        
+
         return wp_json_encode( $sanitized_meta_value );
     }

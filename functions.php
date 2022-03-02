@@ -1,11 +1,11 @@
 <?php
 /**
- * WP Starter Plugin: Custom post type and taxonomy registration
+ * FM Gutenberg: Custom post type and taxonomy registration
  *
- * @package WP_Starter_Plugin
+ * @package FM_Gutenberg
  */
 
-namespace WP_Starter_Plugin;
+namespace FM_Gutenberg;
 
 // Content types and taxonomies should be included below. In order to scaffold
 // them, leave the Begin and End comments in place.

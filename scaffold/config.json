@@ -1,5 +1,5 @@
 {
   "core_term_meta": true,
-  "domain": "wp-starter-plugin",
+  "domain": "fm-gutenberg",
   "require_path": "__DIR__"
 }

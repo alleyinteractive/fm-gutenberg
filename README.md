@@ -1,4 +1,4 @@
-# wp-starter-plugin
+# fm-gutenberg
 A companion plugin to wp-starter-theme, which is used to create custom blocks,
 slotfills, and register custom post types and meta fields.
 
@@ -6,11 +6,11 @@ slotfills, and register custom post types and meta fields.
 
 Do a case sensitive global search and replace for the following strings:
 
-* wp-starter-plugin (Localization domain)
-* wp_starter_plugin (Prefix for functions)
-* WP_STARTER_PLUGIN (Prefix for constants)
-* WP_Starter_Plugin (Prefix for class names)
-* WP Starter Plugin (Commented text)
+* fm-gutenberg (Localization domain)
+* fm_gutenberg (Prefix for functions)
+* FM_GUTENBERG (Prefix for constants)
+* FM_Gutenberg (Prefix for class names)
+* FM Gutenberg (Commented text)
 
 Install `nvm` and the version of node specified in `.nvmrc` if you haven't already.
 
@@ -79,7 +79,7 @@ Run `composer phpcs` to run PHP CodeSniffer tests against PHP files.
 
 Use the block scaffolder to create custom blocks. Create the block definition in
 `scaffold/blocks`. Ensure the name of the JSON file is the same as the
-non-namespaced block name (e.g., if your block is `wp-starter-plugin/my-block`,
+non-namespaced block name (e.g., if your block is `fm-gutenberg/my-block`,
 then the JSON file must be `my-block.json`). After creating or updating the JSON
 file, run the scaffold command (`npm run scaffold`) to generate or regenerate
 assets. Block registration, script creation, etc is handled for you.

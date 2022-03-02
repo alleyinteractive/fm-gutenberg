@@ -55,7 +55,7 @@ export default class CSVUploader extends React.PureComponent {
             error: '',
             success: __(
               'Successfully read CSV data.',
-              'wp-starter-plugin',
+              'fm-gutenberg',
             ),
           });
           setAttributes({
@@ -65,7 +65,7 @@ export default class CSVUploader extends React.PureComponent {
           this.setState({
             error: __(
               'Could not map CSV data. Please check the source file to ensure that it has the correct structure.', // eslint-disable-line max-len
-              'wp-starter-plugin',
+              'fm-gutenberg',
             ),
             success: '',
           });
@@ -89,15 +89,15 @@ export default class CSVUploader extends React.PureComponent {
       success = '',
     } = this.state;
     return (
-      <div className="wp-starter-plugin-block-csv-uploader">
-        <h2>{__('Upload CSV', 'wp-starter-plugin')}</h2>
+      <div className="fm-gutenberg-block-csv-uploader">
+        <h2>{__('Upload CSV', 'fm-gutenberg')}</h2>
         <form onSubmit={this.handleSubmit}>
           {error !== '' ? (
             <div style={{ color: '#c00' }}>
               <strong>
                 {__(
                   'Error:',
-                  'wp-starter-plugin',
+                  'fm-gutenberg',
                 )}
               </strong>
               &nbsp;
@@ -109,7 +109,7 @@ export default class CSVUploader extends React.PureComponent {
               <strong>
                 {__(
                   'Success:',
-                  'wp-starter-plugin',
+                  'fm-gutenberg',
                 )}
               </strong>
               &nbsp;
@@ -118,16 +118,16 @@ export default class CSVUploader extends React.PureComponent {
           ) : null}
           <div>
             <label
-              htmlFor="wp-starter-plugin-block-csv-uploader-file"
+              htmlFor="fm-gutenberg-block-csv-uploader-file"
             >
               <p>
                 {__(
                   'Select a file to load data.',
-                  'wp-starter-plugin',
+                  'fm-gutenberg',
                 )}
               </p>
               <input
-                id="wp-starter-plugin-block-csv-uploader-file"
+                id="fm-gutenberg-block-csv-uploader-file"
                 onChange={this.handleChange}
                 type="file"
               />

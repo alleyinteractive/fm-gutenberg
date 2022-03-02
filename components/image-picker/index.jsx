@@ -23,10 +23,10 @@ const PreviewContainer = styled.div`
 const Preview = ({ src }) => (
   <PreviewContainer>
     <img
-      alt={__('Edit image', 'wp-starter-plugin')}
+      alt={__('Edit image', 'fm-gutenberg')}
       className="edit-image-preview"
       src={src}
-      title={__('Edit image', 'wp-starter-plugin')}
+      title={__('Edit image', 'fm-gutenberg')}
     />
   </PreviewContainer>
 );

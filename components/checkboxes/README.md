@@ -7,12 +7,12 @@ of a multi-select without needing to use the `SelectControl` component.
 
 ``` js
 <Checkboxes
-  label={__('Setting', 'wp-starter-plugin')}
+  label={__('Setting', 'fm-gutenberg')}
   value={setting}
   onChange={(newValue) => setAttributes({ setting: newValue })}
   options={[
-    { value: 'option-1', label: __('Option 1', 'wp-starter-plugin') },
-    { value: 'option-2', label: __('Option 2', 'wp-starter-plugin') },
+    { value: 'option-1', label: __('Option 1', 'fm-gutenberg') },
+    { value: 'option-2', label: __('Option 2', 'fm-gutenberg') },
   ]}
 />
 ```

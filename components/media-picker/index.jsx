@@ -55,8 +55,8 @@ const MediaPicker = ({
         {Preview ? (
           <Preview src={src} />
         ) : (
-          <DefaultPreview className="wp-starter-plugin-media-picker__preview">
-            <p>{__('Selected file:', 'wp-starter-plugin')}</p>
+          <DefaultPreview className="fm-gutenberg-media-picker__preview">
+            <p>{__('Selected file:', 'fm-gutenberg')}</p>
             <p><a href={src}>{src}</a></p>
           </DefaultPreview>
         )}
@@ -65,7 +65,7 @@ const MediaPicker = ({
           isPrimary
           onClick={onReset}
         >
-          { __('Replace', 'wp-starter-plugin')}
+          { __('Replace', 'fm-gutenberg')}
         </Button>
       </Container>
     );

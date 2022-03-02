@@ -2,13 +2,13 @@
 /**
  * Contains functions for working with assets (primarily JavaScript).
  *
- * @package WP_Starter_Plugin
+ * @package FM_Gutenberg
  */
 
-namespace WP_Starter_Plugin;
+namespace FM_Gutenberg;
 
-define( 'WP_STARTER_PLUGIN_ASSET_MAP', read_asset_map( dirname( __DIR__ ) . '/build/assetMap.json' ) );
-define( 'WP_STARTER_PLUGIN_ASSET_MODE', WP_STARTER_PLUGIN_ASSET_MAP['mode'] ?? 'production' );
+define( 'FM_GUTENBERG_ASSET_MAP', read_asset_map( dirname( __DIR__ ) . '/build/assetMap.json' ) );
+define( 'FM_GUTENBERG_ASSET_MODE', FM_GUTENBERG_ASSET_MAP['mode'] ?? 'production' );
 
 // Register action and filter hooks.
 add_action(
@@ -34,13 +34,13 @@ remove_action( 'init', 'js_concat_init' );
  */
 function action_enqueue_block_editor_assets() {
 	wp_enqueue_script(
-		'wp-starter-plugin-slotfills',
+		'fm-gutenberg-slotfills',
 		get_asset_path( 'slotfills.js' ),
 		get_asset_dependencies( 'slotfills.php' ),
 		get_asset_hash( 'slotfills.js' ),
 		true
 	);
-	inline_locale_data( 'wp-starter-plugin-slotfills' );
+	inline_locale_data( 'fm-gutenberg-slotfills' );
 }
 
 /**
@@ -81,7 +81,7 @@ function get_asset_dependencies( string $asset ) : array {
  */
 function get_asset_hash( string $asset ) : string {
 	return get_asset_property( $asset, 'hash' )
-		?? WP_STARTER_PLUGIN_ASSET_MAP['hash']
+		?? FM_GUTENBERG_ASSET_MAP['hash']
 		?? '1.0.0';
 }
 
@@ -123,7 +123,7 @@ function get_asset_property( string $asset, string $prop ) : ?string {
 	 */
 	list( $entrypoint, $type ) = explode( '.', "$asset." );
 
-	$asset_property = WP_STARTER_PLUGIN_ASSET_MAP[ $entrypoint ][ $type ][ $prop ] ?? null;
+	$asset_property = FM_GUTENBERG_ASSET_MAP[ $entrypoint ][ $type ][ $prop ] ?? null;
 
 	return $asset_property ? $asset_property : null;
 }
@@ -137,7 +137,7 @@ function inline_locale_data( string $to_handle ) {
 	// Define locale data for Jed.
 	$locale_data = [
 		'' => [
-			'domain' => 'wp-starter-plugin',
+			'domain' => 'fm-gutenberg',
 			'lang'   => is_admin() ? get_user_locale() : get_locale(),
 		],
 	];
@@ -145,7 +145,7 @@ function inline_locale_data( string $to_handle ) {
 	// Pass the Jed configuration to the admin to properly register i18n.
 	wp_add_inline_script(
 		$to_handle,
-		'wp.i18n.setLocaleData( ' . wp_json_encode( $locale_data ) . ", 'wp-starter-plugin' );"
+		'wp.i18n.setLocaleData( ' . wp_json_encode( $locale_data ) . ", 'fm-gutenberg' );"
 	);
 }
 

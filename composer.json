@@ -1,6 +1,6 @@
 {
-  "name": "alleyinteractive/wp-starter-plugin",
-  "description": "WP Starter Plugin",
+  "name": "alleyinteractive/fm-gutenberg",
+  "description": "FM Gutenberg",
   "type": "project",
   "authors": [
     {
@@ -21,5 +21,10 @@
       "composer install",
       ". $NVM_DIR/nvm.sh && nvm use && npm ci && npm run build"
     ]
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }

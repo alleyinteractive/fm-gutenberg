@@ -42,11 +42,11 @@ const TermSelector = ({
  */
 TermSelector.defaultProps = {
   className: '',
-  emptyLabel: __('No terms found', 'wp-starter-plugin'),
-  label: __('Search for terms', 'wp-starter-plugin'),
+  emptyLabel: __('No terms found', 'fm-gutenberg'),
+  label: __('Search for terms', 'fm-gutenberg'),
   maxPages: 5,
   multiple: false,
-  placeholder: __('Search for terms', 'wp-starter-plugin'),
+  placeholder: __('Search for terms', 'fm-gutenberg'),
   subTypes: [],
   selected: [],
   threshold: 3,

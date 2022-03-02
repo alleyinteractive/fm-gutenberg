@@ -1,8 +1,8 @@
 <?php
 /**
- * WP Starter Plugin Tests: Test_Meta Class
+ * FM Gutenberg Tests: Test_Meta Class
  *
- * @package WP_Starter_Plugin
+ * @package FM_Gutenberg
  * @subpackage Tests
  */
 
@@ -17,14 +17,14 @@ class Test_Meta extends WP_UnitTestCase {
 	public function test_register_meta_helper() {
 
 		// Register post meta to test.
-		\WP_Starter_Plugin\register_meta_helper(
+		\FM_Gutenberg\register_meta_helper(
 			'post',
 			[ 'post' ],
 			'test_post_meta_key'
 		);
 
 		// Register term meta to test.
-		\WP_Starter_Plugin\register_meta_helper(
+		\FM_Gutenberg\register_meta_helper(
 			'term',
 			[ 'category' ],
 			'test_term_meta_key'
@@ -55,7 +55,7 @@ class Test_Meta extends WP_UnitTestCase {
 		$this->assertFalse( isset( $registered['test_term_meta_key'] ) );
 
 		// Ensure custom options are supported.
-		\WP_Starter_Plugin\register_meta_helper(
+		\FM_Gutenberg\register_meta_helper(
 			'post',
 			[ 'post' ],
 			'test_custom_meta_key',

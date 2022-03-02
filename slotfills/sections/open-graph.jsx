@@ -10,15 +10,15 @@ import ImagePicker from '@/components/image-picker';
 import usePostMetaValue from '@/hooks/use-post-meta-value';
 
 const OpenGraph = () => {
-  const [description, setDescription] = usePostMetaValue('wp_starter_plugin_open_graph_description');
-  const [image, setImage] = usePostMetaValue('wp_starter_plugin_open_graph_image');
-  const [title, setTitle] = usePostMetaValue('wp_starter_plugin_open_graph_title');
+  const [description, setDescription] = usePostMetaValue('fm_gutenberg_open_graph_description');
+  const [image, setImage] = usePostMetaValue('fm_gutenberg_open_graph_image');
+  const [title, setTitle] = usePostMetaValue('fm_gutenberg_open_graph_title');
 
   return (
     <PluginDocumentSettingPanel
       icon="share"
       name="opengraph"
-      title={__('Open Graph', 'wp-starter-plugin')}
+      title={__('Open Graph', 'fm-gutenberg')}
     >
       <ImagePicker
         onReset={() => setImage(0)}
@@ -26,12 +26,12 @@ const OpenGraph = () => {
         value={image}
       />
       <TextControl
-        label={__('Title', 'wp-starter-plugin')}
+        label={__('Title', 'fm-gutenberg')}
         onChange={(next) => setTitle(next)}
         value={title}
       />
       <TextareaControl
-        label={__('Description', 'wp-starter-plugin')}
+        label={__('Description', 'fm-gutenberg')}
         onChange={(next) => setDescription(next)}
         value={description}
       />
