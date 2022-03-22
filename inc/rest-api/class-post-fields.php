@@ -27,11 +27,17 @@ class Post_Fields {
 	 */
 	public function register_field() {
 		register_rest_field(
-			'post',
+			'demo-text',
 			'fm_gutenberg_fields',
 			[
 				'get_callback' => [ $this, 'get_value' ],
-				// 'schema' => [], TODO
+				// 'schema' => [
+				// 	'test' => [
+				// 		'description'       => esc_html__( 'This is the argument our endpoint returns.', 'fm-gutenberg' ),
+				// 		'type'              => 'string',
+				// 		'required'          => true,
+				// 	],
+				// ],
 			]
 		);
 	}
@@ -43,6 +49,37 @@ class Post_Fields {
 	 * @return array|\WP_Error
 	 */
 	public function get_value( $post ) {
-		return [];
+		global $wp_meta_boxes;
+
+		$posttype_meta_boxes = isset( $wp_meta_boxes[ $post['type'] ] ) ? $wp_meta_boxes[ $post['type'] ] : [];
+		if ( empty ( $posttype_meta_boxes ) ) {
+			return [];
+		}
+		$side_meta_boxes = isset( $posttype_meta_boxes['side'] ) ? $posttype_meta_boxes['side'] : [];
+		if ( empty ( $side_meta_boxes ) ) {
+			return [];
+		}
+
+		$meta_boxes = [];
+		foreach( $side_meta_boxes as $context ) {
+			$meta_boxes = array_merge( $meta_boxes, $context );
+		}
+
+		$fm_meta_boxes = array_filter(
+			$meta_boxes,
+			function( $value, $key ) {
+				return str_starts_with( $key, 'fm_meta_box_' );
+			},
+			ARRAY_FILTER_USE_BOTH
+		);
+		$output = [];
+
+		foreach ( $fm_meta_boxes as $fm_meta_box ) {
+			$output[] = [
+				'title' => $fm_meta_box['callback'][0]->title,
+				'fm'    => $fm_meta_box['callback'][0]->fm,
+			];
+		}
+		return $output;
 	}
 }
