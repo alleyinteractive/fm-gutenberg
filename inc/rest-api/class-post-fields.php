@@ -16,6 +16,13 @@ class Post_Fields {
 	use Singleton;
 
 	/**
+	 * The array of metaboxes.
+	 *
+	 * @var array
+	 */
+	public static $meta_boxes = [];
+
+	/**
 	 * Set everything up.
 	 */
 	protected function __construct() {
@@ -31,13 +38,18 @@ class Post_Fields {
 			'fm_gutenberg_fields',
 			[
 				'get_callback' => [ $this, 'get_value' ],
-				// 'schema' => [
-				// 	'test' => [
-				// 		'description'       => esc_html__( 'This is the argument our endpoint returns.', 'fm-gutenberg' ),
-				// 		'type'              => 'string',
-				// 		'required'          => true,
-				// 	],
-				// ],
+				'schema' => [
+					'title' => [
+						'description'       => esc_html__( 'The metabox title.', 'fm-gutenberg' ),
+						'type'              => 'string',
+						'required'          => true,
+					],
+					'fm' => [
+						'description'       => esc_html__( 'The array describing the Fieldmanager field.', 'fm-gutenberg' ),
+						'type'              => 'array',
+						'required'          => true,
+					]
+				],
 			]
 		);
 	}
@@ -49,6 +61,33 @@ class Post_Fields {
 	 * @return array|\WP_Error
 	 */
 	public function get_value( $post ) {
+		$fm_meta_boxes = $this->load_meta_boxes( $post );
+		$this->register_meta_fields( $fm_meta_boxes );
+
+		$output = [];
+
+		foreach ( $fm_meta_boxes as $fm_meta_box ) {
+			$output[] = [
+				'title' => $fm_meta_box['callback'][0]->title,
+				'fm'    => $fm_meta_box['callback'][0]->fm,
+			];
+		}
+		return $output;
+	}
+
+	protected function register_meta_fields( $fm_meta_boxes ) {
+		foreach ( $fm_meta_boxes as $fm_meta_box ) {
+			$context = $fm_meta_box['callback'][0]->fm;
+			\FM_Gutenberg\register_meta_helper(
+				'post',
+				[ 'demo-text' ],
+				$context->name,
+				[]
+			);
+		}
+	}
+
+	protected function load_meta_boxes( $post ) {
 		global $wp_meta_boxes;
 
 		$posttype_meta_boxes = isset( $wp_meta_boxes[ $post['type'] ] ) ? $wp_meta_boxes[ $post['type'] ] : [];
@@ -72,14 +111,6 @@ class Post_Fields {
 			},
 			ARRAY_FILTER_USE_BOTH
 		);
-		$output = [];
-
-		foreach ( $fm_meta_boxes as $fm_meta_box ) {
-			$output[] = [
-				'title' => $fm_meta_box['callback'][0]->title,
-				'fm'    => $fm_meta_box['callback'][0]->fm,
-			];
-		}
-		return $output;
+		return $fm_meta_boxes;
 	}
 }

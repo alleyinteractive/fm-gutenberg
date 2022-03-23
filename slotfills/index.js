@@ -1,6 +1,6 @@
 import { registerPlugin } from '@wordpress/plugins';
+import FmGutenbergFields from './fm-gutenberg-fields';
 
 // Sections.
-import OpenGraph from './sections/open-graph';
 
-registerPlugin('fm-gutenberg-open-graph', { render: OpenGraph });
+registerPlugin('fm-gutenberg-text-field', { render: FmGutenbergFields });
