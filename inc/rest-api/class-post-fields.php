@@ -27,6 +27,8 @@ class Post_Fields {
 	 */
 	protected function __construct() {
 		add_action( 'rest_api_init', [ $this, 'register_field' ] );
+		add_action( 'fieldmanager_context_post_construct', [ $this, 'on_fieldmanager_context_post_construct' ], 10, 5 );
+		add_action( 'init', [ $this, 'register_meta_fields' ], 100 );
 	}
 
 	/**
@@ -61,40 +63,49 @@ class Post_Fields {
 	 * @return array|\WP_Error
 	 */
 	public function get_value( $post ) {
-		$fm_meta_boxes = $this->load_meta_boxes( $post );
-		$this->register_meta_fields( $fm_meta_boxes );
-
+		$post_type = get_post_type( $post['id'] );
 		$output = [];
+		$fm_meta_boxes = $this->load_meta_boxes( $post_type );
 
 		foreach ( $fm_meta_boxes as $fm_meta_box ) {
 			$output[] = [
-				'title' => $fm_meta_box['callback'][0]->title,
-				'fm'    => $fm_meta_box['callback'][0]->fm,
+				'title' => $fm_meta_box['title'],
+				'fm'    => $fm_meta_box['fm'],
 			];
+			remove_meta_box( 'fm_meta_box_' . $fm_meta_box['fm']->name, $post_type, 'side' );
 		}
 		return $output;
 	}
 
-	protected function register_meta_fields( $fm_meta_boxes ) {
-		foreach ( $fm_meta_boxes as $fm_meta_box ) {
-			$context = $fm_meta_box['callback'][0]->fm;
-			\FM_Gutenberg\register_meta_helper(
-				'post',
-				[ 'demo-text' ],
-				$context->name,
-				[]
-			);
+	public function register_meta_fields( $fm_meta_boxes ) {
+		$post_types = array_keys( get_post_types() );
+		foreach ( $post_types as $post_type ) {
+			$fm_meta_boxes = $this->load_meta_boxes( $post_type );
+			foreach ( $fm_meta_boxes as $fm_meta_box ) {
+				$fm = $fm_meta_box['fm'];
+
+				if ( empty( $context->children ) ) {
+					\FM_Gutenberg\register_meta_helper(
+						'post',
+						[ $post_type ],
+						$fm->name,
+						[
+							'default' => '',
+						]
+					);
+				}
+			}
 		}
 	}
 
-	protected function load_meta_boxes( $post ) {
-		global $wp_meta_boxes;
-
-		$posttype_meta_boxes = isset( $wp_meta_boxes[ $post['type'] ] ) ? $wp_meta_boxes[ $post['type'] ] : [];
+	protected function load_meta_boxes( $post_type ) {
+		$posttype_meta_boxes = isset( $this->meta_boxes[ $post_type ] ) ? $this->meta_boxes[ $post_type ] : [];
 		if ( empty ( $posttype_meta_boxes ) ) {
 			return [];
 		}
+
 		$side_meta_boxes = isset( $posttype_meta_boxes['side'] ) ? $posttype_meta_boxes['side'] : [];
+
 		if ( empty ( $side_meta_boxes ) ) {
 			return [];
 		}
@@ -104,13 +115,25 @@ class Post_Fields {
 			$meta_boxes = array_merge( $meta_boxes, $context );
 		}
 
-		$fm_meta_boxes = array_filter(
-			$meta_boxes,
-			function( $value, $key ) {
-				return str_starts_with( $key, 'fm_meta_box_' );
-			},
-			ARRAY_FILTER_USE_BOTH
-		);
-		return $fm_meta_boxes;
+		return $meta_boxes;
+	}
+
+	public function on_fieldmanager_context_post_construct( $title, $post_types, $context, $priority, $fm ) {
+		$box = [
+			'title' => $title,
+			'fm' => $fm,
+		];
+		foreach ( $post_types as $post_type ) {
+			if ( ! isset( $this->meta_boxes[ $post_type ] ) ) {
+				$this->meta_boxes[ $post_type ] = [];
+			}
+			if ( ! isset( $this->meta_boxes[ $post_type ][ $context ] ) ) {
+				$this->meta_boxes[ $post_type ][ $context ] = [];
+			}
+			if ( ! isset( $this->meta_boxes[ $post_type ][ $context ][ $priority ] ) ) {
+				$this->meta_boxes[ $post_type ][ $context ][ $priority ] = [];
+			}
+			$this->meta_boxes[ $post_type ][ $context ][ $priority ][] = $box;
+		}
 	}
 }

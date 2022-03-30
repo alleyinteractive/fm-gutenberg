@@ -14,10 +14,6 @@ const TextField = ({
   // const [image, setImage] = usePostMetaValue('fm_gutenberg_open_graph_image');
   const [value, setValue] = usePostMetaValue(name);
   const [description, setDescription] = usePostMetaValue('fm_gutenberg_open_graph_description');
-  console.log('description', description);
-  console.log('field', field);
-  console.log('name', name);
-  console.log('value', value);
   return (
     <PanelBody>
       <PanelRow>
