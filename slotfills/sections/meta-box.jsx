@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
+import usePostMetaValue from '@/hooks/use-post-meta-value';
 
 // Components.
+import Group from './group';
 import TextField from './text-field';
 
 const MetaBox = ({
@@ -17,18 +19,22 @@ const MetaBox = ({
     children = [ children ];
   }
 
-  // const [description, setDescription] = usePostMetaValue('fm_gutenberg_open_graph_description');
-  // const [image, setImage] = usePostMetaValue('fm_gutenberg_open_graph_image');
-  // const [title, setTitle] = usePostMetaValue('fm_gutenberg_open_graph_title');
-
   return (
     <PluginDocumentSettingPanel
-      icon=""
-      name="text-field"
+      name={context.name}
       title={title}
     >
       {context.field_class === 'text' ? (
-        <TextField field={context} />
+        <TextField
+          field={context}
+          valueHook={usePostMetaValue}
+        />
+      ) : null}
+      {context.field_class === 'group' ? (
+        <Group
+          field={context}
+          valueHook={usePostMetaValue}
+        />
       ) : null}
     </PluginDocumentSettingPanel>
   );
