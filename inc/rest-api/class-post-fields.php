@@ -20,7 +20,7 @@ class Post_Fields {
 	 *
 	 * @var array
 	 */
-	public static $meta_boxes = [];
+	public $meta_boxes = [];
 
 	/**
 	 * Set everything up.
@@ -110,21 +110,16 @@ class Post_Fields {
 						]
 					);
 				} else {
-					var_dump(
-						[
-							'default' => [],
-							'type'    => 'array',
-							'items'   => $this->get_schema( $fm->children ),
-						]
-					);
 					\FM_Gutenberg\register_meta_helper(
 						'post',
 						[ $post_type ],
 						$fm->name,
 						[
-							'default' => [],
-							'type'    => 'array',
-							'items'   => $this->get_schema( $fm->children ),
+							'default'      => [],
+							'type'         => 'array',
+							'show_in_rest' => [
+								'schema' => $this->get_schema( $fm->children )
+							],
 						]
 					);
 				}
@@ -201,7 +196,7 @@ class Post_Fields {
 
 			preg_match( '/wp\/v2\/([a-z0-9-_]*)\/(\d*)/', $rest_path, $matches );
 
-			if ( post_type_exists( $matches[1] ) && current_user_can( 'edit_post', $matches[2] ) ) {
+			if ( ! empty( $matches ) && post_type_exists( $matches[1] ) && current_user_can( 'edit_post', $matches[2] ) ) {
 				$context[] = 'post'; // TODO: Find root post type.
 				$context[] = $matches[1];
 			}
@@ -230,10 +225,18 @@ class Post_Fields {
 	private function get_schema( $children ) {
 		$output = [];
 		foreach( $children as $child ) {
+			// var_dump( $child );
 			$output[] = [
-				'type' => 'string',
+				'type'       => 'object',
+				'properties' => [
+					$child->name => [
+						'type' => 'string',
+					],
+				],
 			];
 		}
-		return $output;
+		return [
+			'items' => $output,
+		];
 	}
 }
