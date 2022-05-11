@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
+import { PanelBody } from '@wordpress/components';
 import usePostMetaValue from '@/hooks/use-post-meta-value';
 
 // Components.
@@ -15,8 +16,8 @@ const MetaBox = ({
 }) => {
   let { children } = context;
 
-  if ('array' !== typeof children) {
-    children = [ children ];
+  if (Array.isArray(children)) {
+    children = [children];
   }
 
   return (
@@ -24,18 +25,20 @@ const MetaBox = ({
       name={context.name}
       title={title}
     >
-      {context.field_class === 'text' ? (
-        <TextField
-          field={context}
-          valueHook={usePostMetaValue}
-        />
-      ) : null}
-      {context.field_class === 'group' ? (
-        <Group
-          field={context}
-          valueHook={usePostMetaValue}
-        />
-      ) : null}
+      <PanelBody>
+        {context.field_class === 'text' ? (
+          <TextField
+            field={context}
+            valueHook={usePostMetaValue}
+          />
+        ) : null}
+        {context.field_class === 'group' ? (
+          <Group
+            field={context}
+            valueHook={usePostMetaValue}
+          />
+        ) : null}
+      </PanelBody>
     </PluginDocumentSettingPanel>
   );
 };
@@ -45,6 +48,8 @@ MetaBox.propTypes = {
     title: PropTypes.string.isRequired,
     fm: PropTypes.shape({
       children: PropTypes.arrayOf(PropTypes.shape({})),
+      name: PropTypes.string.isRequired,
+      field_class: PropTypes.string.isRequired,
     }),
   }).isRequired,
 };
