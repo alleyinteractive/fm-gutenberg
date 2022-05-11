@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { PanelRow, PanelBody } from '@wordpress/components';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-
-// import { arrayMoveImmutable } from 'array-move';
+import { sortableContainer, sortableElement } from 'react-sortable-hoc';
+import { arrayMoveImmutable } from 'array-move';
+import { v4 as uuidv4 } from 'uuid';
 
 import TextField from './text-field';
+
+const SortableItem = sortableElement(({ children }) => <li>{children}</li>);
+
+const SortableContainer = sortableContainer(({ children }) => (
+  <ul>{children}</ul>
+));
 
 const Group = ({
   field: {
@@ -27,33 +32,36 @@ const Group = ({
     return [indexValue, setIndexValue];
   };
 
-  // const onSortEnd = ({oldIndex, newIndex}) => {
-  //   console.log('oldIndex', oldIndex);
-  //   console.log('newIndex', newIndex);
-  //   console.log('value', value);
-  //   const newValue = arrayMoveImmutable(value, oldIndex, newIndex);
-  //   console.log('newValue', newValue);
-  //   setValue(newvalue);
-  // };
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    console.log('oldIndex', oldIndex);
+    console.log('newIndex', newIndex);
+    console.log('value', value);
+    const newValue = arrayMoveImmutable(value, oldIndex, newIndex);
+    console.log('newValue', newValue);
+    setValue(newValue);
+  };
 
   return (
     value.map((childValue, index) => (
       <PanelBody>
         <PanelRow>
-          <DndProvider backend={HTML5Backend}>
+          <SortableContainer onSortEnd={onSortEnd}>
             {Object.keys(children).map((key) => {
               const child = children[key];
+              console.log('child', child);
               return (
-                child.field_class === 'text' ? (
-                  <TextField
-                    field={child}
-                    valueHook={useIndexedValue}
-                    index={index}
-                  />
-                ) : null
+                <SortableItem key={uuidv4()} index={index}>
+                  {child.field_class === 'text' ? (
+                    <TextField
+                      field={child}
+                      valueHook={useIndexedValue}
+                      index={index}
+                    />
+                  ) : null}
+                </SortableItem>
               );
             })}
-          </DndProvider>
+          </SortableContainer>
         </PanelRow>
       </PanelBody>
     ))
