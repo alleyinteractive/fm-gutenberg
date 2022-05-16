@@ -33,38 +33,33 @@ const Group = ({
   };
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
-    console.log('oldIndex', oldIndex);
-    console.log('newIndex', newIndex);
-    console.log('value', value);
     const newValue = arrayMoveImmutable(value, oldIndex, newIndex);
-    console.log('newValue', newValue);
     setValue(newValue);
   };
 
   return (
-    value.map((childValue, index) => (
-      <PanelBody>
-        <PanelRow>
-          <SortableContainer onSortEnd={onSortEnd}>
-            {Object.keys(children).map((key) => {
-              const child = children[key];
-              console.log('child', child);
-              return (
-                <SortableItem key={uuidv4()} index={index}>
-                  {child.field_class === 'text' ? (
+    <SortableContainer onSortEnd={onSortEnd}>
+      {value.map((childValue, index) => (
+        <SortableItem key={uuidv4()} index={index}>
+          <PanelBody>
+            <PanelRow>
+              {Object.keys(children).map((key) => {
+                const child = children[key];
+                return (
+                  child.field_class === 'text' ? (
                     <TextField
                       field={child}
                       valueHook={useIndexedValue}
                       index={index}
                     />
-                  ) : null}
-                </SortableItem>
-              );
-            })}
-          </SortableContainer>
-        </PanelRow>
-      </PanelBody>
-    ))
+                  ) : null
+                );
+              })}
+            </PanelRow>
+          </PanelBody>
+        </SortableItem>
+      ))}
+    </SortableContainer>
   );
 };
 
