@@ -4,12 +4,20 @@ import { Button, PanelRow, PanelBody } from '@wordpress/components';
 import { sortableContainer, sortableElement } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
 import { v4 as uuidv4 } from 'uuid';
-import { __ } from '@wordpress/i18n';
 
 import TextField from './text-field';
 
+const SortableItem = sortableElement(({ children }) => (
+  <li>
+    {children}
+  </li>
+));
+
+const SortableContainer = sortableContainer(({ children }) => (
+  <ul>{children}</ul>
+));
+
 const Group = ({
-  field,
   field: {
     add_more_label: addMoreLabel = '',
     add_more_position: addMorePosition = 'bottom',
@@ -19,16 +27,6 @@ const Group = ({
   valueHook,
 }) => {
   const [value, setValue] = valueHook(name);
-
-  const SortableItem = sortableElement(({ children }) => (
-    <li>
-      {children}
-    </li>
-  ));
-
-  const SortableContainer = sortableContainer(({ children }) => (
-    <ul>{children}</ul>
-  ));
 
   const useIndexedValue = (index) => {
     const indexValue = value[index];
@@ -58,6 +56,14 @@ const Group = ({
 
   return (
     <>
+      {addMorePosition === 'top' ? (
+        <Button
+          isSecondary
+          onClick={addNew}
+        >
+          {addMoreLabel}
+        </Button>
+      ) : null}
       <SortableContainer onSortEnd={onSortEnd}>
         {value.map((childValue, index) => {
           const key = uuidv4();
@@ -73,18 +79,18 @@ const Group = ({
                   >
                     x
                   </Button>
-                  {Object.keys(children).map((key) => {
-                    const child = children[key];
+                  {Object.keys(children).map((itemKey) => {
+                    const child = children[itemKey];
+                    const fieldKey = uuidv4();
                     return (
                       child.field_class === 'text' ? (
                         <>
-                          {uuidv4()}
                           <TextField
-                            key={uuidv4()}
+                            key={fieldKey}
                             field={child}
                             valueHook={useIndexedValue}
                             index={index}
-                            />
+                          />
                         </>
                       ) : null
                     );
@@ -95,12 +101,14 @@ const Group = ({
           );
         })}
       </SortableContainer>
-      <Button
-        isSecondary={true}
-        onClick={addNew}
-      >
-        {addMoreLabel}
-      </Button>
+      {addMorePosition === 'bottom' ? (
+        <Button
+          isSecondary
+          onClick={addNew}
+        >
+          {addMoreLabel}
+        </Button>
+      ) : null}
     </>
   );
 };
