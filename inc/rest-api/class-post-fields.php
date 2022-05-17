@@ -91,7 +91,7 @@ class Post_Fields {
 	 */
 	public function register_meta_fields( $fm_meta_boxes ) {
 		if ( ! current_user_can( 'edit_posts' ) ) { // TODO: Can we check this specific post?
-			// return;
+			return;
 		}
 		$post_types = array_keys( get_post_types() );
 		foreach ( $post_types as $post_type ) {
@@ -118,7 +118,7 @@ class Post_Fields {
 							'default'      => [],
 							'type'         => 'array',
 							'show_in_rest' => [
-								'schema' => $this->get_schema( $fm->children )
+								'schema' => $this->get_schema( $fm->children ),
 							],
 						]
 					);
@@ -222,10 +222,15 @@ class Post_Fields {
 		return str_starts_with( $current_url['path'], $rest_url['path'] );
 	}
 
+	/**
+	 * Formats the schema for the provided array of config data.
+	 *
+	 * @param [type] $children The array of FieldManager config data.
+	 * @return array
+	 */
 	private function get_schema( $children ) {
 		$output = [];
-		foreach( $children as $child ) {
-			// var_dump( $child );
+		foreach ( $children as $child ) {
 			$output[] = [
 				'type'       => 'object',
 				'properties' => [
