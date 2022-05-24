@@ -4,10 +4,8 @@ import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
 import { PanelBody } from '@wordpress/components';
 import usePostMetaValue from '@/hooks/use-post-meta-value';
 
-// Components.
+import FieldRouter from './fieldRouter';
 import Group from './group';
-import TextField from './text-field';
-import TextareaField from './textarea-field';
 
 const MetaBox = ({
   field: {
@@ -20,39 +18,22 @@ const MetaBox = ({
   if (Array.isArray(children)) {
     children = [children];
   }
-  const {
-    field_class: fieldClass,
-    attributes: {
-      rows = null,
-    } = {},
-    label = '',
-  } = context;
   return (
     <PluginDocumentSettingPanel
       name={context.name}
       title={title}
     >
       <PanelBody>
-        {fieldClass === 'text' && rows === null ? (
-          <TextField
-            field={context}
-            valueHook={usePostMetaValue}
-            label={label}
-          />
-        ) : null}
-        {fieldClass === 'text' && rows !== null ? (
-          <TextareaField
-            field={context}
-            valueHook={usePostMetaValue}
-            label={label}
-          />
-        ) : null}
-        {fieldClass === 'group' ? (
+        {context.field_class === 'group' ? (
           <Group
             field={context}
             valueHook={usePostMetaValue}
           />
         ) : null}
+        <FieldRouter
+          field={context}
+          valueHook={usePostMetaValue}
+        />
       </PanelBody>
     </PluginDocumentSettingPanel>
   );

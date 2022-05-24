@@ -5,8 +5,7 @@ import { sortableContainer, sortableElement } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
 import { v4 as uuidv4 } from 'uuid';
 
-import TextField from './text-field';
-import TextareaField from './textarea-field';
+import FieldRouter from './fieldRouter';
 
 const SortableItem = sortableElement(({ children }) => (
   <li>
@@ -82,35 +81,12 @@ const Group = ({
                   </Button>
                   {Object.keys(children).map((itemKey) => {
                     const child = children[itemKey];
-                    const fieldKey = uuidv4();
-                    const {
-                      field_class: fieldClass,
-                      attributes: {
-                        rows = null,
-                      } = {},
-                      label = '',
-                    } = child;
                     return (
-                      <>
-                        {fieldClass === 'text' && rows === null ? (
-                          <TextField
-                            key={fieldKey}
-                            field={child}
-                            valueHook={useIndexedValue}
-                            index={index}
-                            label={label}
-                          />
-                        ) : null}
-                        {fieldClass === 'text' && rows !== null ? (
-                          <TextareaField
-                            key={fieldKey}
-                            field={child}
-                            valueHook={useIndexedValue}
-                            index={index}
-                            label={label}
-                          />
-                        ) : null}
-                      </>
+                      <FieldRouter
+                        field={child}
+                        index={index}
+                        valueHook={useIndexedValue}
+                      />
                     );
                   })}
                 </PanelRow>
