@@ -7,6 +7,7 @@ import usePostMetaValue from '@/hooks/use-post-meta-value';
 // Components.
 import Group from './group';
 import TextField from './text-field';
+import TextareaField from './textarea-field';
 
 const MetaBox = ({
   field: {
@@ -19,20 +20,34 @@ const MetaBox = ({
   if (Array.isArray(children)) {
     children = [children];
   }
-
+  const {
+    field_class: fieldClass,
+    attributes: {
+      rows = null,
+    } = {},
+    label = '',
+  } = context;
   return (
     <PluginDocumentSettingPanel
       name={context.name}
       title={title}
     >
       <PanelBody>
-        {context.field_class === 'text' ? (
+        {fieldClass === 'text' && rows === null ? (
           <TextField
             field={context}
             valueHook={usePostMetaValue}
+            label={label}
           />
         ) : null}
-        {context.field_class === 'group' ? (
+        {fieldClass === 'text' && rows !== null ? (
+          <TextareaField
+            field={context}
+            valueHook={usePostMetaValue}
+            label={label}
+          />
+        ) : null}
+        {fieldClass === 'group' ? (
           <Group
             field={context}
             valueHook={usePostMetaValue}
@@ -50,6 +65,8 @@ MetaBox.propTypes = {
       children: PropTypes.arrayOf(PropTypes.shape({})),
       name: PropTypes.string.isRequired,
       field_class: PropTypes.string.isRequired,
+      attributes: PropTypes.shape({}).isRequired,
+      label: PropTypes.string,
     }),
   }).isRequired,
 };

@@ -37,7 +37,10 @@ class Post_Fields {
 	 */
 	public function register_field() {
 		register_rest_field(
-			'demo-text',
+			[
+				'demo-text',
+				'demo-textarea',
+			],
 			'fm_gutenberg_fields',
 			[
 				'get_callback' => [ $this, 'get_value' ],

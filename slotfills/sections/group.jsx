@@ -6,6 +6,7 @@ import { arrayMoveImmutable } from 'array-move';
 import { v4 as uuidv4 } from 'uuid';
 
 import TextField from './text-field';
+import TextareaField from './textarea-field';
 
 const SortableItem = sortableElement(({ children }) => (
   <li>
@@ -82,17 +83,34 @@ const Group = ({
                   {Object.keys(children).map((itemKey) => {
                     const child = children[itemKey];
                     const fieldKey = uuidv4();
+                    const {
+                      field_class: fieldClass,
+                      attributes: {
+                        rows = null,
+                      } = {},
+                      label = '',
+                    } = child;
                     return (
-                      child.field_class === 'text' ? (
-                        <>
+                      <>
+                        {fieldClass === 'text' && rows === null ? (
                           <TextField
                             key={fieldKey}
                             field={child}
                             valueHook={useIndexedValue}
                             index={index}
+                            label={label}
                           />
-                        </>
-                      ) : null
+                        ) : null}
+                        {fieldClass === 'text' && rows !== null ? (
+                          <TextareaField
+                            key={fieldKey}
+                            field={child}
+                            valueHook={useIndexedValue}
+                            index={index}
+                            label={label}
+                          />
+                        ) : null}
+                      </>
                     );
                   })}
                 </PanelRow>
