@@ -6,9 +6,6 @@ import MetaBox from './sections/meta-box';
 
 const FmGutenbergFields = (post) => {
   const { post: { fm_gutenberg_fields: fmFields } } = post;
-  if (!fmFields) {
-    return 'loading';
-  }
   return (
     fmFields.map((field) => (
       <MetaBox field={field} />
