@@ -60,7 +60,7 @@ class Post_Fields {
 	/**
 	 * Get the value.
 	 *
-	 * @param Object $post The requested post.
+	 * @param WP_Post $post The requested post.
 	 * @return array|\WP_Error
 	 */
 	public function get_value( $post ) {
