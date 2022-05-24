@@ -13,11 +13,11 @@ import { __ } from '@wordpress/i18n';
 import { addQueryArgs } from '@wordpress/url';
 import { v4 as uuidv4 } from 'uuid';
 
-// Components.
-import SearchResults from './components/search-results';
-
 // Custom hooks.
 import useDebounce from '@/hooks/use-debounce';
+
+// Components.
+import SearchResults from './components/search-results';
 
 // Styles.
 import './styles.scss';
