@@ -4,6 +4,7 @@ import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
 import { PanelBody } from '@wordpress/components';
 import usePostMetaValue from '@/hooks/use-post-meta-value';
 
+// Components.
 import FieldRouter from './fieldRouter';
 import Group from './group';
 
@@ -30,10 +31,12 @@ const MetaBox = ({
             valueHook={usePostMetaValue}
           />
         ) : null}
-        <FieldRouter
-          field={context}
-          valueHook={usePostMetaValue}
-        />
+        {context.field_class !== 'group' ? (
+          <FieldRouter
+            field={context}
+            valueHook={usePostMetaValue}
+          />
+        ) : null}
       </PanelBody>
     </PluginDocumentSettingPanel>
   );
