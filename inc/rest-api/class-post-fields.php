@@ -37,7 +37,7 @@ class Post_Fields {
 	 */
 	public function register_field() {
 		register_rest_field(
-			'demo-text',
+			$this->get_block_editor_post_types(),
 			'fm_gutenberg_fields',
 			[
 				'get_callback' => [ $this, 'get_value' ],
@@ -243,5 +243,14 @@ class Post_Fields {
 		return [
 			'items' => $output,
 		];
+	}
+
+	/**
+	 * Gets all post types that use the block editor.
+	 *
+	 * @return array
+	 */
+	private function get_block_editor_post_types() {
+		return array_filter( get_post_types(), 'use_block_editor_for_post_type' );
 	}
 }

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { PanelRow, TextControl } from '@wordpress/components';
+import { PanelRow, TextareaControl } from '@wordpress/components';
 
-const TextField = ({
+const TextareaField = ({
   field: {
     name,
   },
@@ -20,7 +20,7 @@ const TextField = ({
   };
   return (
     <PanelRow>
-      <TextControl
+      <TextareaControl
         label={label}
         onChange={setStateValue}
         onBlur={updateValue}
@@ -30,12 +30,12 @@ const TextField = ({
   );
 };
 
-TextField.defaultProps = {
+TextareaField.defaultProps = {
   index: null,
   label: '',
 };
 
-TextField.propTypes = {
+TextareaField.propTypes = {
   field: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
@@ -44,4 +44,4 @@ TextField.propTypes = {
   label: PropTypes.string,
 };
 
-export default TextField;
+export default TextareaField;
