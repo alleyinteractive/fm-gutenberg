@@ -42,7 +42,7 @@ MetaBox.propTypes = {
       children: PropTypes.arrayOf(PropTypes.shape({})),
       name: PropTypes.string.isRequired,
       field_class: PropTypes.string.isRequired,
-      attributes: PropTypes.shape({}).isRequired,
+      attributes: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
       label: PropTypes.string,
     }),
   }).isRequired,
