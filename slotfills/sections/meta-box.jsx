@@ -13,34 +13,27 @@ const MetaBox = ({
     title,
     fm: context,
   },
-}) => {
-  let { children } = context;
-
-  if (Array.isArray(children)) {
-    children = [children];
-  }
-  return (
-    <PluginDocumentSettingPanel
-      name={context.name}
-      title={title}
-    >
-      <PanelBody>
-        {context.field_class === 'group' ? (
-          <Group
-            field={context}
-            valueHook={usePostMetaValue}
-          />
-        ) : null}
-        {context.field_class !== 'group' ? (
-          <FieldRouter
-            field={context}
-            valueHook={usePostMetaValue}
-          />
-        ) : null}
-      </PanelBody>
-    </PluginDocumentSettingPanel>
-  );
-};
+}) => (
+  <PluginDocumentSettingPanel
+    name={context.name}
+    title={title}
+  >
+    <PanelBody>
+      {context.field_class === 'group' ? (
+        <Group
+          field={context}
+          valueHook={usePostMetaValue}
+        />
+      ) : null}
+      {context.field_class !== 'group' ? (
+        <FieldRouter
+          field={context}
+          valueHook={usePostMetaValue}
+        />
+      ) : null}
+    </PanelBody>
+  </PluginDocumentSettingPanel>
+);
 
 MetaBox.propTypes = {
   field: PropTypes.shape({

@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import TextField from './text-field';
 import TextareaField from './textarea-field';
+import RichtextField from './richtext-field';
 
 const FieldRouter = ({
   field,
@@ -18,7 +19,6 @@ const FieldRouter = ({
   valueHook,
 }) => {
   const fieldKey = uuidv4();
-
   return (
     <>
       {fieldClass === 'text' && rows === null ? (
@@ -32,6 +32,15 @@ const FieldRouter = ({
       ) : null}
       {fieldClass === 'text' && rows !== null ? (
         <TextareaField
+          key={fieldKey}
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+        />
+      ) : null}
+      {fieldClass === 'richtext' ? (
+        <RichtextField
           key={fieldKey}
           field={field}
           valueHook={valueHook}

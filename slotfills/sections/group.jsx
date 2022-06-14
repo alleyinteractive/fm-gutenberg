@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, PanelRow, PanelBody } from '@wordpress/components';
-import { sortableContainer, sortableElement } from 'react-sortable-hoc';
+import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -54,6 +54,8 @@ const Group = ({
     setValue(newValue);
   };
 
+  const DragHandle = sortableHandle(() => <span style={{ cursor: 'move' }}>::</span>);
+
   return (
     <>
       {addMorePosition === 'top' ? (
@@ -64,7 +66,10 @@ const Group = ({
           {addMoreLabel}
         </Button>
       ) : null}
-      <SortableContainer onSortEnd={onSortEnd}>
+      <SortableContainer
+        onSortEnd={onSortEnd}
+        useDragHandle
+      >
         {value.map((childValue, index) => {
           const key = uuidv4();
           return (
@@ -74,21 +79,34 @@ const Group = ({
             >
               <PanelBody>
                 <PanelRow>
-                  <Button
-                    onClick={() => removeElement(index)}
-                  >
-                    x
-                  </Button>
-                  {Object.keys(children).map((itemKey) => {
-                    const child = children[itemKey];
-                    return (
-                      <FieldRouter
-                        field={child}
-                        index={index}
-                        valueHook={useIndexedValue}
-                      />
-                    );
-                  })}
+                  <div style={{ flexDirection: 'column' }}>
+                    <div style={{
+                      display: 'flex',
+                      width: '100%',
+                      clear: 'both',
+                      justifyContent: 'space-between',
+                    }}
+                    >
+                      <DragHandle />
+                      <Button
+                        onClick={() => removeElement(index)}
+                      >
+                        x
+                      </Button>
+                    </div>
+                    <div>
+                      {Object.keys(children).map((itemKey) => {
+                        const child = children[itemKey];
+                        return (
+                          <FieldRouter
+                            field={child}
+                            index={index}
+                            valueHook={useIndexedValue}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
                 </PanelRow>
               </PanelBody>
             </SortableItem>
