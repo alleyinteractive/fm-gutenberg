@@ -137,7 +137,7 @@
     "sass": "^1.45.1",
     "sass-loader": "^12.4.0",
     "style-loader": "^3.3.1",
-    "stylelint": "^14.2.0",
+    "stylelint": "^13.13.1",
     "stylelint-a11y": "^1.2.3",
     "stylelint-config-sass-guidelines": "^9.0.1",
     "webpack": "^5.65.0",
