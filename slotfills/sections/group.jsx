@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, PanelRow, PanelBody } from '@wordpress/components';
+import { Button, PanelRow } from '@wordpress/components';
 import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
 import { v4 as uuidv4 } from 'uuid';
@@ -62,25 +62,27 @@ const Group = ({
   return (
     <>
       {addMorePosition === 'top' ? (
-        <Button
-          isSecondary
-          onClick={addNew}
-        >
-          {addMoreLabel}
-        </Button>
+        <PanelRow>
+          <Button
+            isSecondary
+            onClick={addNew}
+          >
+            {addMoreLabel}
+          </Button>
+        </PanelRow>
       ) : null}
-      <SortableContainer
-        onSortEnd={onSortEnd}
-        useDragHandle
-      >
-        {value.map((childValue, index) => {
-          const key = uuidv4();
-          return (
-            <SortableItem
-              key={key}
-              index={index}
-            >
-              <PanelBody>
+      <PanelRow>
+        <SortableContainer
+          onSortEnd={onSortEnd}
+          useDragHandle
+        >
+          {value.map((childValue, index) => {
+            const key = uuidv4();
+            return (
+              <SortableItem
+                key={key}
+                index={index}
+              >
                 <PanelRow>
                   <div className="fm-gutenberg-panel-container">
                     <div className="fm-gutenberg-controls">
@@ -107,18 +109,20 @@ const Group = ({
                     </div>
                   </div>
                 </PanelRow>
-              </PanelBody>
-            </SortableItem>
-          );
-        })}
-      </SortableContainer>
+              </SortableItem>
+            );
+          })}
+        </SortableContainer>
+      </PanelRow>
       {addMorePosition === 'bottom' ? (
-        <Button
-          isSecondary
-          onClick={addNew}
-        >
-          {addMoreLabel}
-        </Button>
+        <PanelRow>
+          <Button
+            isSecondary
+            onClick={addNew}
+          >
+            {addMoreLabel}
+          </Button>
+        </PanelRow>
       ) : null}
     </>
   );

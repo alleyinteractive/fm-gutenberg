@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
-import { PanelBody } from '@wordpress/components';
 import usePostMetaValue from '@/hooks/use-post-meta-value';
 
 // Components.
@@ -18,19 +17,17 @@ const MetaBox = ({
     name={context.name}
     title={title}
   >
-    <PanelBody>
-      {context.field_class === 'group' ? (
-        <Group
-          field={context}
-          valueHook={usePostMetaValue}
-        />
-      ) : (
-        <FieldRouter
-          field={context}
-          valueHook={usePostMetaValue}
-        />
-      )}
-    </PanelBody>
+    {context.field_class === 'group' ? (
+      <Group
+        field={context}
+        valueHook={usePostMetaValue}
+      />
+    ) : (
+      <FieldRouter
+        field={context}
+        valueHook={usePostMetaValue}
+      />
+    )}
   </PluginDocumentSettingPanel>
 );
 
