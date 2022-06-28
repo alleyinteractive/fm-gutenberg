@@ -72,14 +72,16 @@ class Post_Fields {
 		$fm_meta_boxes = $this->load_meta_boxes( $post_type );
 
 		foreach ( $fm_meta_boxes as $fm_meta_box ) {
+			$fm       = $this->remove_recursion( $fm_meta_box['fm'] );
 			$output[] = [
 				'title' => $fm_meta_box['title'],
-				'fm'    => $fm_meta_box['fm'],
+				'fm'    => $fm,
 			];
 			if ( function_exists( 'remove_meta_box' ) ) {
 				remove_meta_box( 'fm_meta_box_' . $fm_meta_box['fm']->name, $post_type, 'side' );
 			}
 		}
+
 		return $output;
 	}
 
@@ -93,7 +95,7 @@ class Post_Fields {
 		if ( ! current_user_can( 'edit_posts' ) ) { // TODO: Can we check this specific post?
 			return;
 		}
-		$post_types = array_keys( get_post_types() );
+		$post_types = $this->get_block_editor_post_types();
 		foreach ( $post_types as $post_type ) {
 			$fm_meta_boxes = $this->load_meta_boxes( $post_type );
 			foreach ( $fm_meta_boxes as $fm_meta_box ) {
@@ -248,9 +250,46 @@ class Post_Fields {
 	/**
 	 * Gets all post types that use the block editor.
 	 *
+	 * This duplicates `use_block_editor_for_post_type` because that function
+	 * is only available in the wp-admin context, and this code can be run outside
+	 * of that context (REST, etc.)
+	 *
 	 * @return array
 	 */
 	private function get_block_editor_post_types() {
-		return array_filter( get_post_types(), 'use_block_editor_for_post_type' );
+		return array_filter(
+			\get_post_types(),
+			function( $post_type ) {
+				if ( ! post_type_exists( $post_type ) ) {
+					return false;
+				}
+
+				if ( ! post_type_supports( $post_type, 'editor' ) ) {
+					return false;
+				}
+
+				$post_type_object = get_post_type_object( $post_type );
+				if ( $post_type_object && ! $post_type_object->show_in_rest ) {
+					return false;
+				}
+				return true;
+			}
+		);
+	}
+
+	/**
+	 * Sets the sanitize property to null, which prevents recursion in the FM tree.
+	 *
+	 * @param object $fm The field manager object.
+	 * @return object
+	 */
+	private function remove_recursion( $fm ) {
+		if ( 'richtext' === $fm->field_class ) {
+			$fm->sanitize[0] = null;
+		}
+		foreach ( $fm->children as $index => $child ) {
+			$fm->children[ $index ] = $this->remove_recursion( $child );
+		}
+		return $fm;
 	}
 }

@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, PanelRow, PanelBody } from '@wordpress/components';
-import { sortableContainer, sortableElement } from 'react-sortable-hoc';
+import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
 import { v4 as uuidv4 } from 'uuid';
+import { __ } from '@wordpress/i18n';
 
-import TextField from './text-field';
-import TextareaField from './textarea-field';
+import FieldRouter from './fieldRouter';
+
+import './group.scss';
 
 const SortableItem = sortableElement(({ children }) => (
   <li>
@@ -55,6 +57,8 @@ const Group = ({
     setValue(newValue);
   };
 
+  const DragHandle = sortableHandle(() => <span className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>::</span>);
+
   return (
     <>
       {addMorePosition === 'top' ? (
@@ -65,7 +69,10 @@ const Group = ({
           {addMoreLabel}
         </Button>
       ) : null}
-      <SortableContainer onSortEnd={onSortEnd}>
+      <SortableContainer
+        onSortEnd={onSortEnd}
+        useDragHandle
+      >
         {value.map((childValue, index) => {
           const key = uuidv4();
           return (
@@ -75,44 +82,30 @@ const Group = ({
             >
               <PanelBody>
                 <PanelRow>
-                  <Button
-                    onClick={() => removeElement(index)}
-                  >
-                    x
-                  </Button>
-                  {Object.keys(children).map((itemKey) => {
-                    const child = children[itemKey];
-                    const fieldKey = uuidv4();
-                    const {
-                      field_class: fieldClass,
-                      attributes: {
-                        rows = null,
-                      } = {},
-                      label = '',
-                    } = child;
-                    return (
-                      <>
-                        {fieldClass === 'text' && rows === null ? (
-                          <TextField
-                            key={fieldKey}
+                  <div className="fm-gutenberg-panel-container">
+                    <div className="fm-gutenberg-controls">
+                      <DragHandle />
+                      <Button
+                        onClick={() => removeElement(index)}
+                        className="fm-gutenberg-remove"
+                      >
+                        <span className="screen-reader-text">{__('Remove', 'fm-gutenberg')}</span>
+                      </Button>
+                    </div>
+                    <div>
+                      {Object.keys(children).map((itemKey) => {
+                        const child = children[itemKey];
+                        return (
+                          <FieldRouter
                             field={child}
-                            valueHook={useIndexedValue}
                             index={index}
-                            label={label}
-                          />
-                        ) : null}
-                        {fieldClass === 'text' && rows !== null ? (
-                          <TextareaField
-                            key={fieldKey}
-                            field={child}
                             valueHook={useIndexedValue}
-                            index={index}
-                            label={label}
+                            key={itemKey}
                           />
-                        ) : null}
-                      </>
-                    );
-                  })}
+                        );
+                      })}
+                    </div>
+                  </div>
                 </PanelRow>
               </PanelBody>
             </SortableItem>

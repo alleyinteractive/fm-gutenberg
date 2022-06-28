@@ -1,0 +1,41 @@
+.fm-gutenberg-remove {
+  height: 36px;
+  margin: 0;
+  text-align: center;
+  width: 36px;
+
+  &::before {
+    bottom     : 0;
+    color      : #a0a5aa;
+    content    : '\f153';
+    font-family: dashicons;
+    font-size  : 15px;
+    height     : 15px;
+    left       : 0;
+    line-height: 1;
+    margin     : auto;
+    position   : relative;
+    right      : 0;
+    top        : 0;
+    width      : 15px;
+  }
+
+  &:hover::before {
+    color: #d54e21;
+  }
+}
+
+.fm-gutenberg-move-handle {
+  cursor: move;
+}
+
+.fm-gutenberg-panel-container {
+  flex-direction: column;
+}
+
+.fm-gutenberg-controls {
+  clear: both;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
