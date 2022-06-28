@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
-import { PanelRow } from '@wordpress/components';
 import usePostMetaValue from '@/hooks/use-post-meta-value';
 
 // Components.
