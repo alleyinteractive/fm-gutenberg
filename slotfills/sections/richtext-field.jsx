@@ -23,7 +23,7 @@ const RichtextField = ({
 
   return (
     <PanelRow>
-      <div style={{ flexDirection: 'column' }}>
+      <div className="fm-gutenberg-panel-container">
         <label htmlFor={`${name}_${index}`}>
           {label}
         </label>

@@ -250,6 +250,10 @@ class Post_Fields {
 	/**
 	 * Gets all post types that use the block editor.
 	 *
+	 * This duplicates `use_block_editor_for_post_type` because that function
+	 * is only available in the wp-admin context, and this code can be run outside
+	 * of that context (REST, etc.)
+	 *
 	 * @return array
 	 */
 	private function get_block_editor_post_types() {

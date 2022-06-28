@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
 
 import TextField from './text-field';
 import TextareaField from './textarea-field';
@@ -18,38 +17,37 @@ const FieldRouter = ({
   index,
   valueHook,
 }) => {
-  const fieldKey = uuidv4();
-  return (
-    <>
-      {fieldClass === 'text' && rows === null ? (
-        <TextField
-          key={fieldKey}
-          field={field}
-          valueHook={valueHook}
-          index={index}
-          label={label}
-        />
-      ) : null}
-      {fieldClass === 'text' && rows !== null ? (
+  if (fieldClass === 'text') {
+    if (rows) {
+      return (
         <TextareaField
-          key={fieldKey}
           field={field}
           valueHook={valueHook}
           index={index}
           label={label}
         />
-      ) : null}
-      {fieldClass === 'richtext' ? (
-        <RichtextField
-          key={fieldKey}
-          field={field}
-          valueHook={valueHook}
-          index={index}
-          label={label}
-        />
-      ) : null}
-    </>
-  );
+      );
+    }
+    return (
+      <TextField
+        field={field}
+        valueHook={valueHook}
+        index={index}
+        label={label}
+      />
+    );
+  }
+  if (fieldClass === 'richtext') {
+    return (
+      <RichtextField
+        field={field}
+        valueHook={valueHook}
+        index={index}
+        label={label}
+      />
+    );
+  }
+  return null;
 };
 
 FieldRouter.defaultProps = {

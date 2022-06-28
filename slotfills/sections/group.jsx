@@ -4,8 +4,11 @@ import { Button, PanelRow, PanelBody } from '@wordpress/components';
 import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
 import { v4 as uuidv4 } from 'uuid';
+import { __ } from '@wordpress/i18n';
 
 import FieldRouter from './fieldRouter';
+
+import './group.scss';
 
 const SortableItem = sortableElement(({ children }) => (
   <li>
@@ -54,7 +57,7 @@ const Group = ({
     setValue(newValue);
   };
 
-  const DragHandle = sortableHandle(() => <span style={{ cursor: 'move' }}>::</span>);
+  const DragHandle = sortableHandle(() => <span className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>::</span>);
 
   return (
     <>
@@ -79,19 +82,14 @@ const Group = ({
             >
               <PanelBody>
                 <PanelRow>
-                  <div style={{ flexDirection: 'column' }}>
-                    <div style={{
-                      display: 'flex',
-                      width: '100%',
-                      clear: 'both',
-                      justifyContent: 'space-between',
-                    }}
-                    >
+                  <div className="fm-gutenberg-panel-container">
+                    <div className="fm-gutenberg-controls">
                       <DragHandle />
                       <Button
                         onClick={() => removeElement(index)}
+                        className="fm-gutenberg-remove"
                       >
-                        x
+                        <span className="screen-reader-text">{__('Remove', 'fm-gutenberg')}</span>
                       </Button>
                     </div>
                     <div>
@@ -102,6 +100,7 @@ const Group = ({
                             field={child}
                             index={index}
                             valueHook={useIndexedValue}
+                            key={itemKey}
                           />
                         );
                       })}

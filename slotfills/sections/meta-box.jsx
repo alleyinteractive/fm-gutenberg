@@ -24,13 +24,12 @@ const MetaBox = ({
           field={context}
           valueHook={usePostMetaValue}
         />
-      ) : null}
-      {context.field_class !== 'group' ? (
+      ) : (
         <FieldRouter
           field={context}
           valueHook={usePostMetaValue}
         />
-      ) : null}
+      )}
     </PanelBody>
   </PluginDocumentSettingPanel>
 );
