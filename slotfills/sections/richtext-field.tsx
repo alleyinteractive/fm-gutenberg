@@ -5,10 +5,10 @@ import { Editor } from '@tinymce/tinymce-react';
 import Field from '@/interfaces/field';
 
 declare global {
-  var tinyMCEPreInit: {
+  const tinyMCEPreInit: {
     baseURL: string,
   };
-};
+}
 
 type Props = {
   field: Field,

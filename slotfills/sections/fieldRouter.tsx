@@ -1,9 +1,9 @@
 import React from 'react';
 
+import Field from '@/interfaces/field';
 import TextField from './text-field';
 import TextareaField from './textarea-field';
 import RichtextField from './richtext-field';
-import Field from '@/interfaces/field';
 
 type Props = {
   field: Field,

@@ -1,6 +1,5 @@
 const glob = require('glob');
 const path = require('path');
-const autoprefixer = require('autoprefixer');
 const StatsPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 const DependencyExtractionWebpackPlugin = require('@wordpress/dependency-extraction-webpack-plugin');
 const createWriteWpAssetManifest = require('./webpack/wpAssets');
@@ -52,7 +51,8 @@ module.exports = (env, { mode }) => ({
               postcssOptions: {
                 config: path.join(__dirname, 'postcss.config.js'),
               },
-            },          },
+            },
+          },
           'resolve-url-loader',
           'sass-loader',
         ],
