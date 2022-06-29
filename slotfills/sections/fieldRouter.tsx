@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Field from '@/interfaces/field';
+import Checkbox from './checkbox';
 import TextField from './text-field';
 import TextareaField from './textarea-field';
 import RichtextField from './richtext-field';
@@ -15,6 +16,7 @@ export default function FieldRouter({
   field,
   field: {
     field_class: fieldClass,
+    checked_value: checkedValue,
     attributes: {
       rows = null,
     } = {},
@@ -23,6 +25,16 @@ export default function FieldRouter({
   index,
   valueHook,
 }: Props) {
+  if (fieldClass === 'element') {
+    return (
+      <Checkbox
+        field={field}
+        valueHook={valueHook}
+        index={index}
+        label={label}
+      />
+    );
+  }
   if (fieldClass === 'text') {
     if (rows) {
       return (
@@ -43,7 +55,7 @@ export default function FieldRouter({
       />
     );
   }
-  if (fieldClass === 'richtext') {
+  if (fieldClass === 'richtext' && typeof checkedValue !== 'undefined') {
     return (
       <RichtextField
         field={field}

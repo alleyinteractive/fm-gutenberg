@@ -73,6 +73,12 @@ class Post_Fields {
 
 		foreach ( $fm_meta_boxes as $fm_meta_box ) {
 			$fm       = $this->remove_recursion( $fm_meta_box['fm'] );
+			if ( ! empty( $fm->checked_value ) ) {
+				$fm->checked_value = (string) $fm->checked_value;
+			}
+			if ( ! empty( $fm->unchecked_value ) ) {
+				$fm->unchecked_value = (string) $fm->unchecked_value;
+			}
 			$output[] = [
 				'title' => $fm_meta_box['title'],
 				'fm'    => $fm,

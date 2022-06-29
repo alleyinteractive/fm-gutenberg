@@ -3,6 +3,8 @@ export default interface Field {
   attributes?: {
     rows?: Number | null;
   };
+  checked_value?: string,
+  unchecked_value?: string,
   label?: string;
   name: string;
   title?: string;
