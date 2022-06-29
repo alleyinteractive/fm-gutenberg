@@ -3,4 +3,4 @@ import FmGutenbergFields from './fm-gutenberg-fields';
 
 // Sections.
 
-registerPlugin('fm-gutenberg-text-field', { render: FmGutenbergFields });
+registerPlugin('fm-gutenberg-text-field', { render: FmGutenbergFields, icon: null });

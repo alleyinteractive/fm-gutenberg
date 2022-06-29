@@ -2,18 +2,20 @@ import DOMPurify from 'dompurify';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const SafeHTML = ({
+function SafeHTML({
   className,
   html,
   tag: Tag,
-}) => (
-  <Tag
-    className={className}
-    dangerouslySetInnerHTML={{
-      __html: DOMPurify.sanitize(html),
-    }}
-  />
-);
+}) {
+  return (
+    <Tag
+      className={className}
+      dangerouslySetInnerHTML={{
+        __html: DOMPurify.sanitize(html),
+      }}
+    />
+  );
+}
 
 SafeHTML.defaultProps = {
   className: '',

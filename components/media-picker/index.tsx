@@ -1,15 +1,11 @@
+import WPRESTMedia from '@/interfaces/wp-rest-media';
+import getMediaURL from '@/services/media/get-media-url';
 import { BlockIcon, MediaPlaceholder } from '@wordpress/block-editor';
 import { Button, Spinner } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import PropTypes from 'prop-types';
-import React from 'react';
 import styled from 'styled-components';
 
-// Services.
-import getMediaURL from '@/services/media/get-media-url';
-
-// Styled components.
 const Container = styled.div`
   display: block;
   position: relative;
@@ -21,24 +17,43 @@ const DefaultPreview = styled.div`
   padding: 1em;
 `;
 
-const MediaPicker = ({
-  allowedTypes,
-  className,
-  icon,
-  imageSize,
+interface PreviewProps {
+  src: string;
+}
+
+interface MediaPickerProps {
+  allowedTypes?: string[];
+  className?: string;
+  icon?: string;
+  imageSize?: string;
+  onReset: () => void;
+  onUpdate: (media: WPRESTMedia) => void;
+  onUpdateURL?: (url: string) => void;
+  preview?: (props: PreviewProps) => JSX.Element;
+  value: number;
+  valueURL?: string;
+}
+
+export default function MediaPicker({
+  allowedTypes = [],
+  className = '',
+  icon = 'format-aside',
+  imageSize = 'thumbnail',
   onReset,
   onUpdate,
-  onUpdateURL,
-  preview: Preview,
+  onUpdateURL = null,
+  preview: Preview = null,
   value,
-  valueURL,
-}) => {
-  // Get the media object, if given the media ID.
-  const {
-    media = null,
-  } = useSelect((select) => ({
-    media: value ? select('core').getMedia(value) : null,
-  }), [value]);
+  valueURL = '',
+}: MediaPickerProps) {
+  /*
+   * Get the media object, if given the media ID.
+   *
+   * The getMedia method is a magic method on the core-data selector and does
+   * not have a type defined in the types exported by Gutenberg.
+   */
+  // @ts-ignore
+  const media = useSelect((select) => (value ? select('core').getMedia(value) || null : null), [value]);
 
   // getEntityRecord returns `null` if the load is in progress.
   if (value !== 0 && media === null) {
@@ -79,33 +94,11 @@ const MediaPicker = ({
         icon={<BlockIcon icon={icon} />}
         onSelect={onUpdate}
         onSelectURL={onUpdateURL}
+        // This format for value is actually correct.
+        // The type definition from WP is missing this format.
+        // @ts-ignore
         value={{ id: value, src }}
       />
     </Container>
   );
-};
-
-MediaPicker.defaultProps = {
-  allowedTypes: [],
-  className: '',
-  icon: 'format-aside',
-  imageSize: 'thumbnail',
-  onUpdateURL: null,
-  preview: null,
-  valueURL: '',
-};
-
-MediaPicker.propTypes = {
-  allowedTypes: PropTypes.arrayOf(PropTypes.string),
-  className: PropTypes.string,
-  icon: PropTypes.string,
-  imageSize: PropTypes.string,
-  onReset: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  onUpdateURL: PropTypes.func,
-  preview: PropTypes.element,
-  value: PropTypes.number.isRequired,
-  valueURL: PropTypes.string,
-};
-
-export default MediaPicker;
+}

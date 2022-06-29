@@ -9,7 +9,7 @@ import Selector from '@/components/selector';
 /**
  * Render post selector component.
  */
-const PostSelector = ({
+function PostSelector({
   className,
   emptyLabel,
   label,
@@ -20,21 +20,23 @@ const PostSelector = ({
   subTypes,
   selected,
   threshold,
-}) => (
-  <Selector
-    type="post"
-    className={className}
-    emptyLabel={emptyLabel}
-    label={label}
-    maxPages={maxPages}
-    multiple={multiple}
-    onSelect={onSelect}
-    placeholder={placeholder}
-    subTypes={subTypes}
-    selected={selected}
-    threshold={threshold}
-  />
-);
+}) {
+  return (
+    <Selector
+      type="post"
+      className={className}
+      emptyLabel={emptyLabel}
+      label={label}
+      maxPages={maxPages}
+      multiple={multiple}
+      onSelect={onSelect}
+      placeholder={placeholder}
+      subTypes={subTypes}
+      selected={selected}
+      threshold={threshold}
+    />
+  );
+}
 
 /**
  * Set initial props.

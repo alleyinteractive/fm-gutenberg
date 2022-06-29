@@ -56,7 +56,7 @@ module.exports = (stats, opts) => {
    *  anything that _isn't_ one of these characters.
    */
   const hasInvalidCharacters = (value) => {
-    const assetRegex = new RegExp('[^\\/\\.\\-_a-zA-Z0-9]', 'g');
+    const assetRegex = /[^/.\-_a-zA-Z0-9]/g;
 
     if (assetRegex.test(value)) {
       // eslint-disable-next-line max-len, no-console

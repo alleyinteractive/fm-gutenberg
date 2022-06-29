@@ -1,11 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import TextField from './text-field';
 import TextareaField from './textarea-field';
 import RichtextField from './richtext-field';
+import Field from '@/interfaces/field';
 
-const FieldRouter = ({
+type Props = {
+  field: Field,
+  index?: Number,
+  valueHook: Function,
+};
+
+export default function FieldRouter({
   field,
   field: {
     field_class: fieldClass,
@@ -16,7 +22,7 @@ const FieldRouter = ({
   },
   index,
   valueHook,
-}) => {
+}: Props) {
   if (fieldClass === 'text') {
     if (rows) {
       return (
@@ -48,22 +54,4 @@ const FieldRouter = ({
     );
   }
   return null;
-};
-
-FieldRouter.defaultProps = {
-  index: null,
-};
-
-FieldRouter.propTypes = {
-  field: PropTypes.shape({
-    field_class: PropTypes.string.isRequired,
-    attributes: PropTypes.shape({
-      rows: PropTypes.number,
-    }),
-    label: PropTypes.string,
-  }).isRequired,
-  index: PropTypes.number,
-  valueHook: PropTypes.func.isRequired,
-};
-
-export default FieldRouter;
+}

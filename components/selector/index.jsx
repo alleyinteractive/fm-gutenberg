@@ -13,11 +13,11 @@ import { __ } from '@wordpress/i18n';
 import { addQueryArgs } from '@wordpress/url';
 import { v4 as uuidv4 } from 'uuid';
 
-// Custom hooks.
-import useDebounce from '@/hooks/use-debounce';
-
 // Components.
+import useDebounce from '@/hooks/use-debounce';
 import SearchResults from './components/search-results';
+
+// Custom hooks.
 
 // Styles.
 import './styles.scss';
@@ -25,7 +25,7 @@ import './styles.scss';
 /**
  * Render autocomplete component.
  */
-const Selector = ({
+function Selector({
   type,
   className,
   emptyLabel,
@@ -37,7 +37,7 @@ const Selector = ({
   subTypes,
   selected,
   threshold,
-}) => {
+}) {
   // Unique ID.
   const uniqueKey = uuidv4();
 
@@ -306,7 +306,7 @@ const Selector = ({
       </div>
     </form>
   );
-};
+}
 
 /**
  * Set initial props.

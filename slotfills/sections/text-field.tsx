@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { PanelRow, TextareaControl } from '@wordpress/components';
+import { PanelRow, TextControl } from '@wordpress/components';
+import Field from '@/interfaces/field';
 
-const TextareaField = ({
+type Props = {
+  field: Field,
+  valueHook: Function,
+  index?: Number,
+  label?: string,
+};
+
+export default function TextField({
   field: {
     name,
   },
   valueHook,
   index = null,
   label = '',
-}) => {
+}: Props) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
   const initialvalue = typeof value === 'object' ? value[name] : value;
   const [stateValue, setStateValue] = useState(initialvalue);
@@ -20,7 +27,7 @@ const TextareaField = ({
   };
   return (
     <PanelRow>
-      <TextareaControl
+      <TextControl
         label={label}
         onChange={setStateValue}
         onBlur={updateValue}
@@ -28,20 +35,4 @@ const TextareaField = ({
       />
     </PanelRow>
   );
-};
-
-TextareaField.defaultProps = {
-  index: null,
-  label: '',
-};
-
-TextareaField.propTypes = {
-  field: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-  }).isRequired,
-  valueHook: PropTypes.func.isRequired,
-  index: PropTypes.number,
-  label: PropTypes.string,
-};
-
-export default TextareaField;
+}
