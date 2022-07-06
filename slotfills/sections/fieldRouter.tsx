@@ -6,25 +6,25 @@ import TextField from './text-field';
 import TextareaField from './textarea-field';
 import RichtextField from './richtext-field';
 
-type Props = {
-  field: Field,
-  index?: Number,
-  valueHook: Function,
-};
+interface FieldRouterProps {
+  field: Field;
+  index?: number;
+  valueHook: (key: number | string) => [string, Function];
+}
 
 export default function FieldRouter({
   field,
   field: {
-    field_class: fieldClass,
-    checked_value: checkedValue,
     attributes: {
       rows = null,
     } = {},
+    checked_value: checkedValue,
+    field_class: fieldClass,
     label = '',
   },
   index,
   valueHook,
-}: Props) {
+}: FieldRouterProps) {
   if (fieldClass === 'element') {
     return (
       <Checkbox

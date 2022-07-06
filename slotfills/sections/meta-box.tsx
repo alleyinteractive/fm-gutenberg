@@ -7,16 +7,16 @@ import Field from '@/interfaces/field';
 import FieldRouter from './fieldRouter';
 import Group from './group';
 
-type Props = {
-  field: Field,
-};
+interface MetaBoxProps {
+  field: Field;
+}
 
 export default function MetaBox({
   field: {
     title,
     fm: context,
   },
-}: Props) {
+}: MetaBoxProps) {
   return (
     <PluginDocumentSettingPanel
       name={context.name}

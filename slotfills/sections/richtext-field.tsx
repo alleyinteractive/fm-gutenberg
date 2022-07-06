@@ -10,12 +10,12 @@ declare global {
   };
 }
 
-type Props = {
-  field: Field,
-  valueHook: Function,
-  index: Number,
-  label: string,
-};
+interface RichtextFieldProps {
+  field: Field;
+  index: number;
+  label: string;
+  valueHook: (key: number | string) => [string, Function];
+}
 
 export default function RichtextField({
   field: {
@@ -24,7 +24,7 @@ export default function RichtextField({
   valueHook,
   index = null,
   label = '',
-}: Props) {
+}: RichtextFieldProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
   const initialvalue = typeof value === 'object' ? value[name] : value;
   const [stateValue, setStateValue] = useState(initialvalue);

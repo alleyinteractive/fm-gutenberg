@@ -7,9 +7,6 @@
 
 namespace FM_Gutenberg;
 
-// Register custom meta fields.
-register_post_meta_from_defs();
-
 /**
  * Register meta for posts or terms with sensible defaults and sanitization.
  *
@@ -107,47 +104,4 @@ function register_meta_helper(
 	}
 
 	return true;
-}
-
-/**
- * Reads the post meta definitions from config and registers them.
- */
-function register_post_meta_from_defs() {
-	// Ensure the config file exists.
-	$filepath = dirname( __DIR__ ) . '/config/post-meta.json';
-	if ( ! file_exists( $filepath )
-		|| 0 !== validate_file( $filepath )
-	) {
-		return;
-	}
-
-	// Try to read the file's contents. We can dismiss the "uncached" warning here because it is a local file.
-	// phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
-	$definitions = json_decode( file_get_contents( $filepath ), true );
-	if ( empty( $definitions ) ) {
-		return;
-	}
-
-	// Loop through definitions and register each.
-	foreach ( $definitions as $meta_key => $definition ) {
-		// Extract post types.
-		$post_types = $definition['post_types'] ?? [];
-		// Unset since $definition is passed as register_meta args.
-		unset( $definition['post_types'] );
-
-		// Relocate schema, if specified at the top level.
-		if ( ! empty( $definition['schema'] ) ) {
-			$definition['show_in_rest']['schema'] = $definition['schema'];
-			// Unset since $definition is passed as register_meta args.
-			unset( $definition['schema'] );
-		}
-
-		// Register the meta.
-		register_meta_helper(
-			'post',
-			$post_types,
-			$meta_key,
-			$definition
-		);
-	}
 }
