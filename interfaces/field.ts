@@ -2,6 +2,7 @@ export default interface Field {
   attributes?: {
     rows?: Number | null;
   };
+  checked_value?: string;
   field_class?: string;
   fm?: {
     add_more_label: string;
@@ -17,4 +18,5 @@ export default interface Field {
   label?: string;
   name: string;
   title?: string;
+  unchecked_value?: string;
 }

@@ -6,7 +6,7 @@ interface TextFieldProps {
   field: Field,
   index?: number,
   label?: string,
-  valueHook: (key: number | string) => [string, Function];
+  valueHook: (key: number | string) => [any | any[], Function];
 }
 
 export default function TextField({
