@@ -22,13 +22,11 @@ export default function Checkbox({
   const initialvalue = typeof value === 'object' ? value[name] : value;
 
   const updateValue = (checked: boolean) => {
-    let newValue;
     if (checked) {
-      newValue = typeof value === 'object' ? { [name]: checkedValue.toString() } : checkedValue.toString();
+      setValue(typeof value === 'object' ? { [name]: checkedValue.toString() } : checkedValue.toString());
     } else {
-      newValue = typeof value === 'object' ? { [name]: '' } : '';
+      setValue(typeof value === 'object' ? { [name]: '' } : '');
     }
-    setValue(newValue);
   };
 
   return (
