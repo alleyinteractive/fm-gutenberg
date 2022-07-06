@@ -5,11 +5,11 @@ import TextField from './text-field';
 import TextareaField from './textarea-field';
 import RichtextField from './richtext-field';
 
-type Props = {
-  field: Field,
-  index?: Number,
-  valueHook: Function,
-};
+interface FieldRouterProps {
+  field: Field;
+  index?: number;
+  valueHook: (key: number | string) => [string, Function];
+}
 
 export default function FieldRouter({
   field,
@@ -22,7 +22,7 @@ export default function FieldRouter({
   },
   index,
   valueHook,
-}: Props) {
+}: FieldRouterProps) {
   if (fieldClass === 'text') {
     if (rows) {
       return (

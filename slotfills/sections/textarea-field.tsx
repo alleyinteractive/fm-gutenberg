@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { PanelRow, TextareaControl } from '@wordpress/components';
 import Field from '@/interfaces/field';
 
-type Props = {
+interface TextareaFieldProps {
   field: Field,
-  valueHook: Function,
-  index?: Number,
+  index?: number,
   label?: string,
-};
+  valueHook: (key: number | string) => [string, Function];
+}
 
 export default function TextareaField({
   field: {
@@ -16,7 +16,7 @@ export default function TextareaField({
   valueHook,
   index = null,
   label = '',
-}: Props) {
+}: TextareaFieldProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
   const initialvalue = typeof value === 'object' ? value[name] : value;
   const [stateValue, setStateValue] = useState(initialvalue);

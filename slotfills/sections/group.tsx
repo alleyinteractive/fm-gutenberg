@@ -9,9 +9,9 @@ import FieldRouter from './fieldRouter';
 
 import './group.scss';
 
-type ChildProps = {
+interface ChildProps {
   children?: React.ReactNode;
-};
+}
 
 const SortableItem = SortableElement(({ children }: ChildProps) => (
   <li>
@@ -23,15 +23,15 @@ const SortableList = SortableContainer(({ children }: ChildProps) => (
   <ul>{children}</ul>
 ));
 
-type Props = {
+interface GroupProps {
   field: {
-    add_more_label: string,
-    add_more_position: 'bottom' | 'top',
-    name: string,
-    children: Object,
-  },
-  valueHook: Function,
-};
+    add_more_label: string;
+    add_more_position: 'bottom' | 'top';
+    children: Object;
+    name: string;
+  };
+  valueHook: (key: number | string) => [string, Function];
+}
 
 export default function Group({
   field: {
@@ -41,7 +41,7 @@ export default function Group({
     children = [],
   },
   valueHook,
-}: Props) {
+}: GroupProps) {
   const [value, setValue] = valueHook(name);
 
   const useIndexedValue = (index: number) => {

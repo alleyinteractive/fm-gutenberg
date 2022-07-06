@@ -1,11 +1,8 @@
 export default interface Field {
-  field_class?: string;
   attributes?: {
     rows?: Number | null;
   };
-  label?: string;
-  name: string;
-  title?: string;
+  field_class?: string;
   fm?: {
     add_more_label: string;
     add_more_position: 'bottom' | 'top';
@@ -16,5 +13,8 @@ export default interface Field {
     field_class: string;
     label: string;
     name: string;
-  }
+  };
+  label?: string;
+  name: string;
+  title?: string;
 }
