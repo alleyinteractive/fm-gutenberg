@@ -8,7 +8,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Render search results list.
  */
-const SearchResults = ({
+function SearchResults({
   emptyLabel,
   error,
   id,
@@ -20,7 +20,7 @@ const SearchResults = ({
   selectedItems,
   threshold,
   value,
-}) => {
+}) {
   // Don't show anything if we aren't loading and don't have a value.
   if (!loading && (value === '' || threshold > value.length)) {
     return null;
@@ -110,7 +110,7 @@ const SearchResults = ({
       </ul>
     </div>
   );
-};
+}
 
 /**
  * Set PropTypes for this component.

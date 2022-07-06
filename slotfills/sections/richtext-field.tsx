@@ -1,17 +1,30 @@
 /* global tinyMCEPreInit */
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { PanelRow } from '@wordpress/components';
 import { Editor } from '@tinymce/tinymce-react';
+import Field from '@/interfaces/field';
 
-const RichtextField = ({
+declare global {
+  const tinyMCEPreInit: {
+    baseURL: string,
+  };
+}
+
+interface RichtextFieldProps {
+  field: Field;
+  index: number;
+  label: string;
+  valueHook: (key: number | string) => [string, Function];
+}
+
+export default function RichtextField({
   field: {
     name,
   },
   valueHook,
   index = null,
   label = '',
-}) => {
+}: RichtextFieldProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
   const initialvalue = typeof value === 'object' ? value[name] : value;
   const [stateValue, setStateValue] = useState(initialvalue);
@@ -46,20 +59,4 @@ const RichtextField = ({
       </div>
     </PanelRow>
   );
-};
-
-RichtextField.defaultProps = {
-  index: null,
-  label: '',
-};
-
-RichtextField.propTypes = {
-  field: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-  }).isRequired,
-  valueHook: PropTypes.func.isRequired,
-  index: PropTypes.number,
-  label: PropTypes.string,
-};
-
-export default RichtextField;
+}

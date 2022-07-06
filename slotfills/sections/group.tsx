@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Button, PanelRow } from '@wordpress/components';
-import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc';
+import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
 import { v4 as uuidv4 } from 'uuid';
 import { __ } from '@wordpress/i18n';
@@ -10,17 +9,31 @@ import FieldRouter from './fieldRouter';
 
 import './group.scss';
 
-const SortableItem = sortableElement(({ children }) => (
+interface ChildProps {
+  children?: React.ReactNode;
+}
+
+const SortableItem = SortableElement(({ children }: ChildProps) => (
   <li>
     {children}
   </li>
 ));
 
-const SortableContainer = sortableContainer(({ children }) => (
+const SortableList = SortableContainer(({ children }: ChildProps) => (
   <ul>{children}</ul>
 ));
 
-const Group = ({
+interface GroupProps {
+  field: {
+    add_more_label: string;
+    add_more_position: 'bottom' | 'top';
+    children: Object;
+    name: string;
+  };
+  valueHook: (key: number | string) => [string, Function];
+}
+
+export default function Group({
   field: {
     add_more_label: addMoreLabel = '',
     add_more_position: addMorePosition = 'bottom',
@@ -28,12 +41,12 @@ const Group = ({
     children = [],
   },
   valueHook,
-}) => {
+}: GroupProps) {
   const [value, setValue] = valueHook(name);
 
-  const useIndexedValue = (index) => {
+  const useIndexedValue = (index: number) => {
     const indexValue = value[index];
-    const setIndexValue = (newValue) => {
+    const setIndexValue = (newValue: string) => {
       const newValueArray = [...value];
       newValueArray[index] = newValue;
       setValue(newValueArray);
@@ -46,18 +59,18 @@ const Group = ({
     setValue(newValueArray);
   };
 
-  const removeElement = (index) => {
+  const removeElement = (index: number) => {
     const newValueArray = [...value];
     newValueArray.splice(index, 1);
     setValue(newValueArray);
   };
 
-  const onSortEnd = ({ oldIndex, newIndex }) => {
+  const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number, newIndex: number }) => {
     const newValue = arrayMoveImmutable(value, oldIndex, newIndex);
     setValue(newValue);
   };
 
-  const DragHandle = sortableHandle(() => <span className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>::</span>);
+  const DragHandle = SortableHandle(() => <span className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>::</span>);
 
   return (
     <>
@@ -72,11 +85,11 @@ const Group = ({
         </PanelRow>
       ) : null}
       <PanelRow>
-        <SortableContainer
+        <SortableList
           onSortEnd={onSortEnd}
           useDragHandle
         >
-          {value.map((childValue, index) => {
+          {value.map((childValue: string, index: number) => {
             const key = uuidv4();
             return (
               <SortableItem
@@ -95,7 +108,7 @@ const Group = ({
                       </Button>
                     </div>
                     <div>
-                      {Object.keys(children).map((itemKey) => {
+                      {Object.keys(children).map((itemKey: keyof typeof children) => {
                         const child = children[itemKey];
                         return (
                           <FieldRouter
@@ -112,7 +125,7 @@ const Group = ({
               </SortableItem>
             );
           })}
-        </SortableContainer>
+        </SortableList>
       </PanelRow>
       {addMorePosition === 'bottom' ? (
         <PanelRow>
@@ -126,16 +139,4 @@ const Group = ({
       ) : null}
     </>
   );
-};
-
-Group.propTypes = {
-  field: PropTypes.shape({
-    add_more_label: PropTypes.string,
-    add_more_position: PropTypes.string,
-    name: PropTypes.string,
-    children: PropTypes.arrayOf(PropTypes.shape({})),
-  }).isRequired,
-  valueHook: PropTypes.func.isRequired,
-};
-
-export default Group;
+}

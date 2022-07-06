@@ -13,22 +13,22 @@ module.exports = (env, { mode }) => ({
    * notice that the build performance in your project is suffering to an
    * unacceptable degree, you can choose different options from the link above.
    */
-  devtool: mode === 'production'
-    ? 'source-map'
-    : 'eval-source-map',
+  devtool: 'inline-source-map',
 
   // Dynamically produce entries from the slotfills index file and all blocks.
   entry: glob
-    .sync('./blocks/**/index.js*')
+    .sync('./blocks/**/index.(j|t)s*')
     .reduce((acc, item) => {
       const entry = item
         .replace('./blocks/', '')
         .replace('/index.jsx', '')
-        .replace('/index.js', '');
+        .replace('/index.tsx', '')
+        .replace('/index.js', '')
+        .replace('/index.ts', '');
       acc[entry] = item;
       return acc;
     }, {
-      slotfills: './slotfills/index.js',
+      slotfills: './slotfills/index.ts',
     }),
 
   // Configure loaders based on extension.
@@ -36,13 +36,8 @@ module.exports = (env, { mode }) => ({
     rules: [
       {
         exclude: /node_modules/,
-        test: /.jsx?$/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            cacheDirectory: true,
-          },
-        },
+        test: /.(j|t)sx?$/,
+        use: 'ts-loader',
       },
       {
         exclude: /node_modules/,
@@ -92,7 +87,7 @@ module.exports = (env, { mode }) => ({
     alias: {
       '@': path.resolve(__dirname),
     },
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
 
   // Cache the generated webpack modules and chunks to improve build speed.

@@ -1,8 +1,8 @@
 {
   "name": "alleyinteractive/fm-gutenberg",
   "description": "FM Gutenberg",
-  "type": "project",
-  "license": "GPL-2.0-or-later",
+  "type": "wordpress-plugin",
+  "license": "GPL-3.0-or-later",
   "authors": [
     {
       "name": "Alley Interactive",
