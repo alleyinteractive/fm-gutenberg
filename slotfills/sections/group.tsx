@@ -30,7 +30,7 @@ interface GroupProps {
     children: Object;
     name: string;
   };
-  valueHook: (key: number | string) => [string, Function];
+  valueHook: (key: number | string) => [any | any[], Function];
 }
 
 export default function Group({
@@ -44,11 +44,11 @@ export default function Group({
 }: GroupProps) {
   const [value, setValue] = valueHook(name);
 
-  const useIndexedValue = (index: number) => {
-    const indexValue = value[index];
+  const useIndexedValue = (key: number): [any, Function] => {
+    const indexValue = value[key];
     const setIndexValue = (newValue: string) => {
       const newValueArray = [...value];
-      newValueArray[index] = newValue;
+      newValueArray[key] = newValue;
       setValue(newValueArray);
     };
     return [indexValue, setIndexValue];

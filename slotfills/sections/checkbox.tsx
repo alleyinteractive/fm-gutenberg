@@ -2,12 +2,12 @@ import React from 'react';
 import { PanelRow, CheckboxControl } from '@wordpress/components';
 import Field from '@/interfaces/field';
 
-type Props = {
-  field: Field,
-  valueHook: Function,
-  index?: Number,
-  label?: string,
-};
+interface CheckboxProps {
+  field: Field;
+  index?: number;
+  label?: string;
+  valueHook: (key: number | string) => [any | any[], Function];
+}
 
 export default function Checkbox({
   field: {
@@ -17,7 +17,7 @@ export default function Checkbox({
   valueHook,
   index = null,
   label = '',
-}: Props) {
+}: CheckboxProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
   const initialvalue = typeof value === 'object' ? value[name] : value;
 

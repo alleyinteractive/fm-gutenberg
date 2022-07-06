@@ -9,7 +9,7 @@ import RichtextField from './richtext-field';
 interface FieldRouterProps {
   field: Field;
   index?: number;
-  valueHook: (key: number | string) => [string, Function];
+  valueHook: (key: number | string) => [any | any[], Function];
 }
 
 export default function FieldRouter({
