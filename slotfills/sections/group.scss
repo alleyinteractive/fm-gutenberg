@@ -31,11 +31,16 @@
 
 .fm-gutenberg-panel-container {
   flex-direction: column;
+  width: 100%;
 }
 
 .fm-gutenberg-controls {
   clear: both;
   display: flex;
   justify-content: space-between;
+  width: 100%;
+}
+
+.fm-gutenberg-sortable-list {
   width: 100%;
 }

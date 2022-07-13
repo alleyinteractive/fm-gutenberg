@@ -17,6 +17,7 @@ export default interface Field {
   };
   label?: string;
   name: string;
+  options?: string[],
   title?: string;
   unchecked_value?: string;
 }
