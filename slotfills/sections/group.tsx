@@ -20,7 +20,7 @@ const SortableItem = SortableElement(({ children }: ChildProps) => (
 ));
 
 const SortableList = SortableContainer(({ children }: ChildProps) => (
-  <ul>{children}</ul>
+  <ul className="fm-gutenberg-sortable-list">{children}</ul>
 ));
 
 interface GroupProps {
