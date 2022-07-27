@@ -10,7 +10,6 @@ interface SelectProps {
 }
 
 export default function Select({
-  field,
   field: {
     first_empty: firstEmtpy,
     name,
@@ -33,7 +32,7 @@ export default function Select({
 
   if (firstEmtpy || index !== null) {
     optionsWithLabels = [
-      { label: '', value: ''},
+      { label: '', value: '' },
       ...optionsWithLabels,
     ];
   }
