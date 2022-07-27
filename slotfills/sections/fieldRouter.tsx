@@ -2,6 +2,7 @@ import React from 'react';
 
 import Field from '@/interfaces/field';
 import Checkbox from './checkbox';
+import ColorPickerField from './color-picker-field';
 import Radio from './radio';
 import TextField from './text-field';
 import TextareaField from './textarea-field';
@@ -29,6 +30,16 @@ export default function FieldRouter({
   if (fieldClass === 'element') {
     return (
       <Checkbox
+        field={field}
+        valueHook={valueHook}
+        index={index}
+        label={label}
+      />
+    );
+  }
+  if (fieldClass === 'colorpicker') {
+    return (
+      <ColorPickerField
         field={field}
         valueHook={valueHook}
         index={index}
