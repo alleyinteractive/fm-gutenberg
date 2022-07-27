@@ -123,7 +123,7 @@ class Post_Fields {
 						[
 							'default'  => 'media' === $fm->field_class ? '0' : '',
 							'sanitize' => $fm->sanitize,
-							'type' => 'media' === $fm->field_class ? 'integer' : 'string',
+							'type'     => 'media' === $fm->field_class ? 'integer' : 'string',
 						]
 					);
 				} else {
