@@ -2,6 +2,7 @@ import React from 'react';
 
 import Field from '@/interfaces/field';
 import Checkbox from './checkbox';
+import MediaField from './media-field';
 import TextField from './text-field';
 import TextareaField from './textarea-field';
 import RichtextField from './richtext-field';
@@ -25,6 +26,7 @@ export default function FieldRouter({
   index,
   valueHook,
 }: FieldRouterProps) {
+  console.log('field', field);
   if (fieldClass === 'element') {
     return (
       <Checkbox
@@ -58,6 +60,16 @@ export default function FieldRouter({
   if (fieldClass === 'richtext' && typeof checkedValue !== 'undefined') {
     return (
       <RichtextField
+        field={field}
+        valueHook={valueHook}
+        index={index}
+        label={label}
+      />
+    );
+  }
+  if (fieldClass === 'media') {
+    return (
+      <MediaField
         field={field}
         valueHook={valueHook}
         index={index}

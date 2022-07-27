@@ -5,6 +5,7 @@ import { Button, Spinner } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import styled from 'styled-components';
+import SafeHTML from '../safe-html';
 
 const Container = styled.div`
   display: block;
@@ -12,9 +13,20 @@ const Container = styled.div`
 `;
 
 const DefaultPreview = styled.div`
-  background: white;
-  border: 1px solid black;
+  background: #fafafa;
+  border: 1px solid #ececec;
+  border-radius: 3px;
   padding: 1em;
+  width: 100%;
+`;
+
+const PreviewLabel = styled.p`
+  font-weight: 800;
+`;
+
+const MimeType = styled.span`
+  color: #999;
+  text-style: italic;
 `;
 
 interface PreviewProps {
@@ -26,6 +38,7 @@ interface MediaPickerProps {
   className?: string;
   icon?: string;
   imageSize?: string;
+  label?: string;
   onReset: () => void;
   onUpdate: (media: WPRESTMedia) => void;
   onUpdateURL?: (url: string) => void;
@@ -39,6 +52,7 @@ export default function MediaPicker({
   className = '',
   icon = 'format-aside',
   imageSize = 'thumbnail',
+  label = '',
   onReset,
   onUpdate,
   onUpdateURL = null,
@@ -53,7 +67,7 @@ export default function MediaPicker({
    * not have a type defined in the types exported by Gutenberg.
    */
   // @ts-ignore
-  const media = useSelect((select) => (value ? select('core').getMedia(value) || null : null), [value]);
+  const media = useSelect((select) => (value ? select('core').getMedia(value) || null : {}), [value]);
 
   // getEntityRecord returns `null` if the load is in progress.
   if (value !== 0 && media === null) {
@@ -64,6 +78,15 @@ export default function MediaPicker({
 
   // If we have a valid source URL of any type, display it.
   const src = media ? getMediaURL(media, imageSize) : valueURL;
+  console.log('media', media);
+  const {
+    fm_media_preview: fmMediaPreview,
+    link: mediaLink = '',
+    mime_type: mimeType = '',
+    title: {
+      rendered: mediaTitle = '',
+    } = {},
+  } = media;
   if (src) {
     return (
       <Container className={className}>
@@ -71,8 +94,14 @@ export default function MediaPicker({
           <Preview src={src} />
         ) : (
           <DefaultPreview className="fm-gutenberg-media-picker__preview">
+            {label ? (<PreviewLabel>{label}</PreviewLabel>) : null}
             <p>{__('Selected file:', 'fm-gutenberg')}</p>
-            <p><a href={src}>{src}</a></p>
+            <SafeHTML
+              html={fmMediaPreview}
+              tag="div"
+            />
+            <p><a href={mediaLink}>{mediaTitle}</a></p>
+            <MimeType>{mimeType}</MimeType>
           </DefaultPreview>
         )}
         <Button
@@ -92,6 +121,7 @@ export default function MediaPicker({
         allowedTypes={allowedTypes}
         disableMediaButtons={!!valueURL}
         icon={<BlockIcon icon={icon} />}
+        labels={{ title: label }}
         onSelect={onUpdate}
         onSelectURL={onUpdateURL}
         // This format for value is actually correct.
