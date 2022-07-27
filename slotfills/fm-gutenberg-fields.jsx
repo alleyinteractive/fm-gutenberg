@@ -5,7 +5,14 @@ import { compose } from '@wordpress/compose';
 import MetaBox from './sections/meta-box';
 
 const FmGutenbergFields = (post) => {
-  const { post: { fm_gutenberg_fields: fmFields = [] } } = post;
+  const {
+    post: {
+      fm_gutenberg_fields: {
+        side: fmFields = [],
+      } = [],
+    }
+  } = post;
+  console.log('fmFields', fmFields);
   return (
     fmFields.map((field) => (
       <MetaBox field={field} />

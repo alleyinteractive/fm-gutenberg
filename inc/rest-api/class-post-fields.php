@@ -68,23 +68,31 @@ class Post_Fields {
 			return [];
 		}
 		$post_type     = get_post_type( $post['id'] );
-		$output        = [];
+		$output        = [
+			'normal' => [],
+			'side'   => [],
+		];
 		$fm_meta_boxes = $this->load_meta_boxes( $post_type );
 
-		foreach ( $fm_meta_boxes as $fm_meta_box ) {
-			$fm = $this->remove_recursion( $fm_meta_box['fm'] );
-			if ( ! empty( $fm->checked_value ) ) {
-				$fm->checked_value = (string) $fm->checked_value;
-			}
-			if ( ! empty( $fm->unchecked_value ) ) {
-				$fm->unchecked_value = (string) $fm->unchecked_value;
-			}
-			$output[] = [
-				'title' => $fm_meta_box['title'],
-				'fm'    => $fm,
-			];
-			if ( function_exists( 'remove_meta_box' ) ) {
-				remove_meta_box( 'fm_meta_box_' . $fm_meta_box['fm']->name, $post_type, 'side' );
+		foreach ( [ 'side', 'normal' ] as $location ) {
+			foreach ( $fm_meta_boxes[ $location ] as $fm_meta_box ) {
+				if ( empty( $fm_meta_box['title'] ) ) {
+					continue;
+				}
+				$fm = $this->remove_recursion( $fm_meta_box['fm'] );
+				if ( ! empty( $fm->checked_value ) ) {
+					$fm->checked_value = (string) $fm->checked_value;
+				}
+				if ( ! empty( $fm->unchecked_value ) ) {
+					$fm->unchecked_value = (string) $fm->unchecked_value;
+				}
+				$output[ $location ][] = [
+					'title' => $fm_meta_box['title'],
+					'fm'    => $fm,
+				];
+				if ( function_exists( 'remove_meta_box' ) ) {
+					remove_meta_box( 'fm_meta_box_' . $fm_meta_box['fm']->name, $post_type, 'side' );
+				}
 			}
 		}
 
@@ -104,32 +112,40 @@ class Post_Fields {
 		$post_types = $this->get_block_editor_post_types();
 		foreach ( $post_types as $post_type ) {
 			$fm_meta_boxes = $this->load_meta_boxes( $post_type );
-			foreach ( $fm_meta_boxes as $fm_meta_box ) {
-				$fm = $fm_meta_box['fm'];
+			foreach ( [ 'side', 'normal' ] as $location ) {
+				if ( empty( $fm_meta_boxes[ $location ] ) ) {
+					continue;
+				}
+				foreach ( $fm_meta_boxes[ $location ] as $fm_meta_box ) {
+					$fm = $fm_meta_box['fm'];
+					if ( empty( $fm ) ) {
+						continue;
+					}
 
-				if ( empty( $fm->children ) ) {
-					\FM_Gutenberg\register_meta_helper(
-						'post',
-						[ $post_type ],
-						$fm->name,
-						[
-							'default'  => '',
-							'sanitize' => $fm->sanitize,
-						]
-					);
-				} else {
-					\FM_Gutenberg\register_meta_helper(
-						'post',
-						[ $post_type ],
-						$fm->name,
-						[
-							'default'      => [],
-							'type'         => 'array',
-							'show_in_rest' => [
-								'schema' => $this->get_schema( $fm->children ),
-							],
-						]
-					);
+					if ( empty( $fm->children ) ) {
+						\FM_Gutenberg\register_meta_helper(
+							'post',
+							[ $post_type ],
+							$fm->name,
+							[
+								'default'  => '',
+								'sanitize' => $fm->sanitize,
+							]
+						);
+					} else {
+						\FM_Gutenberg\register_meta_helper(
+							'post',
+							[ $post_type ],
+							$fm->name,
+							[
+								'default'      => [],
+								'type'         => 'array',
+								'show_in_rest' => [
+									'schema' => $this->get_schema( $fm->children ),
+								],
+							]
+						);
+					}
 				}
 			}
 		}
@@ -147,15 +163,19 @@ class Post_Fields {
 			return [];
 		}
 
-		$side_meta_boxes = isset( $posttype_meta_boxes['side'] ) ? $posttype_meta_boxes['side'] : [];
-
-		if ( empty( $side_meta_boxes ) ) {
+		if ( empty( $posttype_meta_boxes ) ) {
 			return [];
 		}
 
-		$meta_boxes = [];
-		foreach ( $side_meta_boxes as $context ) {
-			$meta_boxes = array_merge( $meta_boxes, $context );
+		$meta_boxes = [
+			'normal' => [],
+			'side'   => [],
+		];
+		foreach ( $posttype_meta_boxes['normal'] as $context ) {
+			$meta_boxes['normal'] = array_merge( $meta_boxes, $context );
+		}
+		foreach ( $posttype_meta_boxes['side'] as $context ) {
+			$meta_boxes['side'] = array_merge( $meta_boxes, $context );
 		}
 
 		return $meta_boxes;
