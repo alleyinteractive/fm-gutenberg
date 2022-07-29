@@ -290,7 +290,7 @@ class Post_Fields {
 	 * @return object
 	 */
 	private function remove_recursion( $fm ) {
-		if ( 'richtext' === $fm->field_class || 'radio' === $fm->field_class ) {
+		if ( in_array( $fm->field_class, [ 'radio', 'richtext', 'select' ], true ) ) {
 			$fm->sanitize[0] = null;
 		}
 		foreach ( $fm->children as $index => $child ) {

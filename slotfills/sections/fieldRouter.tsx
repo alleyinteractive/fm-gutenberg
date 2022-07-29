@@ -3,6 +3,7 @@ import React from 'react';
 import Field from '@/interfaces/field';
 import Checkbox from './checkbox';
 import Radio from './radio';
+import Select from './select';
 import TextField from './text-field';
 import TextareaField from './textarea-field';
 import RichtextField from './richtext-field';
@@ -39,6 +40,16 @@ export default function FieldRouter({
   if (fieldClass === 'radio') {
     return (
       <Radio
+        field={field}
+        valueHook={valueHook}
+        index={index}
+        label={label}
+      />
+    );
+  }
+  if (fieldClass === 'select') {
+    return (
+      <Select
         field={field}
         valueHook={valueHook}
         index={index}

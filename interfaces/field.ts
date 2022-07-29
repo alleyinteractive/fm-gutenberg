@@ -4,6 +4,7 @@ export default interface Field {
   };
   checked_value?: string;
   field_class?: string;
+  first_empty?: boolean;
   fm?: {
     add_more_label: string;
     add_more_position: 'bottom' | 'top';
