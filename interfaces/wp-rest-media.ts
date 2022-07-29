@@ -1,4 +1,5 @@
 export default interface WPRESTMedia {
+  fm_media_preview?: string;
   id?: number;
   media_details?: {
     sizes: {

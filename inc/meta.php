@@ -87,7 +87,8 @@ function register_meta_helper(
 	switch ( $object_type ) {
 		case 'post':
 			foreach ( $object_slugs as $object_slug ) {
-				if ( ! register_post_meta( $object_slug, $meta_key, $args ) ) {
+				$response = register_post_meta( $object_slug, $meta_key, $args );
+				if ( ! $response ) {
 					return false;
 				}
 			}
