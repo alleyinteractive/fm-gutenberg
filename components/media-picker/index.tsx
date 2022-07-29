@@ -78,7 +78,6 @@ export default function MediaPicker({
 
   // If we have a valid source URL of any type, display it.
   const src = media ? getMediaURL(media, imageSize) : valueURL;
-  console.log('media', media);
   const {
     fm_media_preview: fmMediaPreview,
     link: mediaLink = '',
