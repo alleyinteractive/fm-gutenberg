@@ -3,7 +3,9 @@ import React from 'react';
 import Field from '@/interfaces/field';
 import Checkbox from './checkbox';
 import ColorPickerField from './color-picker-field';
+import MediaField from './media-field';
 import Radio from './radio';
+import Select from './select';
 import TextField from './text-field';
 import TextareaField from './textarea-field';
 import RichtextField from './richtext-field';
@@ -57,6 +59,16 @@ export default function FieldRouter({
       />
     );
   }
+  if (fieldClass === 'select') {
+    return (
+      <Select
+        field={field}
+        valueHook={valueHook}
+        index={index}
+        label={label}
+      />
+    );
+  }
   if (fieldClass === 'text') {
     if (rows) {
       return (
@@ -80,6 +92,16 @@ export default function FieldRouter({
   if (fieldClass === 'richtext' && typeof checkedValue !== 'undefined') {
     return (
       <RichtextField
+        field={field}
+        valueHook={valueHook}
+        index={index}
+        label={label}
+      />
+    );
+  }
+  if (fieldClass === 'media') {
+    return (
+      <MediaField
         field={field}
         valueHook={valueHook}
         index={index}
