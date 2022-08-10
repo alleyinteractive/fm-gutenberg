@@ -2,6 +2,7 @@ import React from 'react';
 
 import Field from '@/interfaces/field';
 import Checkbox from './checkbox';
+import MediaField from './media-field';
 import Radio from './radio';
 import Select from './select';
 import TextField from './text-field';
@@ -80,6 +81,16 @@ export default function FieldRouter({
   if (fieldClass === 'richtext' && typeof checkedValue !== 'undefined') {
     return (
       <RichtextField
+        field={field}
+        valueHook={valueHook}
+        index={index}
+        label={label}
+      />
+    );
+  }
+  if (fieldClass === 'media') {
+    return (
+      <MediaField
         field={field}
         valueHook={valueHook}
         index={index}
