@@ -87,8 +87,9 @@ class Post_Fields {
 					$fm->unchecked_value = (string) $fm->unchecked_value;
 				}
 				$output[ $location ][] = [
-					'title' => $fm_meta_box['title'],
-					'fm'    => $fm,
+					'title'    => $fm_meta_box['title'],
+					'fm'       => $fm,
+					'meta_box' => 'fm_meta_box_' . $fm->name,
 				];
 				if ( function_exists( 'remove_meta_box' ) ) {
 					remove_meta_box( 'fm_meta_box_' . $fm_meta_box['fm']->name, $post_type, 'side' );
