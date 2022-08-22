@@ -29,6 +29,7 @@ module.exports = (env, { mode }) => ({
       return acc;
     }, {
       slotfills: './slotfills/index.ts',
+      plugins: './plugins/index.ts',
     }),
 
   // Configure loaders based on extension.
