@@ -1,4 +1,5 @@
 /**
  * Plugins Loader
  */
-import './normalMetaboxes';
+// import './normalMetaboxes';
+export {};
