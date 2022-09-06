@@ -19,6 +19,9 @@ require_once __DIR__ . '/inc/singleton.php';
 // Fieldmanager Post fields API field.
 require_once __DIR__ . '/inc/rest-api/class-post-fields.php';
 
+// Add main metabox.
+require_once __DIR__ . '/inc/metaboxes.php';
+
 add_action( 'after_setup_theme', __NAMESPACE__ . '\setup_features' );
 
 /**

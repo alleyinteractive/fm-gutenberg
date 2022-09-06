@@ -92,7 +92,7 @@ class Post_Fields {
 					'meta_box' => 'fm_meta_box_' . $fm->name,
 				];
 				if ( function_exists( 'remove_meta_box' ) ) {
-					remove_meta_box( 'fm_meta_box_' . $fm_meta_box['fm']->name, $post_type, 'side' );
+					remove_meta_box( 'fm_meta_box_' . $fm_meta_box['fm']->name, $post_type, $location );
 				}
 			}
 		}
