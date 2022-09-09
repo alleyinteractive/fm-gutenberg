@@ -89,7 +89,7 @@ export default function Group({
           onSortEnd={onSortEnd}
           useDragHandle
         >
-          {value.map((childValue: string, index: number) => {
+          {value ? value.map((childValue: string, index: number) => {
             const key = uuidv4();
             return (
               <SortableItem
@@ -124,7 +124,7 @@ export default function Group({
                 </PanelRow>
               </SortableItem>
             );
-          })}
+          }) : null}
         </SortableList>
       </PanelRow>
       {addMorePosition === 'bottom' ? (

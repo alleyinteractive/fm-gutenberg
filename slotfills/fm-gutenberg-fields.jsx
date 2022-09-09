@@ -12,7 +12,6 @@ const FmGutenbergFields = (post) => {
       } = [],
     },
   } = post;
-  console.log('running FmGutenbergFields');
   return (
     sideFields.map((field) => (
       <SideMetaBox field={field} />

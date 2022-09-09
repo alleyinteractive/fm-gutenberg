@@ -65,7 +65,7 @@ class Post_Fields {
 	 */
 	public function get_value( $post ) {
 		if ( ! current_user_can( 'edit_post', $post['id'] ) ) {
-			return [];
+			// return [];
 		}
 		$post_type     = get_post_type( $post['id'] );
 		$output        = [
@@ -311,7 +311,7 @@ class Post_Fields {
 	 * @return object
 	 */
 	private function remove_recursion( $fm ) {
-		if ( 'richtext' === $fm->field_class || 'radio' === $fm->field_class ) {
+		if ( in_array( $fm->field_class, [ 'richtext', 'radio', 'checkboxes' ], true ) ) {
 			$fm->sanitize[0] = null;
 		}
 		foreach ( $fm->children as $index => $child ) {
