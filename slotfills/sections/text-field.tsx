@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { PanelRow, TextControl } from '@wordpress/components';
 import Field from '@/interfaces/field';
+import FMObject from '@/interfaces/fm-object';
 
 interface TextFieldProps {
   field: Field,
   index?: number,
   label?: string,
-  valueHook: (key: number | string) => [any | any[], Function];
+  valueHook: (key: number | string) => [string | FMObject | string[] | FMObject[], Function];
 }
 
 export default function TextField({

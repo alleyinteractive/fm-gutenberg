@@ -5,6 +5,7 @@ import { arrayMoveImmutable } from 'array-move';
 import { v4 as uuidv4 } from 'uuid';
 import { __ } from '@wordpress/i18n';
 
+import FMObject from '@/interfaces/fm-object';
 import FieldRouter from './fieldRouter';
 
 import './group.scss';
@@ -30,7 +31,8 @@ interface GroupProps {
     children: Object;
     name: string;
   };
-  valueHook: (key: number | string) => [any | any[], Function];
+  valueHook: (key: number | string) =>
+  [number | string | FMObject | number[] | string[] | FMObject[], Function];
 }
 
 export default function Group({
