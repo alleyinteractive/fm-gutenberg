@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { __ } from '@wordpress/i18n';
 
 import FieldRouter from './fieldRouter';
+import AddMoreButton from '../../components/add-more-button';
 
 import './group.scss';
 
@@ -28,6 +29,8 @@ interface GroupProps {
     add_more_label: string;
     add_more_position: 'bottom' | 'top';
     children: Object;
+    limit?: number,
+    minimumCount?: number,
     name: string;
   };
   valueHook: (key: number | string) => [any | any[], Function];
@@ -37,6 +40,8 @@ export default function Group({
   field: {
     add_more_label: addMoreLabel = '',
     add_more_position: addMorePosition = 'bottom',
+    limit = null,
+    minimumCount = null,
     name,
     children = [],
   },
@@ -75,14 +80,12 @@ export default function Group({
   return (
     <>
       {addMorePosition === 'top' ? (
-        <PanelRow>
-          <Button
-            isSecondary
-            onClick={addNew}
-          >
-            {addMoreLabel}
-          </Button>
-        </PanelRow>
+        <AddMoreButton
+          addMoreLabel={addMoreLabel}
+          addNew={addNew}
+          limit={limit}
+          minimumCount={minimumCount}
+        />
       ) : null}
       <PanelRow>
         <SortableList
@@ -128,14 +131,12 @@ export default function Group({
         </SortableList>
       </PanelRow>
       {addMorePosition === 'bottom' ? (
-        <PanelRow>
-          <Button
-            isSecondary
-            onClick={addNew}
-          >
-            {addMoreLabel}
-          </Button>
-        </PanelRow>
+        <AddMoreButton
+          addMoreLabel={addMoreLabel}
+          addNew={addNew}
+          limit={limit}
+          minimumCount={minimumCount}
+        />
       ) : null}
     </>
   );

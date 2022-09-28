@@ -1,0 +1,19 @@
+.fm-gutenberg-normal-metabox-container {
+  &__metabox {
+    border-top: 1px solid #d8d8d8;
+    padding: 0 2em 0 2em;
+
+    .components-button.is-link {
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    &-content {
+      padding-bottom: 1em;
+
+      &.collapsed {
+        display: none;
+      }
+    }
+  }
+}

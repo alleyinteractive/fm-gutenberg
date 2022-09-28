@@ -1,16 +1,15 @@
 import React from 'react';
-import { withSelect } from '@wordpress/data';
-import { compose } from '@wordpress/compose';
+import { select } from '@wordpress/data';
 
 import SideMetaBox from './sections/side-meta-box';
 
-const FmGutenbergFields = (post) => {
+const FmGutenbergFields = () => {
+  const post = select('core/editor').getCurrentPost();
+  console.log('FmGutenbergFields post', post);
   const {
-    post: {
-      fm_gutenberg_fields: {
-        side: sideFields = [],
-      } = [],
-    },
+    fm_gutenberg_fields: {
+      side: sideFields = [],
+    } = [],
   } = post;
   return (
     sideFields.map((field) => (
@@ -19,12 +18,4 @@ const FmGutenbergFields = (post) => {
   );
 };
 
-export default compose([
-  withSelect((select) => {
-    const editor = select('core/editor');
-
-    return {
-      post: editor.getCurrentPost(),
-    };
-  }),
-])(FmGutenbergFields);
+export default FmGutenbergFields;
