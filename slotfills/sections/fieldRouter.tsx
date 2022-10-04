@@ -20,7 +20,6 @@ export default function FieldRouter({
     attributes: {
       rows = null,
     } = {},
-    checked_value: checkedValue,
     field_class: fieldClass,
     label = '',
   },
