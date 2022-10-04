@@ -1,12 +1,13 @@
 import React from 'react';
 import { PanelRow, RadioControl } from '@wordpress/components';
 import Field from '@/interfaces/field';
+import FMObject from '@/interfaces/fm-object';
 
 interface RadioProps {
   field: Field;
   index?: number;
   label?: string;
-  valueHook: (key: number | string) => [any | any[], Function];
+  valueHook: (key: number | string) => [string | FMObject | string[] | FMObject[], Function];
 }
 
 export default function Radio({
@@ -19,7 +20,7 @@ export default function Radio({
   label = '',
 }: RadioProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
-  const initialvalue = typeof value === 'object' ? value[name] : value;
+  const initialvalue = typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
 
   const updateValue = (newValue: string) => {
     setValue(typeof value === 'object' ? { [name]: newValue } : newValue);
