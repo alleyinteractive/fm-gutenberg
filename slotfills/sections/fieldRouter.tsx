@@ -67,7 +67,7 @@ export default function FieldRouter({
       />
     );
   }
-  if (fieldClass === 'richtext' && typeof checkedValue !== 'undefined') {
+  if (fieldClass === 'richtext') {
     return (
       <RichtextField
         field={field}
