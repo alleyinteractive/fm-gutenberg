@@ -19,7 +19,9 @@ export default function TextareaField({
   label = '',
 }: TextareaFieldProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
-  const initialvalue = typeof value === 'object' && !Array.isArray(value) ? String(value[name]) : String(value);
+  let initialvalue = typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
+  initialvalue = initialvalue ? String(initialvalue) : '';
+
   const [stateValue, setStateValue] = useState(initialvalue);
 
   const updateValue = () => {
