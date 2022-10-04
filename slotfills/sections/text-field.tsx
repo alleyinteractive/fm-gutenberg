@@ -19,7 +19,7 @@ export default function TextField({
   label = '',
 }: TextFieldProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
-  const initialvalue = typeof value === 'object' ? value[name] : value;
+  const initialvalue = typeof value === 'object' && !Array.isArray(value) ? String(value[name]) : String(value);
   const [stateValue, setStateValue] = useState(initialvalue);
 
   const updateValue = () => {

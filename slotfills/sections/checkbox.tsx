@@ -8,7 +8,7 @@ interface CheckboxProps {
   index?: number;
   label?: string;
   valueHook: (key: number | string) =>
-    [boolean | string | FMObject | boolean[] | string[] | FMObject[], Function];
+  [boolean | string | FMObject | boolean[] | string[] | FMObject[], Function];
 }
 
 export default function Checkbox({
