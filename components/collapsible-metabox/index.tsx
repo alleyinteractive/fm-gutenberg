@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import Field from '@/interfaces/field';
-import MetaBox from '../../slotfills/sections/meta-box';
 import { Button } from '@wordpress/components';
+import MetaBox from '../../slotfills/sections/meta-box';
 
 interface MetaBoxProps {
   field: Field;
