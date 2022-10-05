@@ -55,6 +55,14 @@ class Post_Fields {
 				],
 			]
 		);
+
+		register_rest_field(
+			'attachment',
+			'fm_media_preview',
+			[
+				'get_callback' => [ $this, 'get_media_preview' ],
+			]
+		);
 	}
 
 	/**
@@ -129,8 +137,9 @@ class Post_Fields {
 							[ $post_type ],
 							$fm->name,
 							[
-								'default'  => '',
+								'default'  => 'media' === $fm->field_class ? '0' : '',
 								'sanitize' => $fm->sanitize,
+								'type'     => 'media' === $fm->field_class ? 'integer' : 'string',
 							]
 						);
 					} else {
@@ -264,7 +273,7 @@ class Post_Fields {
 				'type'       => 'object',
 				'properties' => [
 					$child->name => [
-						'type' => 'string',
+						'type' => 'media' === $child->field_class ? 'integer' : 'string',
 					],
 				],
 			];
@@ -311,12 +320,29 @@ class Post_Fields {
 	 * @return object
 	 */
 	private function remove_recursion( $fm ) {
-		if ( in_array( $fm->field_class, [ 'richtext', 'radio', 'checkboxes' ], true ) ) {
+		if ( in_array( $fm->field_class, [ 'checkboxes', 'radio', 'richtext', 'select' ], true ) ) {
 			$fm->sanitize[0] = null;
 		}
 		foreach ( $fm->children as $index => $child ) {
 			$fm->children[ $index ] = $this->remove_recursion( $child );
 		}
 		return $fm;
+	}
+
+	/**
+	 * Get the preview image url.
+	 *
+	 * @param WP_Post $post The requested post.
+	 * @return string
+	 */
+	public function get_media_preview( $post ) {
+		return wp_get_attachment_image(
+			$post['id'],
+			'thumbnail',
+			true,
+			[
+				'class' => 'thumbnail',
+			]
+		);
 	}
 }
