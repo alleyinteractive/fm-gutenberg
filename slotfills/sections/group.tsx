@@ -5,6 +5,7 @@ import { arrayMoveImmutable } from 'array-move';
 import { v4 as uuidv4 } from 'uuid';
 import { __ } from '@wordpress/i18n';
 
+import FMObject from '@/interfaces/fm-object';
 import FieldRouter from './fieldRouter';
 
 import './group.scss';
@@ -30,7 +31,8 @@ interface GroupProps {
     children: Object;
     name: string;
   };
-  valueHook: (key: number | string) => [any | any[], Function];
+  valueHook: (key: number | string) =>
+  [number[] | string[] | FMObject[], Function];
 }
 
 export default function Group({
@@ -66,7 +68,7 @@ export default function Group({
   };
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number, newIndex: number }) => {
-    const newValue = arrayMoveImmutable(value, oldIndex, newIndex);
+    const newValue = arrayMoveImmutable([...value], oldIndex, newIndex);
     setValue(newValue);
   };
 
@@ -89,7 +91,7 @@ export default function Group({
           onSortEnd={onSortEnd}
           useDragHandle
         >
-          {value.map((childValue: string, index: number) => {
+          {value.map((childValue: number | string | FMObject, index: number) => {
             const key = uuidv4();
             return (
               <SortableItem

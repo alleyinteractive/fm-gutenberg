@@ -1,12 +1,14 @@
 import React from 'react';
 import { PanelRow, CheckboxControl } from '@wordpress/components';
+import FMObject from '@/interfaces/fm-object';
 import Field from '@/interfaces/field';
 
 interface CheckboxProps {
   field: Field;
   index?: number;
   label?: string;
-  valueHook: (key: number | string) => [any | any[], Function];
+  valueHook: (key: number | string) =>
+  [boolean | string | FMObject | boolean[] | string[] | FMObject[], Function];
 }
 
 export default function Checkbox({
@@ -19,7 +21,10 @@ export default function Checkbox({
   label = '',
 }: CheckboxProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
-  const initialvalue = typeof value === 'object' ? value[name] : value;
+  let initialvalue = typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
+  if (typeof initialvalue !== 'boolean') {
+    initialvalue = initialvalue === 'true';
+  }
 
   const updateValue = (checked: boolean) => {
     if (checked) {

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import FMObject from '@/interfaces/fm-object';
 import Field from '@/interfaces/field';
 import Checkbox from './checkbox';
 import ColorPickerField from './color-picker-field';
@@ -13,7 +14,7 @@ import RichtextField from './richtext-field';
 interface FieldRouterProps {
   field: Field;
   index?: number;
-  valueHook: (key: number | string) => [any | any[], Function];
+  valueHook: (key: number | string) => [string | FMObject | string[] | FMObject[], Function];
 }
 
 export default function FieldRouter({
@@ -22,7 +23,6 @@ export default function FieldRouter({
     attributes: {
       rows = null,
     } = {},
-    checked_value: checkedValue,
     field_class: fieldClass,
     label = '',
   },
@@ -89,7 +89,7 @@ export default function FieldRouter({
       />
     );
   }
-  if (fieldClass === 'richtext' && typeof checkedValue !== 'undefined') {
+  if (fieldClass === 'richtext') {
     return (
       <RichtextField
         field={field}
