@@ -36,6 +36,17 @@ class Post_Fields {
 	 * Register the rest field.
 	 */
 	public function register_field() {
+		if (
+			defined( 'REST_REQUEST' ) && REST_REQUEST
+			&& isset( $_GET['context'] )
+			&& 'edit' === $_GET['context']
+		) {
+			add_filter( 'fm_calculated_context', [ $this, 'filter_fm_calculated_context' ], 10, 1 );
+			if ( ! did_action( 'fm_context_construct' ) ) {
+				fm_trigger_context_action();
+			}
+		}
+
 		register_rest_field(
 			$this->get_block_editor_post_types(),
 			'fm_gutenberg_fields',
@@ -74,6 +85,9 @@ class Post_Fields {
 	 * @return array|\WP_Error
 	 */
 	public function get_value( $post ) {
+		if( ! did_action( 'fm_context_construct' ) ) {
+			do_action( 'fm_context_construct' );
+		}
 		if ( ! current_user_can( 'edit_post', $post['id'] ) ) {
 			// return [];
 		}
@@ -580,5 +594,18 @@ class Post_Fields {
 				]
 			],
 		];
+	}
+
+	/**
+	 * Filters the fm_calculated_context to return the current post type.
+	 *
+	 * @param [array] $source The existing calculated context. Probably an empty array.
+	 * @return array
+	 */
+	public function filter_fm_calculated_context( $source ) {
+		$current_url = wp_parse_url( add_query_arg( [] ) );
+		$path_array  = explode( '/', $current_url['path'] );
+		$post_type   = array_pop( $path_array );
+		return [ 'post', $post_type ];
 	}
 }
