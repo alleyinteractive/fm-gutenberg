@@ -85,9 +85,6 @@ class Post_Fields {
 	 * @return array|\WP_Error
 	 */
 	public function get_value( $post ) {
-		if( ! did_action( 'fm_context_construct' ) ) {
-			do_action( 'fm_context_construct' );
-		}
 		if ( ! current_user_can( 'edit_post', $post['id'] ) ) {
 			// return [];
 		}
