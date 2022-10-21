@@ -16,7 +16,7 @@ export default function MetaBox({
   },
 }: MetaBoxProps) {
   return (
-    context.field_class === 'group' ? (
+    context.limit !== 1 ? (
       <Group
         field={context}
         valueHook={usePostMetaValue}

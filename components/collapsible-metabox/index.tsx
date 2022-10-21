@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
+import { uid } from 'react-uid';
 
 import Field from '@/interfaces/field';
 import { Button } from '@wordpress/components';
@@ -13,7 +14,6 @@ function CollapsibleMetabox({
   field,
 }: MetaBoxProps) {
   const [collapsed, setCollapsed] = useState(false);
-  console.log('field', field);
   return (
     <div className="fm-gutenberg-normal-metabox-container__metabox">
       <Button isLink onClick={() => setCollapsed(!collapsed)}>
@@ -28,7 +28,7 @@ function CollapsibleMetabox({
         },
       )}
       >
-        <MetaBox field={field} />
+        <MetaBox field={field} key={uid(field)} />
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@wordpress/element';
 
 import FmGutenbergMetaBoxes from './fm-gutenberg-meta-boxes';

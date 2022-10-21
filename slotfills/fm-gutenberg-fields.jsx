@@ -1,10 +1,14 @@
 import React from 'react';
-import { select } from '@wordpress/data';
+import { uid } from 'react-uid';
+
+import { useSelect } from '@wordpress/data';
 
 import SideMetaBox from './sections/side-meta-box';
 
 const FmGutenbergFields = () => {
-  const post = select('core/editor').getCurrentPost();
+  const post = useSelect((select) => (
+    select('core/editor').getCurrentPost()
+  ));
   console.log('FmGutenbergFields post', post);
   const {
     fm_gutenberg_fields: {
@@ -13,7 +17,7 @@ const FmGutenbergFields = () => {
   } = post;
   return (
     sideFields.map((field) => (
-      <SideMetaBox field={field} />
+      <SideMetaBox field={field} key={uid(field)} />
     ))
   );
 };

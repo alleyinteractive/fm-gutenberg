@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, PanelRow } from '@wordpress/components';
-import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
+import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc'; // TODO: replace with https://github.com/clauderic/dnd-kit
 import { arrayMoveImmutable } from 'array-move';
 import { v4 as uuidv4 } from 'uuid';
 import { __ } from '@wordpress/i18n';
@@ -12,7 +12,7 @@ import AddMoreButton from '../../components/add-more-button';
 import './group.scss';
 
 interface ChildProps {
-  children?: React.ReactNode;
+  children?: React.ReactNode | React.ReactNode[];
 }
 
 const SortableItem = SortableElement(({ children }: ChildProps) => (
@@ -24,6 +24,8 @@ const SortableItem = SortableElement(({ children }: ChildProps) => (
 const SortableList = SortableContainer(({ children }: ChildProps) => (
   <ul className="fm-gutenberg-sortable-list">{children}</ul>
 ));
+
+const DragHandle = SortableHandle(() => <span className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>::</span>);
 
 interface GroupProps {
   field: {
@@ -76,8 +78,6 @@ export default function Group({
     const newValue = arrayMoveImmutable([...value], oldIndex, newIndex);
     setValue(newValue);
   };
-
-  const DragHandle = SortableHandle(() => <span className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>::</span>);
 
   return (
     <>

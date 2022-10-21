@@ -22,7 +22,7 @@ export default function SideMetaBox({
       name={context.name}
       title={title}
     >
-      {context.field_class === 'group' ? (
+      {context.limit !== 1 ? (
         <Group
           field={context}
           valueHook={usePostMetaValue}

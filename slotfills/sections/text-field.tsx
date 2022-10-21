@@ -11,6 +11,7 @@ interface TextFieldProps {
 }
 
 export default function TextField({
+  field,
   field: {
     name,
   },
@@ -18,9 +19,10 @@ export default function TextField({
   index = null,
   label = '',
 }: TextFieldProps) {
+  console.log('field:', field);
   // Switching the next two lines will prevent the rerender that causes the fields to disappear.
-  // const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
-  const [value, setValue] = index !== null ? valueHook(index) : useState(null);
+  const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
+  // const [value, setValue] = index !== null ? valueHook(index) : useState(null);
   let initialvalue = value && typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
   initialvalue = initialvalue ? String(initialvalue) : '';
   const [stateValue, setStateValue] = useState(initialvalue);
@@ -31,11 +33,13 @@ export default function TextField({
   };
   return (
     <PanelRow>
+      {label}
       <TextControl
         label={label}
         onChange={setStateValue}
         onBlur={updateValue}
         value={stateValue}
+        key={`text-control-${name}`}
       />
     </PanelRow>
   );

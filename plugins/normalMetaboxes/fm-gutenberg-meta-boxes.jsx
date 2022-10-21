@@ -1,12 +1,13 @@
-import React from 'react';
-// import { render } from 'react-dom';
-import { select } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
+import { uid } from 'react-uid';
 
 import CollapsibleMetabox from '../../components/collapsible-metabox';
 import './style.scss';
 
 const FmGutenbergMetaBoxes = () => {
-  const post = select('core/editor').getCurrentPost();
+  const post = useSelect((select) => (
+    select('core/editor').getCurrentPost()
+  ));
   console.log('post', post);
   const {
     fm_gutenberg_fields: {
@@ -15,7 +16,7 @@ const FmGutenbergMetaBoxes = () => {
   } = post;
   return (
     normalFields.map((field) => (
-      <CollapsibleMetabox field={field} />
+      <CollapsibleMetabox field={field} key={uid(field)} />
     ))
   );
 };

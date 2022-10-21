@@ -42,15 +42,17 @@ class Post_Fields {
 			[
 				'get_callback' => [ $this, 'get_value' ],
 				'schema'       => [
-					'title' => [
-						'description' => esc_html__( 'The metabox title.', 'fm-gutenberg' ),
-						'type'        => 'string',
-						'required'    => true,
-					],
-					'fm'    => [
-						'description' => esc_html__( 'The array describing the Fieldmanager field.', 'fm-gutenberg' ),
+					'normal' => [
+						'description' => esc_html__( 'The array of normal metaboxes.', 'fm-gutenberg' ),
 						'type'        => 'array',
 						'required'    => true,
+						'items'       => $this->get_metabox_schema(),
+					],
+					'side' => [
+						'description' => esc_html__( 'The array of side metaboxes.', 'fm-gutenberg' ),
+						'type'        => 'array',
+						'required'    => true,
+						'items'       => $this->get_metabox_schema(),
 					],
 				],
 			]
@@ -97,7 +99,6 @@ class Post_Fields {
 				$output[ $location ][] = [
 					'title'    => $fm_meta_box['title'],
 					'fm'       => $fm,
-					'meta_box' => 'fm_meta_box_' . $fm->name,
 				];
 				if ( function_exists( 'remove_meta_box' ) ) {
 					remove_meta_box( 'fm_meta_box_' . $fm_meta_box['fm']->name, $post_type, $location );
@@ -321,11 +322,27 @@ class Post_Fields {
 	 */
 	private function remove_recursion( $fm ) {
 		if ( in_array( $fm->field_class, [ 'checkboxes', 'radio', 'richtext', 'select' ], true ) ) {
-			$fm->sanitize[0] = null;
+			unset( $fm->sanitize[0] );
 		}
+		unset( $fm->data_type );
+		unset( $fm->data_id );
+		unset( $fm->current_context );
+		unset( $fm->save_empty );
+		unset( $fm->skip_save );
+		unset( $fm->index );
+		unset( $fm->serialize_data );
+		unset( $fm->datasource );
+		unset( $fm->remove_default_meta_boxes );
+		unset( $fm->template );
+		unset( $fm->meta_boxes_to_remove );
+		unset( $fm->index_filter );
+		unset( $fm->escape );
+		unset( $fm->is_attachment );
+
 		foreach ( $fm->children as $index => $child ) {
 			$fm->children[ $index ] = $this->remove_recursion( $child );
 		}
+
 		return $fm;
 	}
 
@@ -344,5 +361,224 @@ class Post_Fields {
 				'class' => 'thumbnail',
 			]
 		);
+	}
+
+	private function get_metabox_schema() {
+		return [
+			'title' => [
+				'description' => esc_html__( 'The metabox title.', 'fm-gutenberg' ),
+				'type'        => 'string',
+				'required'    => true,
+			],
+			'fm'    => [
+				'description' => esc_html__( 'The object describing the Fieldmanager field.', 'fm-gutenberg' ),
+				'type'        => 'object',
+				'required'    => true,
+				"items"       => [
+					"field_class" => [
+						'description' => esc_html__( 'The field class.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => true,
+					],
+					"limit" => [
+						'description' => esc_html__( 'The limit for repeatable fields.', 'fm-gutenberg' ),
+						'type'        => 'number',
+						'required'    => false,
+					],
+					"starting_count" => [
+						'description' => esc_html__( 'The starting count for repeatable fields.', 'fm-gutenberg' ),
+						'type'        => 'number',
+						'required'    => false,
+					],
+					"minimum_count" => [
+						'description' => esc_html__( 'The minimum count for repeatable fields.', 'fm-gutenberg' ),
+						'type'        => 'number',
+						'required'    => false,
+					],
+					"extra_elements" => [
+						'description' => esc_html__( 'The number of extra elements to display by default.', 'fm-gutenberg' ),
+						'type'        => 'number',
+						'required'    => false,
+					],
+					"add_more_label" => [
+						'description' => esc_html__( 'The label for the add more button.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"name" => [
+						'description' => esc_html__( 'The field name.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => true,
+					],
+					"label" => [
+						'description' => esc_html__( 'The field label.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => true,
+					],
+					"inline_label" => [
+						'description' => esc_html__( 'Whether the label should be displayed inline.', 'fm-gutenberg' ),
+						'type'        => 'boolean',
+						'required'    => false,
+					],
+					"label_after_element" => [
+						'description' => esc_html__( 'Whether the label should be displayed after the element.', 'fm-gutenberg' ),
+						'type'        => 'boolean',
+						'required'    => false,
+					],
+					"description" => [
+						'description' => esc_html__( 'The field description text.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"description_after_element" => [
+						'description' => esc_html__( 'Whether the description should be displayed after the element.', 'fm-gutenberg' ),
+						'type'        => 'boolean',
+						'required'    => false,
+					],
+					"attributes" => [
+						'description' => esc_html__( 'The field attributes.', 'fm-gutenberg' ),
+						'type'        => 'object',
+						'required'    => false,
+						'items' => [
+							"size" => [
+								'description' => esc_html__( 'The size of a text field.', 'fm-gutenberg' ),
+								'type'        => 'number',
+								'required'    => false,
+							],
+						]
+					],
+					"one_label_per_item" => [
+						'description' => esc_html__( 'Whether to show one label per item.', 'fm-gutenberg' ),
+						'type'        => 'boolean',
+						'required'    => false,
+					],
+					"sortable" => [
+						'description' => esc_html__( 'Whether the field is sortable.', 'fm-gutenberg' ),
+						'type'        => 'boolean',
+						'required'    => false,
+					],
+					"label_element" => [
+						'description' => esc_html__( 'The html element to use for the label.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"sanitize" => [
+						'description' => esc_html__( 'The function called to sanitize input.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"validate" => [
+						'description' => esc_html__( 'Whether the input should be validated.', 'fm-gutenberg' ),
+						'type'        => 'boolean',
+						'required'    => false,
+					],
+					"validation_rules" => [ // TODO: Probably not a string.
+						'description' => esc_html__( 'Validation rules to run on the input.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"validation_messages" => [ // TODO: Probably not a string
+						'description' => esc_html__( 'Messages to display if validation fails.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"required" => [
+						'description' => esc_html__( 'Whether the field is required.', 'fm-gutenberg' ),
+						'type'        => 'boolean',
+						'required'    => false,
+					],
+					"data_type" => [
+						'description' => esc_html__( 'The type of data.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"data_id" => [ // TODO: Not sure if this is a number.
+						'description' => esc_html__( 'The data id.', 'fm-gutenberg' ),
+						'type'        => 'number',
+						'required'    => false,
+					],
+					"current_context" => [
+						'description' => esc_html__( 'The current context.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"save_empty" => [
+						'description' => esc_html__( 'Whether to save empty values.', 'fm-gutenberg' ),
+						'type'        => 'boolean',
+						'required'    => false,
+					],
+					"skip_save" => [
+						'description' => esc_html__( 'Whether to skip saving this value.', 'fm-gutenberg' ),
+						'type'        => 'boolean',
+						'required'    => false,
+					],
+					"index" => [
+						'description' => esc_html__( 'Whether to index this field.', 'fm-gutenberg' ),
+						'type'        => 'boolean',
+						'required'    => false,
+					],
+					"serialize_data" => [
+						'description' => esc_html__( 'Whether to serialize the data.', 'fm-gutenberg' ),
+						'type'        => 'boolean',
+						'required'    => false,
+					],
+					"datasource" => [
+						'description' => esc_html__( 'The source for data.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"display_if" => [ // TODO: probably not a string.
+						'description' => esc_html__( 'Conditional display rules.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"add_more_position" => [
+						'description' => esc_html__( 'Where to display the add more button.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"remove_default_meta_boxes" => [
+						'description' => esc_html__( 'Whether to remove default meta boxes.', 'fm-gutenberg' ),
+						'type'        => 'boolean',
+						'required'    => true,
+					],
+					"template" => [ // TODO: Maybe not a string.
+						'description' => esc_html__( 'The field template.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"meta_boxes_to_remove" => [ // TODO: Maybe an array?
+						'description' => esc_html__( 'Metaboxes to remove.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"default_value" => [
+						'description' => esc_html__( 'Default value.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"index_filter" => [ // TODO: Don't know what this is.
+						'description' => esc_html__( 'The index filter.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"input_type" => [
+						'description' => esc_html__( 'The input type.', 'fm-gutenberg' ),
+						'type'        => 'string',
+						'required'    => false,
+					],
+					"escape" => [ // TODO: Don't know what this is.
+						'description' => esc_html__( 'Whether to escape the input?.', 'fm-gutenberg' ),
+						'type'        => 'boolean',
+						'required'    => false,
+					],
+					"is_attachment" => [
+						'description' => esc_html__( 'Is this field an attachment.', 'fm-gutenberg' ),
+						'type'        => 'boolean',
+						'required'    => false,
+					],
+				]
+			],
+		];
 	}
 }
