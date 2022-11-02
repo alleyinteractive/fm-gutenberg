@@ -1,6 +1,6 @@
 import React from 'react';
-import usePostMetaValue from '@/hooks/use-post-meta-value';
 import Field from '@/interfaces/field';
+import usePostMetaValue from './use-post-meta-value';
 
 // Components.
 import FieldRouter from './fieldRouter';

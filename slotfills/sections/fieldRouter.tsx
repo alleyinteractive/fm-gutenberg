@@ -28,7 +28,6 @@ export default function FieldRouter({
   index,
   valueHook,
 }: FieldRouterProps) {
-  console.log('field:', field);
   if (fieldClass === 'element') {
     return (
       <Checkbox

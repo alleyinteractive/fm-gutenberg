@@ -9,7 +9,6 @@ const FmGutenbergFields = () => {
   const post = useSelect((select) => (
     select('core/editor').getCurrentPost()
   ));
-  console.log('FmGutenbergFields post', post);
   const {
     fm_gutenberg_fields: {
       side: sideFields = [],

@@ -8,7 +8,6 @@ const FmGutenbergMetaBoxes = () => {
   const post = useSelect((select) => (
     select('core/editor').getCurrentPost()
   ));
-  console.log('post', post);
   const {
     fm_gutenberg_fields: {
       normal: normalFields = [],

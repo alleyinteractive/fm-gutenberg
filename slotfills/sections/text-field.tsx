@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PanelRow, TextControl } from '@wordpress/components';
 import Field from '@/interfaces/field';
 import FMObject from '@/interfaces/fm-object';
@@ -11,7 +11,6 @@ interface TextFieldProps {
 }
 
 export default function TextField({
-  field,
   field: {
     name,
   },
@@ -19,16 +18,13 @@ export default function TextField({
   index = null,
   label = '',
 }: TextFieldProps) {
-  console.log('field:', field);
   // Switching the next two lines will prevent the rerender that causes the fields to disappear.
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
   // const [value, setValue] = index !== null ? valueHook(index) : useState(null);
   let initialvalue = value && typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
   initialvalue = initialvalue ? String(initialvalue) : '';
-  const [stateValue, setStateValue] = useState(initialvalue);
 
-  const updateValue = () => {
-    const newValue = typeof value === 'object' ? { [name]: stateValue } : stateValue;
+  const onChange = (newValue:string) => {
     setValue(newValue);
   };
   return (
@@ -36,9 +32,8 @@ export default function TextField({
       {label}
       <TextControl
         label={label}
-        onChange={setStateValue}
-        onBlur={updateValue}
-        value={stateValue}
+        onChange={onChange}
+        value={initialvalue}
         key={`text-control-${name}`}
       />
     </PanelRow>
