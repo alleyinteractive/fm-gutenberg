@@ -36,17 +36,6 @@ class Post_Fields {
 	 * Register the rest field.
 	 */
 	public function register_field() {
-		// if (
-		// 	defined( 'REST_REQUEST' ) && REST_REQUEST
-		// 	&& isset( $_GET['context'] )
-		// 	&& 'edit' === $_GET['context']
-		// ) {
-		// 	add_filter( 'fm_calculated_context', [ $this, 'filter_fm_calculated_context' ], 10, 1 );
-		// 	if ( ! did_action( 'fm_context_construct' ) ) {
-		// 		fm_trigger_context_action();
-		// 	}
-		// }
-
 		register_rest_field(
 			$this->get_block_editor_post_types(),
 			'fm_gutenberg_fields',
@@ -86,7 +75,7 @@ class Post_Fields {
 	 */
 	public function get_value( $post ) {
 		if ( ! current_user_can( 'edit_post', $post['id'] ) ) {
-			// return [];
+			return [];
 		}
 		$post_type     = get_post_type( $post['id'] );
 		$output        = [
