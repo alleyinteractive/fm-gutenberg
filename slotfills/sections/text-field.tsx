@@ -18,9 +18,7 @@ export default function TextField({
   index = null,
   label = '',
 }: TextFieldProps) {
-  // Switching the next two lines will prevent the rerender that causes the fields to disappear.
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
-  // const [value, setValue] = index !== null ? valueHook(index) : useState(null);
   let initialvalue = value && typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
   initialvalue = initialvalue ? String(initialvalue) : '';
 
