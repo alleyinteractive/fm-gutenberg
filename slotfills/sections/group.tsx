@@ -1,17 +1,18 @@
 import React from 'react';
 import { Button, PanelRow } from '@wordpress/components';
-import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
+import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc'; // TODO: replace with https://github.com/clauderic/dnd-kit
 import { arrayMoveImmutable } from 'array-move';
 import { v4 as uuidv4 } from 'uuid';
 import { __ } from '@wordpress/i18n';
 
 import FMObject from '@/interfaces/fm-object';
 import FieldRouter from './fieldRouter';
+import AddMoreButton from '../../components/add-more-button';
 
 import './group.scss';
 
 interface ChildProps {
-  children?: React.ReactNode;
+  children?: React.ReactNode | React.ReactNode[];
 }
 
 const SortableItem = SortableElement(({ children }: ChildProps) => (
@@ -24,11 +25,15 @@ const SortableList = SortableContainer(({ children }: ChildProps) => (
   <ul className="fm-gutenberg-sortable-list">{children}</ul>
 ));
 
+const DragHandle = SortableHandle(() => <span className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>::</span>);
+
 interface GroupProps {
   field: {
     add_more_label: string;
     add_more_position: 'bottom' | 'top';
     children: Object;
+    limit?: number,
+    minimumCount?: number,
     name: string;
   };
   valueHook: (key: number | string) =>
@@ -39,6 +44,8 @@ export default function Group({
   field: {
     add_more_label: addMoreLabel = '',
     add_more_position: addMorePosition = 'bottom',
+    limit = null,
+    minimumCount = null,
     name,
     children = [],
   },
@@ -72,26 +79,22 @@ export default function Group({
     setValue(newValue);
   };
 
-  const DragHandle = SortableHandle(() => <span className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>::</span>);
-
   return (
     <>
       {addMorePosition === 'top' ? (
-        <PanelRow>
-          <Button
-            isSecondary
-            onClick={addNew}
-          >
-            {addMoreLabel}
-          </Button>
-        </PanelRow>
+        <AddMoreButton
+          addMoreLabel={addMoreLabel}
+          addNew={addNew}
+          limit={limit}
+          minimumCount={minimumCount}
+        />
       ) : null}
       <PanelRow>
         <SortableList
           onSortEnd={onSortEnd}
           useDragHandle
         >
-          {value.map((childValue: number | string | FMObject, index: number) => {
+          {value ? value.map((childValue: number | string | FMObject, index: number) => {
             const key = uuidv4();
             return (
               <SortableItem
@@ -126,18 +129,16 @@ export default function Group({
                 </PanelRow>
               </SortableItem>
             );
-          })}
+          }) : null}
         </SortableList>
       </PanelRow>
       {addMorePosition === 'bottom' ? (
-        <PanelRow>
-          <Button
-            isSecondary
-            onClick={addNew}
-          >
-            {addMoreLabel}
-          </Button>
-        </PanelRow>
+        <AddMoreButton
+          addMoreLabel={addMoreLabel}
+          addNew={addNew}
+          limit={limit}
+          minimumCount={minimumCount}
+        />
       ) : null}
     </>
   );

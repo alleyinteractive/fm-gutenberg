@@ -1,24 +1,24 @@
 import React from 'react';
-import { withSelect } from '@wordpress/data';
-import { compose } from '@wordpress/compose';
+import { uid } from 'react-uid';
 
-import MetaBox from './sections/meta-box';
+import { useSelect } from '@wordpress/data';
 
-const FmGutenbergFields = (post) => {
-  const { post: { fm_gutenberg_fields: fmFields = [] } } = post;
+import SideMetaBox from './sections/side-meta-box';
+
+const FmGutenbergFields = () => {
+  const post = useSelect((select) => (
+    select('core/editor').getCurrentPost()
+  ));
+  const {
+    fm_gutenberg_fields: {
+      side: sideFields = [],
+    } = [],
+  } = post;
   return (
-    fmFields.map((field) => (
-      <MetaBox field={field} />
+    sideFields.map((field) => (
+      <SideMetaBox field={field} key={uid(field)} />
     ))
   );
 };
 
-export default compose([
-  withSelect((select) => {
-    const editor = select('core/editor');
-
-    return {
-      post: editor.getCurrentPost(),
-    };
-  }),
-])(FmGutenbergFields);
+export default FmGutenbergFields;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PanelRow, TextControl } from '@wordpress/components';
 import Field from '@/interfaces/field';
 import FMObject from '@/interfaces/fm-object';
@@ -19,22 +19,20 @@ export default function TextField({
   label = '',
 }: TextFieldProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
-  let initialvalue = typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
+  let initialvalue = value && typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
   initialvalue = initialvalue ? String(initialvalue) : '';
 
-  const [stateValue, setStateValue] = useState(initialvalue);
-
-  const updateValue = () => {
-    const newValue = typeof value === 'object' ? { [name]: stateValue } : stateValue;
+  const onChange = (newValue:string) => {
     setValue(newValue);
   };
   return (
     <PanelRow>
+      {label}
       <TextControl
         label={label}
-        onChange={setStateValue}
-        onBlur={updateValue}
-        value={stateValue}
+        onChange={onChange}
+        value={initialvalue}
+        key={`text-control-${name}`}
       />
     </PanelRow>
   );

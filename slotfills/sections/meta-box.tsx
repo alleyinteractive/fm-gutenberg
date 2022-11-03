@@ -1,7 +1,6 @@
 import React from 'react';
-import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
-import usePostMetaValue from '@/hooks/use-post-meta-value';
 import Field from '@/interfaces/field';
+import usePostMetaValue from './use-post-meta-value';
 
 // Components.
 import FieldRouter from './fieldRouter';
@@ -13,26 +12,20 @@ interface MetaBoxProps {
 
 export default function MetaBox({
   field: {
-    title,
     fm: context,
   },
 }: MetaBoxProps) {
   return (
-    <PluginDocumentSettingPanel
-      name={context.name}
-      title={title}
-    >
-      {context.field_class === 'group' ? (
-        <Group
-          field={context}
-          valueHook={usePostMetaValue}
-        />
-      ) : (
-        <FieldRouter
-          field={context}
-          valueHook={usePostMetaValue}
-        />
-      )}
-    </PluginDocumentSettingPanel>
+    context.limit !== 1 ? (
+      <Group
+        field={context}
+        valueHook={usePostMetaValue}
+      />
+    ) : (
+      <FieldRouter
+        field={context}
+        valueHook={usePostMetaValue}
+      />
+    )
   );
 }

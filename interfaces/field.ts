@@ -1,6 +1,6 @@
 export default interface Field {
   attributes?: {
-    rows?: Number | null;
+    rows?: number | null;
   };
   checked_value?: string;
   field_class?: string;
@@ -9,11 +9,12 @@ export default interface Field {
     add_more_label: string;
     add_more_position: 'bottom' | 'top';
     attributes: {
-      rows: Number | null;
+      rows: number | null;
     };
     children: Array<Field>;
     field_class: string;
     label: string;
+    limit: number,
     name: string;
   };
   label?: string;

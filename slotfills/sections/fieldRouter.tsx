@@ -13,7 +13,7 @@ import RichtextField from './richtext-field';
 interface FieldRouterProps {
   field: Field;
   index?: number;
-  valueHook: (key: number | string) => [string | FMObject | string[] | FMObject[], Function];
+  valueHook: (key: number | string) => [null | string | FMObject | string[] | FMObject[], Function];
 }
 
 export default function FieldRouter({
