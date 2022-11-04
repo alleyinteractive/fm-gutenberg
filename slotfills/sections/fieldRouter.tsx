@@ -9,6 +9,7 @@ import Select from './select';
 import TextField from './text-field';
 import TextareaField from './textarea-field';
 import RichtextField from './richtext-field';
+// import Group from './group';
 
 interface FieldRouterProps {
   field: Field;
@@ -22,12 +23,22 @@ export default function FieldRouter({
     attributes: {
       rows = null,
     } = {},
+    children,
     field_class: fieldClass,
     label = '',
   },
   index,
   valueHook,
 }: FieldRouterProps) {
+  if (children) {
+    console.log('children', children);
+    // return (
+    //   <Group
+    //     field={field}
+    //     valueHook={valueHook}
+    //   />
+    // )
+  }
   if (fieldClass === 'element') {
     return (
       <Checkbox

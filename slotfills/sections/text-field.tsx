@@ -27,12 +27,11 @@ export default function TextField({
   };
   return (
     <PanelRow>
-      {label}
       <TextControl
         label={label}
         onChange={onChange}
         value={initialvalue}
-        key={`text-control-${name}`}
+        key={`text-control-${name}-${index}`}
       />
     </PanelRow>
   );

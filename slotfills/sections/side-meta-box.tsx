@@ -5,10 +5,13 @@ import Field from '@/interfaces/field';
 
 // Components.
 import FieldRouter from './fieldRouter';
-import Group from './group';
+import Repeatable from './repeatable';
 
 interface SideMetaBoxProps {
-  field: Field;
+  field: {
+    title: string;
+    fm: Field;
+  }
 }
 
 export default function SideMetaBox({
@@ -23,7 +26,7 @@ export default function SideMetaBox({
       title={title}
     >
       {context.limit !== 1 ? (
-        <Group
+        <Repeatable
           field={context}
           valueHook={usePostMetaValue}
         />

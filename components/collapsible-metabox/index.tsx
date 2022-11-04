@@ -7,7 +7,10 @@ import { Button } from '@wordpress/components';
 import MetaBox from '../../slotfills/sections/meta-box';
 
 interface MetaBoxProps {
-  field: Field;
+  field: {
+    title: string;
+    fm: Field;
+  }
 }
 
 function CollapsibleMetabox({
