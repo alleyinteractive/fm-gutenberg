@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, PanelRow } from '@wordpress/components';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc'; // TODO: replace with https://github.com/clauderic/dnd-kit
 import { arrayMoveImmutable } from 'array-move';
-import { v4 as uuidv4 } from 'uuid';
 import { __ } from '@wordpress/i18n';
 
 import FMObject from '@/interfaces/fm-object';
