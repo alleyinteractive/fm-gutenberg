@@ -5,7 +5,9 @@ export default interface Field {
     rows?: number | null;
   };
   checked_value?: string;
-  children?: Array<Field>;
+  children?: {
+    [key: string]: Field;
+  },
   field_class?: string;
   first_empty?: boolean;
   label?: string;
