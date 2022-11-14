@@ -20,9 +20,6 @@ export default function MetaBox({
 }: MetaBoxProps) {
   return (
     <div>
-      {/* if ( ( 0 == $this->limit ||
-        ( $this->limit > 1 && $this->limit > $this->minimum_count ) )
-        && 'top' == $this->add_more_position ) { */ }
       {fm.limit !== 1 ? (
         <Repeatable
           field={fm}
