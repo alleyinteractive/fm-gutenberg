@@ -31,7 +31,10 @@ export default function FieldRouter({
 }: FieldRouterProps) {
   if (children && fieldClass === 'group') {
     return (
-      <>
+      <div style={{ border: '1px solid #ccc', padding: '5px' }}>
+        {label ? (
+          <h4>{label}</h4>
+        ) : null}
         {Object.keys(children).map((key) => (
           <FieldRouter
             field={children[key]}
@@ -39,7 +42,7 @@ export default function FieldRouter({
             valueHook={valueHook}
           />
         ))}
-      </>
+      </div>
     );
   }
   if (fieldClass === 'element') {
