@@ -10,6 +10,8 @@ import TextField from './text-field';
 import TextareaField from './textarea-field';
 import RichtextField from './richtext-field';
 
+import './fieldRouter.scss';
+
 interface FieldRouterProps {
   field: Field;
   index?: number;
@@ -31,7 +33,7 @@ export default function FieldRouter({
 }: FieldRouterProps) {
   if (children && fieldClass === 'group') {
     return (
-      <div style={{ border: '1px solid #ccc', padding: '5px' }}>
+      <div className="fm-gutenberg__group">
         {label ? (
           <h4>{label}</h4>
         ) : null}
