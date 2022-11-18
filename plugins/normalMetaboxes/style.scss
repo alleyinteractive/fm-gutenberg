@@ -17,3 +17,16 @@
     }
   }
 }
+
+.fm-gutenberg-flex__column {
+  flex-direction: column;
+}
+
+.fm-gutenberg-item__description {
+  clear: both;
+  color: #999;
+  display: block;
+  font-style: italic;
+  line-height: 1.4;
+  margin: 4px 0 0;
+}

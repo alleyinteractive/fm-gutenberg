@@ -43,6 +43,12 @@
 
 .fm-gutenberg-sortable-list {
   width: 100%;
+
+  li {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 3px;
+  }
 }
 
 .components-base-control {

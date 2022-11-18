@@ -57,7 +57,7 @@ export default function Repeatable({
   };
 
   const addNew = () => {
-    const newValueArray = [...value, {}];
+    const newValueArray = addMorePosition === 'bottom' ? [...value, {}] : [{}, ...value];
     setValue(newValueArray);
   };
 
