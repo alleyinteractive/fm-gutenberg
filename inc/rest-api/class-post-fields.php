@@ -132,7 +132,20 @@ class Post_Fields {
 						continue;
 					}
 
-					if ( empty( $fm->children ) ) {
+					if ( 1 !== $fm->limit && empty( $fm->children ) ) {
+						\FM_Gutenberg\register_meta_helper(
+							'post',
+							[ $post_type ],
+							$fm->name,
+							[
+								'default'      => [],
+								'type'         => 'array',
+								'show_in_rest' => [
+									'schema' => $this->get_schema( $fm ),
+								],
+							]
+						);
+					} elseif ( 1 === $fm->limit && empty( $fm->children ) ) {
 						\FM_Gutenberg\register_meta_helper(
 							'post',
 							[ $post_type ],

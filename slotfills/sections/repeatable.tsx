@@ -2,14 +2,14 @@ import React from 'react';
 import { Button, PanelRow } from '@wordpress/components';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc'; // TODO: replace with https://github.com/clauderic/dnd-kit
 import { arrayMoveImmutable } from 'array-move';
-import { v4 as uuidv4 } from 'uuid';
 import { __ } from '@wordpress/i18n';
 
 import FMObject from '@/interfaces/fm-object';
+import Field from '@/interfaces/field';
 import FieldRouter from './fieldRouter';
 import AddMoreButton from '../../components/add-more-button';
 
-import './group.scss';
+import './repeatable.scss';
 
 interface ChildProps {
   children?: React.ReactNode | React.ReactNode[];
@@ -27,30 +27,23 @@ const SortableList = SortableContainer(({ children }: ChildProps) => (
 
 const DragHandle = SortableHandle(() => <span className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>::</span>);
 
-interface GroupProps {
-  field: {
-    add_more_label: string;
-    add_more_position: 'bottom' | 'top';
-    children: Object;
-    limit?: number,
-    minimumCount?: number,
-    name: string;
-  };
+interface RepeatableProps {
+  field: Field;
   valueHook: (key: number | string) =>
   [number[] | string[] | FMObject[], Function];
 }
 
-export default function Group({
+export default function Repeatable({
+  field,
   field: {
     add_more_label: addMoreLabel = '',
     add_more_position: addMorePosition = 'bottom',
     limit = null,
     minimumCount = null,
     name,
-    children = [],
   },
   valueHook,
-}: GroupProps) {
+}: RepeatableProps) {
   const [value, setValue] = valueHook(name);
 
   const useIndexedValue = (key: number): [any, Function] => {
@@ -95,7 +88,7 @@ export default function Group({
           useDragHandle
         >
           {value ? value.map((childValue: number | string | FMObject, index: number) => {
-            const key = uuidv4();
+            const key = `repeatable-${index}`;
             return (
               <SortableItem
                 key={key}
@@ -113,17 +106,11 @@ export default function Group({
                       </Button>
                     </div>
                     <div>
-                      {Object.keys(children).map((itemKey: keyof typeof children) => {
-                        const child = children[itemKey];
-                        return (
-                          <FieldRouter
-                            field={child}
-                            index={index}
-                            valueHook={useIndexedValue}
-                            key={itemKey}
-                          />
-                        );
-                      })}
+                      <FieldRouter
+                        field={field}
+                        index={index}
+                        valueHook={useIndexedValue}
+                      />
                     </div>
                   </div>
                 </PanelRow>

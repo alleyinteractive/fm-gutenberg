@@ -4,28 +4,33 @@ import usePostMetaValue from './use-post-meta-value';
 
 // Components.
 import FieldRouter from './fieldRouter';
-import Group from './group';
+import Repeatable from './repeatable';
 
 interface MetaBoxProps {
-  field: Field;
+  field: {
+    title: string;
+    fm: Field;
+  }
 }
 
 export default function MetaBox({
   field: {
-    fm: context,
+    fm,
   },
 }: MetaBoxProps) {
   return (
-    context.limit !== 1 ? (
-      <Group
-        field={context}
-        valueHook={usePostMetaValue}
-      />
-    ) : (
-      <FieldRouter
-        field={context}
-        valueHook={usePostMetaValue}
-      />
-    )
+    <div>
+      {fm.limit !== 1 ? (
+        <Repeatable
+          field={fm}
+          valueHook={usePostMetaValue}
+        />
+      ) : (
+        <FieldRouter
+          field={fm}
+          valueHook={usePostMetaValue}
+        />
+      )}
+    </div>
   );
 }

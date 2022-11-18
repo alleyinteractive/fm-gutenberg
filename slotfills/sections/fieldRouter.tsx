@@ -10,6 +10,8 @@ import TextField from './text-field';
 import TextareaField from './textarea-field';
 import RichtextField from './richtext-field';
 
+import './fieldRouter.scss';
+
 interface FieldRouterProps {
   field: Field;
   index?: number;
@@ -22,12 +24,29 @@ export default function FieldRouter({
     attributes: {
       rows = null,
     } = {},
+    children,
     field_class: fieldClass,
     label = '',
   },
   index,
   valueHook,
 }: FieldRouterProps) {
+  if (children && fieldClass === 'group') {
+    return (
+      <div className="fm-gutenberg__group">
+        {label ? (
+          <h4>{label}</h4>
+        ) : null}
+        {Object.keys(children).map((key) => (
+          <FieldRouter
+            field={children[key]}
+            index={index}
+            valueHook={valueHook}
+          />
+        ))}
+      </div>
+    );
+  }
   if (fieldClass === 'element') {
     return (
       <Checkbox
