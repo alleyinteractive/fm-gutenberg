@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, PanelRow } from '@wordpress/components';
-import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc'; // TODO: replace with https://github.com/clauderic/dnd-kit
+import SortableList, { SortableItem, SortableKnob } from 'react-easy-sort'; // TODO: replace with https://github.com/clauderic/dnd-kit
 import { arrayMoveImmutable } from 'array-move';
 import { __ } from '@wordpress/i18n';
 
@@ -11,21 +11,9 @@ import AddMoreButton from '../../components/add-more-button';
 
 import './repeatable.scss';
 
-interface ChildProps {
-  children?: React.ReactNode | React.ReactNode[];
-}
-
-const SortableItem = SortableElement(({ children }: ChildProps) => (
-  <li>
-    {children}
-  </li>
+const CustomKnob = React.forwardRef<HTMLDivElement, {}>((props, ref) => (
+  <span ref={ref} className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>::</span>
 ));
-
-const SortableList = SortableContainer(({ children }: ChildProps) => (
-  <ul className="fm-gutenberg-sortable-list">{children}</ul>
-));
-
-const DragHandle = SortableHandle(() => <span className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>::</span>);
 
 interface RepeatableProps {
   field: Field;
@@ -67,7 +55,7 @@ export default function Repeatable({
     setValue(newValueArray);
   };
 
-  const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number, newIndex: number }) => {
+  const onSortEnd = (oldIndex: number, newIndex: number) => {
     const newValue = arrayMoveImmutable([...value], oldIndex, newIndex);
     setValue(newValue);
   };
@@ -85,19 +73,20 @@ export default function Repeatable({
       <PanelRow>
         <SortableList
           onSortEnd={onSortEnd}
-          useDragHandle
+          className="fm-gutenberg-sortable-list"
         >
           {value ? value.map((childValue: number | string | FMObject, index: number) => {
             const key = `repeatable-${index}`;
             return (
               <SortableItem
                 key={key}
-                index={index}
               >
                 <PanelRow>
                   <div className="fm-gutenberg-panel-container">
                     <div className="fm-gutenberg-controls">
-                      <DragHandle />
+                      <SortableKnob>
+                        <CustomKnob />
+                      </SortableKnob>
                       <Button
                         onClick={() => removeElement(index)}
                         className="fm-gutenberg-remove"
