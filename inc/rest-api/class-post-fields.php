@@ -127,10 +127,10 @@ class Post_Fields {
 					continue;
 				}
 				foreach ( $fm_meta_boxes[ $location ] as $fm_meta_box ) {
-					$fm = $fm_meta_box['fm'];
-					if ( empty( $fm ) ) {
+					if ( empty( $fm_meta_box['fm'] ) ) {
 						continue;
 					}
+					$fm = $fm_meta_box['fm'];
 
 					if ( 1 !== $fm->limit && empty( $fm->children ) ) {
 						\FM_Gutenberg\register_meta_helper(
@@ -196,11 +196,15 @@ class Post_Fields {
 			'normal' => [],
 			'side'   => [],
 		];
-		foreach ( $posttype_meta_boxes['normal'] as $context ) {
-			$meta_boxes['normal'] = array_merge( $meta_boxes, $context );
+		if ( isset( $posttype_meta_boxes['normal'] ) ) {
+			foreach ( $posttype_meta_boxes['normal'] as $context ) {
+				$meta_boxes['normal'] = array_merge( $meta_boxes, $context );
+			}
 		}
-		foreach ( $posttype_meta_boxes['side'] as $context ) {
-			$meta_boxes['side'] = array_merge( $meta_boxes, $context );
+		if ( isset( $posttype_meta_boxes['side'] ) ) {
+			foreach ( $posttype_meta_boxes['side'] as $context ) {
+				$meta_boxes['side'] = array_merge( $meta_boxes, $context );
+			}
 		}
 
 		return $meta_boxes;
@@ -345,7 +349,6 @@ class Post_Fields {
 		unset( $fm->skip_save );
 		unset( $fm->index );
 		unset( $fm->serialize_data );
-		unset( $fm->datasource );
 		unset( $fm->remove_default_meta_boxes );
 		unset( $fm->template );
 		unset( $fm->meta_boxes_to_remove );
@@ -353,8 +356,16 @@ class Post_Fields {
 		unset( $fm->escape );
 		unset( $fm->is_attachment );
 
-		foreach ( $fm->children as $index => $child ) {
-			$fm->children[ $index ] = $this->remove_recursion( $child );
+		if ( isset( $fm->datasource->use_ajax ) && $fm->datasource->use_ajax ) {
+			$class = get_class( $fm->datasource );
+			$instance = new $class;
+			$fm->datasource->ajax_action = $instance->get_ajax_action();
+		}
+
+		if ( ! empty( $fm->children ) ) {
+			foreach ( $fm->children as $index => $child ) {
+				$fm->children[ $index ] = $this->remove_recursion( $child );
+			}
 		}
 
 		return $fm;

@@ -8,6 +8,9 @@ export default interface Field {
   children?: {
     [key: string]: Field;
   };
+  datasource?: {
+
+  };
   default_value?: string;
   description?: string;
   description_after_element: boolean;

@@ -9,6 +9,7 @@ import Select from './select';
 import TextField from './text-field';
 import TextareaField from './textarea-field';
 import RichtextField from './richtext-field';
+import Autocomplete from './autocomplete';
 
 import './fieldRouter.scss';
 
@@ -25,6 +26,7 @@ export default function FieldRouter({
       rows = null,
     } = {},
     children,
+    datasource,
     field_class: fieldClass,
     label = '',
     name = '',
@@ -32,6 +34,7 @@ export default function FieldRouter({
   index,
   valueHook,
 }: FieldRouterProps) {
+  console.log('field', JSON.stringify(field));
   if (children && fieldClass === 'group') {
     return (
       <div className="fm-gutenberg__group" key={`${name}-group`}>
@@ -50,6 +53,16 @@ export default function FieldRouter({
     );
   }
   if (fieldClass === 'element') {
+    if (datasource) {
+      return (
+        <Autocomplete
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+        />
+      );
+    }
     return (
       <Checkbox
         field={field}

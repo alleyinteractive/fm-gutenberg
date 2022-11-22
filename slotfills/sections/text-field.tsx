@@ -12,7 +12,6 @@ interface TextFieldProps {
 }
 
 export default function TextField({
-  field,
   field: {
     attributes = {},
     description = '',
@@ -23,8 +22,6 @@ export default function TextField({
   index = null,
   label = '',
 }: TextFieldProps) {
-  console.log('field', field);
-
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
   let initialvalue = value && typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
   initialvalue = initialvalue ? String(initialvalue) : '';
@@ -37,7 +34,7 @@ export default function TextField({
 
   return (
     <PanelRow>
-      <div className="fm-gutenberg__flex-column">
+      <div className="fm-gutenberg-flex__column">
         {description && !descriptionAfterElement ? (
           <div className="fm-gutenberg-item__description">{description}</div>
         ) : null}
