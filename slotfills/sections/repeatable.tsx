@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, PanelRow } from '@wordpress/components';
-import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc'; // TODO: replace with https://github.com/clauderic/dnd-kit
+import SortableList, { SortableItem, SortableKnob } from 'react-easy-sort'; // TODO: replace with https://github.com/clauderic/dnd-kit
 import { arrayMoveImmutable } from 'array-move';
 import { __ } from '@wordpress/i18n';
 
@@ -11,21 +11,54 @@ import AddMoreButton from '../../components/add-more-button';
 
 import './repeatable.scss';
 
-interface ChildProps {
+const CustomKnob = React.forwardRef<HTMLDivElement, {}>((props, ref) => (
+  <span ref={ref} className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>::</span>
+));
+
+interface MaybeSortableListProps {
   children?: React.ReactNode | React.ReactNode[];
+  onSortEnd: (oldIndex: number, newIndex: number) => void;
+  sortable: boolean;
 }
 
-const SortableItem = SortableElement(({ children }: ChildProps) => (
-  <li>
-    {children}
-  </li>
-));
+function MaybeSortableList({ children, onSortEnd, sortable }: MaybeSortableListProps) {
+  return (
+    sortable ? (
+      <SortableList
+        onSortEnd={onSortEnd}
+        className="fm-gutenberg-sortable-list"
+      >
+        {children}
+      </SortableList>
+    ) : (
+      <ul
+        className="fm-gutenberg-list"
+      >
+        {children}
+      </ul>
+    )
+  );
+}
 
-const SortableList = SortableContainer(({ children }: ChildProps) => (
-  <ul className="fm-gutenberg-sortable-list">{children}</ul>
-));
+interface MaybeSortableItemProps {
+  children?: React.ReactNode | React.ReactNode[];
+  key: string;
+  sortable: boolean;
+}
 
-const DragHandle = SortableHandle(() => <span className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>::</span>);
+function MaybeSortableItem({ children, key, sortable }: MaybeSortableItemProps) {
+  return (
+    sortable ? (
+      <SortableItem key={key}>
+        {children as any}
+      </SortableItem>
+    ) : (
+      <li key={key}>
+        {children}
+      </li>
+    )
+  );
+}
 
 interface RepeatableProps {
   field: Field;
@@ -41,6 +74,7 @@ export default function Repeatable({
     limit = null,
     minimumCount = null,
     name,
+    sortable,
   },
   valueHook,
 }: RepeatableProps) {
@@ -57,7 +91,7 @@ export default function Repeatable({
   };
 
   const addNew = () => {
-    const newValueArray = [...value, {}];
+    const newValueArray = addMorePosition === 'bottom' ? [...value, {}] : [{}, ...value];
     setValue(newValueArray);
   };
 
@@ -67,7 +101,7 @@ export default function Repeatable({
     setValue(newValueArray);
   };
 
-  const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number, newIndex: number }) => {
+  const onSortEnd = (oldIndex: number, newIndex: number) => {
     const newValue = arrayMoveImmutable([...value], oldIndex, newIndex);
     setValue(newValue);
   };
@@ -83,21 +117,22 @@ export default function Repeatable({
         />
       ) : null}
       <PanelRow>
-        <SortableList
-          onSortEnd={onSortEnd}
-          useDragHandle
-        >
+        <MaybeSortableList onSortEnd={onSortEnd} sortable={sortable}>
           {value ? value.map((childValue: number | string | FMObject, index: number) => {
             const key = `repeatable-${index}`;
             return (
-              <SortableItem
+              <MaybeSortableItem
                 key={key}
-                index={index}
+                sortable={sortable}
               >
                 <PanelRow>
                   <div className="fm-gutenberg-panel-container">
                     <div className="fm-gutenberg-controls">
-                      <DragHandle />
+                      {sortable ? (
+                        <SortableKnob>
+                          <CustomKnob />
+                        </SortableKnob>
+                      ) : null}
                       <Button
                         onClick={() => removeElement(index)}
                         className="fm-gutenberg-remove"
@@ -114,10 +149,10 @@ export default function Repeatable({
                     </div>
                   </div>
                 </PanelRow>
-              </SortableItem>
+              </MaybeSortableItem>
             );
           }) : null}
-        </SortableList>
+        </MaybeSortableList>
       </PanelRow>
       {addMorePosition === 'bottom' ? (
         <AddMoreButton

@@ -27,13 +27,14 @@ export default function FieldRouter({
     children,
     field_class: fieldClass,
     label = '',
+    name = '',
   },
   index,
   valueHook,
 }: FieldRouterProps) {
   if (children && fieldClass === 'group') {
     return (
-      <div className="fm-gutenberg__group">
+      <div className="fm-gutenberg__group" key={`${name}-group`}>
         {label ? (
           <h4>{label}</h4>
         ) : null}
@@ -42,6 +43,7 @@ export default function FieldRouter({
             field={children[key]}
             index={index}
             valueHook={valueHook}
+            key={key}
           />
         ))}
       </div>

@@ -146,12 +146,13 @@ class Post_Fields {
 							]
 						);
 					} elseif ( 1 === $fm->limit && empty( $fm->children ) ) {
+						$default = $fm->default_value ?: '';
 						\FM_Gutenberg\register_meta_helper(
 							'post',
 							[ $post_type ],
 							$fm->name,
 							[
-								'default'  => 'media' === $fm->field_class ? '0' : '',
+								'default'  => 'media' === $fm->field_class ? '0' : $default,
 								'sanitize' => $fm->sanitize,
 								'type'     => 'media' === $fm->field_class ? 'integer' : 'string',
 							]
