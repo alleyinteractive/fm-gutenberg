@@ -218,6 +218,7 @@ class Post_Fields {
 	 * @return void
 	 */
 	public function on_fm_context_construct( $instance ) {
+		$this->add_ajax_action( $instance );
 		$box      = [
 			'title' => $instance->title,
 			'fm'    => $instance->fm,
@@ -235,6 +236,17 @@ class Post_Fields {
 				$this->meta_boxes[ $post_type ][ $context ][ $priority ] = [];
 			}
 			$this->meta_boxes[ $post_type ][ $context ][ $priority ][] = $box;
+		}
+	}
+
+	public function add_ajax_action( &$instance ) {
+		if ( $instance->datasource && $instance->datasource->use_ajax ) {
+			$instance->datasource->ajax_action = $instance->datasource->get_ajax_action();
+		}
+		if ( $instance->fm->children ) {
+			foreach( $instance->fm->children as $child ) {
+				$this->add_ajax_action( $child );
+			}
 		}
 	}
 
@@ -355,12 +367,6 @@ class Post_Fields {
 		unset( $fm->index_filter );
 		unset( $fm->escape );
 		unset( $fm->is_attachment );
-
-		if ( isset( $fm->datasource->use_ajax ) && $fm->datasource->use_ajax ) {
-			$class = get_class( $fm->datasource );
-			$instance = new $class;
-			$fm->datasource->ajax_action = $instance->get_ajax_action();
-		}
 
 		if ( ! empty( $fm->children ) ) {
 			foreach ( $fm->children as $index => $child ) {

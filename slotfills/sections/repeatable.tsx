@@ -16,7 +16,7 @@ const CustomKnob = React.forwardRef<HTMLDivElement, {}>((props, ref) => (
 ));
 
 interface MaybeSortableListProps {
-  children?: React.ReactNode | React.ReactNode[];
+  children?: React.ReactNode;
   onSortEnd: (oldIndex: number, newIndex: number) => void;
   sortable: boolean;
 }

@@ -9,7 +9,10 @@ export default interface Field {
     [key: string]: Field;
   };
   datasource?: {
-
+    ajax_action?: string,
+    options?: {
+      [key: string]: string;
+    };
   };
   default_value?: string;
   description?: string;
