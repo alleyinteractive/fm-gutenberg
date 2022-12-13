@@ -239,12 +239,18 @@ class Post_Fields {
 		}
 	}
 
+	/**
+	 * Recursively adds the ajax_action value to a field manager instance.
+	 *
+	 * @param object $instance The field manager instance.
+	 * @return void
+	 */
 	public function add_ajax_action( &$instance ) {
 		if ( $instance->datasource && $instance->datasource->use_ajax ) {
 			$instance->datasource->ajax_action = $instance->datasource->get_ajax_action();
 		}
 		if ( $instance->fm->children ) {
-			foreach( $instance->fm->children as $child ) {
+			foreach ( $instance->fm->children as $child ) {
 				$this->add_ajax_action( $child );
 			}
 		}

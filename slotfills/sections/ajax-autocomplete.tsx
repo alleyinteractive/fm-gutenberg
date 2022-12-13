@@ -21,7 +21,7 @@ interface FormDataProps {
 
 export default function AjaxAutocomplete({
   ajaxAction,
-  initialValue,
+  initialValue, // eslint-disable-line @typescript-eslint/no-unused-vars
   label,
   setValue,
 }: AjaxAutocompleteProps) {
@@ -141,12 +141,18 @@ export default function AjaxAutocomplete({
           {label !== null ? (
             // Downshift handles the label ID for us.
             // eslint-disable-next-line jsx-a11y/label-has-associated-control
-            <label {...getLabelProps()}>{label}</label>
+            <label
+              {// eslint-disable-line react/jsx-props-no-spreading
+                ...getLabelProps()
+              }
+            >
+              {label}
+            </label>
           ) : null}
           <input
             type="text"
             value={inputValue}
-            {...getInputProps({
+            {...getInputProps({ // eslint-disable-line react/jsx-props-no-spreading
               placeholder: __('Search...', 'fm-gutenberg'),
               onChange: handleSearchTextChange,
             })}
@@ -174,7 +180,9 @@ export default function AjaxAutocomplete({
                       .map((item, index) => (
                         <li
                           className="fm-gutenberg-dropdown-item"
-                          {...getItemProps({ key: index, index, item })}
+                          {// eslint-disable-line react/jsx-props-no-spreading
+                            ...getItemProps({ key: index, index, item })
+                          }
                           data-selected={highlightedIndex === index ? 'true' : 'false'}
                           style={{
                             backgroundColor: highlightedIndex === index ? 'lightgray' : 'white',
@@ -193,4 +201,4 @@ export default function AjaxAutocomplete({
       )}
     </Downshift>
   );
-};
+}

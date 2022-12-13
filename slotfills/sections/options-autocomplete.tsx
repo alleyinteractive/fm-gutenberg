@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { Spinner } from '@wordpress/components';
+import React from 'react';
 import Downshift from 'downshift';
 import { __ } from '@wordpress/i18n';
 
+interface Option {
+  label: string;
+  value: string;
+}
 interface OptionsAutocompleteProps {
-  options: {
-    [key: string]: string;
-  };
+  options: Option[],
   label?: string;
   initialValue?: string;
   setValue: Function;
@@ -17,21 +18,12 @@ interface Post {
   value: string;
 }
 
-interface FormDataProps {
-  [key: string]: string;
-}
-
 export default function OptionsAutocomplete({
   options,
-  initialValue,
+  initialValue, // eslint-disable-line @typescript-eslint/no-unused-vars
   label,
   setValue,
 }: OptionsAutocompleteProps) {
-  const [foundPosts, setFoundPosts] = useState<Post[]>([]);
-  const [searchText, setSearchText] = useState('');
-  const [working, setWorking] = useState(false);
-  const threshold = 3;
-
   const onChange = (newValue:Post) => {
     const selectedValue = newValue ? newValue.value : null;
     setValue(selectedValue);
@@ -45,10 +37,6 @@ export default function OptionsAutocomplete({
   const handlePostSelect = (foundPost: Post) => {
     // Call the passed onChange function from props with the post object.
     onChange(foundPost);
-
-    // Reset the internal state.
-    setFoundPosts([]);
-    setSearchText('');
   };
 
   /**
@@ -64,14 +52,7 @@ export default function OptionsAutocomplete({
 
     if (!eventValue || eventValue.length <= 2) {
       onChange(null);
-
-      setFoundPosts([]);
-      setSearchText('');
-
-      return;
     }
-
-    setSearchText(eventValue);
   };
 
   return (
@@ -92,12 +73,18 @@ export default function OptionsAutocomplete({
           {label !== null ? (
             // Downshift handles the label ID for us.
             // eslint-disable-next-line jsx-a11y/label-has-associated-control
-            <label {...getLabelProps()}>{label}</label>
+            <label
+              {// eslint-disable-line react/jsx-props-no-spreading
+                ...getLabelProps()
+              }
+            >
+              {label}
+            </label>
           ) : null}
           <input
             type="text"
             value={inputValue}
-            {...getInputProps({
+            {...getInputProps({ // eslint-disable-line react/jsx-props-no-spreading
               placeholder: __('Search...', 'fm-gutenberg'),
               onChange: handleSearchTextChange,
             })}
@@ -105,38 +92,25 @@ export default function OptionsAutocomplete({
           {isOpen === true ? (
             <div className="fm-gutenberg-dropdown">
               {
-                working ? (
-                  <div className="fm-gutenberg-dropdown-item">
-                    <span role="alert" aria-busy className="screen-reader-text">
-                      {__('Working', 'fm-gutenberg')}
-                    </span>
-                    <Spinner />
-                  </div>
-                ) : null
-              }
-              {
-                foundPosts.length === 0 && !working && inputValue ? (
-                  <ul>
-                    <li>{__('No matches found', 'fm-gutenberg')}</li>
-                  </ul>
-                ) : (
-                  <ul>
-                    {foundPosts
-                      .map((item, index) => (
-                        <li
-                          className="fm-gutenberg-dropdown-item"
-                          {...getItemProps({ key: index, index, item })}
-                          data-selected={highlightedIndex === index ? 'true' : 'false'}
-                          style={{
-                            backgroundColor: highlightedIndex === index ? 'lightgray' : 'white',
-                            fontWeight: selectedItem === item ? 'bold' : 'normal',
-                          }}
-                        >
-                          {item.label}
-                        </li>
-                      ))}
-                  </ul>
-                )
+                // filter the books and return items that match the inputValue
+                options
+                  .filter((item) => !inputValue || item.label.toLowerCase()
+                    .includes(inputValue.toLowerCase()))
+                  // map the return value and return a div
+                  .map((item, index) => (
+                    <div
+                      className="dropdown-item"
+                      {// eslint-disable-line react/jsx-props-no-spreading
+                        ...getItemProps({ key: item.label, index, item })
+                      }
+                      style={{
+                        backgroundColor: highlightedIndex === index ? 'lightgray' : 'white',
+                        fontWeight: selectedItem === item ? 'bold' : 'normal',
+                      }}
+                    >
+                      {item.label}
+                    </div>
+                  ))
               }
             </div>
           ) : null}
@@ -144,4 +118,4 @@ export default function OptionsAutocomplete({
       )}
     </Downshift>
   );
-};
+}

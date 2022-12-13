@@ -34,7 +34,6 @@ export default function FieldRouter({
   index,
   valueHook,
 }: FieldRouterProps) {
-  console.log('field', JSON.stringify(field));
   if (children && fieldClass === 'group') {
     return (
       <div className="fm-gutenberg__group" key={`${name}-group`}>

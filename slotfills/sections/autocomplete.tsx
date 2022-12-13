@@ -23,7 +23,6 @@ export default function Autocomplete({
       ajax_action: ajaxAction = '',
       options = null,
     } = {},
-    attributes = {},
     description = '',
     description_after_element: descriptionAfterElement = true,
     name,
@@ -36,14 +35,12 @@ export default function Autocomplete({
   let initialvalue = value && typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
   initialvalue = initialvalue ? String(initialvalue) : '';
 
-  console.log('Object.keys(options)', Object.keys(options));
-  const optionsArray = Object.keys(options).forEach((key) => (
+  const optionsArray:Array<Option> = Object.keys(options).map((key) => (
     {
       label: options[key],
       value: key,
     } as Option
   ));
-  console.log('optionsArray', optionsArray);
 
   return (
     <PanelRow>
@@ -59,7 +56,7 @@ export default function Autocomplete({
             setValue={setValue}
           />
         ) : null}
-        {optionsArray ? (
+        {optionsArray.length > 0 ? (
           <OptionsAutocomplete
             options={optionsArray}
             label={label}
