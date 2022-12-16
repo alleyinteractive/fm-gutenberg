@@ -35,6 +35,20 @@ export default function FieldRouter({
   valueHook,
 }: FieldRouterProps) {
   if (children && fieldClass === 'group') {
+    const useChildValue = (key: string): [any, Function] => {
+      const [value, setValue] = valueHook(index ?? name);
+      const valueObject = value !== null && typeof value === 'object' && !Array.isArray(value) ? value : { [key]: value };
+      const childValue = valueObject ? valueObject[key] : null;
+      const setChildValue = (newValue: string) => {
+        const newValueObject = {
+          ...valueObject,
+          [key]: newValue,
+        };
+        setValue(newValueObject);
+      };
+      return [childValue, setChildValue];
+    };
+
     return (
       <div className="fm-gutenberg__group" key={`${name}-group`}>
         {label ? (
@@ -43,8 +57,7 @@ export default function FieldRouter({
         {Object.keys(children).map((key) => (
           <FieldRouter
             field={children[key]}
-            index={index}
-            valueHook={valueHook}
+            valueHook={useChildValue}
             key={key}
           />
         ))}
