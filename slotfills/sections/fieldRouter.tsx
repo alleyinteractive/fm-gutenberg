@@ -35,8 +35,8 @@ export default function FieldRouter({
   valueHook,
 }: FieldRouterProps) {
   if (children && fieldClass === 'group') {
+    const [value, setValue] = valueHook(index ?? name);
     const useChildValue = (key: string): [any, Function] => {
-      const [value, setValue] = valueHook(index ?? name);
       const valueObject = value !== null && typeof value === 'object' && !Array.isArray(value) ? value : { [key]: value };
       const childValue = valueObject ? valueObject[key] : null;
       const setChildValue = (newValue: string) => {
