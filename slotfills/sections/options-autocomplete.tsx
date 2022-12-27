@@ -69,7 +69,7 @@ export default function OptionsAutocomplete({
         isOpen,
         selectedItem,
       }) => (
-        <div className="fm-gutenberg-dropdown-wrap">
+        <div>
           {label !== null ? (
             // Downshift handles the label ID for us.
             // eslint-disable-next-line jsx-a11y/label-has-associated-control
@@ -81,39 +81,43 @@ export default function OptionsAutocomplete({
               {label}
             </label>
           ) : null}
-          <input
-            type="text"
-            {...getInputProps({ // eslint-disable-line react/jsx-props-no-spreading
-              value: inputValue !== '' ? inputValue : initialValue,
-              placeholder: __('Search...', 'fm-gutenberg'),
-              onChange: handleSearchTextChange,
-            })}
-          />
-          {isOpen === true ? (
-            <div className="fm-gutenberg-dropdown">
-              {
-                // filter the books and return items that match the inputValue
-                options
-                  .filter((item) => !inputValue || item.label.toLowerCase()
-                    .includes(inputValue.toLowerCase()))
-                  // map the return value and return a div
-                  .map((item, index) => (
-                    <div
-                      className="dropdown-item"
-                      {// eslint-disable-line react/jsx-props-no-spreading
-                        ...getItemProps({ key: item.label, index, item })
-                      }
-                      style={{
-                        backgroundColor: highlightedIndex === index ? 'lightgray' : 'white',
-                        fontWeight: selectedItem === item ? 'bold' : 'normal',
-                      }}
-                    >
-                      {item.label}
-                    </div>
-                  ))
-              }
-            </div>
-          ) : null}
+          <div className="fm-gutenberg-dropdown-wrap">
+            <input
+              type="text"
+              {...getInputProps({ // eslint-disable-line react/jsx-props-no-spreading
+                value: inputValue !== '' ? inputValue : initialValue,
+                placeholder: __('Search...', 'fm-gutenberg'),
+                onChange: handleSearchTextChange,
+              })}
+            />
+            {isOpen === true ? (
+              <div className="fm-gutenberg-dropdown">
+                <ul>
+                  {
+                    // filter the books and return items that match the inputValue
+                    options
+                      .filter((item) => !inputValue || item.label.toLowerCase()
+                        .includes(inputValue.toLowerCase()))
+                      // map the return value and return a div
+                      .map((item, index) => (
+                        <li
+                          className="dropdown-item"
+                          {// eslint-disable-line react/jsx-props-no-spreading
+                            ...getItemProps({ key: item.label, index, item })
+                          }
+                          style={{
+                            backgroundColor: highlightedIndex === index ? 'lightgray' : 'white',
+                            fontWeight: selectedItem === item ? 'bold' : 'normal',
+                          }}
+                        >
+                          {item.label}
+                        </li>
+                      ))
+                  }
+                </ul>
+              </div>
+            ) : null}
+          </div>
         </div>
       )}
     </Downshift>

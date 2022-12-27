@@ -1,0 +1,21 @@
+.fm-gutenberg-dropdown-wrap {
+  display: inline-block;
+
+  .fm-gutenberg-dropdown {
+    background: #fff;
+    border: 1px solid #ccc;
+    position: absolute;
+
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      border: none;
+      cursor: pointer;
+      margin: 0;
+      padding: 2px 5px;
+    }
+  }
+}

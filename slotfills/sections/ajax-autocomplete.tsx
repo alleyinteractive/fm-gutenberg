@@ -169,7 +169,7 @@ export default function AjaxAutocomplete({
         isOpen,
         selectedItem,
       }) => (
-        <div className="fm-gutenberg-dropdown-wrap">
+        <div>
           {label !== null ? (
             // Downshift handles the label ID for us.
             // eslint-disable-next-line jsx-a11y/label-has-associated-control
@@ -181,63 +181,65 @@ export default function AjaxAutocomplete({
               {label}
             </label>
           ) : null}
-          <input
-            type="text"
-            {...getInputProps({ // eslint-disable-line react/jsx-props-no-spreading
-              value: inputValue !== '' ? inputValue : searchText,
-              placeholder: __('Search...', 'fm-gutenberg'),
-              onChange: handleSearchTextChange,
-            })}
-          />
-          {showEditLink && initialValue ? (
-            <a
-              href={ajaxurl.replace('admin-ajax.php', `post.php?post=${initialValue}&action=edit`)}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {__('Edit', 'fm-gutenberg')}
-            </a>
-          ) : null}
-          {isOpen === true ? (
-            <div className="fm-gutenberg-dropdown">
-              {
-                working ? (
-                  <div className="fm-gutenberg-dropdown-item">
-                    <span role="alert" aria-busy className="screen-reader-text">
-                      {__('Working', 'fm-gutenberg')}
-                    </span>
-                    <Spinner />
-                  </div>
-                ) : null
-              }
-              {
-                foundPosts.length === 0 && !working && inputValue ? (
-                  <ul>
-                    <li>{__('No matches found', 'fm-gutenberg')}</li>
-                  </ul>
-                ) : (
-                  <ul>
-                    {foundPosts
-                      .map((item, index) => (
-                        <li
-                          className="fm-gutenberg-dropdown-item"
-                          {// eslint-disable-line react/jsx-props-no-spreading
-                            ...getItemProps({ key: index, index, item })
-                          }
-                          data-selected={highlightedIndex === index ? 'true' : 'false'}
-                          style={{
-                            backgroundColor: highlightedIndex === index ? 'lightgray' : 'white',
-                            fontWeight: selectedItem === item ? 'bold' : 'normal',
-                          }}
-                        >
-                          {item.label}
-                        </li>
-                      ))}
-                  </ul>
-                )
-              }
-            </div>
-          ) : null}
+          <div className="fm-gutenberg-dropdown-wrap">
+            <input
+              type="text"
+              {...getInputProps({ // eslint-disable-line react/jsx-props-no-spreading
+                value: inputValue !== '' ? inputValue : searchText,
+                placeholder: __('Search...', 'fm-gutenberg'),
+                onChange: handleSearchTextChange,
+              })}
+            />
+            {showEditLink && initialValue ? (
+              <a
+                href={ajaxurl.replace('admin-ajax.php', `post.php?post=${initialValue}&action=edit`)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {__('Edit', 'fm-gutenberg')}
+              </a>
+            ) : null}
+            {isOpen === true ? (
+              <div className="fm-gutenberg-dropdown">
+                {
+                  working ? (
+                    <div className="fm-gutenberg-dropdown-item">
+                      <span role="alert" aria-busy className="screen-reader-text">
+                        {__('Working', 'fm-gutenberg')}
+                      </span>
+                      <Spinner />
+                    </div>
+                  ) : null
+                }
+                {
+                  foundPosts.length === 0 && !working && inputValue ? (
+                    <ul>
+                      <li>{__('No matches found', 'fm-gutenberg')}</li>
+                    </ul>
+                  ) : (
+                    <ul>
+                      {foundPosts
+                        .map((item, index) => (
+                          <li
+                            className="fm-gutenberg-dropdown-item"
+                            {// eslint-disable-line react/jsx-props-no-spreading
+                              ...getItemProps({ key: index, index, item })
+                            }
+                            data-selected={highlightedIndex === index ? 'true' : 'false'}
+                            style={{
+                              backgroundColor: highlightedIndex === index ? 'lightgray' : 'white',
+                              fontWeight: selectedItem === item ? 'bold' : 'normal',
+                            }}
+                          >
+                            {item.label}
+                          </li>
+                        ))}
+                    </ul>
+                  )
+                }
+              </div>
+            ) : null}
+          </div>
         </div>
       )}
     </Downshift>

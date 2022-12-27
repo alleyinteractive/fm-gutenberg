@@ -5,6 +5,8 @@ import FMObject from '@/interfaces/fm-object';
 import AjaxAutocomplete from './ajax-autocomplete';
 import OptionsAutocomplete from './options-autocomplete';
 
+import './autocomplete.scss';
+
 interface AutocompleteProps {
   field: Field;
   index?: number;
