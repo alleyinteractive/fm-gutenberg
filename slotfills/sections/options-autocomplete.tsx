@@ -1,6 +1,7 @@
 import React from 'react';
 import Downshift from 'downshift';
 import { __ } from '@wordpress/i18n';
+import { Input } from 'postcss';
 
 interface Option {
   label: string;
@@ -83,8 +84,8 @@ export default function OptionsAutocomplete({
           ) : null}
           <input
             type="text"
-            value={inputValue}
             {...getInputProps({ // eslint-disable-line react/jsx-props-no-spreading
+              value: inputValue !== '' ? inputValue : initialValue,
               placeholder: __('Search...', 'fm-gutenberg'),
               onChange: handleSearchTextChange,
             })}

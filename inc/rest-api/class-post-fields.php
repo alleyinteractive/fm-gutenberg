@@ -157,6 +157,21 @@ class Post_Fields {
 								'type'     => 'media' === $fm->field_class ? 'integer' : 'string',
 							]
 						);
+					} elseif ( 1 === $fm->limit && ! empty( $fm->children ) ) {
+						\FM_Gutenberg\register_meta_helper(
+							'post',
+							[ $post_type ],
+							$fm->name,
+							[
+								'type'         => 'object',
+								'show_in_rest' => [
+									'schema' => [
+										'type' => 'object',
+										'properties' => $this->get_object_properties( $fm->children ),
+									],
+								],
+							]
+						);
 					} else {
 						\FM_Gutenberg\register_meta_helper(
 							'post',
@@ -300,7 +315,8 @@ class Post_Fields {
 	/**
 	 * Formats the schema for the provided array of config data.
 	 *
-	 * @param [type] $children The array of FieldManager config data.
+	 * @param array $children The array of FieldManager config data.
+	 * @param bool
 	 * @return array
 	 */
 	private function get_schema( $children ) {
@@ -318,6 +334,23 @@ class Post_Fields {
 		return [
 			'items' => $output,
 		];
+	}
+
+	/**
+	 * Formats the schema for the provided array of config data.
+	 *
+	 * @param array $children The array of FieldManager config data.
+	 * @param bool
+	 * @return array
+	 */
+	private function get_object_properties( $children ) {
+		$output = [];
+		foreach ( $children as $child ) {
+			$output[$child->name] = [
+				'type' => [ 'integer', 'string' ],
+			];
+		}
+		return $output;
 	}
 
 	/**

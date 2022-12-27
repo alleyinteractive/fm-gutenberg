@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Spinner } from '@wordpress/components';
 import Downshift from 'downshift';
 import { __ } from '@wordpress/i18n';
+import apiFetch from '@wordpress/api-fetch';
+import { isArray } from 'lodash';
 
 interface AjaxAutocompleteProps {
   ajaxAction: string;
   label?: string;
   initialValue?: string;
   setValue: Function;
+  showEditLink?: boolean;
 }
 
 interface Post {
@@ -24,6 +27,7 @@ export default function AjaxAutocomplete({
   initialValue, // eslint-disable-line @typescript-eslint/no-unused-vars
   label,
   setValue,
+  showEditLink = false,
 }: AjaxAutocompleteProps) {
   const [foundPosts, setFoundPosts] = useState<Post[]>([]);
   const [searchText, setSearchText] = useState('');
@@ -54,6 +58,35 @@ export default function AjaxAutocomplete({
     setFoundPosts([]);
     setSearchText('');
   };
+
+  useEffect(() => {
+    /**
+     * Loads found posts for the given post type and search text from the API.
+     * @param {string} searchText - The text string to use when searching.
+     */
+    const loadById = (id: number) => {
+      setWorking(true);
+
+      apiFetch({
+        path: `/wp/v2/search?include=${id}`,
+      })
+        .then((result) => {
+          console.log('result', result);
+          if (!isArray(result)) {
+            return;
+          }
+          if (result.length === 0) {
+            return;
+          }
+          setSearchText(result[0].title);
+
+          setWorking(false);
+        });
+    };
+    if (!Number.isNaN(parseInt(initialValue, 10))) {
+      loadById(parseInt(initialValue, 10));
+    }
+  }, [initialValue]);
 
   /**
    * Loads found posts for the given post type and search text from the API.
@@ -151,12 +184,21 @@ export default function AjaxAutocomplete({
           ) : null}
           <input
             type="text"
-            value={inputValue}
             {...getInputProps({ // eslint-disable-line react/jsx-props-no-spreading
+              value: inputValue !== '' ? inputValue : searchText,
               placeholder: __('Search...', 'fm-gutenberg'),
               onChange: handleSearchTextChange,
             })}
           />
+          {showEditLink && initialValue ? (
+            <a
+              href={ajaxurl.replace('admin-ajax.php', `post.php?post=${initialValue}&action=edit`)}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {__('Edit', 'fm-gutenberg')}
+            </a>
+          ) : null}
           {isOpen === true ? (
             <div className="fm-gutenberg-dropdown">
               {

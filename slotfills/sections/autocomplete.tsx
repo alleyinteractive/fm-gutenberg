@@ -2,6 +2,7 @@ import React from 'react';
 import { PanelRow } from '@wordpress/components';
 import Field from '@/interfaces/field';
 import FMObject from '@/interfaces/fm-object';
+import { __ } from '@wordpress/i18n';
 import AjaxAutocomplete from './ajax-autocomplete';
 import OptionsAutocomplete from './options-autocomplete';
 
@@ -26,6 +27,7 @@ export default function Autocomplete({
     description = '',
     description_after_element: descriptionAfterElement = true,
     name,
+    show_edit_link: showEditLink = false,
   },
   valueHook,
   index = null,
@@ -54,6 +56,7 @@ export default function Autocomplete({
             label={label}
             initialValue={initialvalue}
             setValue={setValue}
+            showEditLink={showEditLink}
           />
         ) : null}
         {optionsArray.length > 0 ? (
