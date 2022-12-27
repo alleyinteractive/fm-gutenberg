@@ -2,7 +2,6 @@ import React from 'react';
 import { PanelRow } from '@wordpress/components';
 import Field from '@/interfaces/field';
 import FMObject from '@/interfaces/fm-object';
-import { __ } from '@wordpress/i18n';
 import AjaxAutocomplete from './ajax-autocomplete';
 import OptionsAutocomplete from './options-autocomplete';
 

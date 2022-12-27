@@ -166,7 +166,7 @@ class Post_Fields {
 								'type'         => 'object',
 								'show_in_rest' => [
 									'schema' => [
-										'type' => 'object',
+										'type'       => 'object',
 										'properties' => $this->get_object_properties( $fm->children ),
 									],
 								],
@@ -316,7 +316,6 @@ class Post_Fields {
 	 * Formats the schema for the provided array of config data.
 	 *
 	 * @param array $children The array of FieldManager config data.
-	 * @param bool
 	 * @return array
 	 */
 	private function get_schema( $children ) {
@@ -340,13 +339,12 @@ class Post_Fields {
 	 * Formats the schema for the provided array of config data.
 	 *
 	 * @param array $children The array of FieldManager config data.
-	 * @param bool
 	 * @return array
 	 */
 	private function get_object_properties( $children ) {
 		$output = [];
 		foreach ( $children as $child ) {
-			$output[$child->name] = [
+			$output[ $child->name ] = [
 				'type' => [ 'integer', 'string' ],
 			];
 		}

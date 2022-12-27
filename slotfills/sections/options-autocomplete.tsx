@@ -1,7 +1,6 @@
 import React from 'react';
 import Downshift from 'downshift';
 import { __ } from '@wordpress/i18n';
-import { Input } from 'postcss';
 
 interface Option {
   label: string;

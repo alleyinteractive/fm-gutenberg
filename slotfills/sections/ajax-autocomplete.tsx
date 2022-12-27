@@ -71,7 +71,6 @@ export default function AjaxAutocomplete({
         path: `/wp/v2/search?include=${id}`,
       })
         .then((result) => {
-          console.log('result', result);
           if (!isArray(result)) {
             return;
           }
