@@ -336,7 +336,7 @@ class Post_Fields {
 	}
 
 	/**
-	 * Formats the schema for the provided array of config data.
+	 * Gets the object properties for an object, used for registering a meta field.
 	 *
 	 * @param array $children The array of FieldManager config data.
 	 * @return array
