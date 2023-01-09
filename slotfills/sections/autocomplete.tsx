@@ -38,7 +38,7 @@ export default function Autocomplete({
   let initialvalue = value && typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
   initialvalue = initialvalue ? String(initialvalue) : '';
 
-  const optionsArray:Array<Option> = Object.keys(options).map((key) => (
+  const optionsArray: Array<Option> = Object.keys(options).map((key) => (
     {
       label: options[key],
       value: key,

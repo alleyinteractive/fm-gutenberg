@@ -3,7 +3,6 @@ import { Spinner } from '@wordpress/components';
 import Downshift from 'downshift';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
-import { isArray } from 'lodash';
 
 interface AjaxAutocompleteProps {
   ajaxAction: string;
@@ -40,7 +39,7 @@ export default function AjaxAutocomplete({
     } = {},
   } = (window as any);
 
-  const onChange = (newValue:Post) => {
+  const onChange = (newValue: Post) => {
     const selectedValue = newValue ? newValue.value : null;
     setValue(selectedValue);
   };
@@ -71,7 +70,7 @@ export default function AjaxAutocomplete({
         path: `/wp/v2/search?include=${id}`,
       })
         .then((result) => {
-          if (!isArray(result)) {
+          if (!Array.isArray(result)) {
             return;
           }
           if (result.length === 0) {
@@ -99,7 +98,7 @@ export default function AjaxAutocomplete({
 
     setWorking(true);
 
-    const formdata:FormDataProps = {
+    const formdata: FormDataProps = {
       action: ajaxAction,
       fm_context: 'post', // TODO: make this dynamic
       fm_subcontext: 'demo-autocomplete', // TODO: make this dynamic
@@ -112,20 +111,20 @@ export default function AjaxAutocomplete({
       `${key}=${formdata[key]}`
     )).join('&');
 
-    fetch(ajaxurl, {
+    apiFetch({
+      url: ajaxurl,
       method: 'POST',
+      body: str,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         'x-requested-with': 'XMLHttpRequest',
       },
-      body: str,
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data === 0) {
+      .then((response) => {
+        if (response === 0) {
           setFoundPosts([]);
-        } else {
-          setFoundPosts(data);
+        } else if (Array.isArray(response)) {
+          setFoundPosts(response);
         }
         setWorking(false);
       });

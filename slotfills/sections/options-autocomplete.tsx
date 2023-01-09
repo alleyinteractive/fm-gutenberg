@@ -24,7 +24,7 @@ export default function OptionsAutocomplete({
   label,
   setValue,
 }: OptionsAutocompleteProps) {
-  const onChange = (newValue:Post) => {
+  const onChange = (newValue: Post) => {
     const selectedValue = newValue ? newValue.value : null;
     setValue(selectedValue);
   };
@@ -94,7 +94,7 @@ export default function OptionsAutocomplete({
               <div className="fm-gutenberg-dropdown">
                 <ul>
                   {
-                    // filter the books and return items that match the inputValue
+                    // filter the options and return items that match the inputValue
                     options
                       .filter((item) => !inputValue || item.label.toLowerCase()
                         .includes(inputValue.toLowerCase()))
