@@ -41,6 +41,15 @@ function action_enqueue_block_editor_assets() {
 		true
 	);
 	inline_locale_data( 'fm-gutenberg-slotfills' );
+
+	wp_enqueue_script(
+		'fm-gutenberg-plugins',
+		get_asset_path( 'plugins.js' ),
+		get_asset_dependencies( 'plugins.php' ),
+		get_asset_hash( 'plugins.js' ),
+		true
+	);
+	inline_locale_data( 'fm-gutenberg-plugins' );
 }
 
 /**

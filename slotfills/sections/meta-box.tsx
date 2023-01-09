@@ -1,38 +1,36 @@
 import React from 'react';
-import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
-import usePostMetaValue from '@/hooks/use-post-meta-value';
 import Field from '@/interfaces/field';
+import usePostMetaValue from './use-post-meta-value';
 
 // Components.
 import FieldRouter from './fieldRouter';
-import Group from './group';
+import Repeatable from './repeatable';
 
 interface MetaBoxProps {
-  field: Field;
+  field: {
+    title: string;
+    fm: Field;
+  }
 }
 
 export default function MetaBox({
   field: {
-    title,
-    fm: context,
+    fm,
   },
 }: MetaBoxProps) {
   return (
-    <PluginDocumentSettingPanel
-      name={context.name}
-      title={title}
-    >
-      {context.field_class === 'group' ? (
-        <Group
-          field={context}
+    <div>
+      {fm.limit !== 1 ? (
+        <Repeatable
+          field={fm}
           valueHook={usePostMetaValue}
         />
       ) : (
         <FieldRouter
-          field={context}
+          field={fm}
           valueHook={usePostMetaValue}
         />
       )}
-    </PluginDocumentSettingPanel>
+    </div>
   );
 }

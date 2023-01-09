@@ -23,7 +23,7 @@ export default function Checkbox({
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
   let initialvalue = typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
   if (typeof initialvalue !== 'boolean') {
-    initialvalue = initialvalue === 'true';
+    initialvalue = initialvalue === '1';
   }
 
   const updateValue = (checked: boolean) => {

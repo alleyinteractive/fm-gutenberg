@@ -30,7 +30,7 @@ export default function MediaField({
 
   const updateValue = (item: UpdateValueProps) => {
     const { id } = item;
-    const newValue = typeof value === 'object' ? { [name]: id } : id;
+    const newValue = typeof value === 'object' && value !== null ? { [name]: id } : id;
     setValue(newValue);
   };
 
