@@ -127,10 +127,10 @@ class Post_Fields {
 					continue;
 				}
 				foreach ( $fm_meta_boxes[ $location ] as $fm_meta_box ) {
-					$fm = $fm_meta_box['fm'];
-					if ( empty( $fm ) ) {
+					if ( empty( $fm_meta_box['fm'] ) ) {
 						continue;
 					}
+					$fm = $fm_meta_box['fm'];
 
 					if ( 1 !== $fm->limit && empty( $fm->children ) ) {
 						\FM_Gutenberg\register_meta_helper(
@@ -155,6 +155,21 @@ class Post_Fields {
 								'default'  => 'media' === $fm->field_class ? '0' : $default,
 								'sanitize' => $fm->sanitize,
 								'type'     => 'media' === $fm->field_class ? 'integer' : 'string',
+							]
+						);
+					} elseif ( 1 === $fm->limit && ! empty( $fm->children ) ) {
+						\FM_Gutenberg\register_meta_helper(
+							'post',
+							[ $post_type ],
+							$fm->name,
+							[
+								'type'         => 'object',
+								'show_in_rest' => [
+									'schema' => [
+										'type'       => 'object',
+										'properties' => $this->get_object_properties( $fm->children ),
+									],
+								],
 							]
 						);
 					} else {
@@ -196,11 +211,15 @@ class Post_Fields {
 			'normal' => [],
 			'side'   => [],
 		];
-		foreach ( $posttype_meta_boxes['normal'] as $context ) {
-			$meta_boxes['normal'] = array_merge( $meta_boxes, $context );
+		if ( isset( $posttype_meta_boxes['normal'] ) ) {
+			foreach ( $posttype_meta_boxes['normal'] as $context ) {
+				$meta_boxes['normal'] = array_merge( $meta_boxes, $context );
+			}
 		}
-		foreach ( $posttype_meta_boxes['side'] as $context ) {
-			$meta_boxes['side'] = array_merge( $meta_boxes, $context );
+		if ( isset( $posttype_meta_boxes['side'] ) ) {
+			foreach ( $posttype_meta_boxes['side'] as $context ) {
+				$meta_boxes['side'] = array_merge( $meta_boxes, $context );
+			}
 		}
 
 		return $meta_boxes;
@@ -214,6 +233,7 @@ class Post_Fields {
 	 * @return void
 	 */
 	public function on_fm_context_construct( $instance ) {
+		$this->add_ajax_action( $instance );
 		$box      = [
 			'title' => $instance->title,
 			'fm'    => $instance->fm,
@@ -231,6 +251,23 @@ class Post_Fields {
 				$this->meta_boxes[ $post_type ][ $context ][ $priority ] = [];
 			}
 			$this->meta_boxes[ $post_type ][ $context ][ $priority ][] = $box;
+		}
+	}
+
+	/**
+	 * Recursively adds the ajax_action value to a field manager instance.
+	 *
+	 * @param object $instance The field manager instance.
+	 * @return void
+	 */
+	public function add_ajax_action( &$instance ) {
+		if ( $instance->datasource && $instance->datasource->use_ajax ) {
+			$instance->datasource->ajax_action = $instance->datasource->get_ajax_action();
+		}
+		if ( $instance->fm->children ) {
+			foreach ( $instance->fm->children as $child ) {
+				$this->add_ajax_action( $child );
+			}
 		}
 	}
 
@@ -278,7 +315,7 @@ class Post_Fields {
 	/**
 	 * Formats the schema for the provided array of config data.
 	 *
-	 * @param [type] $children The array of FieldManager config data.
+	 * @param array $children The array of FieldManager config data.
 	 * @return array
 	 */
 	private function get_schema( $children ) {
@@ -296,6 +333,22 @@ class Post_Fields {
 		return [
 			'items' => $output,
 		];
+	}
+
+	/**
+	 * Gets the object properties for an object, used for registering a meta field.
+	 *
+	 * @param array $children The array of FieldManager config data.
+	 * @return array
+	 */
+	private function get_object_properties( $children ) {
+		$output = [];
+		foreach ( $children as $child ) {
+			$output[ $child->name ] = [
+				'type' => [ 'integer', 'string' ],
+			];
+		}
+		return $output;
 	}
 
 	/**
@@ -345,7 +398,6 @@ class Post_Fields {
 		unset( $fm->skip_save );
 		unset( $fm->index );
 		unset( $fm->serialize_data );
-		unset( $fm->datasource );
 		unset( $fm->remove_default_meta_boxes );
 		unset( $fm->template );
 		unset( $fm->meta_boxes_to_remove );
@@ -353,8 +405,10 @@ class Post_Fields {
 		unset( $fm->escape );
 		unset( $fm->is_attachment );
 
-		foreach ( $fm->children as $index => $child ) {
-			$fm->children[ $index ] = $this->remove_recursion( $child );
+		if ( ! empty( $fm->children ) ) {
+			foreach ( $fm->children as $index => $child ) {
+				$fm->children[ $index ] = $this->remove_recursion( $child );
+			}
 		}
 
 		return $fm;

@@ -8,6 +8,12 @@ export default interface Field {
   children?: {
     [key: string]: Field;
   };
+  datasource?: {
+    ajax_action?: string,
+    options?: {
+      [key: string]: string;
+    };
+  };
   default_value?: string;
   description?: string;
   description_after_element: boolean;
@@ -18,6 +24,7 @@ export default interface Field {
   minimumCount?: number;
   name: string;
   options?: string[];
+  show_edit_link?: boolean;
   sortable: boolean;
   title?: string;
   unchecked_value?: string;
