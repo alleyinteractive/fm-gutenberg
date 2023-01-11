@@ -17,13 +17,17 @@ export default interface Field {
   default_value?: string;
   description?: string;
   description_after_element: boolean;
+  display_if?: {
+    src?: string;
+    value?: string;
+  };
   field_class?: string;
   first_empty?: boolean;
   label?: string;
   limit: number;
   minimumCount?: number;
   name: string;
-  options?: string[];
+  options?: string[] | { [key: string]: string };
   show_edit_link?: boolean;
   sortable: boolean;
   title?: string;

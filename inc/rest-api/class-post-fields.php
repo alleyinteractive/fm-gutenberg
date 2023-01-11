@@ -600,9 +600,21 @@ class Post_Fields {
 						'type'        => 'string',
 						'required'    => false,
 					],
-					'display_if'                => [ // TODO: probably not a string.
+					'display_if'                => [
 						'description' => esc_html__( 'Conditional display rules.', 'fm-gutenberg' ),
-						'type'        => 'string',
+						'type'        => 'object',
+						'properties'  => [
+							'src' => [
+								'description' => esc_html__( 'The name of the field to use as a display trigger' ),
+								'type'        => 'string',
+								'required'    => true,
+							],
+							'value' => [
+								'description' => esc_html__( 'The value the display trigger field must be to display' ),
+								'type'        => 'string',
+								'required'    => true,
+							]
+						],
 						'required'    => false,
 					],
 					'add_more_position'         => [
