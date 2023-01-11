@@ -604,16 +604,16 @@ class Post_Fields {
 						'description' => esc_html__( 'Conditional display rules.', 'fm-gutenberg' ),
 						'type'        => 'object',
 						'properties'  => [
-							'src' => [
-								'description' => esc_html__( 'The name of the field to use as a display trigger' ),
+							'src'   => [
+								'description' => esc_html__( 'The name of the field to use as a display trigger', 'fm-gutenberg' ),
 								'type'        => 'string',
 								'required'    => true,
 							],
 							'value' => [
-								'description' => esc_html__( 'The value the display trigger field must be to display' ),
+								'description' => esc_html__( 'The value the display trigger field must be to display', 'fm-gutenberg' ),
 								'type'        => 'string',
 								'required'    => true,
-							]
+							],
 						],
 						'required'    => false,
 					],
