@@ -27,6 +27,10 @@ export default function FieldRouter({
     } = {},
     children,
     datasource,
+    display_if: {
+      src: displayIfSrc = '',
+      value: displayIfValue = '',
+    } = {},
     field_class: fieldClass,
     label = '',
     name = '',
@@ -35,6 +39,13 @@ export default function FieldRouter({
   valueHook,
 }: FieldRouterProps) {
   console.log('field', field);
+  const [triggerValue] = valueHook(displayIfSrc);
+  let simpleValue = triggerValue && typeof triggerValue === 'object' && !Array.isArray(triggerValue) ? triggerValue[displayIfSrc] : triggerValue;
+  simpleValue = simpleValue ? String(simpleValue) : '';
+
+  if (displayIfSrc !== '' && displayIfValue !== String(simpleValue)) {
+    return null;
+  }
   if (children && fieldClass === 'group') {
     const [value, setValue] = valueHook(index ?? name);
     const useChildValue = (key: string): [any, Function] => {

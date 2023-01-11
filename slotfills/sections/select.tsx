@@ -26,9 +26,16 @@ export default function Select({
     setValue(typeof value === 'object' ? { [name]: newValue } : newValue);
   };
 
-  let optionsWithLabels = options.map((option) => (
-    { label: option, value: option }
-  ));
+  let optionsWithLabels = [];
+  if (typeof options === 'object' && !Array.isArray(options)) {
+    for (const [optionValue, optionLabel] of Object.entries(options)) {
+      optionsWithLabels.push({ label: optionLabel, value: optionValue });
+    }
+  } else {
+    optionsWithLabels = options.map((option) => (
+      { label: option, value: option }
+    ));
+  }
 
   if (firstEmtpy || index !== null) {
     optionsWithLabels = [
