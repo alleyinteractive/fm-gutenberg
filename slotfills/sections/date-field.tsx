@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PanelRow, DatePicker } from '@wordpress/components';
+import { dateI18n } from '@wordpress/date';
 import Field from '@/interfaces/field';
 import FMObject from '@/interfaces/fm-object';
-import parse from 'style-to-js';
 
 interface DateFieldProps {
   field: Field,
@@ -12,16 +12,19 @@ interface DateFieldProps {
 }
 
 export default function DateField({
+  field,
   field: {
     attributes = {},
+    date_format: dateFormat = 'Y-m-d',
     description = '',
     description_after_element: descriptionAfterElement = true,
     name,
   },
   valueHook,
   index = null,
-  label = '',
+  // label = '',
 }: DateFieldProps) {
+  const [showPicker, setShowPicker] = useState(false);
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
   let initialvalue = value && typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
   initialvalue = initialvalue ? String(initialvalue) : '';
@@ -29,6 +32,7 @@ export default function DateField({
   const onChange = (newValue:string) => {
     setValue(newValue);
   };
+  console.log('field', field);
 
   return (
     <PanelRow>
@@ -36,12 +40,15 @@ export default function DateField({
         {description && !descriptionAfterElement ? (
           <div className="fm-gutenberg-item__description">{description}</div>
         ) : null}
-        <DatePicker
-          {...attributes} // eslint-disable-line react/jsx-props-no-spreading
-          onChange={onChange}
-          value={initialvalue}
-          key={`text-control-${name}-${index}`}
-        />
+        <input type="text" defaultValue={dateI18n(dateFormat, new Date(parseInt(initialvalue, 10) * 1000), null)} onClick={() => setShowPicker(!showPicker)} />
+        {showPicker ? (
+          <DatePicker
+            {...attributes} // eslint-disable-line react/jsx-props-no-spreading
+            onChange={onChange}
+            currentDate={parseInt(initialvalue, 10) * 1000}
+            key={`text-control-${name}-${index}`}
+          />
+        ) : null}
         {description && descriptionAfterElement ? (
           <div className="fm-gutenberg-item__description">{description}</div>
         ) : null}
