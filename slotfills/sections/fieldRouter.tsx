@@ -85,7 +85,6 @@ export default function FieldRouter({
       );
       break;
     case 'Fieldmanager_Checkbox':
-    case 'Fieldmanager_Checkboxes':
       return (
         <Checkbox
           field={field}
@@ -93,6 +92,13 @@ export default function FieldRouter({
           index={index}
           label={label}
         />
+      );
+      break;
+    case 'Fieldmanager_Checkboxes':
+      return (
+        <p>
+          Fieldmanager_Checkboxes
+        </p>
       );
       break;
     case 'Fieldmanager_Colorpicker':
