@@ -37,7 +37,7 @@ export default function DateField({
   },
   valueHook,
   index = null,
-  // label = '',
+  label = '',
 }: DateFieldProps) {
   const [showPicker, setShowPicker] = useState(false);
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
@@ -73,7 +73,11 @@ export default function DateField({
         {description && !descriptionAfterElement ? (
           <div className="fm-gutenberg-item__description">{description}</div>
         ) : null}
+        <label htmlFor={`${name}_${index}`}>
+          {label}
+        </label>
         <TextControl
+          id={`${name}_${index}`}
           value={formattedDate}
           onClick={() => setShowPicker(!showPicker)}
           onChange={onFieldChange}
