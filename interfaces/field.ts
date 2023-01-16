@@ -34,4 +34,5 @@ export default interface Field {
   sortable: boolean;
   title?: string;
   unchecked_value?: string;
+  use_time?: boolean;
 }
