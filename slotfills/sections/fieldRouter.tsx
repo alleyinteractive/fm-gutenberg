@@ -152,13 +152,6 @@ export default function FieldRouter({
         );
       }
       break;
-    case 'Fieldmanager_Options':
-      return (
-        <p>
-          Fieldmanager_Options
-        </p>
-      );
-      break;
     case 'Fieldmanager_Password':
       return (
         <p>
