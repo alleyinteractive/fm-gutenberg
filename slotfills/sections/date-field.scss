@@ -1,0 +1,19 @@
+.fm-gutenberg-popup-wrap {
+  display: inline-block;
+
+  .fm-gutenberg-popup {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    position: absolute;
+    z-index: 200;
+
+    &:empty {
+      display: none;
+    }
+
+    &__close {
+      float: right;
+    }
+  }
+}
