@@ -4,11 +4,13 @@ import Field from '@/interfaces/field';
 import FMObject from '@/interfaces/fm-object';
 import parse from 'style-to-js';
 
+import './text-field.scss';
+
 interface TextFieldProps {
   field: Field,
   index?: number,
   label?: string,
-  password?: boolean,
+  type?: string,
   valueHook: (key: number | string) => [string | FMObject | string[] | FMObject[], Function];
 }
 
@@ -22,7 +24,7 @@ export default function TextField({
   valueHook,
   index = null,
   label = '',
-  password = false,
+  type = 'text',
 }: TextFieldProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
   let initialvalue = value && typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
@@ -35,7 +37,7 @@ export default function TextField({
   const styleObject = attributes.style ? parse(attributes.style as string) : {};
 
   return (
-    <PanelRow>
+    <PanelRow className={`fm-gutenberg-field__${type}`}>
       <div className="fm-gutenberg-flex__column">
         {description && !descriptionAfterElement ? (
           <div className="fm-gutenberg-item__description">{description}</div>
@@ -47,7 +49,7 @@ export default function TextField({
           value={initialvalue}
           key={`text-control-${name}-${index}`}
           style={styleObject}
-          type={password ? 'password' : 'text'}
+          type={type}
         />
         {description && descriptionAfterElement ? (
           <div className="fm-gutenberg-item__description">{description}</div>
