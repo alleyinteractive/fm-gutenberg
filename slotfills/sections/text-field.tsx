@@ -8,6 +8,7 @@ interface TextFieldProps {
   field: Field,
   index?: number,
   label?: string,
+  password?: boolean,
   valueHook: (key: number | string) => [string | FMObject | string[] | FMObject[], Function];
 }
 
@@ -21,6 +22,7 @@ export default function TextField({
   valueHook,
   index = null,
   label = '',
+  password = false,
 }: TextFieldProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
   let initialvalue = value && typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
@@ -45,6 +47,7 @@ export default function TextField({
           value={initialvalue}
           key={`text-control-${name}-${index}`}
           style={styleObject}
+          type={password ? 'password' : 'text'}
         />
         {description && descriptionAfterElement ? (
           <div className="fm-gutenberg-item__description">{description}</div>

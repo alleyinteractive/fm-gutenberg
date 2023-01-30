@@ -160,9 +160,13 @@ export default function FieldRouter({
       break;
     case 'Fieldmanager_Password':
       return (
-        <p>
-          Fieldmanager_Password
-        </p>
+        <TextField
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+          password={true}
+        />
       );
       break;
     case 'Fieldmanager_Radios':
