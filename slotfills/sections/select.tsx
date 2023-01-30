@@ -2,6 +2,9 @@ import React from 'react';
 import { PanelRow, SelectControl } from '@wordpress/components';
 import Field from '@/interfaces/field';
 
+// Services.
+import convertToOptionsWithLabels from '@/services/data/convert-to-options-with-labels';
+
 interface SelectProps {
   field: Field;
   index?: number;
@@ -26,16 +29,7 @@ export default function Select({
     setValue(typeof value === 'object' ? { [name]: newValue } : newValue);
   };
 
-  let optionsWithLabels = [];
-  if (typeof options === 'object' && !Array.isArray(options)) {
-    for (const [optionValue, optionLabel] of Object.entries(options)) {
-      optionsWithLabels.push({ label: optionLabel, value: optionValue });
-    }
-  } else {
-    optionsWithLabels = options.map((option) => (
-      { label: option, value: option }
-    ));
-  }
+  let optionsWithLabels = convertToOptionsWithLabels(options);
 
   if (firstEmtpy || index !== null) {
     optionsWithLabels = [
