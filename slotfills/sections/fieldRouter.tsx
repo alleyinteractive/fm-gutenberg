@@ -4,6 +4,7 @@ import FMObject from '@/interfaces/fm-object';
 import Field from '@/interfaces/field';
 import Checkbox from './checkbox';
 import DateField from './date-field';
+import LinkField from './link-field';
 import MediaField from './media-field';
 import Radio from './radio';
 import Select from './select';
@@ -141,9 +142,12 @@ export default function FieldRouter({
       break;
     case 'Fieldmanager_Link':
       return (
-        <p>
-          Fieldmanager_Link
-        </p>
+        <LinkField
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+        />
       );
       break;
     case 'Fieldmanager_Media':
