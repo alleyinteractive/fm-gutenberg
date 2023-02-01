@@ -146,17 +146,38 @@ class Post_Fields {
 							]
 						);
 					} elseif ( 1 === $fm->limit && empty( $fm->children ) ) {
+						// if ( 'checkbox_group' === $fm->name ) {
+						// 	var_dump( $fm );
+						// 	die();
+						// }
 						$default = $fm->default_value ?: '';
-						\FM_Gutenberg\register_meta_helper(
-							'post',
-							[ $post_type ],
-							$fm->name,
-							[
-								'default'  => 'media' === $fm->field_class ? '0' : $default,
-								'sanitize' => $fm->sanitize,
-								'type'     => 'media' === $fm->field_class ? 'integer' : 'string',
-							]
-						);
+						if ( $fm->multiple ) {
+							\FM_Gutenberg\register_meta_helper(
+								'post',
+								[ $post_type ],
+								$fm->name,
+								[
+									'type'         => 'object',
+									'show_in_rest' => [
+										'schema' => [
+											'type'  => 'array',
+											'items' => [ 'integer', 'string' ],
+										],
+									],
+								]
+							);
+						} else {
+							\FM_Gutenberg\register_meta_helper(
+								'post',
+								[ $post_type ],
+								$fm->name,
+								[
+									'default'  => 'media' === $fm->field_class ? '0' : $default,
+									'sanitize' => $fm->sanitize,
+									'type'     => 'media' === $fm->field_class ? 'integer' : 'string',
+								]
+							);
+						}
 					} elseif ( 1 === $fm->limit && ! empty( $fm->children ) ) {
 						\FM_Gutenberg\register_meta_helper(
 							'post',
