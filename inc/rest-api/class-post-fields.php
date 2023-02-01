@@ -146,10 +146,6 @@ class Post_Fields {
 							]
 						);
 					} elseif ( 1 === $fm->limit && empty( $fm->children ) ) {
-						// if ( 'checkbox_group' === $fm->name ) {
-						// 	var_dump( $fm );
-						// 	die();
-						// }
 						$default = $fm->default_value ?: '';
 						if ( $fm->multiple ) {
 							\FM_Gutenberg\register_meta_helper(
