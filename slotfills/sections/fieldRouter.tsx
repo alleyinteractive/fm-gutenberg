@@ -134,9 +134,13 @@ export default function FieldRouter({
       break;
     case 'Fieldmanager_Hidden':
       return (
-        <p>
-          Fieldmanager_Hidden
-        </p>
+        <TextField
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+          type="hidden"
+        />
       );
       break;
     case 'Fieldmanager_Link':
@@ -160,9 +164,13 @@ export default function FieldRouter({
       break;
     case 'Fieldmanager_Password':
       return (
-        <p>
-          Fieldmanager_Password
-        </p>
+        <TextField
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+          type="password"
+        />
       );
       break;
     case 'Fieldmanager_Radios':
