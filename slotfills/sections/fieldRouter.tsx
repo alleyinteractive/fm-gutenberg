@@ -3,6 +3,7 @@ import React from 'react';
 import FMObject from '@/interfaces/fm-object';
 import Field from '@/interfaces/field';
 import Checkbox from './checkbox';
+import DateField from './date-field';
 import MediaField from './media-field';
 import Radio from './radio';
 import Select from './select';
@@ -22,16 +23,13 @@ interface FieldRouterProps {
 export default function FieldRouter({
   field,
   field: {
-    attributes: {
-      rows = null,
-    } = {},
     children,
-    datasource,
     display_if: {
       src: displayIfSrc = '',
       value: displayIfValue = '',
     } = {},
     field_class: fieldClass,
+    fm_class: fmClass,
     label = '',
     name = '',
   },
@@ -75,8 +73,8 @@ export default function FieldRouter({
       </div>
     );
   }
-  if (fieldClass === 'element') {
-    if (datasource) {
+  switch (fmClass) {
+    case 'Fieldmanager_Autocomplete':
       return (
         <Autocomplete
           field={field}
@@ -85,38 +83,119 @@ export default function FieldRouter({
           label={label}
         />
       );
-    }
-    return (
-      <Checkbox
-        field={field}
-        valueHook={valueHook}
-        index={index}
-        label={label}
-      />
-    );
-  }
-  if (fieldClass === 'radio') {
-    return (
-      <Radio
-        field={field}
-        valueHook={valueHook}
-        index={index}
-        label={label}
-      />
-    );
-  }
-  if (fieldClass === 'select') {
-    return (
-      <Select
-        field={field}
-        valueHook={valueHook}
-        index={index}
-        label={label}
-      />
-    );
-  }
-  if (fieldClass === 'text') {
-    if (rows) {
+      break;
+    case 'Fieldmanager_Checkbox':
+      return (
+        <Checkbox
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+        />
+      );
+      break;
+    case 'Fieldmanager_Checkboxes':
+      return (
+        <p>
+          Fieldmanager_Checkboxes
+        </p>
+      );
+      break;
+    case 'Fieldmanager_Colorpicker':
+      return (
+        <p>
+          Fieldmanager_Colorpicker
+        </p>
+      );
+      break;
+    case 'Fieldmanager_Datepicker':
+      return (
+        <DateField
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+        />
+      );
+      break;
+    case 'Fieldmanager_DraggablePost':
+      return (
+        <p>
+          Fieldmanager_DraggablePost
+        </p>
+      );
+      break;
+    case 'Fieldmanager_Grid':
+      return (
+        <p>
+          Fieldmanager_Grid
+        </p>
+      );
+      break;
+    case 'Fieldmanager_Hidden':
+      return (
+        <p>
+          Fieldmanager_Hidden
+        </p>
+      );
+      break;
+    case 'Fieldmanager_Link':
+      return (
+        <p>
+          Fieldmanager_Link
+        </p>
+      );
+      break;
+    case 'Fieldmanager_Media':
+      if (fieldClass === 'media') {
+        return (
+          <MediaField
+            field={field}
+            valueHook={valueHook}
+            index={index}
+            label={label}
+          />
+        );
+      }
+      break;
+    case 'Fieldmanager_Password':
+      return (
+        <p>
+          Fieldmanager_Password
+        </p>
+      );
+      break;
+    case 'Fieldmanager_Radios':
+      return (
+        <Radio
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+        />
+      );
+      break;
+    case 'Fieldmanager_RichTextArea':
+      return (
+        <RichtextField
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+        />
+      );
+      break;
+    case 'Fieldmanager_Select':
+      return (
+        <Select
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+        />
+      );
+      break;
+    case 'Fieldmanager_TextArea':
       return (
         <TextareaField
           field={field}
@@ -125,35 +204,18 @@ export default function FieldRouter({
           label={label}
         />
       );
-    }
-    return (
-      <TextField
-        field={field}
-        valueHook={valueHook}
-        index={index}
-        label={label}
-      />
-    );
+      break;
+    case 'Fieldmanager_TextField':
+      return (
+        <TextField
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+        />
+      );
+      break;
+    default:
+      return null;
   }
-  if (fieldClass === 'richtext') {
-    return (
-      <RichtextField
-        field={field}
-        valueHook={valueHook}
-        index={index}
-        label={label}
-      />
-    );
-  }
-  if (fieldClass === 'media') {
-    return (
-      <MediaField
-        field={field}
-        valueHook={valueHook}
-        index={index}
-        label={label}
-      />
-    );
-  }
-  return null;
 }

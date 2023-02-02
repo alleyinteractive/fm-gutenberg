@@ -14,6 +14,7 @@ export default interface Field {
       [key: string]: string;
     };
   };
+  date_format?: string;
   default_value?: string;
   description?: string;
   description_after_element: boolean;
@@ -22,6 +23,7 @@ export default interface Field {
     value?: string;
   };
   field_class?: string;
+  fm_class: string;
   first_empty?: boolean;
   label?: string;
   limit: number;
@@ -32,4 +34,5 @@ export default interface Field {
   sortable: boolean;
   title?: string;
   unchecked_value?: string;
+  use_time?: boolean;
 }

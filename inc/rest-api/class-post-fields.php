@@ -410,6 +410,7 @@ class Post_Fields {
 				$fm->children[ $index ] = $this->remove_recursion( $child );
 			}
 		}
+		$fm->fm_class = get_class( $fm );
 
 		return $fm;
 	}
