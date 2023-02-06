@@ -3,6 +3,7 @@ import React from 'react';
 import FMObject from '@/interfaces/fm-object';
 import Field from '@/interfaces/field';
 import Checkbox from './checkbox';
+import Checkboxes from './checkboxes';
 import DateField from './date-field';
 import MediaField from './media-field';
 import Radio from './radio';
@@ -96,9 +97,12 @@ export default function FieldRouter({
       break;
     case 'Fieldmanager_Checkboxes':
       return (
-        <p>
-          Fieldmanager_Checkboxes
-        </p>
+        <Checkboxes
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+        />
       );
       break;
     case 'Fieldmanager_Colorpicker':
