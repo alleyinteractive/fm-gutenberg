@@ -32,6 +32,7 @@ export default interface Field {
   options?: string[] | { [key: string]: string };
   show_edit_link?: boolean;
   sortable: boolean;
+  tabbed?: string;
   title?: string;
   unchecked_value?: string;
   use_time?: boolean;

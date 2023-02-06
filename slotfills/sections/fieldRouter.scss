@@ -1,4 +1,27 @@
+@import '../../node_modules/react-tabs/style/react-tabs.css';
+
 .fm-gutenberg__group {
   border: 1px solid #ccc;
   padding: 5px;
+}
+
+.react-tabs__vertical {
+  display: flex;
+
+  .react-tabs__tab-list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+  }
+
+  .react-tabs__tab {
+    cursor: pointer;
+    list-style: none;
+    padding: 12px 6px;
+  }
+
+  .react-tabs__tab-panel {
+    flex: 1;
+  }
 }
