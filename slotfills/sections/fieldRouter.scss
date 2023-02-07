@@ -5,20 +5,39 @@
   padding: 5px;
 }
 
+.react-tabs {
+  li.react-tabs__tab {
+    margin-bottom: 0;
+  }
+
+  li:not(.react-tabs__tab--selected) {
+    background: #ccc;
+    border-color: #aaa;
+    border-radius: 5px 5px 0 0;
+  }
+
+  .fm-gutenberg__group {
+    border: 0;
+  }
+}
+
 .react-tabs__vertical {
   display: flex;
 
   .react-tabs__tab-list {
+    border: 0;
     display: flex;
     flex-direction: column;
     margin: 0;
     padding: 0;
   }
 
-  .react-tabs__tab {
+  li.react-tabs__tab {
+    border-bottom: 1px solid #aaa;
+    border-radius: 0;
     cursor: pointer;
     list-style: none;
-    padding: 12px 6px;
+    padding: 6px 12px;
   }
 
   .react-tabs__tab-panel {
