@@ -9,6 +9,8 @@ import {
   TabPanel,
 } from 'react-tabs';
 
+import SafeHTML from '@/components/safe-html';
+
 import Checkbox from './checkbox';
 import Checkboxes from './checkboxes';
 import DateField from './date-field';
@@ -32,6 +34,7 @@ export default function FieldRouter({
   field,
   field: {
     children,
+    description,
     display_if: {
       src: displayIfSrc = '',
       value: displayIfValue = '',
@@ -86,6 +89,13 @@ export default function FieldRouter({
                 />
               </TabPanel>
             ))}
+            {description ? (
+              <SafeHTML
+                tag="p"
+                className="fm-group-description"
+                html={description}
+              />
+            ) : null}
           </Tabs>
         </>
       ) : (
@@ -100,6 +110,13 @@ export default function FieldRouter({
               key={key}
             />
           ))}
+          {description ? (
+            <SafeHTML
+              tag="p"
+              className="fm-group-description"
+              html={description}
+            />
+          ) : null}
         </div>
       )
     );
