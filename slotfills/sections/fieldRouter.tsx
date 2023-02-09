@@ -2,6 +2,15 @@ import React from 'react';
 
 import FMObject from '@/interfaces/fm-object';
 import Field from '@/interfaces/field';
+import {
+  Tab,
+  Tabs,
+  TabList,
+  TabPanel,
+} from 'react-tabs';
+
+import SafeHTML from '@/components/safe-html';
+
 import Checkbox from './checkbox';
 import Checkboxes from './checkboxes';
 import DateField from './date-field';
@@ -25,6 +34,7 @@ export default function FieldRouter({
   field,
   field: {
     children,
+    description,
     display_if: {
       src: displayIfSrc = '',
       value: displayIfValue = '',
@@ -33,6 +43,7 @@ export default function FieldRouter({
     fm_class: fmClass,
     label = '',
     name = '',
+    tabbed = '',
   },
   index,
   valueHook,
@@ -60,18 +71,54 @@ export default function FieldRouter({
     };
 
     return (
-      <div className="fm-gutenberg__group" key={`${name}-group`}>
-        {label ? (
+      tabbed ? (
+        <>
           <h4>{label}</h4>
-        ) : null}
-        {Object.keys(children).map((key) => (
-          <FieldRouter
-            field={children[key]}
-            valueHook={useChildValue}
-            key={key}
-          />
-        ))}
-      </div>
+          <Tabs className={tabbed === 'vertical' ? 'react-tabs react-tabs__vertical' : 'react-tabs'}>
+            <TabList>
+              {Object.values(children).map((child: Field) => (
+                <Tab>{child.label}</Tab>
+              ))}
+            </TabList>
+            {Object.keys(children).map((key) => (
+              <TabPanel>
+                <FieldRouter
+                  field={children[key]}
+                  valueHook={useChildValue}
+                  key={key}
+                />
+              </TabPanel>
+            ))}
+            {description ? (
+              <SafeHTML
+                tag="p"
+                className="fm-group-description"
+                html={description}
+              />
+            ) : null}
+          </Tabs>
+        </>
+      ) : (
+        <div className="fm-gutenberg__group" key={`${name}-group`}>
+          {label ? (
+            <h4>{label}</h4>
+          ) : null}
+          {Object.keys(children).map((key) => (
+            <FieldRouter
+              field={children[key]}
+              valueHook={useChildValue}
+              key={key}
+            />
+          ))}
+          {description ? (
+            <SafeHTML
+              tag="p"
+              className="fm-group-description"
+              html={description}
+            />
+          ) : null}
+        </div>
+      )
     );
   }
   switch (fmClass) {
