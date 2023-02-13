@@ -16,6 +16,7 @@ import Checkboxes from './checkboxes';
 import DateField from './date-field';
 import MediaField from './media-field';
 import Radio from './radio';
+import Repeatable from './repeatable';
 import Select from './select';
 import TextField from './text-field';
 import TextareaField from './textarea-field';
@@ -42,18 +43,21 @@ export default function FieldRouter({
     field_class: fieldClass,
     fm_class: fmClass,
     label = '',
+    limit = 1,
     name = '',
     tabbed = '',
   },
-  index,
+  index = null,
   valueHook,
 }: FieldRouterProps) {
-  const [triggerValue] = valueHook(displayIfSrc);
-  let simpleValue = triggerValue && typeof triggerValue === 'object' && !Array.isArray(triggerValue) ? triggerValue[displayIfSrc] : triggerValue;
-  simpleValue = simpleValue ? String(simpleValue) : '';
+  if (displayIfSrc !== '') {
+    const [triggerValue] = valueHook(displayIfSrc);
+    let simpleValue = triggerValue && typeof triggerValue === 'object' && !Array.isArray(triggerValue) ? triggerValue[displayIfSrc] : triggerValue;
+    simpleValue = simpleValue ? String(simpleValue) : '';
 
-  if (displayIfSrc !== '' && displayIfValue !== String(simpleValue)) {
-    return null;
+    if (displayIfValue !== String(simpleValue)) {
+      return null;
+    }
   }
   if (children && fieldClass === 'group') {
     const [value, setValue] = valueHook(index ?? name);
@@ -82,11 +86,20 @@ export default function FieldRouter({
             </TabList>
             {Object.keys(children).map((key) => (
               <TabPanel>
-                <FieldRouter
-                  field={children[key]}
-                  valueHook={useChildValue}
-                  key={key}
-                />
+                {limit !== 1 ? (
+                  <Repeatable
+                    field={children[key]}
+                    valueHook={useChildValue}
+                    key={key}
+                  />
+                ) : (
+                  <FieldRouter
+                    field={children[key]}
+                    index={index}
+                    valueHook={useChildValue}
+                    key={key}
+                  />
+                )}
               </TabPanel>
             ))}
             {description ? (
@@ -104,11 +117,20 @@ export default function FieldRouter({
             <h4>{label}</h4>
           ) : null}
           {Object.keys(children).map((key) => (
-            <FieldRouter
-              field={children[key]}
-              valueHook={useChildValue}
-              key={key}
-            />
+            children[key].limit && children[key].limit !== 1 ? (
+              <Repeatable
+                field={children[key]}
+                valueHook={useChildValue}
+                key={key}
+              />
+            ) : (
+              <FieldRouter
+                field={children[key]}
+                index={index}
+                valueHook={useChildValue}
+                key={key}
+              />
+            )
           ))}
           {description ? (
             <SafeHTML
@@ -196,9 +218,13 @@ export default function FieldRouter({
       break;
     case 'Fieldmanager_Link':
       return (
-        <p>
-          Fieldmanager_Link
-        </p>
+        <TextField
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+          type="url"
+        />
       );
       break;
     case 'Fieldmanager_Media':

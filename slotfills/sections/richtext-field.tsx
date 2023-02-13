@@ -4,6 +4,7 @@ import { PanelRow } from '@wordpress/components';
 import { Editor } from '@tinymce/tinymce-react';
 import Field from '@/interfaces/field';
 import FMObject from '@/interfaces/fm-object';
+import { v4 as uuidv4 } from 'uuid';
 
 declare global {
   const tinyMCEPreInit: {
@@ -13,7 +14,7 @@ declare global {
 
 interface RichtextFieldProps {
   field: Field;
-  index: number;
+  index?: number;
   label: string;
   valueHook: (key: number | string) => [string | FMObject | string[] | FMObject[], Function];
 }
@@ -27,6 +28,7 @@ export default function RichtextField({
   label = '',
 }: RichtextFieldProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
+  console.log('value', value);
   let initialvalue = typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
   initialvalue = initialvalue ? String(initialvalue) : '';
 
@@ -37,10 +39,12 @@ export default function RichtextField({
     setValue(newValue);
   };
 
+  const id = uuidv4();
+
   return (
     <PanelRow>
       <div className="fm-gutenberg-panel-container">
-        <label htmlFor={`${name}_${index}`}>
+        <label htmlFor={id}>
           {label}
         </label>
         <Editor
@@ -57,7 +61,7 @@ export default function RichtextField({
           }}
           onEditorChange={setStateValue}
           onBlur={updateValue}
-          id={`${name}_${index}`}
+          id={id}
         />
       </div>
     </PanelRow>

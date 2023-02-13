@@ -131,7 +131,6 @@ class Post_Fields {
 						continue;
 					}
 					$fm = $fm_meta_box['fm'];
-
 					if ( 1 !== $fm->limit && empty( $fm->children ) ) {
 						\FM_Gutenberg\register_meta_helper(
 							'post',
@@ -200,6 +199,7 @@ class Post_Fields {
 								'show_in_rest' => [
 									'schema' => $this->get_schema( $fm->children ),
 								],
+								// 'sanitize_callback' => fn( $value ) => array_map( $fm->sanitize, $value ),
 							]
 						);
 					}
@@ -342,7 +342,8 @@ class Post_Fields {
 				'type'       => 'object',
 				'properties' => [
 					$child->name => [
-						'type' => 'media' === $child->field_class ? 'integer' : 'string',
+						'type'              => 'media' === $child->field_class ? 'integer' : 'string',
+						'sanitize_callback' => $child->sanitize,
 					],
 				],
 			];
@@ -362,7 +363,8 @@ class Post_Fields {
 		$output = [];
 		foreach ( $children as $child ) {
 			$output[ $child->name ] = [
-				'type' => [ 'integer', 'string' ],
+				'type'              => [ 'integer', 'string' ],
+				'sanitize_callback' => $child->sanitize,
 			];
 		}
 		return $output;
