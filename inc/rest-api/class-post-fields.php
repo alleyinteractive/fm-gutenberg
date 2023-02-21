@@ -155,8 +155,9 @@ class Post_Fields {
 									'type'         => 'object',
 									'show_in_rest' => [
 										'schema' => [
-											'type'  => 'array',
-											'items' => [ 'integer', 'string' ],
+											'type'              => 'array',
+											'items'             => [ 'integer', 'string' ],
+											'sanitize_callback' => $fm->sanitize,
 										],
 									],
 								]
@@ -167,9 +168,9 @@ class Post_Fields {
 								[ $post_type ],
 								$fm->name,
 								[
-									'default'  => 'media' === $fm->field_class ? '0' : $default,
-									'sanitize' => $fm->sanitize,
-									'type'     => 'media' === $fm->field_class ? 'integer' : 'string',
+									'default'           => 'media' === $fm->field_class ? '0' : $default,
+									'sanitize_callback' => $fm->sanitize,
+									'type'              => 'media' === $fm->field_class ? 'integer' : 'string',
 								]
 							);
 						}
@@ -182,8 +183,9 @@ class Post_Fields {
 								'type'         => 'object',
 								'show_in_rest' => [
 									'schema' => [
-										'type'       => 'object',
-										'properties' => $this->get_object_properties( $fm->children ),
+										'type'              => 'object',
+										'properties'        => $this->get_object_properties( $fm->children ),
+										'sanitize_callback' => $fm->sanitize,
 									],
 								],
 							]
@@ -199,7 +201,6 @@ class Post_Fields {
 								'show_in_rest' => [
 									'schema' => $this->get_schema( $fm->children ),
 								],
-								// 'sanitize_callback' => fn( $value ) => array_map( $fm->sanitize, $value ),
 							]
 						);
 					}

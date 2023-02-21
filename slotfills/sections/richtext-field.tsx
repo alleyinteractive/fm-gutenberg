@@ -28,7 +28,6 @@ export default function RichtextField({
   label = '',
 }: RichtextFieldProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
-  console.log('value', value);
   let initialvalue = typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
   initialvalue = initialvalue ? String(initialvalue) : '';
 

@@ -43,7 +43,6 @@ export default function FieldRouter({
     field_class: fieldClass,
     fm_class: fmClass,
     label = '',
-    limit = 1,
     name = '',
     tabbed = '',
   },
@@ -86,20 +85,12 @@ export default function FieldRouter({
             </TabList>
             {Object.keys(children).map((key) => (
               <TabPanel>
-                {limit !== 1 ? (
-                  <Repeatable
-                    field={children[key]}
-                    valueHook={useChildValue}
-                    key={key}
-                  />
-                ) : (
-                  <FieldRouter
-                    field={children[key]}
-                    index={index}
-                    valueHook={useChildValue}
-                    key={key}
-                  />
-                )}
+                <FieldRouter
+                  field={children[key]}
+                  index={index}
+                  valueHook={useChildValue}
+                  key={key}
+                />
               </TabPanel>
             ))}
             {description ? (
@@ -117,20 +108,11 @@ export default function FieldRouter({
             <h4>{label}</h4>
           ) : null}
           {Object.keys(children).map((key) => (
-            children[key].limit && children[key].limit !== 1 ? (
-              <Repeatable
-                field={children[key]}
-                valueHook={useChildValue}
-                key={key}
-              />
-            ) : (
-              <FieldRouter
-                field={children[key]}
-                index={index}
-                valueHook={useChildValue}
-                key={key}
-              />
-            )
+            <FieldRouter
+              field={children[key]}
+              valueHook={useChildValue}
+              key={key}
+            />
           ))}
           {description ? (
             <SafeHTML
@@ -271,6 +253,7 @@ export default function FieldRouter({
       );
       break;
     case 'Fieldmanager_Select':
+      console.log('field', field);
       return (
         <Select
           field={field}

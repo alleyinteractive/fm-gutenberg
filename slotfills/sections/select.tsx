@@ -14,7 +14,7 @@ interface SelectProps {
 
 export default function Select({
   field: {
-    first_empty: firstEmtpy,
+    first_empty: firstEmpty,
     name,
     options,
   },
@@ -31,7 +31,7 @@ export default function Select({
 
   let optionsWithLabels = convertToOptionsWithLabels(options);
 
-  if (firstEmtpy || index !== null) {
+  if (firstEmpty || index !== null) {
     optionsWithLabels = [
       { label: '', value: '' },
       ...optionsWithLabels,
