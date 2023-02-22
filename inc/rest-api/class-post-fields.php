@@ -142,7 +142,7 @@ class Post_Fields {
 								'show_in_rest' => [
 									'schema' => [
 										'items' => [
-											'type'              => 'media' === $fm->field_class ? 'integer' : 'string',
+											'type' => 'media' === $fm->field_class ? 'integer' : 'string',
 											'sanitize_callback' => $fm->sanitize,
 										],
 									],
@@ -160,8 +160,8 @@ class Post_Fields {
 									'type'         => 'object',
 									'show_in_rest' => [
 										'schema' => [
-											'type'              => 'array',
-											'items'             => [ 'integer', 'string' ],
+											'type'  => 'array',
+											'items' => [ 'integer', 'string' ],
 											'sanitize_callback' => $fm->sanitize,
 										],
 									],
@@ -188,8 +188,8 @@ class Post_Fields {
 								'type'         => 'object',
 								'show_in_rest' => [
 									'schema' => [
-										'type'              => 'object',
-										'properties'        => $this->get_object_properties( $fm->children ),
+										'type'       => 'object',
+										'properties' => $this->get_object_properties( $fm->children ),
 										'sanitize_callback' => $fm->sanitize,
 									],
 								],
@@ -345,7 +345,7 @@ class Post_Fields {
 
 		$properties = [];
 		foreach ( $children as $child ) {
-			$properties[$child->name] = [
+			$properties[ $child->name ] = [
 				'type' => 'media' === $child->field_class ? 'integer' : 'string',
 			];
 		}
