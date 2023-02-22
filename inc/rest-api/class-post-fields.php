@@ -140,7 +140,12 @@ class Post_Fields {
 								'default'      => [],
 								'type'         => 'array',
 								'show_in_rest' => [
-									'schema' => $this->get_child_schema( $fm ),
+									'schema' => [
+										'items' => [
+											'type'              => 'media' === $fm->field_class ? 'integer' : 'string',
+											'sanitize_callback' => $fm->sanitize,
+										],
+									],
 								],
 							]
 						);
@@ -348,21 +353,6 @@ class Post_Fields {
 			'items' => [
 				'type'       => 'object',
 				'properties' => $properties,
-			],
-		];
-	}
-
-	/**
-	 * Formats the schema for the provided array of child config data.
-	 *
-	 * @param array $children The array of FieldManager child config data.
-	 * @return array
-	 */
-	private function get_child_schema( $child ) {
-		return [
-			'items' => [
-				'type'              => 'media' === $child->field_class ? 'integer' : 'string',
-				'sanitize_callback' => $child->sanitize,
 			],
 		];
 	}
