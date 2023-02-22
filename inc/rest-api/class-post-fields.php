@@ -140,13 +140,13 @@ class Post_Fields {
 								'default'      => [],
 								'type'         => 'array',
 								'show_in_rest' => [
-									'schema' => $this->get_schema( $fm ),
+									'schema' => $this->get_child_schema( $fm ),
 								],
 							]
 						);
 					} elseif ( 1 === $fm->limit && empty( $fm->children ) ) {
 						$default = $fm->default_value ?: '';
-						if ( $fm->multiple ) {
+						if ( isset( $fm->multiple ) && $fm->multiple ) {
 							\FM_Gutenberg\register_meta_helper(
 								'post',
 								[ $post_type ],
@@ -279,10 +279,10 @@ class Post_Fields {
 	 * @return void
 	 */
 	public function add_ajax_action( &$instance ) {
-		if ( $instance->datasource && $instance->datasource->use_ajax ) {
+		if ( isset( $instance->datasource ) && $instance->datasource->use_ajax ) {
 			$instance->datasource->ajax_action = $instance->datasource->get_ajax_action();
 		}
-		if ( $instance->fm->children ) {
+		if ( isset( $instance->fm->children ) ) {
 			foreach ( $instance->fm->children as $child ) {
 				$this->add_ajax_action( $child );
 			}
@@ -337,20 +337,33 @@ class Post_Fields {
 	 * @return array
 	 */
 	private function get_schema( $children ) {
-		$output = [];
+
+		$properties = [];
 		foreach ( $children as $child ) {
-			$output[] = [
-				'type'       => 'object',
-				'properties' => [
-					$child->name => [
-						'type'              => 'media' === $child->field_class ? 'integer' : 'string',
-						'sanitize_callback' => $child->sanitize,
-					],
-				],
+			$properties[$child->name] = [
+				'type' => 'media' === $child->field_class ? 'integer' : 'string',
 			];
 		}
 		return [
-			'items' => $output,
+			'items' => [
+				'type'       => 'object',
+				'properties' => $properties,
+			],
+		];
+	}
+
+	/**
+	 * Formats the schema for the provided array of child config data.
+	 *
+	 * @param array $children The array of FieldManager child config data.
+	 * @return array
+	 */
+	private function get_child_schema( $child ) {
+		return [
+			'items' => [
+				'type'              => 'media' === $child->field_class ? 'integer' : 'string',
+				'sanitize_callback' => $child->sanitize,
+			],
 		];
 	}
 

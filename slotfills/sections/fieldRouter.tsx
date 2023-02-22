@@ -16,7 +16,6 @@ import Checkboxes from './checkboxes';
 import DateField from './date-field';
 import MediaField from './media-field';
 import Radio from './radio';
-import Repeatable from './repeatable';
 import Select from './select';
 import TextField from './text-field';
 import TextareaField from './textarea-field';
@@ -253,7 +252,6 @@ export default function FieldRouter({
       );
       break;
     case 'Fieldmanager_Select':
-      console.log('field', field);
       return (
         <Select
           field={field}

@@ -15,6 +15,7 @@ interface TextFieldProps {
 }
 
 export default function TextField({
+  field,
   field: {
     attributes = {},
     description = '',

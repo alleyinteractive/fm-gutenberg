@@ -4,7 +4,7 @@ import Field from '@/interfaces/field';
 import FMObject from '@/interfaces/fm-object';
 import { v4 as uuidv4 } from 'uuid';
 
-import convertToOptionsWithLabels from '@/services/data/convert-to-options-with-labels';
+import convertDataToOptionsWithLabels from '@/services/data/convert-data-to-options-with-labels';
 
 interface CheckboxesProps {
   field: Field;
@@ -15,8 +15,8 @@ interface CheckboxesProps {
 
 export default function Checkboxes({
   field: {
+    data,
     name,
-    options,
   },
   valueHook,
   index = null,
@@ -26,16 +26,19 @@ export default function Checkboxes({
   const initialvalue: String[] = typeof value === 'object' && Array.isArray(value) ? (value as any[]).filter((item) => (typeof item === 'string')) : [value];
 
   const updateValue = (key: string, checked: boolean) => {
-    const newValue = (options as String[]).filter((option): boolean => {
-      if (option === key) {
+    const newValue = data.filter((option): boolean => {
+      const { value: dataValue } = option;
+      if (dataValue === key) {
         return checked;
       }
-      return initialvalue.includes(option);
-    });
+      return initialvalue.includes(dataValue);
+    }).map((option) => (
+      option.value
+    ));
     setValue(newValue);
   };
 
-  const optionsWithLabels = convertToOptionsWithLabels(options);
+  const optionsWithLabels = convertDataToOptionsWithLabels(data);
 
   const uniqueId = uuidv4();
   return (
