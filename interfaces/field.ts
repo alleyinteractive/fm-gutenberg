@@ -8,6 +8,10 @@ export default interface Field {
   children?: {
     [key: string]: Field;
   };
+  data?: {
+    'name': string;
+    'value': string;
+  }[];
   datasource?: {
     ajax_action?: string,
     options?: {

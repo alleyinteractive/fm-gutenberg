@@ -45,15 +45,17 @@ export default function FieldRouter({
     name = '',
     tabbed = '',
   },
-  index,
+  index = null,
   valueHook,
 }: FieldRouterProps) {
-  const [triggerValue] = valueHook(displayIfSrc);
-  let simpleValue = triggerValue && typeof triggerValue === 'object' && !Array.isArray(triggerValue) ? triggerValue[displayIfSrc] : triggerValue;
-  simpleValue = simpleValue ? String(simpleValue) : '';
+  if (displayIfSrc !== '') {
+    const [triggerValue] = valueHook(displayIfSrc);
+    let simpleValue = triggerValue && typeof triggerValue === 'object' && !Array.isArray(triggerValue) ? triggerValue[displayIfSrc] : triggerValue;
+    simpleValue = simpleValue ? String(simpleValue) : '';
 
-  if (displayIfSrc !== '' && displayIfValue !== String(simpleValue)) {
-    return null;
+    if (displayIfValue !== String(simpleValue)) {
+      return null;
+    }
   }
   if (children && fieldClass === 'group') {
     const [value, setValue] = valueHook(index ?? name);
@@ -84,6 +86,7 @@ export default function FieldRouter({
               <TabPanel>
                 <FieldRouter
                   field={children[key]}
+                  index={index}
                   valueHook={useChildValue}
                   key={key}
                 />
@@ -196,9 +199,13 @@ export default function FieldRouter({
       break;
     case 'Fieldmanager_Link':
       return (
-        <p>
-          Fieldmanager_Link
-        </p>
+        <TextField
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+          type="url"
+        />
       );
       break;
     case 'Fieldmanager_Media':

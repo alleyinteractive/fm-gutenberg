@@ -17,22 +17,22 @@ interface SideMetaBoxProps {
 export default function SideMetaBox({
   field: {
     title,
-    fm: context,
+    fm,
   },
 }: SideMetaBoxProps) {
   return (
     <PluginDocumentSettingPanel
-      name={context.name}
+      name={fm.name}
       title={title}
     >
-      {context.limit !== 1 ? (
+      {fm.limit !== 1 ? (
         <Repeatable
-          field={context}
+          field={fm}
           valueHook={usePostMetaValue}
         />
       ) : (
         <FieldRouter
-          field={context}
+          field={fm}
           valueHook={usePostMetaValue}
         />
       )}

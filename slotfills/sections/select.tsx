@@ -3,7 +3,7 @@ import { PanelRow, SelectControl } from '@wordpress/components';
 import Field from '@/interfaces/field';
 
 // Services.
-import convertToOptionsWithLabels from '@/services/data/convert-to-options-with-labels';
+import convertDataToOptionsWithLabels from '@/services/data/convert-data-to-options-with-labels';
 
 interface SelectProps {
   field: Field;
@@ -14,24 +14,24 @@ interface SelectProps {
 
 export default function Select({
   field: {
-    first_empty: firstEmtpy,
+    data,
+    first_empty: firstEmpty,
     name,
-    options,
   },
   valueHook,
   index = null,
   label = '',
 }: SelectProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
-  const initialvalue = typeof value === 'object' ? value[name] : value;
+  const initialvalue = value !== null && typeof value === 'object' ? value[name] : value;
 
   const updateValue = (newValue: string) => {
     setValue(typeof value === 'object' ? { [name]: newValue } : newValue);
   };
 
-  let optionsWithLabels = convertToOptionsWithLabels(options);
+  let optionsWithLabels = convertDataToOptionsWithLabels(data);
 
-  if (firstEmtpy || index !== null) {
+  if (firstEmpty || index !== null) {
     optionsWithLabels = [
       { label: '', value: '' },
       ...optionsWithLabels,

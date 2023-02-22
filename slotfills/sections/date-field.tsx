@@ -62,10 +62,10 @@ export default function DateField({
   };
 
   const dateFormatWithTime = useTime ? `${dateFormat} g:i a` : dateFormat;
-  const formattedDate = gmdateI18n(
+  const formattedDate = initialvalue ? gmdateI18n(
     dateFormatWithTime,
     new Date(parseInt(initialvalue, 10) * 1000),
-  );
+  ) : null;
 
   return (
     <PanelRow>
