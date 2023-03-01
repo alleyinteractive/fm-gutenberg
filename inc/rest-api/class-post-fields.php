@@ -75,7 +75,7 @@ class Post_Fields {
 	 */
 	public function get_value( $post ) {
 		if ( ! current_user_can( 'edit_post', $post['id'] ) ) {
-			// return [];
+			return [];
 		}
 		$post_type     = get_post_type( $post['id'] );
 		$output        = [
@@ -144,7 +144,6 @@ class Post_Fields {
 											'type' => 'media' === $fm->field_class ? 'integer' : 'string',
 											'sanitize_callback' => $fm->sanitize,
 											'validate_callback' => function( $value, $request, $key ) {
-												var_dump( 'validate_callback 1' );
 												if ( empty( $fm->validate ) ) {
 													return true;
 												}
@@ -170,7 +169,6 @@ class Post_Fields {
 											'items' => [ 'integer', 'string' ],
 											'sanitize_callback' => $fm->sanitize,
 											'validate_callback' => function( $value, $request, $key ) {
-												var_dump( 'validate_callback 2' );
 												if ( empty( $fm->validate ) ) {
 													return true;
 												}
@@ -189,7 +187,6 @@ class Post_Fields {
 									'default'           => 'media' === $fm->field_class ? '0' : $default,
 									'sanitize_callback' => $fm->sanitize,
 									'validate_callback' => function( $value, $request, $key ) {
-										var_dump( 'validate_callback 3' );
 										if ( empty( $fm->validate ) ) {
 											return true;
 										}
@@ -212,7 +209,6 @@ class Post_Fields {
 										'properties' => $this->get_object_properties( $fm->children ),
 										'sanitize_callback' => $fm->sanitize,
 										'validate_callback' => function( $value, $request, $key ) {
-											var_dump( 'validate_callback 4' );
 											if ( empty( $fm->validate ) ) {
 												return true;
 											}
@@ -397,7 +393,6 @@ class Post_Fields {
 				'type'              => [ 'integer', 'string' ],
 				'sanitize_callback' => $child->sanitize,
 				'validate_callback' => function( $value, $request, $key ) {
-					var_dump( 'validate_callback 5' );
 					if ( empty( $this->validate ) ) {
 						return true;
 					}
