@@ -91,7 +91,8 @@ export default function Repeatable({
   };
 
   const addNew = () => {
-    const newValueArray = addMorePosition === 'bottom' ? [...value, {}] : [{}, ...value];
+    const newValue = value[0] && typeof value[0] === 'object' ? {} : '';
+    const newValueArray = addMorePosition === 'bottom' ? [...value, newValue] : [newValue, ...value];
     setValue(newValueArray);
   };
 

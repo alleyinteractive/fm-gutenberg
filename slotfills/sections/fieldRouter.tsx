@@ -13,6 +13,7 @@ import SafeHTML from '@/components/safe-html';
 
 import Checkbox from './checkbox';
 import Checkboxes from './checkboxes';
+import ColorPickerField from './color-picker-field';
 import DateField from './date-field';
 import MediaField from './media-field';
 import Radio from './radio';
@@ -157,9 +158,12 @@ export default function FieldRouter({
       break;
     case 'Fieldmanager_Colorpicker':
       return (
-        <p>
-          Fieldmanager_Colorpicker
-        </p>
+        <ColorPickerField
+          field={field}
+          valueHook={valueHook}
+          index={index}
+          label={label}
+        />
       );
       break;
     case 'Fieldmanager_Datepicker':
