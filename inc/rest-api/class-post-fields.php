@@ -682,7 +682,7 @@ class Post_Fields {
 						'description' => esc_html__( 'Custom escaping for labels, descriptions, etc.', 'fm-gutenberg' ),
 						'type'        => 'array',
 						'required'    => false,
-						'items'       => 'string', // Associative array of $field => $callable arguments, for example
+						'items'       => 'string', // Associative array of $field => $callable arguments, for example.
 					],
 					'is_attachment'             => [
 						'description' => esc_html__( 'Is this field an attachment.', 'fm-gutenberg' ),
