@@ -3,6 +3,8 @@ import { PanelRow, RadioControl } from '@wordpress/components';
 import Field from '@/interfaces/field';
 import FMObject from '@/interfaces/fm-object';
 
+import convertDataToOptionsWithLabels from '@/services/data/convert-data-to-options-with-labels';
+
 interface RadioProps {
   field: Field;
   index?: number;
@@ -12,8 +14,8 @@ interface RadioProps {
 
 export default function Radio({
   field: {
+    data,
     name,
-    options,
   },
   valueHook,
   index = null,
@@ -26,9 +28,7 @@ export default function Radio({
     setValue(typeof value === 'object' ? { [name]: newValue } : newValue);
   };
 
-  const optionsWithLabels = options.map((option) => (
-    { label: option, value: option }
-  ));
+  const optionsWithLabels = convertDataToOptionsWithLabels(data);
 
   return (
     <PanelRow>

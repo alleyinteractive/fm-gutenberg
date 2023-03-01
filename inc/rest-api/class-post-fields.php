@@ -131,7 +131,6 @@ class Post_Fields {
 						continue;
 					}
 					$fm = $fm_meta_box['fm'];
-
 					if ( 1 !== $fm->limit && empty( $fm->children ) ) {
 						\FM_Gutenberg\register_meta_helper(
 							'post',
@@ -141,22 +140,45 @@ class Post_Fields {
 								'default'      => [],
 								'type'         => 'array',
 								'show_in_rest' => [
-									'schema' => $this->get_schema( $fm ),
+									'schema' => [
+										'items' => [
+											'type' => 'media' === $fm->field_class ? 'integer' : 'string',
+											'sanitize_callback' => $fm->sanitize,
+										],
+									],
 								],
 							]
 						);
 					} elseif ( 1 === $fm->limit && empty( $fm->children ) ) {
 						$default = $fm->default_value ?: '';
-						\FM_Gutenberg\register_meta_helper(
-							'post',
-							[ $post_type ],
-							$fm->name,
-							[
-								'default'  => 'media' === $fm->field_class ? '0' : $default,
-								'sanitize' => $fm->sanitize,
-								'type'     => 'media' === $fm->field_class ? 'integer' : 'string',
-							]
-						);
+						if ( isset( $fm->multiple ) && $fm->multiple ) {
+							\FM_Gutenberg\register_meta_helper(
+								'post',
+								[ $post_type ],
+								$fm->name,
+								[
+									'type'         => 'object',
+									'show_in_rest' => [
+										'schema' => [
+											'type'  => 'array',
+											'items' => [ 'integer', 'string' ],
+											'sanitize_callback' => $fm->sanitize,
+										],
+									],
+								]
+							);
+						} else {
+							\FM_Gutenberg\register_meta_helper(
+								'post',
+								[ $post_type ],
+								$fm->name,
+								[
+									'default'           => 'media' === $fm->field_class ? '0' : $default,
+									'sanitize_callback' => $fm->sanitize,
+									'type'              => 'media' === $fm->field_class ? 'integer' : 'string',
+								]
+							);
+						}
 					} elseif ( 1 === $fm->limit && ! empty( $fm->children ) ) {
 						\FM_Gutenberg\register_meta_helper(
 							'post',
@@ -168,6 +190,7 @@ class Post_Fields {
 									'schema' => [
 										'type'       => 'object',
 										'properties' => $this->get_object_properties( $fm->children ),
+										'sanitize_callback' => $fm->sanitize,
 									],
 								],
 							]
@@ -261,10 +284,10 @@ class Post_Fields {
 	 * @return void
 	 */
 	public function add_ajax_action( &$instance ) {
-		if ( $instance->datasource && $instance->datasource->use_ajax ) {
+		if ( isset( $instance->datasource ) && $instance->datasource->use_ajax ) {
 			$instance->datasource->ajax_action = $instance->datasource->get_ajax_action();
 		}
-		if ( $instance->fm->children ) {
+		if ( isset( $instance->fm->children ) ) {
 			foreach ( $instance->fm->children as $child ) {
 				$this->add_ajax_action( $child );
 			}
@@ -319,19 +342,18 @@ class Post_Fields {
 	 * @return array
 	 */
 	private function get_schema( $children ) {
-		$output = [];
+
+		$properties = [];
 		foreach ( $children as $child ) {
-			$output[] = [
-				'type'       => 'object',
-				'properties' => [
-					$child->name => [
-						'type' => 'media' === $child->field_class ? 'integer' : 'string',
-					],
-				],
+			$properties[ $child->name ] = [
+				'type' => 'media' === $child->field_class ? 'integer' : 'string',
 			];
 		}
 		return [
-			'items' => $output,
+			'items' => [
+				'type'       => 'object',
+				'properties' => $properties,
+			],
 		];
 	}
 
@@ -345,7 +367,8 @@ class Post_Fields {
 		$output = [];
 		foreach ( $children as $child ) {
 			$output[ $child->name ] = [
-				'type' => [ 'integer', 'string' ],
+				'type'              => [ 'integer', 'string' ],
+				'sanitize_callback' => $child->sanitize,
 			];
 		}
 		return $output;
@@ -410,6 +433,7 @@ class Post_Fields {
 				$fm->children[ $index ] = $this->remove_recursion( $child );
 			}
 		}
+		$fm->fm_class = get_class( $fm );
 
 		return $fm;
 	}
@@ -600,9 +624,21 @@ class Post_Fields {
 						'type'        => 'string',
 						'required'    => false,
 					],
-					'display_if'                => [ // TODO: probably not a string.
+					'display_if'                => [
 						'description' => esc_html__( 'Conditional display rules.', 'fm-gutenberg' ),
-						'type'        => 'string',
+						'type'        => 'object',
+						'properties'  => [
+							'src'   => [
+								'description' => esc_html__( 'The name of the field to use as a display trigger', 'fm-gutenberg' ),
+								'type'        => 'string',
+								'required'    => true,
+							],
+							'value' => [
+								'description' => esc_html__( 'The value the display trigger field must be to display', 'fm-gutenberg' ),
+								'type'        => 'string',
+								'required'    => true,
+							],
+						],
 						'required'    => false,
 					],
 					'add_more_position'         => [

@@ -118,40 +118,41 @@ export default function Repeatable({
       ) : null}
       <PanelRow>
         <MaybeSortableList onSortEnd={onSortEnd} sortable={sortable}>
-          {value ? value.map((childValue: number | string | FMObject, index: number) => {
-            const key = `repeatable-${index}`;
-            return (
-              <MaybeSortableItem
-                key={key}
-                sortable={sortable}
-              >
-                <PanelRow>
-                  <div className="fm-gutenberg-panel-container">
-                    <div className="fm-gutenberg-controls">
-                      {sortable ? (
-                        <SortableKnob>
-                          <CustomKnob />
-                        </SortableKnob>
-                      ) : null}
-                      <Button
-                        onClick={() => removeElement(index)}
-                        className="fm-gutenberg-remove"
-                      >
-                        <span className="screen-reader-text">{__('Remove', 'fm-gutenberg')}</span>
-                      </Button>
+          {value && Array.isArray(value)
+            ? value.map((childValue: number | string | FMObject, childindex: number) => {
+              const key = `repeatable-${childindex}`;
+              return (
+                <MaybeSortableItem
+                  key={key}
+                  sortable={sortable}
+                >
+                  <PanelRow>
+                    <div className="fm-gutenberg-panel-container">
+                      <div className="fm-gutenberg-controls">
+                        {sortable ? (
+                          <SortableKnob>
+                            <CustomKnob />
+                          </SortableKnob>
+                        ) : null}
+                        <Button
+                          onClick={() => removeElement(childindex)}
+                          className="fm-gutenberg-remove"
+                        >
+                          <span className="screen-reader-text">{__('Remove', 'fm-gutenberg')}</span>
+                        </Button>
+                      </div>
+                      <div>
+                        <FieldRouter
+                          field={field}
+                          index={childindex}
+                          valueHook={useIndexedValue}
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <FieldRouter
-                        field={field}
-                        index={index}
-                        valueHook={useIndexedValue}
-                      />
-                    </div>
-                  </div>
-                </PanelRow>
-              </MaybeSortableItem>
-            );
-          }) : null}
+                  </PanelRow>
+                </MaybeSortableItem>
+              );
+            }) : null}
         </MaybeSortableList>
       </PanelRow>
       {addMorePosition === 'bottom' ? (
