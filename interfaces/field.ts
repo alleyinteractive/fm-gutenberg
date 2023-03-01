@@ -8,6 +8,8 @@ export default interface Field {
   children?: {
     [key: string]: Field;
   };
+  collapsed?: boolean;
+  collapsible?: boolean;
   data?: {
     'name': string;
     'value': string;

@@ -112,10 +112,9 @@ class Post_Fields {
 	/**
 	 * Register any meta fields used by Fieldmanager.
 	 *
-	 * @param array $fm_meta_boxes The array of metaboxes.
 	 * @return void
 	 */
-	public function register_meta_fields( $fm_meta_boxes ) {
+	public function register_meta_fields() {
 		if ( ! current_user_can( 'edit_posts' ) ) { // TODO: Can we check this specific post?
 			return;
 		}
@@ -310,7 +309,7 @@ class Post_Fields {
 			preg_match( '/wp\/v2\/([a-z0-9-_]*)\/(\d*)/', $rest_path, $matches );
 
 			if ( ! empty( $matches ) && post_type_exists( $matches[1] ) && current_user_can( 'edit_post', $matches[2] ) ) {
-				$context[] = 'post'; // TODO: Find root post type.
+				$context[] = 'post';
 				$context[] = $matches[1];
 			}
 			$context = array_values( array_filter( array_unique( $context ) ) );
@@ -565,19 +564,21 @@ class Post_Fields {
 						'required'    => false,
 					],
 					'validate'                  => [
-						'description' => esc_html__( 'Whether the input should be validated.', 'fm-gutenberg' ),
+						'description' => esc_html__( 'An array of functions used to validate the input.', 'fm-gutenberg' ),
 						'type'        => 'boolean',
 						'required'    => false,
 					],
-					'validation_rules'          => [ // TODO: Probably not a string.
+					'validation_rules'          => [
 						'description' => esc_html__( 'Validation rules to run on the input.', 'fm-gutenberg' ),
-						'type'        => 'string',
+						'type'        => 'array',
 						'required'    => false,
+						'items'       => 'string',
 					],
-					'validation_messages'       => [ // TODO: Probably not a string.
+					'validation_messages'       => [
 						'description' => esc_html__( 'Messages to display if validation fails.', 'fm-gutenberg' ),
-						'type'        => 'string',
+						'type'        => 'array',
 						'required'    => false,
+						'items'       => 'string',
 					],
 					'required'                  => [
 						'description' => esc_html__( 'Whether the field is required.', 'fm-gutenberg' ),
@@ -589,7 +590,7 @@ class Post_Fields {
 						'type'        => 'string',
 						'required'    => false,
 					],
-					'data_id'                   => [ // TODO: Not sure if this is a number.
+					'data_id'                   => [
 						'description' => esc_html__( 'The data id.', 'fm-gutenberg' ),
 						'type'        => 'number',
 						'required'    => false,
@@ -651,23 +652,24 @@ class Post_Fields {
 						'type'        => 'boolean',
 						'required'    => true,
 					],
-					'template'                  => [ // TODO: Maybe not a string.
+					'template'                  => [
 						'description' => esc_html__( 'The field template.', 'fm-gutenberg' ),
 						'type'        => 'string',
 						'required'    => false,
 					],
-					'meta_boxes_to_remove'      => [ // TODO: Maybe an array?
+					'meta_boxes_to_remove'      => [
 						'description' => esc_html__( 'Metaboxes to remove.', 'fm-gutenberg' ),
-						'type'        => 'string',
+						'type'        => 'array',
 						'required'    => false,
+						'items'       => 'string',
 					],
 					'default_value'             => [
 						'description' => esc_html__( 'Default value.', 'fm-gutenberg' ),
 						'type'        => 'string',
 						'required'    => false,
 					],
-					'index_filter'              => [ // TODO: Don't know what this is.
-						'description' => esc_html__( 'The index filter.', 'fm-gutenberg' ),
+					'index_filter'              => [
+						'description' => esc_html__( 'Function that parses an index value and returns an optionally modified value.', 'fm-gutenberg' ),
 						'type'        => 'string',
 						'required'    => false,
 					],
@@ -676,10 +678,11 @@ class Post_Fields {
 						'type'        => 'string',
 						'required'    => false,
 					],
-					'escape'                    => [ // TODO: Don't know what this is.
-						'description' => esc_html__( 'Whether to escape the input?.', 'fm-gutenberg' ),
-						'type'        => 'boolean',
+					'escape'                    => [
+						'description' => esc_html__( 'Custom escaping for labels, descriptions, etc.', 'fm-gutenberg' ),
+						'type'        => 'array',
 						'required'    => false,
+						'items'       => 'string', // Associative array of $field => $callable arguments, for example
 					],
 					'is_attachment'             => [
 						'description' => esc_html__( 'Is this field an attachment.', 'fm-gutenberg' ),
@@ -689,18 +692,5 @@ class Post_Fields {
 				],
 			],
 		];
-	}
-
-	/**
-	 * Filters the fm_calculated_context to return the current post type.
-	 *
-	 * @param [array] $source The existing calculated context. Probably an empty array.
-	 * @return array
-	 */
-	public function filter_fm_calculated_context( $source ) {
-		$current_url = wp_parse_url( add_query_arg( [] ) );
-		$path_array  = explode( '/', $current_url['path'] );
-		$post_type   = array_pop( $path_array );
-		return [ 'post', $post_type ];
 	}
 }
