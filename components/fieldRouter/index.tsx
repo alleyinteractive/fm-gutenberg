@@ -13,19 +13,19 @@ import { Button } from '@wordpress/components';
 import SafeHTML from '@/components/safe-html';
 import classNames from 'classnames';
 
-import Checkbox from './checkbox';
-import Checkboxes from './checkboxes';
-import ColorPickerField from './color-picker-field';
-import DateField from './date-field';
-import MediaField from './media-field';
-import Radio from './radio';
-import Select from './select';
-import TextField from './text-field';
-import TextareaField from './textarea-field';
-import RichtextField from './richtext-field';
-import Autocomplete from './autocomplete';
+import Checkbox from '../checkbox';
+import Checkboxes from '../checkboxes-field';
+import ColorPickerField from '../color-picker-field';
+import DateField from '../date-field';
+import MediaField from '../media-field';
+import Radio from '../radio';
+import Select from '../select';
+import TextField from '../text-field';
+import TextareaField from '../textarea-field';
+import RichtextField from '../richtext-field';
+import Autocomplete from '../autocomplete';
 
-import './fieldRouter.scss';
+import './index.scss';
 
 interface FieldRouterProps {
   field: Field;

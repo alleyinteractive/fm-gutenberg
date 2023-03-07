@@ -3,7 +3,7 @@ import { PanelRow, ColorPicker, Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import Field from '@/interfaces/field';
 
-import './color-picker.scss';
+import './index.scss';
 
 interface ColorPickerFieldProps {
   field: Field,

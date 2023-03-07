@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { cloneDeep } from 'lodash';
 
-const usePostMeta = () => {
+const useWindowPostMeta = () => {
   const meta = wp.data.select('core/editor').getEditedPostAttribute('meta') ?? {};
   const [stateMeta, setStateMeta] = useState(meta);
   const setMeta = (next) => {
@@ -29,13 +29,13 @@ const usePostMeta = () => {
  * postmeta value. It returns the value for the specified meta key as well as a
  * setter for the meta value. This hook is intended to reduce boilerplate code
  * in components that need to read and write postmeta. It differs from
- * usePostMeta in that it operates on a specific meta key/value pair.
+ * useWindowPostMeta in that it operates on a specific meta key/value pair.
  * By default, it operates on postmeta for the current post.
  * @param {string} metaKey - The meta key for which to manage the value.
  * @returns {array} An array containing the postmeta value and an update function.
  */
-const usePostMetaValue = (metaKey) => {
-  const [meta, setMeta] = usePostMeta();
+const useWindowPostMetaValue = (metaKey) => {
+  const [meta, setMeta] = useWindowPostMeta();
 
   /**
    * A helper function for setting the value for the meta key that this hook is
@@ -50,4 +50,4 @@ const usePostMetaValue = (metaKey) => {
   return [meta[metaKey], setPostMetaValue];
 };
 
-export default usePostMetaValue;
+export default useWindowPostMetaValue;

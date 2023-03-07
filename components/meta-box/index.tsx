@@ -1,10 +1,10 @@
 import React from 'react';
 import Field from '@/interfaces/field';
-import usePostMetaValue from './use-post-meta-value';
+import useWindowPostMeta from '../../hooks/use-window-post-meta-value';
 
 // Components.
-import FieldRouter from './fieldRouter';
-import Repeatable from './repeatable';
+import FieldRouter from '../fieldRouter';
+import Repeatable from '../repeatable';
 
 interface MetaBoxProps {
   field: {
@@ -23,12 +23,12 @@ export default function MetaBox({
       {fm.limit !== 1 ? (
         <Repeatable
           field={fm}
-          valueHook={usePostMetaValue}
+          valueHook={useWindowPostMeta}
         />
       ) : (
         <FieldRouter
           field={fm}
-          valueHook={usePostMetaValue}
+          valueHook={useWindowPostMeta}
         />
       )}
     </div>

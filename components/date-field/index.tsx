@@ -11,7 +11,7 @@ import { __ } from '@wordpress/i18n';
 import Field from '@/interfaces/field';
 import FMObject from '@/interfaces/fm-object';
 
-import './date-field.scss';
+import './index.scss';
 
 interface DateFieldProps {
   field: Field;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PanelRow } from '@wordpress/components';
 import Field from '@/interfaces/field';
-import MediaPicker from '../../components/media-picker';
+import MediaPicker from '../media-picker';
 
 interface MediaFieldProps {
   field: Field,

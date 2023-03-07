@@ -6,10 +6,10 @@ import { __ } from '@wordpress/i18n';
 
 import FMObject from '@/interfaces/fm-object';
 import Field from '@/interfaces/field';
-import FieldRouter from './fieldRouter';
-import AddMoreButton from '../../components/add-more-button';
+import FieldRouter from '../fieldRouter';
+import AddMoreButton from '../add-more-button';
 
-import './repeatable.scss';
+import './index.scss';
 
 const CustomKnob = React.forwardRef<HTMLDivElement, {}>((props, ref) => (
   <span ref={ref} className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>::</span>

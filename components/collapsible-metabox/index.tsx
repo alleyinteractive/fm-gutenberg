@@ -4,7 +4,7 @@ import { uid } from 'react-uid';
 
 import Field from '@/interfaces/field';
 import { Button } from '@wordpress/components';
-import MetaBox from '../../slotfills/sections/meta-box';
+import MetaBox from '../meta-box';
 
 interface MetaBoxProps {
   field: {

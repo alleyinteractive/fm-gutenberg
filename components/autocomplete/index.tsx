@@ -2,10 +2,10 @@ import React from 'react';
 import { PanelRow } from '@wordpress/components';
 import Field from '@/interfaces/field';
 import FMObject from '@/interfaces/fm-object';
-import AjaxAutocomplete from './ajax-autocomplete';
-import OptionsAutocomplete from './options-autocomplete';
+import AjaxAutocomplete from '../ajax-autocomplete';
+import OptionsAutocomplete from '../options-autocomplete';
 
-import './autocomplete.scss';
+import './index.scss';
 
 interface AutocompleteProps {
   field: Field;
