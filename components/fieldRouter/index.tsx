@@ -37,8 +37,6 @@ export default function FieldRouter({
   field,
   field: {
     children,
-    collapsed,
-    collapsible,
     description,
     display_if: {
       src: displayIfSrc = '',
@@ -53,7 +51,6 @@ export default function FieldRouter({
   index = null,
   valueHook,
 }: FieldRouterProps) {
-  const [isCollapsed, setIsCollapsed] = useState(collapsed);
 
   if (displayIfSrc !== '') {
     const [triggerValue] = valueHook(displayIfSrc);
@@ -110,39 +107,20 @@ export default function FieldRouter({
         </>
       ) : (
         <div className="fm-gutenberg__group" key={`${name}-group`}>
-          {label && !collapsible ? (
-            <h4>{label}</h4>
+          {Object.keys(children).map((key) => (
+            <FieldRouter
+              field={children[key]}
+              valueHook={useChildValue}
+              key={key}
+            />
+          ))}
+          {description ? (
+            <SafeHTML
+              tag="p"
+              className="fm-group-description"
+              html={description}
+            />
           ) : null}
-          {label && collapsible ? (
-            <Button isLink onClick={() => setIsCollapsed(!isCollapsed)}>
-              <h4>
-                {label}
-              </h4>
-            </Button>
-          ) : null}
-          <div
-            className={classNames(
-              'fm-gutenberg__group-content',
-              {
-                collapsed: isCollapsed,
-              },
-            )}
-          >
-            {Object.keys(children).map((key) => (
-              <FieldRouter
-                field={children[key]}
-                valueHook={useChildValue}
-                key={key}
-              />
-            ))}
-            {description ? (
-              <SafeHTML
-                tag="p"
-                className="fm-group-description"
-                html={description}
-              />
-            ) : null}
-          </div>
         </div>
       )
     );

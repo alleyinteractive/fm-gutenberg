@@ -22,7 +22,7 @@ export default function Radio({
   label = '',
 }: RadioProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
-  const initialvalue = typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
+  const initialvalue = value !== null && typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
 
   const updateValue = (newValue: string) => {
     setValue(typeof value === 'object' ? { [name]: newValue } : newValue);

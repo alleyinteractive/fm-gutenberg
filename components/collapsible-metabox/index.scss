@@ -1,0 +1,24 @@
+.fm-gutenberg-normal-metabox,
+.fm-gutenberg-repeatable {
+  &::before {
+    bottom: 0;
+    font-family: dashicons;
+    font-size: 15px;
+    height: 15px;
+    left: 0;
+    line-height: 1;
+    margin: auto;
+    position: relative;
+    right: 0;
+    top: 0;
+    width: 15px;
+  }
+
+  &__down::before {
+    content: '\f140';
+  }
+
+  &__up::before {
+    content: '\f142';
+  }
+}

@@ -27,7 +27,6 @@ export default function ColorPickerField({
 
   const updateValue = (newValue: string) => {
     setValue(newValue);
-    setShowPicker(false);
   };
 
   return (

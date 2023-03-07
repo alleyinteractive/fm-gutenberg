@@ -2,6 +2,7 @@ export default interface Field {
   add_more_label: string;
   add_more_position: 'bottom' | 'top';
   attributes?: {
+    rows?: number;
     [key: string]: number | string;
   };
   checked_value?: string;

@@ -13,6 +13,9 @@ interface TextareaFieldProps {
 export default function TextareaField({
   field: {
     name,
+    attributes: {
+      rows = 5,
+    },
   },
   valueHook,
   index = null,
@@ -35,6 +38,7 @@ export default function TextareaField({
         onChange={setStateValue}
         onBlur={updateValue}
         value={stateValue}
+        rows={rows}
       />
     </PanelRow>
   );

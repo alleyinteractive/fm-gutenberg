@@ -6,6 +6,8 @@ import Field from '@/interfaces/field';
 import { Button } from '@wordpress/components';
 import MetaBox from '../meta-box';
 
+import './index.scss';
+
 interface MetaBoxProps {
   field: {
     title: string;
@@ -22,6 +24,12 @@ function CollapsibleMetabox({
       <Button isLink onClick={() => setCollapsed(!collapsed)}>
         <h2>
           {field.title}
+          <span className={classNames(
+            'fm-gutenberg-normal-metabox',
+            { 'fm-gutenberg-normal-metabox__down': collapsed },
+            { 'fm-gutenberg-normal-metabox__up': !collapsed },
+          )}
+          />
         </h2>
       </Button>
       <div className={classNames(
