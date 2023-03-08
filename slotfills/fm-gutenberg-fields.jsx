@@ -3,7 +3,7 @@ import { uid } from 'react-uid';
 
 import { useSelect } from '@wordpress/data';
 
-import SideMetaBox from './sections/side-meta-box';
+import SideMetaBox from '../components/side-meta-box';
 
 const FmGutenbergFields = () => {
   const post = useSelect((select) => (

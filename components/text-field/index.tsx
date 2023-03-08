@@ -4,7 +4,7 @@ import Field from '@/interfaces/field';
 import FMObject from '@/interfaces/fm-object';
 import parse from 'style-to-js';
 
-import './text-field.scss';
+import './index.scss';
 
 interface TextFieldProps {
   field: Field,

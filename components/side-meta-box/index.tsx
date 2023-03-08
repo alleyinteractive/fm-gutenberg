@@ -4,8 +4,8 @@ import usePostMetaValue from '@/hooks/use-post-meta-value';
 import Field from '@/interfaces/field';
 
 // Components.
-import FieldRouter from './fieldRouter';
-import Repeatable from './repeatable';
+import FieldRouter from '../fieldRouter';
+import Repeatable from '../repeatable';
 
 interface SideMetaBoxProps {
   field: {
