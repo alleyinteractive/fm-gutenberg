@@ -13,7 +13,6 @@ interface SelectProps {
 }
 
 export default function Select({
-  field,
   field: {
     attributes: {
       multiple = '',
@@ -26,7 +25,6 @@ export default function Select({
   index = null,
   label = '',
 }: SelectProps) {
-  console.log('multiple', multiple);
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
   const initialvalue = value !== null && typeof value === 'object' ? value[name] : value;
 

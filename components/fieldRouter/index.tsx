@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import FMObject from '@/interfaces/fm-object';
 import Field from '@/interfaces/field';
@@ -8,10 +8,8 @@ import {
   TabList,
   TabPanel,
 } from 'react-tabs';
-import { Button } from '@wordpress/components';
 
 import SafeHTML from '@/components/safe-html';
-import classNames from 'classnames';
 
 import Checkbox from '../checkbox';
 import Checkboxes from '../checkboxes-field';
@@ -51,7 +49,6 @@ export default function FieldRouter({
   index = null,
   valueHook,
 }: FieldRouterProps) {
-
   if (displayIfSrc !== '') {
     const [triggerValue] = valueHook(displayIfSrc);
     let simpleValue = triggerValue && typeof triggerValue === 'object' && !Array.isArray(triggerValue) ? triggerValue[displayIfSrc] : triggerValue;

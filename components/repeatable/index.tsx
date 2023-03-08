@@ -123,7 +123,7 @@ interface RepeatableContentProps {
   children?: React.ReactNode;
   childindex: number;
   collapsedHook: (key: number) => [boolean, Function];
-};
+}
 
 function RepeatableContent({
   children,
