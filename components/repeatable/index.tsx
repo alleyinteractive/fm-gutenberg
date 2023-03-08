@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { forwardRef, useState } from 'react';
 import { Button, PanelRow } from '@wordpress/components';
 import SortableList, { SortableItem, SortableKnob } from 'react-easy-sort'; // TODO: replace with https://github.com/clauderic/dnd-kit
 import { arrayMoveImmutable } from 'array-move';
 import { __ } from '@wordpress/i18n';
+import classNames from 'classnames';
 
 import FMObject from '@/interfaces/fm-object';
 import Field from '@/interfaces/field';
@@ -11,8 +12,14 @@ import AddMoreButton from '../add-more-button';
 
 import './index.scss';
 
-const CustomKnob = React.forwardRef<HTMLDivElement, {}>((props, ref) => (
-  <span ref={ref} className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>::</span>
+interface CustomKnobProps {
+  children?: React.ReactNode;
+}
+
+const CustomKnob = forwardRef<HTMLDivElement, CustomKnobProps>((props, ref) => (
+  <span ref={ref} className="fm-gutenberg-move-handle" aria-label={__('Move', 'fm-gutenberg')}>
+    {props.children}
+  </span>
 ));
 
 interface MaybeSortableListProps {
@@ -42,21 +49,99 @@ function MaybeSortableList({ children, onSortEnd, sortable }: MaybeSortableListP
 
 interface MaybeSortableItemProps {
   children?: React.ReactNode | React.ReactNode[];
-  key: string;
+  keyValue: string;
   sortable: boolean;
 }
 
-function MaybeSortableItem({ children, key, sortable }: MaybeSortableItemProps) {
+function MaybeSortableItem({ children, keyValue, sortable }: MaybeSortableItemProps) {
   return (
     sortable ? (
-      <SortableItem key={key}>
+      <SortableItem key={keyValue}>
         {children as any}
       </SortableItem>
     ) : (
-      <li key={key}>
+      <li key={keyValue}>
         {children}
       </li>
     )
+  );
+}
+
+interface RemoveButtonProps {
+  childindex: number;
+  removeElement: Function;
+}
+
+function RemoveButton({ childindex, removeElement }: RemoveButtonProps) {
+  return (
+    <Button
+      onClick={() => removeElement(childindex)}
+      className="fm-gutenberg-remove"
+    >
+      <span className="screen-reader-text">{__('Remove', 'fm-gutenberg')}</span>
+    </Button>
+  );
+}
+
+interface RepeatableLabelProps {
+  label?: string;
+  collapsible?: boolean;
+  childindex: number;
+  collapsedHook: (key: number) => [boolean, Function];
+}
+
+function RepeatableLabel({
+  label,
+  collapsible,
+  childindex,
+  collapsedHook,
+}: RepeatableLabelProps) {
+  const [itemCollapsed, setItemCollapsed] = collapsedHook(childindex);
+  return (
+    <>
+      {label && !collapsible ? (
+        <h4>{label}</h4>
+      ) : null}
+      {label && collapsible ? (
+        <Button isLink onClick={() => setItemCollapsed(!itemCollapsed)}>
+          <h4>
+            {label}
+            <span className={classNames(
+              'fm-gutenberg-repeatable',
+              { 'fm-gutenberg-repeatable__down': itemCollapsed },
+              { 'fm-gutenberg-repeatable__up': !itemCollapsed },
+            )}
+            />
+          </h4>
+        </Button>
+      ) : null}
+    </>
+  );
+}
+
+interface RepeatableContentProps {
+  children?: React.ReactNode;
+  childindex: number;
+  collapsedHook: (key: number) => [boolean, Function];
+}
+
+function RepeatableContent({
+  children,
+  childindex,
+  collapsedHook,
+}: RepeatableContentProps) {
+  const [itemCollapsed] = collapsedHook(childindex);
+  return (
+    <div
+      className={classNames(
+        'fm-gutenberg__group-content',
+        {
+          collapsed: itemCollapsed,
+        },
+      )}
+    >
+      {children}
+    </div>
   );
 }
 
@@ -71,6 +156,9 @@ export default function Repeatable({
   field: {
     add_more_label: addMoreLabel = '',
     add_more_position: addMorePosition = 'bottom',
+    collapsible,
+    collapsed,
+    label,
     limit = null,
     minimumCount = null,
     name,
@@ -79,6 +167,9 @@ export default function Repeatable({
   valueHook,
 }: RepeatableProps) {
   const [value, setValue] = valueHook(name);
+  const [isCollapsed, setIsCollapsed] = useState(
+    value ? Array(value?.length).fill(collapsed, 0, value.length) : [],
+  );
 
   const useIndexedValue = (key: number): [any, Function] => {
     const indexValue = value[key];
@@ -88,6 +179,16 @@ export default function Repeatable({
       setValue(newValueArray);
     };
     return [indexValue, setIndexValue];
+  };
+
+  const useIndexCollapsed = (key: number): [boolean, Function] => {
+    const indexCollapsed = isCollapsed[key];
+    const setIndexCollapsed = (newValue: boolean) => {
+      const newValueArray = [...isCollapsed];
+      newValueArray[key] = newValue;
+      setIsCollapsed(newValueArray);
+    };
+    return [indexCollapsed, setIndexCollapsed];
   };
 
   const addNew = () => {
@@ -124,7 +225,7 @@ export default function Repeatable({
               const key = `repeatable-${childindex}`;
               return (
                 <MaybeSortableItem
-                  key={key}
+                  keyValue={key}
                   sortable={sortable}
                 >
                   <PanelRow>
@@ -132,23 +233,36 @@ export default function Repeatable({
                       <div className="fm-gutenberg-controls">
                         {sortable ? (
                           <SortableKnob>
-                            <CustomKnob />
+                            <CustomKnob>
+                              <RepeatableLabel
+                                label={label}
+                                collapsible={collapsible}
+                                childindex={childindex}
+                                collapsedHook={useIndexCollapsed}
+                              />
+                              <RemoveButton
+                                childindex={childindex}
+                                removeElement={removeElement}
+                              />
+                            </CustomKnob>
                           </SortableKnob>
-                        ) : null}
-                        <Button
-                          onClick={() => removeElement(childindex)}
-                          className="fm-gutenberg-remove"
-                        >
-                          <span className="screen-reader-text">{__('Remove', 'fm-gutenberg')}</span>
-                        </Button>
+                        ) : (
+                          <RemoveButton
+                            childindex={childindex}
+                            removeElement={removeElement}
+                          />
+                        )}
                       </div>
-                      <div>
+                      <RepeatableContent
+                        childindex={childindex}
+                        collapsedHook={useIndexCollapsed}
+                      >
                         <FieldRouter
                           field={field}
                           index={childindex}
                           valueHook={useIndexedValue}
                         />
-                      </div>
+                      </RepeatableContent>
                     </div>
                   </PanelRow>
                 </MaybeSortableItem>

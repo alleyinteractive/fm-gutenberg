@@ -14,6 +14,9 @@ interface SelectProps {
 
 export default function Select({
   field: {
+    attributes: {
+      multiple = '',
+    },
     data,
     first_empty: firstEmpty,
     name,
@@ -41,6 +44,7 @@ export default function Select({
   return (
     <PanelRow>
       <SelectControl
+        multiple={multiple !== ''}
         label={label}
         onChange={updateValue}
         value={initialvalue}

@@ -13,7 +13,9 @@
     }
 
     &__close {
-      float: right;
+      position: absolute;
+      right: 0;
+      z-index: 1;
     }
   }
 }

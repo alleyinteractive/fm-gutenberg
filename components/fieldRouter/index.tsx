@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import FMObject from '@/interfaces/fm-object';
 import Field from '@/interfaces/field';
@@ -8,10 +8,8 @@ import {
   TabList,
   TabPanel,
 } from 'react-tabs';
-import { Button } from '@wordpress/components';
 
 import SafeHTML from '@/components/safe-html';
-import classNames from 'classnames';
 
 import Checkbox from '../checkbox';
 import Checkboxes from '../checkboxes-field';
@@ -37,8 +35,6 @@ export default function FieldRouter({
   field,
   field: {
     children,
-    collapsed,
-    collapsible,
     description,
     display_if: {
       src: displayIfSrc = '',
@@ -53,8 +49,6 @@ export default function FieldRouter({
   index = null,
   valueHook,
 }: FieldRouterProps) {
-  const [isCollapsed, setIsCollapsed] = useState(collapsed);
-
   if (displayIfSrc !== '') {
     const [triggerValue] = valueHook(displayIfSrc);
     let simpleValue = triggerValue && typeof triggerValue === 'object' && !Array.isArray(triggerValue) ? triggerValue[displayIfSrc] : triggerValue;
@@ -110,39 +104,20 @@ export default function FieldRouter({
         </>
       ) : (
         <div className="fm-gutenberg__group" key={`${name}-group`}>
-          {label && !collapsible ? (
-            <h4>{label}</h4>
+          {Object.keys(children).map((key) => (
+            <FieldRouter
+              field={children[key]}
+              valueHook={useChildValue}
+              key={key}
+            />
+          ))}
+          {description ? (
+            <SafeHTML
+              tag="p"
+              className="fm-group-description"
+              html={description}
+            />
           ) : null}
-          {label && collapsible ? (
-            <Button isLink onClick={() => setIsCollapsed(!isCollapsed)}>
-              <h4>
-                {label}
-              </h4>
-            </Button>
-          ) : null}
-          <div
-            className={classNames(
-              'fm-gutenberg__group-content',
-              {
-                collapsed: isCollapsed,
-              },
-            )}
-          >
-            {Object.keys(children).map((key) => (
-              <FieldRouter
-                field={children[key]}
-                valueHook={useChildValue}
-                key={key}
-              />
-            ))}
-            {description ? (
-              <SafeHTML
-                tag="p"
-                className="fm-group-description"
-                html={description}
-              />
-            ) : null}
-          </div>
         </div>
       )
     );
