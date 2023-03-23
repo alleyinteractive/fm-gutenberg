@@ -2,7 +2,7 @@
 /**
  * Gutenberg Support for Fieldmanager.
  *
- * Plugin Name: Fieldmanager Gutenberg Suport
+ * Plugin Name: Fieldmanager Gutenberg Support
  * Plugin URI: https://github.com/alleyinteractive/fm-gutenberg
  * Description: Translates Fieldmanager code to React Gutenberg slotfills.
  * Version: 1.0.0

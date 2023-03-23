@@ -1,114 +1,89 @@
-# fm-gutenberg
-A companion plugin to wp-starter-theme, which is used to create custom blocks,
-slotfills, and register custom post types and meta fields.
+# Package README Standards
 
-## Getting Started
+[![Example of a badge pointing to the readme standard spec](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-Do a case sensitive global search and replace for the following strings:
+This plugin is an extension for [Fieldmanager](https://github.com/alleyinteractive/wordpress-fieldmanager) that translates existing Fieldmanager metaboxes into Gutenberg (WordPress Block Editor) slotfills and a React implementation of metaboxes.
 
-* fm-gutenberg (Localization domain)
-* fm_gutenberg (Prefix for functions)
-* FM_GUTENBERG (Prefix for constants)
-* FM_Gutenberg (Prefix for class names)
-* FM Gutenberg (Commented text)
+## Table of Contents
 
-Install `nvm` and the version of node specified in `.nvmrc` if you haven't already.
+- [Background](#background)
+- [Releases](#Releases)
+    - [Install](#install)
+    - [Use](#use)
+    - [Source](#from-source)
+    - [Changelog](#changelog)
+- [Development Process](#development-process)
+    - [Contributing](#contributing)
+- [Project Structure](#project-structure)
+- [Third-Party Dependencies](#third-party-dependencies)
+- [Related Efforts](#related-efforts)
+- [Maintainers](#maintainers)
+- [License](#license)
 
-Run `composer setup` to install `composer` and `npm` dependencies and run an initial build.
+## Background
 
-## Running builds
+This plugin was developed to better integrate [Fieldmanager](https://github.com/alleyinteractive/wordpress-fieldmanager) with the WordPress Block Editor (Gutenberg). Fieldmanager works with the Block Editor by itself, but there are several things that could be improved.
 
-Run `npm run build` to build all production assets. Run `npm run dev` for a
-development build of assets, which also watches files for changes and
-automatically recompiles.
+## Releases
 
-## Scaffolder
+The current branch is `main`. We will add automatic support for a `built` branch soon.
 
-Run `npm run scaffold` to run the Alley scaffolder against the plugin. All
-normally-supported options are supported here.
+### Install
 
-## Slotfills
+Requires a version of Fieldmanager that includes [this action](https://github.com/alleyinteractive/wordpress-fieldmanager/blob/main/php/context/class-fieldmanager-context.php#L42) - should be included after 1.5.
 
-This plugin is built to use slotfills for all site-specific features. The
-slotfill configuration can be found in `slotfills/index.js`. Individual slotfill
-sections are located in `slotfills/sections`.
+### Use
 
-## Saving to Post Meta
+Install Fieldmanager and define metaboxes as defined in the Fieldmanager docs. Once you enable this plugin, the metaboxes should be generated using React and native Gutenberg code.
 
-In order to save data back to post meta, you need to register the meta first.
-Meta fields are registered by adding them to the `config/post-meta.json` file.
-There are some examples in this file for Open Graph data.
+### From Source
 
-## Reusable Components
-
-A collection of reusable components is located in `./components`. These
-components can be included in a variety of contexts, such as slotfills and
-blocks.
-
-## Services
-
-Complex JavaScript logic should be broken out into separate functions, one
-function per file, in the `services` directory, grouped into subfolders by type.
-See `services/media/get-media-url.js` for an example of this. All services
-functions should have associated tests.
-
-## Pathing
-
-This project utilizes module aliases to make it easier to handle JavaScript
-imports. The project is configured to treat paths starting with `@/` as being
-relative to this plugin's root folder. For example:
-
-```javascript
-import ImagePicker from '@/components/image-picker';
+```sh
+$ git clone https://github.com/alleyinteractive/fm-gutenberg
+$ cd fm-gutenberg
+$ npm ci
+$ npm run build
 ```
 
-These module aliases are configured to work properly with ESLint, IDEs, Jest,
-and Webpack.
 
-## Running Tests
+### Changelog
 
-Run `npm run test` to run Jest tests against JavaScript files. Run
-`npm run test:watch` to keep the test runner open and watching for changes.
+Coming soon.
 
-Run `npm run lint` to run ESLint against all JavaScript files. Linting will also
-happen when running development or production builds.
+## Development Process
 
-Run `composer phpcs` to run PHP CodeSniffer tests against PHP files.
+Pull requests are welcome.
 
-## Custom Blocks
+### Contributing
 
-Use the block scaffolder to create custom blocks. Create the block definition in
-`scaffold/blocks`. Ensure the name of the JSON file is the same as the
-non-namespaced block name (e.g., if your block is `fm-gutenberg/my-block`,
-then the JSON file must be `my-block.json`). After creating or updating the JSON
-file, run the scaffold command (`npm run scaffold`) to generate or regenerate
-assets. Block registration, script creation, etc is handled for you.
+If this project is open source, link to the `CONTRIBUTING.md` here and outline whether issues, pull requests, etc. are welcome and how to go about it, eg:
 
-## CI/CD Integration
+> Feel free to dive in! [Open an issue](https://github.com/alleyinteractive/fm-gutenberg/issues/new/choose) or submit PRs.
+> Standard Readme follows the [Contributor Covenant](http://contributor-covenant.org/version/1/3/0/) Code of Conduct.
 
-Buddy will automatically run `composer phpcs`, `npm run test`, and
-`npm run build` (which includes eslint). If any of these checks fail, the build
-will fail.
 
-## Hot Reloading
+## Project Structure
 
-Still to come. The closest you can get now is running `npm run dev`, which
-watches for changes, and reloading the page.
+Coming Soon
 
-## Built-in Components
-- `AudioPicker`: Allows a user to select or remove audio using the media
-  modal or by entering a URL. A wrapper around `MediaPicker` that sets the file
-  type to audio and provides an audio player preview.
-- `CSVUploader`: Allows a user to upload a CSV file, which is parsed in the
-  browser, converted to a JSON structure, passed through a user specified
-  callback function for further transformation, and saved to block attributes.
-- `ImagePicker`: Allows a user to select or remove an image using the media
-  modal or by entering a URL. A wrapper around `MediaPicker` that sets the file
-  type to image and provides an image preview.
-- `MediaPicker`: Allows a user to select or remove any attachment from the media
-  library using the media modal.
-- `PostSelector`: A component used for searching for and selecting posts via the
-  REST API.
-- `VideoPicker`: Allows a user to select or remove a video using the media
-  modal or by entering a URL. A wrapper around `MediaPicker` that sets the file
-  type to video and provides a video player preview.
+
+## Third-Party Dependencies
+
+Requires [Fieldmanager](https://github.com/alleyinteractive/wordpress-fieldmanager)
+
+
+## Related Efforts
+
+- Extends [Fieldmanager]((https://github.com/alleyinteractive/wordpress-fieldmanager))
+
+## Maintainers
+
+- [Alley Interactive](https://github.com/alleyinteractive)
+- [@mogmarsh](https://github.com/mogmarsh)
+
+![Alley logo](https://avatars.githubusercontent.com/u/1733454?s=200&v=4)
+
+
+## License
+
+Released under the GNU GENERAL PUBLIC LICENSE.
