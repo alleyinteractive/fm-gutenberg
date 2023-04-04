@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Downshift from 'downshift';
 import { __ } from '@wordpress/i18n';
 
@@ -24,6 +24,8 @@ export default function OptionsAutocomplete({
   label,
   setValue,
 }: OptionsAutocompleteProps) {
+  const [searchText, setSearchText] = useState('');
+
   const onChange = (newValue: Post) => {
     const selectedValue = newValue ? newValue.value : null;
     setValue(selectedValue);
@@ -38,6 +40,22 @@ export default function OptionsAutocomplete({
     // Call the passed onChange function from props with the post object.
     onChange(foundPost);
   };
+
+  useEffect(() => {
+    /**
+     * Gets the label text from the selected option.
+     * @param {int} id - The value of the option.
+     */
+    const loadById = (id: number) => {
+      const matches = options.filter((option) => parseInt(option.value, 10) === id);
+      if (matches.length > 0) {
+        setSearchText(matches[0].label);
+      }
+    };
+    if (!Number.isNaN(parseInt(initialValue, 10))) {
+      loadById(parseInt(initialValue, 10));
+    }
+  }, [initialValue, options]);
 
   /**
    * Handles a change to the search text string.
@@ -85,7 +103,7 @@ export default function OptionsAutocomplete({
             <input
               type="text"
               {...getInputProps({ // eslint-disable-line react/jsx-props-no-spreading
-                value: inputValue !== '' ? inputValue : initialValue,
+                value: inputValue !== '' ? inputValue : searchText,
                 placeholder: __('Search...', 'fm-gutenberg'),
                 onChange: handleSearchTextChange,
               })}

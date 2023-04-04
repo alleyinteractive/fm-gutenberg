@@ -18,6 +18,7 @@ interface CheckboxesProps {
 export default function Checkboxes({
   field: {
     data,
+    datasource = {},
     name,
   },
   valueHook,
@@ -26,7 +27,10 @@ export default function Checkboxes({
 }: CheckboxesProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
   const initialvalue: String[] = typeof value === 'object' && Array.isArray(value) ? (value as any[]).filter((item) => (typeof item === 'string')) : [value];
-
+  let options = {};
+  if (datasource !== null) {
+    options = datasource.options;
+  }
   const updateValue = (key: string, checked: boolean) => {
     const newValue = data.filter((option): boolean => {
       const { value: dataValue } = option;
@@ -40,7 +44,12 @@ export default function Checkboxes({
     setValue(newValue);
   };
 
-  const optionsWithLabels = convertDataToOptionsWithLabels(data);
+  let optionsWithLabels = convertDataToOptionsWithLabels(data);
+  if (optionsWithLabels.length === 0 && Object.entries(options).length > 0) {
+    optionsWithLabels = Object.entries(options).map((option) => (
+      { label: option[1].toString() ?? option[0].toString(), value: option[0] }
+    ));
+  }
 
   const uniqueId = uuidv4();
   return (

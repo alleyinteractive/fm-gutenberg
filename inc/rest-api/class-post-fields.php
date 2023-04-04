@@ -283,8 +283,12 @@ class Post_Fields {
 	 * @return void
 	 */
 	public function add_ajax_action( &$instance ) {
-		if ( isset( $instance->datasource ) && $instance->datasource->use_ajax ) {
-			$instance->datasource->ajax_action = $instance->datasource->get_ajax_action();
+		if ( isset( $instance->datasource ) ) {
+			if ( $instance->datasource->use_ajax ) {
+				$instance->datasource->ajax_action = $instance->datasource->get_ajax_action();
+			} else {
+				$instance->datasource->options = $instance->datasource->get_items();
+			}
 		}
 		if ( isset( $instance->fm->children ) ) {
 			foreach ( $instance->fm->children as $child ) {

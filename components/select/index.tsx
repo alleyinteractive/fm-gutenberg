@@ -18,6 +18,7 @@ export default function Select({
       multiple = '',
     },
     data,
+    datasource = {},
     first_empty: firstEmpty,
     name,
   },
@@ -27,12 +28,21 @@ export default function Select({
 }: SelectProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
   const initialvalue = value !== null && typeof value === 'object' ? value[name] : value;
+  let options = {};
+  if (datasource !== null) {
+    options = datasource.options;
+  }
 
   const updateValue = (newValue: string) => {
     setValue(typeof value === 'object' ? { [name]: newValue } : newValue);
   };
 
   let optionsWithLabels = convertDataToOptionsWithLabels(data);
+  if (optionsWithLabels.length === 0 && Object.entries(options).length > 0) {
+    optionsWithLabels = Object.entries(options).map((option) => (
+      { label: option[1].toString() ?? option[0].toString(), value: option[0] }
+    ));
+  }
 
   if (firstEmpty || index !== null) {
     optionsWithLabels = [
