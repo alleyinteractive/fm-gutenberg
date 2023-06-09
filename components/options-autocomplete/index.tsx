@@ -52,8 +52,20 @@ export default function OptionsAutocomplete({
         setSearchText(matches[0].label);
       }
     };
+    /**
+     * Gets the label text from the selected option.
+     * @param {string} Key - The value of the option.
+     */
+    const loadByKey = (key: string) => {
+      const matches = options.filter((option) => option.value === key);
+      if (matches.length > 0) {
+        setSearchText(matches[0].label);
+      }
+    };
     if (!Number.isNaN(parseInt(initialValue, 10))) {
       loadById(parseInt(initialValue, 10));
+    } else {
+      loadByKey(initialValue);
     }
   }, [initialValue, options]);
 

@@ -34,7 +34,8 @@ export default function Select({
   }
 
   const updateValue = (newValue: string) => {
-    setValue(typeof value === 'object' ? { [name]: newValue } : newValue);
+    const parsedValue = !Number.isNaN(parseInt(newValue, 10)) ? parseInt(newValue, 10) : newValue;
+    setValue(typeof value === 'object' ? { [name]: parsedValue } : parsedValue);
   };
 
   let optionsWithLabels = convertDataToOptionsWithLabels(data);

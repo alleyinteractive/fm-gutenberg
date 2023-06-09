@@ -85,6 +85,9 @@ class Post_Fields {
 		$fm_meta_boxes = $this->load_meta_boxes( $post_type );
 
 		foreach ( [ 'side', 'normal' ] as $location ) {
+			if ( empty( $fm_meta_boxes[ $location ] ) ) {
+				continue;
+			}
 			foreach ( $fm_meta_boxes[ $location ] as $fm_meta_box ) {
 				if ( empty( $fm_meta_box['title'] ) ) {
 					continue;
@@ -369,10 +372,18 @@ class Post_Fields {
 	private function get_object_properties( $children ) {
 		$output = [];
 		foreach ( $children as $child ) {
-			$output[ $child->name ] = [
-				'type'              => [ 'integer', 'string' ],
-				'sanitize_callback' => $child->sanitize,
-			];
+			if ( 'checkboxes' === $child->field_class ) {
+				$output[ $child->name ] = [
+					'type'              => 'array',
+					'items'             => [ 'integer', 'string' ],
+					'sanitize_callback' => $child->sanitize,
+				];
+			} else {
+				$output[ $child->name ] = [
+					'type'              => [ 'integer', 'string' ],
+					'sanitize_callback' => $child->sanitize,
+				];
+			}
 		}
 		return $output;
 	}

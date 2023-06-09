@@ -26,23 +26,11 @@ export default function Checkboxes({
   label = '',
 }: CheckboxesProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
-  const initialvalue: String[] = typeof value === 'object' && Array.isArray(value) ? (value as any[]).filter((item) => (typeof item === 'string')) : [value];
+  const initialvalue: String[] = typeof value === 'object' && Array.isArray(value) ? (value as any[]).map((item) => item.toString()) : [value];
   let options = {};
   if (datasource !== null) {
     options = datasource.options;
   }
-  const updateValue = (key: string, checked: boolean) => {
-    const newValue = data.filter((option): boolean => {
-      const { value: dataValue } = option;
-      if (dataValue === key) {
-        return checked;
-      }
-      return initialvalue.includes(dataValue);
-    }).map((option) => (
-      option.value
-    ));
-    setValue(newValue);
-  };
 
   let optionsWithLabels = convertDataToOptionsWithLabels(data);
   if (optionsWithLabels.length === 0 && Object.entries(options).length > 0) {
@@ -50,6 +38,20 @@ export default function Checkboxes({
       { label: option[1].toString() ?? option[0].toString(), value: option[0] }
     ));
   }
+
+  const updateValue = (key: string, checked: boolean) => {
+    const parsedKey = !Number.isNaN(parseInt(key, 10)) ? parseInt(key, 10) : key;
+    const newValue = optionsWithLabels.filter((option): boolean => {
+      const { value: dataValue } = option;
+      if (dataValue.toString() === parsedKey.toString()) {
+        return checked;
+      }
+      return initialvalue.includes(dataValue);
+    }).map((option) => (
+      !Number.isNaN(parseInt(option.value, 10)) ? parseInt(option.value, 10) : option.value
+    ));
+    setValue(newValue);
+  };
 
   const uniqueId = uuidv4();
   return (
@@ -64,12 +66,13 @@ export default function Checkboxes({
               label: optionLabel,
               value: optionValue,
             } = option;
+
             return (
               <CheckboxControl
                 label={optionLabel}
                 value={optionValue}
                 onChange={(checked: boolean) => updateValue(optionValue, checked)}
-                checked={initialvalue.includes(optionValue)}
+                checked={initialvalue.includes(optionValue.toString())}
               />
             );
           })}
