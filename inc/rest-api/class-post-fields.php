@@ -179,21 +179,36 @@ class Post_Fields {
 							);
 						}
 					} elseif ( 1 === $fm->limit && ! empty( $fm->children ) ) {
-						\FM_Gutenberg\register_meta_helper(
-							'post',
-							[ $post_type ],
-							$fm->name,
-							[
-								'type'         => 'object',
-								'show_in_rest' => [
-									'schema' => [
-										'type'       => 'object',
-										'properties' => $this->get_object_properties( $fm->children ),
-										'sanitize_callback' => $fm->sanitize,
+						if ( $fm->serialize_data ) {
+							\FM_Gutenberg\register_meta_helper(
+								'post',
+								[ $post_type ],
+								$fm->name,
+								[
+									'type'         => 'object',
+									'show_in_rest' => [
+										'schema' => [
+											'type'       => 'object',
+											'properties' => $this->get_object_properties( $fm->children ),
+											'sanitize_callback' => $fm->sanitize,
+										],
 									],
-								],
-							]
-						);
+								]
+							);
+						} else {
+							foreach ( $fm->children as $child ) {
+								\FM_Gutenberg\register_meta_helper(
+									'post',
+									[ $post_type ],
+									$child->name,
+									[
+										'default' => $child->default_value ?: '',
+										'sanitize_callback' => $child->sanitize,
+										'type'    => 'media' === $child->field_class ? 'integer' : 'string',
+									]
+								);
+							}
+						}
 					} else {
 						\FM_Gutenberg\register_meta_helper(
 							'post',
@@ -419,7 +434,6 @@ class Post_Fields {
 		unset( $fm->save_empty );
 		unset( $fm->skip_save );
 		unset( $fm->index );
-		unset( $fm->serialize_data );
 		unset( $fm->remove_default_meta_boxes );
 		unset( $fm->template );
 		unset( $fm->meta_boxes_to_remove );

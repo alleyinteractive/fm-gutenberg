@@ -44,6 +44,7 @@ export default function FieldRouter({
     fm_class: fmClass,
     label = '',
     name = '',
+    serialize_data: serializeData = true,
     tabbed = '',
   },
   index = null,
@@ -60,18 +61,24 @@ export default function FieldRouter({
   }
   if (children && fieldClass === 'group') {
     const [value, setValue] = valueHook(index ?? name);
-    const useChildValue = (key: string): [any, Function] => {
-      const valueObject = value !== null && typeof value === 'object' && !Array.isArray(value) ? value : { [key]: value };
-      const childValue = valueObject ? valueObject[key] : null;
-      const setChildValue = (newValue: string) => {
-        const newValueObject = {
-          ...valueObject,
-          [key]: newValue,
+    let useChildValue: (key: string) => [any, Function];
+
+    if (serializeData) {
+      useChildValue = (key: string): [any, Function] => {
+        const valueObject = value !== null && typeof value === 'object' && !Array.isArray(value) ? value : { [key]: value };
+        const childValue = valueObject ? valueObject[key] : null;
+        const setChildValue = (newValue: string) => {
+          const newValueObject = {
+            ...valueObject,
+            [key]: newValue,
+          };
+          setValue(newValueObject);
         };
-        setValue(newValueObject);
+        return [childValue, setChildValue];
       };
-      return [childValue, setChildValue];
-    };
+    } else {
+      useChildValue = valueHook;
+    }
 
     return (
       tabbed ? (

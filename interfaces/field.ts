@@ -37,6 +37,7 @@ export default interface Field {
   minimumCount?: number;
   name: string;
   options?: string[] | { [key: string]: string };
+  serialize_data?: boolean;
   show_edit_link?: boolean;
   sortable: boolean;
   tabbed?: string;
