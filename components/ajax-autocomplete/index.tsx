@@ -37,6 +37,12 @@ export default function AjaxAutocomplete({
     fm_search: {
       nonce: fmSearchNonce = '',
     } = {},
+    fm: {
+      context: {
+        context: fmContext = '',
+        type: fmSubcontext = '',
+      } = {},
+    } = {},
   } = (window as any);
 
   const onChange = (newValue: Post) => {
@@ -63,28 +69,38 @@ export default function AjaxAutocomplete({
      * Loads found posts for the given post type and search text from the API.
      * @param {string} searchText - The text string to use when searching.
      */
-    const loadById = (id: number) => {
+    const loadById = (id: string) => {
       setWorking(true);
 
-      apiFetch({
-        path: `/wp/v2/search?include=${id}`,
-      })
-        .then((result) => {
-          if (!Array.isArray(result)) {
-            return;
-          }
-          if (result.length === 0) {
-            return;
-          }
-          setSearchText(result[0].title);
+      const formdata: FormDataProps = {
+        fm_autocomplete_id: id,
+        fm_search_nonce: fmSearchNonce,
+      };
 
+      const str = Object.keys(formdata).map((key) => (
+        `${key}=${formdata[key]}`
+      )).join('&');
+
+      apiFetch({
+        url: `${ajaxurl}?${str}`,
+        method: 'GET',
+        headers: {
+          'x-requested-with': 'XMLHttpRequest',
+        },
+      })
+        .then((response) => {
+          if (response === 0) {
+            setFoundPosts([]);
+          } else if (Array.isArray(response)) {
+            setFoundPosts(response);
+          }
           setWorking(false);
         });
     };
     if (!Number.isNaN(parseInt(initialValue, 10))) {
-      loadById(parseInt(initialValue, 10));
+      loadById(String(initialValue));
     }
-  }, [initialValue]);
+  }, [initialValue, ajaxurl, fmSearchNonce]);
 
   /**
    * Loads found posts for the given post type and search text from the API.
@@ -100,8 +116,8 @@ export default function AjaxAutocomplete({
 
     const formdata: FormDataProps = {
       action: ajaxAction,
-      fm_context: 'post', // TODO: make this dynamic
-      fm_subcontext: 'demo-autocomplete', // TODO: make this dynamic
+      fm_context: fmContext,
+      fm_subcontext: fmSubcontext,
       fm_autocomplete_search: searchText,
       fm_search_nonce: fmSearchNonce,
       fm_custom_args: null,
