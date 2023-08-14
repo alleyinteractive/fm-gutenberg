@@ -200,7 +200,7 @@ class Post_Fields {
 								\FM_Gutenberg\register_meta_helper(
 									'post',
 									[ $post_type ],
-									$child->name,
+									$fm->add_to_prefix ? $fm->name . '_' . $child->name : $child->name,
 									[
 										'default' => $child->default_value ?: '',
 										'sanitize_callback' => $child->sanitize,
