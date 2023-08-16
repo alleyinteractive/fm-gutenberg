@@ -731,14 +731,20 @@ class Post_Fields {
 		];
 	}
 
+	/**
+	 * Gets the default values for ajax autocomplete fields.
+	 *
+	 * @param WP_Post $post The post.
+	 * @return array
+	 */
 	public function get_fm_gutenberg_autocomplete_values( $post ) {
 		if ( ! current_user_can( 'edit_post', $post['id'] ) ) {
-			// return [];
+			return [];
 		}
 		$post_type     = get_post_type( $post['id'] );
 		$output        = [];
 		$fm_meta_boxes = $this->load_meta_boxes( $post_type );
-		$output = [];
+		$output        = [];
 
 		foreach ( [ 'side', 'normal' ] as $location ) {
 			if ( empty( $fm_meta_boxes[ $location ] ) ) {
@@ -769,10 +775,10 @@ class Post_Fields {
 	public function get_ajax_values( $fm, $post_id, &$output, $meta_name = '' ) {
 		if ( isset( $fm->datasource ) ) {
 			if ( $fm->datasource->use_ajax ) {
-				$meta = get_post_meta( $post_id, $meta_name, true );
+				$meta      = get_post_meta( $post_id, $meta_name, true );
 				$value_key = $meta[ $fm->name ] ?? '';
 				if ( ! empty( $value_key ) ) {
-					$value = $fm->datasource->get_value( $value_key );
+					$value                                  = $fm->datasource->get_value( $value_key );
 					$output[ $fm->datasource->ajax_action ] = [
 						$value_key => $value,
 					];
