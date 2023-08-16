@@ -60,7 +60,7 @@ export default function Autocomplete({
             showEditLink={showEditLink}
           />
         ) : null}
-        {optionsArray.length > 0 ? (
+        {optionsArray.length > 0 && !ajaxAction ? (
           <OptionsAutocomplete
             options={optionsArray}
             label={label}
