@@ -120,6 +120,9 @@ class Post_Fields {
 		}
 		$post_types = $this->get_block_editor_post_types();
 		foreach ( $post_types as $post_type ) {
+			if ( ! did_action( 'fm_post_' . $post_type ) ) {
+				do_action( 'fm_post_' . $post_type ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+			}
 			$fm_meta_boxes = $this->load_meta_boxes( $post_type );
 			foreach ( [ 'side', 'normal' ] as $location ) {
 				if ( empty( $fm_meta_boxes[ $location ] ) ) {
@@ -443,6 +446,9 @@ class Post_Fields {
 
 		if ( ! empty( $fm->children ) ) {
 			foreach ( $fm->children as $index => $child ) {
+				if ( ! $fm->serialize_data && $fm->add_to_prefix ) {
+					$child->name = $fm->name . '_' . $child->name;
+				}
 				$fm->children[ $index ] = $this->remove_recursion( $child );
 			}
 		}
