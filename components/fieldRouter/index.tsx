@@ -139,7 +139,6 @@ export default function FieldRouter({
           label={label}
         />
       );
-      break;
     case 'Fieldmanager_Checkbox':
       return (
         <Checkbox
@@ -149,7 +148,6 @@ export default function FieldRouter({
           label={label}
         />
       );
-      break;
     case 'Fieldmanager_Checkboxes':
       return (
         <Checkboxes
@@ -159,7 +157,6 @@ export default function FieldRouter({
           label={label}
         />
       );
-      break;
     case 'Fieldmanager_Colorpicker':
       return (
         <ColorPickerField
@@ -169,7 +166,6 @@ export default function FieldRouter({
           label={label}
         />
       );
-      break;
     case 'Fieldmanager_Datepicker':
       return (
         <DateField
@@ -179,21 +175,18 @@ export default function FieldRouter({
           label={label}
         />
       );
-      break;
     case 'Fieldmanager_DraggablePost':
       return (
         <p>
           Fieldmanager_DraggablePost
         </p>
       );
-      break;
     case 'Fieldmanager_Grid':
       return (
         <p>
           Fieldmanager_Grid
         </p>
       );
-      break;
     case 'Fieldmanager_Hidden':
       return (
         <TextField
@@ -204,7 +197,6 @@ export default function FieldRouter({
           type="hidden"
         />
       );
-      break;
     case 'Fieldmanager_Link':
       return (
         <TextField
@@ -215,7 +207,6 @@ export default function FieldRouter({
           type="url"
         />
       );
-      break;
     case 'Fieldmanager_Media':
       if (fieldClass === 'media') {
         return (
@@ -238,7 +229,6 @@ export default function FieldRouter({
           type="password"
         />
       );
-      break;
     case 'Fieldmanager_Radios':
       return (
         <Radio
@@ -248,7 +238,6 @@ export default function FieldRouter({
           label={label}
         />
       );
-      break;
     case 'Fieldmanager_RichTextArea':
       return (
         <RichtextField
@@ -258,7 +247,6 @@ export default function FieldRouter({
           label={label}
         />
       );
-      break;
     case 'Fieldmanager_Select':
       return (
         <Select
@@ -268,7 +256,6 @@ export default function FieldRouter({
           label={label}
         />
       );
-      break;
     case 'Fieldmanager_TextArea':
       return (
         <TextareaField
@@ -278,7 +265,6 @@ export default function FieldRouter({
           label={label}
         />
       );
-      break;
     case 'Fieldmanager_TextField':
       return (
         <TextField
@@ -288,7 +274,6 @@ export default function FieldRouter({
           label={label}
         />
       );
-      break;
     default:
       return null;
   }
