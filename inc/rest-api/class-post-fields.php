@@ -145,6 +145,9 @@ class Post_Fields {
 		}
 		$post_types = $this->get_block_editor_post_types();
 		foreach ( $post_types as $post_type ) {
+			if ( ! did_action( 'fm_post_' . $post_type ) ) {
+				do_action( 'fm_post_' . $post_type ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+			}
 			$fm_meta_boxes = $this->load_meta_boxes( $post_type );
 			foreach ( [ 'side', 'normal' ] as $location ) {
 				if ( empty( $fm_meta_boxes[ $location ] ) ) {
@@ -185,7 +188,9 @@ class Post_Fields {
 									'show_in_rest' => [
 										'schema' => [
 											'type'  => 'array',
-											'items' => [ 'integer', 'string' ],
+											'items' => [
+												'type' => [ 'integer', 'string' ],
+											],
 											'sanitize_callback' => $fm->sanitize,
 										],
 									],
@@ -204,21 +209,36 @@ class Post_Fields {
 							);
 						}
 					} elseif ( 1 === $fm->limit && ! empty( $fm->children ) ) {
-						\FM_Gutenberg\register_meta_helper(
-							'post',
-							[ $post_type ],
-							$fm->name,
-							[
-								'type'         => 'object',
-								'show_in_rest' => [
-									'schema' => [
-										'type'       => 'object',
-										'properties' => $this->get_object_properties( $fm->children ),
-										'sanitize_callback' => $fm->sanitize,
+						if ( $fm->serialize_data ) {
+							\FM_Gutenberg\register_meta_helper(
+								'post',
+								[ $post_type ],
+								$fm->name,
+								[
+									'type'         => 'object',
+									'show_in_rest' => [
+										'schema' => [
+											'type'       => 'object',
+											'properties' => $this->get_object_properties( $fm->children ),
+											'sanitize_callback' => $fm->sanitize,
+										],
 									],
-								],
-							]
-						);
+								]
+							);
+						} else {
+							foreach ( $fm->children as $child ) {
+								\FM_Gutenberg\register_meta_helper(
+									'post',
+									[ $post_type ],
+									$fm->add_to_prefix ? $fm->name . '_' . $child->name : $child->name,
+									[
+										'default' => $child->default_value ?: '',
+										'sanitize_callback' => $child->sanitize,
+										'type'    => 'media' === $child->field_class ? 'integer' : 'string',
+									]
+								);
+							}
+						}
 					} else {
 						\FM_Gutenberg\register_meta_helper(
 							'post',
@@ -397,7 +417,9 @@ class Post_Fields {
 			if ( 'checkboxes' === $child->field_class ) {
 				$output[ $child->name ] = [
 					'type'              => 'array',
-					'items'             => [ 'integer', 'string' ],
+					'items'             => [
+						'type' => [ 'integer', 'string' ],
+					],
 					'sanitize_callback' => $child->sanitize,
 				];
 			} else {
@@ -456,7 +478,6 @@ class Post_Fields {
 		unset( $fm->save_empty );
 		unset( $fm->skip_save );
 		unset( $fm->index );
-		unset( $fm->serialize_data );
 		unset( $fm->remove_default_meta_boxes );
 		unset( $fm->template );
 		unset( $fm->meta_boxes_to_remove );
@@ -466,6 +487,9 @@ class Post_Fields {
 
 		if ( ! empty( $fm->children ) ) {
 			foreach ( $fm->children as $index => $child ) {
+				if ( ! $fm->serialize_data && $fm->add_to_prefix && ! str_starts_with( $child->name, $fm->name . '_' ) ) {
+					$child->name = $fm->name . '_' . $child->name;
+				}
 				$fm->children[ $index ] = $this->remove_recursion( $child );
 			}
 		}
