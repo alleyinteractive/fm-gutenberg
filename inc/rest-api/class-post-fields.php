@@ -188,7 +188,9 @@ class Post_Fields {
 									'show_in_rest' => [
 										'schema' => [
 											'type'  => 'array',
-											'items' => [ 'integer', 'string' ],
+											'items' => [
+												'type' => [ 'integer', 'string' ],
+											],
 											'sanitize_callback' => $fm->sanitize,
 										],
 									],
@@ -415,7 +417,9 @@ class Post_Fields {
 			if ( 'checkboxes' === $child->field_class ) {
 				$output[ $child->name ] = [
 					'type'              => 'array',
-					'items'             => [ 'integer', 'string' ],
+					'items'             => [
+						'type' => [ 'integer', 'string' ],
+					],
 					'sanitize_callback' => $child->sanitize,
 				];
 			} else {
