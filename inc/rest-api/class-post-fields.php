@@ -169,7 +169,7 @@ class Post_Fields {
 								'show_in_rest' => [
 									'schema' => [
 										'items' => [
-											'type'              => 'media' === $fm->field_class ? 'integer' : 'string',
+											'type' => 'media' === $fm->field_class ? 'integer' : 'string',
 											'sanitize_callback' => $fm->sanitize,
 										],
 									],
@@ -187,8 +187,8 @@ class Post_Fields {
 									'type'         => 'object',
 									'show_in_rest' => [
 										'schema' => [
-											'type'              => 'array',
-											'items'             => [ 'integer', 'string' ],
+											'type'  => 'array',
+											'items' => [ 'integer', 'string' ],
 											'sanitize_callback' => $fm->sanitize,
 										],
 									],
@@ -216,8 +216,8 @@ class Post_Fields {
 									'type'         => 'object',
 									'show_in_rest' => [
 										'schema' => [
-											'type'              => 'object',
-											'properties'        => $this->get_object_properties( $fm->children ),
+											'type'       => 'object',
+											'properties' => $this->get_object_properties( $fm->children ),
 											'sanitize_callback' => $fm->sanitize,
 										],
 									],
@@ -230,9 +230,9 @@ class Post_Fields {
 									[ $post_type ],
 									$fm->add_to_prefix ? $fm->name . '_' . $child->name : $child->name,
 									[
-										'default'           => $child->default_value ?: '',
+										'default' => $child->default_value ?: '',
 										'sanitize_callback' => $child->sanitize,
-										'type'              => 'media' === $child->field_class ? 'integer' : 'string',
+										'type'    => 'media' === $child->field_class ? 'integer' : 'string',
 									]
 								);
 							}
