@@ -487,7 +487,7 @@ class Post_Fields {
 
 		if ( ! empty( $fm->children ) ) {
 			foreach ( $fm->children as $index => $child ) {
-				if ( ! $fm->serialize_data && $fm->add_to_prefix ) {
+				if ( ! $fm->serialize_data && $fm->add_to_prefix && ! str_starts_with( $child->name, $fm->name . '_' ) ) {
 					$child->name = $fm->name . '_' . $child->name;
 				}
 				$fm->children[ $index ] = $this->remove_recursion( $child );
