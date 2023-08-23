@@ -26,21 +26,43 @@ class Post_Fields {
 	 * Set everything up.
 	 */
 	protected function __construct() {
-		add_action( 'rest_api_init', [ $this, 'register_field' ] );
+		add_action( 'rest_api_init', [ $this, 'register_fields' ] );
 		add_action( 'init', [ $this, 'register_meta_fields' ], 100 );
 		add_action( 'fm_context_construct', [ $this, 'on_fm_context_construct' ], 10, 5 );
 		add_filter( 'fm_calculated_context', [ $this, 'modify_fm_calculated_context' ] );
 	}
 
 	/**
-	 * Register the rest field.
+	 * Register the rest fields.
 	 */
-	public function register_field() {
+	public function register_fields() {
 		register_rest_field(
 			$this->get_block_editor_post_types(),
 			'fm_gutenberg_fields',
 			[
-				'get_callback' => [ $this, 'get_value' ],
+				'get_callback' => [ $this, 'get_fm_gutenberg_fields' ],
+				'schema'       => [
+					'normal' => [
+						'description' => esc_html__( 'The array of normal metaboxes.', 'fm-gutenberg' ),
+						'type'        => 'array',
+						'required'    => true,
+						'items'       => $this->get_metabox_schema(),
+					],
+					'side'   => [
+						'description' => esc_html__( 'The array of side metaboxes.', 'fm-gutenberg' ),
+						'type'        => 'array',
+						'required'    => true,
+						'items'       => $this->get_metabox_schema(),
+					],
+				],
+			]
+		);
+
+		register_rest_field(
+			$this->get_block_editor_post_types(),
+			'fm_gutenberg_autocomplete_values',
+			[
+				'get_callback' => [ $this, 'get_fm_gutenberg_autocomplete_values' ],
 				'schema'       => [
 					'normal' => [
 						'description' => esc_html__( 'The array of normal metaboxes.', 'fm-gutenberg' ),
@@ -73,7 +95,7 @@ class Post_Fields {
 	 * @param WP_Post $post The requested post.
 	 * @return array|\WP_Error
 	 */
-	public function get_value( $post ) {
+	public function get_fm_gutenberg_fields( $post ) {
 		if ( ! current_user_can( 'edit_post', $post['id'] ) ) {
 			return [];
 		}
@@ -85,6 +107,9 @@ class Post_Fields {
 		$fm_meta_boxes = $this->load_meta_boxes( $post_type );
 
 		foreach ( [ 'side', 'normal' ] as $location ) {
+			if ( empty( $fm_meta_boxes[ $location ] ) ) {
+				continue;
+			}
 			foreach ( $fm_meta_boxes[ $location ] as $fm_meta_box ) {
 				if ( empty( $fm_meta_box['title'] ) ) {
 					continue;
@@ -283,8 +308,12 @@ class Post_Fields {
 	 * @return void
 	 */
 	public function add_ajax_action( &$instance ) {
-		if ( isset( $instance->datasource ) && $instance->datasource->use_ajax ) {
-			$instance->datasource->ajax_action = $instance->datasource->get_ajax_action();
+		if ( isset( $instance->datasource ) ) {
+			if ( $instance->datasource->use_ajax ) {
+				$instance->datasource->ajax_action = $instance->datasource->get_ajax_action();
+			} else {
+				$instance->datasource->options = $instance->datasource->get_items();
+			}
 		}
 		if ( isset( $instance->fm->children ) ) {
 			foreach ( $instance->fm->children as $child ) {
@@ -365,10 +394,18 @@ class Post_Fields {
 	private function get_object_properties( $children ) {
 		$output = [];
 		foreach ( $children as $child ) {
-			$output[ $child->name ] = [
-				'type'              => [ 'integer', 'string' ],
-				'sanitize_callback' => $child->sanitize,
-			];
+			if ( 'checkboxes' === $child->field_class ) {
+				$output[ $child->name ] = [
+					'type'              => 'array',
+					'items'             => [ 'integer', 'string' ],
+					'sanitize_callback' => $child->sanitize,
+				];
+			} else {
+				$output[ $child->name ] = [
+					'type'              => [ 'integer', 'string' ],
+					'sanitize_callback' => $child->sanitize,
+				];
+			}
 		}
 		return $output;
 	}
@@ -692,5 +729,65 @@ class Post_Fields {
 				],
 			],
 		];
+	}
+
+	/**
+	 * Gets the default values for ajax autocomplete fields.
+	 *
+	 * @param WP_Post $post The post.
+	 * @return array
+	 */
+	public function get_fm_gutenberg_autocomplete_values( $post ): array {
+		if ( ! current_user_can( 'edit_post', $post['id'] ) ) {
+			return [];
+		}
+		$post_type     = get_post_type( $post['id'] );
+		$output        = [];
+		$fm_meta_boxes = $this->load_meta_boxes( $post_type );
+		$output        = [];
+
+		foreach ( [ 'side', 'normal' ] as $location ) {
+			if ( empty( $fm_meta_boxes[ $location ] ) ) {
+				continue;
+			}
+			foreach ( $fm_meta_boxes[ $location ] as $fm_meta_box ) {
+				if ( empty( $fm_meta_box['title'] ) ) {
+					continue;
+				}
+				$fm = $this->remove_recursion( $fm_meta_box['fm'] );
+				$this->get_ajax_values( $fm, $post['id'], $output, '' );
+
+			}
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Recursively gets the values for ajax fields.
+	 *
+	 * @param object $fm The field manager instance.
+	 * @param int    $post_id The post ID.
+	 * @param array  $output The output array.
+	 * @param string $meta_name The meta name.
+	 */
+	public function get_ajax_values( $fm, $post_id, &$output, $meta_name = '' ): void {
+		if ( isset( $fm->datasource ) ) {
+			if ( $fm->datasource->use_ajax ) {
+				$meta      = get_post_meta( $post_id, $meta_name, true );
+				$value_key = $meta[ $fm->name ] ?? '';
+				if ( ! empty( $value_key ) ) {
+					$value                                  = $fm->datasource->get_value( $value_key );
+					$output[ $fm->datasource->ajax_action ] = [
+						$value_key => $value,
+					];
+				}
+			}
+		}
+		if ( isset( $fm->children ) ) {
+			foreach ( $fm->children as $child ) {
+				$this->get_ajax_values( $child, $post_id, $output, $fm->name );
+			}
+		}
 	}
 }
