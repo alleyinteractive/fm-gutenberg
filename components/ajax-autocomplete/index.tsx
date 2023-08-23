@@ -3,6 +3,7 @@ import { Spinner } from '@wordpress/components';
 import Downshift from 'downshift';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
+import { useSelect } from '@wordpress/data';
 
 interface AjaxAutocompleteProps {
   ajaxAction: string;
@@ -37,6 +38,12 @@ export default function AjaxAutocomplete({
     fm_search: {
       nonce: fmSearchNonce = '',
     } = {},
+    fm: {
+      context: {
+        context: fmContext = '',
+        type: fmSubcontext = '',
+      } = {},
+    } = {},
   } = (window as any);
 
   const onChange = (newValue: Post) => {
@@ -58,33 +65,34 @@ export default function AjaxAutocomplete({
     setSearchText('');
   };
 
+  const post = useSelect((select) => (
+    select('core/editor').getCurrentPost()
+  ));
+  const {
+    fm_gutenberg_autocomplete_values: autocompleteValues = [],
+  } = post;
+  const options = autocompleteValues[ajaxAction as keyof typeof autocompleteValues];
+
   useEffect(() => {
-    /**
-     * Loads found posts for the given post type and search text from the API.
-     * @param {string} searchText - The text string to use when searching.
-     */
-    const loadById = (id: number) => {
-      setWorking(true);
-
-      apiFetch({
-        path: `/wp/v2/search?include=${id}`,
-      })
-        .then((result) => {
-          if (!Array.isArray(result)) {
-            return;
-          }
-          if (result.length === 0) {
-            return;
-          }
-          setSearchText(result[0].title);
-
-          setWorking(false);
-        });
-    };
-    if (!Number.isNaN(parseInt(initialValue, 10))) {
-      loadById(parseInt(initialValue, 10));
+    if (!options) {
+      return;
     }
-  }, [initialValue]);
+    if (searchText) {
+      return;
+    }
+    /**
+     * Gets the label text from the selected option.
+     * @param {int} id - The value of the option.
+     */
+    const loadByKey = (key: string) => {
+      const text = options[key] || '';
+      if (text !== '') {
+        setSearchText(text);
+      }
+    };
+
+    loadByKey(String(initialValue));
+  }, [initialValue, options, searchText]);
 
   /**
    * Loads found posts for the given post type and search text from the API.
@@ -100,8 +108,8 @@ export default function AjaxAutocomplete({
 
     const formdata: FormDataProps = {
       action: ajaxAction,
-      fm_context: 'post', // TODO: make this dynamic
-      fm_subcontext: 'demo-autocomplete', // TODO: make this dynamic
+      fm_context: fmContext,
+      fm_subcontext: fmSubcontext,
       fm_autocomplete_search: searchText,
       fm_search_nonce: fmSearchNonce,
       fm_custom_args: null,

@@ -15,6 +15,7 @@ interface RadioProps {
 export default function Radio({
   field: {
     data,
+    datasource = {},
     name,
   },
   valueHook,
@@ -23,19 +24,29 @@ export default function Radio({
 }: RadioProps) {
   const [value, setValue] = index !== null ? valueHook(index) : valueHook(name);
   const initialvalue = value !== null && typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
+  let options = {};
+  if (datasource !== null) {
+    options = datasource.options;
+  }
 
   const updateValue = (newValue: string) => {
-    setValue(typeof value === 'object' ? { [name]: newValue } : newValue);
+    const parsedValue = !Number.isNaN(parseInt(newValue, 10)) ? parseInt(newValue, 10) : newValue;
+    setValue(typeof value === 'object' ? { [name]: parsedValue } : parsedValue);
   };
 
-  const optionsWithLabels = convertDataToOptionsWithLabels(data);
+  let optionsWithLabels = convertDataToOptionsWithLabels(data);
+  if (optionsWithLabels.length === 0 && Object.entries(options).length > 0) {
+    optionsWithLabels = Object.entries(options).map((option) => (
+      { label: option[1].toString() ?? option[0].toString(), value: option[0] }
+    ));
+  }
 
   return (
     <PanelRow>
       <RadioControl
         label={label}
         onChange={updateValue}
-        selected={initialvalue}
+        selected={initialvalue?.toString()}
         options={optionsWithLabels}
       />
     </PanelRow>

@@ -20,6 +20,10 @@ export default interface Field {
     options?: {
       [key: string]: string;
     };
+    taxonomy?: string;
+    query_args?: {
+      [key: string]: string;
+    }
   };
   date_format?: string;
   default_value?: string;
