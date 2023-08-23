@@ -737,7 +737,7 @@ class Post_Fields {
 	 * @param WP_Post $post The post.
 	 * @return array
 	 */
-	public function get_fm_gutenberg_autocomplete_values( $post ) {
+	public function get_fm_gutenberg_autocomplete_values( $post ): array {
 		if ( ! current_user_can( 'edit_post', $post['id'] ) ) {
 			return [];
 		}
@@ -770,9 +770,8 @@ class Post_Fields {
 	 * @param int    $post_id The post ID.
 	 * @param array  $output The output array.
 	 * @param string $meta_name The meta name.
-	 * @return void
 	 */
-	public function get_ajax_values( $fm, $post_id, &$output, $meta_name = '' ) {
+	public function get_ajax_values( $fm, $post_id, &$output, $meta_name = '' ): void {
 		if ( isset( $fm->datasource ) ) {
 			if ( $fm->datasource->use_ajax ) {
 				$meta      = get_post_meta( $post_id, $meta_name, true );

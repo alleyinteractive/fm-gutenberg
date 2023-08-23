@@ -24,7 +24,7 @@ export default function OptionsAutocomplete({
   label,
   setValue,
 }: OptionsAutocompleteProps) {
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState<string>('');
 
   const onChange = (newValue: Post) => {
     const selectedValue = newValue ? newValue.value : null;
