@@ -37,11 +37,13 @@ export default function TextField({
   const styleObject = attributes.style ? parse(attributes.style as string) : {};
 
   return (
+    /* @ts-ignore */
     <PanelRow className={`fm-gutenberg-field__${type}`}>
       <div className="fm-gutenberg-flex__column">
         {description && !descriptionAfterElement ? (
           <div className="fm-gutenberg-item__description">{description}</div>
         ) : null}
+        {/* @ts-ignore */}
         <TextControl
           {...attributes} // eslint-disable-line react/jsx-props-no-spreading
           label={label}

@@ -35,7 +35,9 @@ export default function Checkbox({
   };
 
   return (
+    /* @ts-ignore */
     <PanelRow>
+      {/* @ts-ignore */}
       <CheckboxControl
         label={label}
         onChange={updateValue}

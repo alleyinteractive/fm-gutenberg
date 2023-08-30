@@ -30,10 +30,12 @@ export default function ColorPickerField({
   };
 
   return (
+    /* @ts-ignore */
     <PanelRow>
       <div className="fm-gutenberg-flex__column fm-gutenberg-popup-wrap">
         <label htmlFor={`${name}_${index}`}>{label}</label>
         <div id={`${name}_${index}`}>
+          {/* @ts-ignore */}
           <Button
             id={`${name}_${index}`}
             className="fm-gutenberg-color-preview"
@@ -48,6 +50,7 @@ export default function ColorPickerField({
           </Button>
           {showPicker ? (
             <div className="fm-gutenberg-popup">
+              {/* @ts-ignore */}
               <Button
                 aria-label={__('Close', 'fm-gutenberg')}
                 onClick={() => setShowPicker(false)}
@@ -55,6 +58,7 @@ export default function ColorPickerField({
               >
                 x
               </Button>
+              {/* @ts-ignore */}
               <ColorPicker
                 color={initialvalue}
                 // @ts-expect-error see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/64541

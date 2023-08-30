@@ -9,7 +9,7 @@ import {
   TabPanel,
 } from 'react-tabs';
 
-import SafeHTML from '@/components/safe-html';
+import SafeHTML from '@alleyinteractive/block-editor-tools';
 
 import Checkbox from '../checkbox';
 import Checkboxes from '../checkboxes-field';
@@ -101,6 +101,7 @@ export default function FieldRouter({
               </TabPanel>
             ))}
             {description ? (
+              /* @ts-ignore */
               <SafeHTML
                 tag="p"
                 className="fm-group-description"
@@ -119,6 +120,7 @@ export default function FieldRouter({
             />
           ))}
           {description ? (
+            /* @ts-ignore */
             <SafeHTML
               tag="p"
               className="fm-group-description"

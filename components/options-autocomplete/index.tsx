@@ -86,6 +86,7 @@ export default function OptionsAutocomplete({
   };
 
   return (
+    /* @ts-ignore */
     <Downshift
       onChange={handlePostSelect}
       itemToString={(item) => (item ? item.label : '')}

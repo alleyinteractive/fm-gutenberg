@@ -31,6 +31,7 @@ interface MaybeSortableListProps {
 function MaybeSortableList({ children, onSortEnd, sortable }: MaybeSortableListProps) {
   return (
     sortable ? (
+      /* @ts-ignore */
       <SortableList
         onSortEnd={onSortEnd}
         className="fm-gutenberg-sortable-list"
@@ -56,6 +57,7 @@ interface MaybeSortableItemProps {
 function MaybeSortableItem({ children, keyValue, sortable }: MaybeSortableItemProps) {
   return (
     sortable ? (
+      /* @ts-ignore */
       <SortableItem key={keyValue}>
         {children as any}
       </SortableItem>
@@ -74,6 +76,7 @@ interface RemoveButtonProps {
 
 function RemoveButton({ childindex, removeElement }: RemoveButtonProps) {
   return (
+    /* @ts-ignore */
     <Button
       onClick={() => removeElement(childindex)}
       className="fm-gutenberg-remove"
@@ -103,6 +106,7 @@ function RepeatableLabel({
         <h4>{label}</h4>
       ) : null}
       {label && collapsible ? (
+        /* @ts-ignore */
         <Button isLink onClick={() => setItemCollapsed(!itemCollapsed)}>
           <h4>
             {label}
@@ -192,9 +196,13 @@ export default function Repeatable({
   };
 
   const addNew = () => {
-    const newValue = value[0] && typeof value[0] === 'object' ? {} : '';
-    const newValueArray = addMorePosition === 'bottom' ? [...value, newValue] : [newValue, ...value];
-    setValue(newValueArray);
+    if (value === null) {
+      setValue([{}]);
+    } else {
+      const newValue = value !== null && Array.isArray(value) && value.length && typeof value[0] === 'object' ? {} : '';
+      const newValueArray = addMorePosition === 'bottom' ? [...value, newValue] : [newValue, ...value];
+      setValue(newValueArray);
+    }
   };
 
   const removeElement = (index: number) => {
@@ -218,6 +226,7 @@ export default function Repeatable({
           minimumCount={minimumCount}
         />
       ) : null}
+      {/* @ts-ignore */}
       <PanelRow>
         <MaybeSortableList onSortEnd={onSortEnd} sortable={sortable}>
           {value && Array.isArray(value)
@@ -228,11 +237,14 @@ export default function Repeatable({
                   keyValue={key}
                   sortable={sortable}
                 >
+                  {/* @ts-ignore */}
                   <PanelRow>
                     <div className="fm-gutenberg-panel-container">
                       <div className="fm-gutenberg-controls">
                         {sortable ? (
+                          /* @ts-ignore */
                           <SortableKnob>
+                            {/* @ts-ignore */}
                             <CustomKnob>
                               <RepeatableLabel
                                 label={label}

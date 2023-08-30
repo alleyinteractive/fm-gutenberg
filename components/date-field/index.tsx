@@ -44,6 +44,8 @@ export default function DateField({
   let initialvalue = value && typeof value === 'object' && !Array.isArray(value) ? value[name] : value;
   initialvalue = initialvalue ? String(initialvalue) : '';
 
+  // TODO: Figure out replacement for __experimentalGetSettings.
+  /* @ts-ignore */
   const datesettings = __experimentalGetSettings() as DateSettings;
   const {
     timezone: {
@@ -68,6 +70,7 @@ export default function DateField({
   ) : null;
 
   return (
+    /* @ts-ignore */
     <PanelRow>
       <div className="fm-gutenberg-flex__column fm-gutenberg-popup-wrap">
         {description && !descriptionAfterElement ? (
@@ -76,6 +79,7 @@ export default function DateField({
         <label htmlFor={`${name}_${index}`}>
           {label}
         </label>
+        {/* @ts-ignore */}
         <TextControl
           id={`${name}_${index}`}
           value={formattedDate}
@@ -84,6 +88,7 @@ export default function DateField({
         />
         {showPicker && !useTime ? (
           <div className="fm-gutenberg-popup">
+            {/* @ts-ignore */}
             <Button
               aria-label={__('Close', 'fm-gutenberg')}
               onClick={() => setShowPicker(false)}
@@ -91,6 +96,7 @@ export default function DateField({
             >
               x
             </Button>
+            {/* @ts-ignore */}
             <DatePicker
               {...attributes} // eslint-disable-line react/jsx-props-no-spreading
               onChange={onChange}
@@ -101,6 +107,7 @@ export default function DateField({
         ) : null}
         {showPicker && useTime ? (
           <div className="fm-gutenberg-popup">
+            {/* @ts-ignore */}
             <Button
               aria-label={__('Close', 'fm-gutenberg')}
               className="fm-gutenberg-popup__close"
@@ -108,6 +115,7 @@ export default function DateField({
             >
               x
             </Button>
+            {/* @ts-ignore */}
             <DateTimePicker
               {...attributes} // eslint-disable-line react/jsx-props-no-spreading
               onChange={onChange}

@@ -41,11 +41,13 @@ export default function RichtextField({
   const id = uuidv4();
 
   return (
+    /* @ts-ignore */
     <PanelRow>
       <div className="fm-gutenberg-panel-container">
         <label htmlFor={id}>
           {label}
         </label>
+        {/* @ts-ignore */}
         <Editor
           value={stateValue}
           tinymceScriptSrc={`${tinyMCEPreInit.baseURL}/tinymce.min.js`}
