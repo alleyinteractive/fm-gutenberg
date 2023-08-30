@@ -16,7 +16,9 @@ export default function AddMoreButton({
 }: AddMoreButtonProps) {
   if ((limit === 0 || (limit > 1 && limit > minimumCount))) {
     return (
+      /* @ts-ignore */
       <PanelRow>
+        {/* @ts-ignore */}
         <Button
           isSecondary
           onClick={addNew}

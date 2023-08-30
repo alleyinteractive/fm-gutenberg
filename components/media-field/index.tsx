@@ -1,7 +1,7 @@
 import React from 'react';
 import { PanelRow } from '@wordpress/components';
 import Field from '@/interfaces/field';
-import MediaPicker from '../media-picker';
+import { MediaPicker } from '@alleyinteractive/block-editor-tools';
 
 interface MediaFieldProps {
   field: Field,
@@ -39,13 +39,16 @@ export default function MediaField({
   };
 
   return (
+    /* @ts-ignore */
     <PanelRow>
       <div style={{ flexDirection: 'column' }}>
+        {label ? (
+          <div className="fm-gutenberg-item__label">{label}</div>
+        ) : null}
         <MediaPicker
           onUpdate={updateValue}
           onReset={resetValue}
           value={initialvalue}
-          label={label}
         />
       </div>
     </PanelRow>

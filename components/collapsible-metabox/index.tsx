@@ -21,6 +21,7 @@ function CollapsibleMetabox({
   const [collapsed, setCollapsed] = useState(false);
   return (
     <div className="fm-gutenberg-normal-metabox-container__metabox">
+      {/* @ts-ignore */}
       <Button isLink onClick={() => setCollapsed(!collapsed)}>
         <h2>
           {field.title}

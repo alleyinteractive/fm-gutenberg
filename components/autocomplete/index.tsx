@@ -46,6 +46,7 @@ export default function Autocomplete({
   ));
 
   return (
+    /* @ts-ignore */
     <PanelRow>
       <div className="fm-gutenberg-flex__column">
         {description && !descriptionAfterElement ? (

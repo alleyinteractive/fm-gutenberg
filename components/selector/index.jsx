@@ -14,7 +14,7 @@ import { addQueryArgs } from '@wordpress/url';
 import { v4 as uuidv4 } from 'uuid';
 
 // Components.
-import useDebounce from '@/hooks/use-debounce';
+import { useDebounce } from '@uidotdev/usehooks';
 import SearchResults from './components/search-results';
 
 // Custom hooks.

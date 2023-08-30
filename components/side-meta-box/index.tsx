@@ -1,6 +1,6 @@
 import React from 'react';
 import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
-import usePostMetaValue from '@/hooks/use-post-meta-value';
+import { usePostMetaValue } from '@alleyinteractive/block-editor-tools';
 import Field from '@/interfaces/field';
 
 // Components.

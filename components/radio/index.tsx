@@ -42,6 +42,7 @@ export default function Radio({
   }
 
   return (
+    /* @ts-ignore */
     <PanelRow>
       <RadioControl
         label={label}

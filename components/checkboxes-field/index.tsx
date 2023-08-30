@@ -55,6 +55,7 @@ export default function Checkboxes({
 
   const uniqueId = uuidv4();
   return (
+    /* @ts-ignore */
     <PanelRow>
       <div style={{ flexDirection: 'column' }}>
         <label htmlFor={`checkboxes-${uniqueId}`}>
@@ -68,6 +69,7 @@ export default function Checkboxes({
             } = option;
 
             return (
+              /* @ts-ignore */
               <CheckboxControl
                 label={optionLabel}
                 value={optionValue}

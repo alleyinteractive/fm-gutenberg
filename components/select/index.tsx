@@ -53,6 +53,7 @@ export default function Select({
   }
 
   return (
+    /* @ts-ignore */
     <PanelRow>
       <SelectControl
         multiple={multiple !== ''}

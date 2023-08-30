@@ -163,6 +163,7 @@ export default function AjaxAutocomplete({
   };
 
   return (
+    /* @ts-ignore */
     <Downshift
       onChange={handlePostSelect}
       itemToString={(item) => (item ? item.label : '')}
@@ -214,6 +215,7 @@ export default function AjaxAutocomplete({
                       <span role="alert" aria-busy className="screen-reader-text">
                         {__('Working', 'fm-gutenberg')}
                       </span>
+                      {/* @ts-ignore */}
                       <Spinner />
                     </div>
                   ) : null

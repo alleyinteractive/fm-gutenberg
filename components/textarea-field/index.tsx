@@ -32,7 +32,9 @@ export default function TextareaField({
     setValue(newValue);
   };
   return (
+    /* @ts-ignore */
     <PanelRow>
+      {/* @ts-ignore */}
       <TextareaControl
         label={label}
         onChange={setStateValue}
